@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity Glossary</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050a0f;
+    --panel: #0a1520;
+    --border: #0d2a3a;
+    --glow: #00d4ff;
+    --glow2: #00ff9d;
+    --gold: #f0a500;
+    --text: #c8e0f0;
+    --dim: #4a7a9b;
+    --card: #0d1f2d;
+    --card-hover: #122840;
+    --red: #ff4060;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,212,255,0.015) 2px,
+      rgba(0,212,255,0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* Grid background */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    padding: 50px 0 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--glow2);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+
+  h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 0 40px rgba(0,212,255,0.5), 0 0 80px rgba(0,212,255,0.2);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  h1 span { color: var(--glow); }
+
+  .subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--dim);
+    letter-spacing: 2px;
+    margin-top: 12px;
+  }
+
+  .header-deco {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    opacity: 0.4;
+  }
+  .header-deco.left { left: 0; text-align: left; }
+  .header-deco.right { right: 0; text-align: right; }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: flex;
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+  }
+
+  .stat-val {
+    color: var(--glow);
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Rajdhani', sans-serif;
+    min-width: 30px;
+  }
+
+  .stat-label { color: var(--dim); letter-spacing: 1px; text-transform: uppercase; }
+
+  .stat-divider {
+    width: 1px;
+    height: 30px;
+    background: var(--border);
+    margin: 0 4px;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    padding: 24px 0 20px;
+    align-items: center;
+  }
+
+  .search-wrap {
+    position: relative;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--dim);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  #search {
+    width: 100%;
+    padding: 12px 16px 12px 44px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  #search:focus {
+    border-color: var(--glow);
+    box-shadow: 0 0 20px rgba(0,212,255,0.15), inset 0 0 10px rgba(0,212,255,0.05);
+  }
+
+  #search::placeholder { color: var(--dim); }
+
+  .view-toggle {
+    display: flex;
+    gap: 4px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px;
+  }
+
+  .view-btn {
+    padding: 7px 12px;
+    background: transparent;
+    border: none;
+    color: var(--dim);
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .view-btn.active {
+    background: var(--glow);
+    color: var(--bg);
+  }
+
+  /* ── ALPHA FILTER ── */
+  .alpha-bar {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    padding: 0 0 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .alpha-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    padding: 5px 9px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--dim);
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s;
+    letter-spacing: 1px;
+  }
+
+  .alpha-btn:hover {
+    border-color: var(--glow);
+    color: var(--glow);
+  }
+
+  .alpha-btn.active {
+    background: var(--glow);
+    border-color: var(--glow);
+    color: var(--bg);
+    font-weight: 700;
+  }
+
+  .alpha-btn.all {
+    color: var(--glow2);
+    border-color: rgba(0,255,157,0.3);
+  }
+
+  .alpha-btn.all.active {
+    background: var(--glow2);
+    border-color: var(--glow2);
+    color: var(--bg);
+  }
+
+  /* ── GLOSSARY GRID ── */
+  #glossary-container { min-height: 200px; }
+
+  .category-section { margin-bottom: 36px; }
+
+  .category-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--glow);
+    padding: 6px 0 10px;
+    border-bottom: 1px solid rgba(0,212,255,0.2);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .category-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+
+  /* Grid view */
+  .grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+
+  /* List view */
+  .list-layout { display: flex; flex-direction: column; gap: 8px; }
+
+  /* ── CARDS ── */
+  .term-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .term-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--glow);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .term-card:hover {
+    background: var(--card-hover);
+    border-color: rgba(0,212,255,0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px rgba(0,212,255,0.1);
+  }
+
+  .term-card:hover::before { opacity: 1; }
+
+  .term-card.expanded {
+    border-color: var(--glow);
+    background: var(--card-hover);
+  }
+
+  .term-card.expanded::before { opacity: 1; background: var(--glow2); }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .term-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+
+  .term-name .highlight {
+    background: rgba(0,212,255,0.2);
+    color: var(--glow);
+    border-radius: 2px;
+    padding: 0 2px;
+  }
+
+  .expand-icon {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--dim);
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: transform 0.2s;
+  }
+
+  .term-card.expanded .expand-icon { transform: rotate(45deg); color: var(--glow2); }
+
+  .term-preview {
+    font-size: 12px;
+    color: var(--dim);
+    margin-top: 6px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .term-definition {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.7;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    display: none;
+  }
+
+  .term-card.expanded .term-definition { display: block; }
+  .term-card.expanded .term-preview { display: none; }
+
+  .copy-btn {
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+  }
+
+  .copy-btn:hover { border-color: var(--glow2); color: var(--glow2); }
+  .copy-btn.copied { color: var(--glow2); border-color: var(--glow2); }
+
+  /* ── LIST VIEW SPECIFIC ── */
+  .list-layout .term-card {
+    padding: 12px 18px;
+  }
+
+  .list-layout .card-header { align-items: center; }
+  .list-layout .term-name { font-size: 15px; }
+  .list-layout .term-preview { margin-top: 2px; -webkit-line-clamp: 1; }
+
+  /* ── NO RESULTS ── */
+  .no-results {
+    text-align: center;
+    padding: 60px 20px;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--dim);
+  }
+
+  .no-results .nr-icon { font-size: 36px; margin-bottom: 16px; opacity: 0.4; }
+  .no-results p { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+
+  /* ── RESULT COUNT ── */
+  .result-info {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    padding: 0 0 16px;
+    letter-spacing: 1px;
+  }
+
+  .result-info span { color: var(--glow); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .term-card { animation: fadeIn 0.25s ease both; }
+
+  @keyframes pulse-glow {
+    0%, 100% { text-shadow: 0 0 40px rgba(0,212,255,0.5), 0 0 80px rgba(0,212,255,0.2); }
+    50% { text-shadow: 0 0 60px rgba(0,212,255,0.8), 0 0 100px rgba(0,212,255,0.4); }
+  }
+
+  h1 { animation: pulse-glow 4s ease-in-out infinite; }
+
+  /* Blinking cursor */
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: var(--glow);
+    margin-left: 4px;
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 20px 0;
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 2px;
+    margin-top: 20px;
+  }
+
+  footer span { color: var(--glow2); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="header-deco left">SYS::INIT<br>VER 2.4.1<br>SECURE</div>
+    <div class="header-tag">// REFERENCE DATABASE v2.4.1</div>
+    <h1>CYBER<span>SEC</span></h1>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:18px;letter-spacing:8px;color:var(--dim);text-transform:uppercase;margin-top:4px;">GLOSSARY</div>
+    <div class="subtitle">THREAT INTEL · CERTIFICATIONS · FRAMEWORKS · PROTOCOLS<span class="cursor"></span></div>
+    <div class="header-deco right">ENCRYPTED<br>AUTH: OK<br>ACCESS: GRANTED</div>
+  </header>
+
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-val" id="total-count">0</div>
+      <div class="stat-label">Total Terms</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-val" id="filtered-count">0</div>
+      <div class="stat-label">Showing</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-val" id="cert-count">0</div>
+      <div class="stat-label">Certifications</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-val" id="expanded-count">0</div>
+      <div class="stat-label">Expanded</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="search" placeholder="Search terms or definitions..." autocomplete="off">
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="grid-btn" title="Grid view">⊞</button>
+      <button class="view-btn" id="list-btn" title="List view">☰</button>
+    </div>
+  </div>
+
+  <div class="alpha-bar" id="alpha-bar"></div>
+
+  <div id="result-info" class="result-info"></div>
+  <div id="glossary-container"></div>
+
+  <footer>
+    CYBERSECURITY GLOSSARY &nbsp;·&nbsp; <span>WILLIE CONWAY</span> &nbsp;·&nbsp; USMC VET &nbsp;·&nbsp; COMPTIA SEC+ CERTIFIED
+  </footer>
+</div>
+
+<script>
+const TERMS = [
+  { term: "A+", definition: "The CompTIA A+ certification validates foundational IT skills and knowledge. It covers essential areas such as troubleshooting, networking, operating systems, IT infrastructure, and data management.", category: "Certifications" },
+  { term: "Academic Pathways", definition: "Formal educational routes leading to a diploma or degree.", category: "General" },
+  { term: "Automation", definition: "Automating the configuration, operation, deployment, testing, and management of virtual and physical devices within a network.", category: "Concepts" },
+  { term: "Black Hat Hacker", definition: "An individual who identifies and exploits system vulnerabilities in an unethical manner.", category: "Threat Actors" },
+  { term: "CASP+", definition: "CompTIA Advanced Security Practitioner involves an in-depth understanding of risk management, research and collaboration, and enterprise security integration, making one competent in addressing complex cyber threats at an organizational level.", category: "Certifications" },
+  { term: "CC Certification", definition: "An entry-level certification option for those new to cybersecurity. This certification verifies an individual's understanding of foundational cybersecurity concepts, including access controls, network security, risk identification, and incident response and recovery.", category: "Certifications" },
+  { term: "CCSP", definition: "The Certified Cloud Security Professional offered by (ISC)² is a globally recognized credential that validates a professional's expertise in cloud security.", category: "Certifications" },
+  { term: "C|CISO", definition: "The Certified Chief Information Security Officer certification validates an individual's cybersecurity leadership skills.", category: "Certifications" },
+  { term: "CDPSE", definition: "The Certified Data Privacy Solutions Engineer certification validates an individual's knowledge of IT data privacy measures.", category: "Certifications" },
+  { term: "CEH", definition: "The Certified Ethical Hacker certification validates an individual's knowledge of ethical hacking.", category: "Certifications" },
+  { term: "CERP", definition: "The American Bankers Association offers the Certified Risk Professional certification. It is ideal for individuals looking to demonstrate their knowledge of risk management within the banking industry.", category: "Certifications" },
+  { term: "CISO", definition: "Chief Information Security Officer — a top-level executive who establishes and maintains an enterprise's security vision, strategy, and programs.", category: "Roles" },
+  { term: "CISSP", definition: "Certified Information Systems Security Professional certification. This certification requires at least five years of professional experience. The CISSP is a mark of high prestige in cybersecurity.", category: "Certifications" },
+  { term: "CGRC", definition: "Certified in the Governance of Enterprise IT Risk and Compliance validates an individual's proficiency in understanding and managing enterprise IT risk and compliance governance.", category: "Certifications" },
+  { term: "CISA", definition: "The Certified Information Systems Auditor certification validates an individual's system auditing, control, monitoring, and assessment skills.", category: "Certifications" },
+  { term: "Cloud", definition: "A network of servers hosted on the internet used to store, manage, and process data as an alternative to a local server or personal computer.", category: "Concepts" },
+  { term: "CompTIA", definition: "Computing Technology Industry Association is a non-profit trade association that issues professional certifications for technology professionals globally.", category: "Organizations" },
+  { term: "Compliance", definition: "Adherence to privacy regulations, enterprise security policies, and best practices in cybersecurity.", category: "Concepts" },
+  { term: "CRCM", definition: "The American Bankers Association offers the Certified Regulatory Compliance Manager certification for professionals in banking compliance.", category: "Certifications" },
+  { term: "CRISC", definition: "The Certified Risk and Information Systems Control certification validates knowledge of risk management.", category: "Certifications" },
+  { term: "CSSLP", definition: "The Certified Secure Software Lifecycle Professional validates an individual's proficiency in incorporating security practices into the software development lifecycle (SDLC).", category: "Certifications" },
+  { term: "CySA+", definition: "CompTIA Cybersecurity Analyst focuses on threat management, vulnerability management, cyber-incident response, security architecture, and toolsets.", category: "Certifications" },
+  { term: "Cybersecurity", definition: "The practice of protecting computers, servers, mobile devices, electronic systems, networks, and data from digital attacks.", category: "Concepts" },
+  { term: "Cybersecurity Design & Implementation", definition: "The process of designing and setting up measures to protect an organization's digital assets.", category: "Concepts" },
+  { term: "Database Skill", definition: "Knowledge of database types, schemas, administration tasks, and using permissions and roles to limit sensitive data access is essential.", category: "Skills" },
+  { term: "EC-Council", definition: "International Council of Electronic Commerce Consultants provides forensics, security analysis, networking, incident handling, and cloud security certifications.", category: "Organizations" },
+  { term: "Encryption Protocols", definition: "Security measures implemented to protect sensitive information from unauthorized access, modification, or destruction.", category: "Concepts" },
+];
+
+let currentFilter = 'ALL';
+let currentView = 'grid';
+let searchQuery = '';
+let expandedCount = 0;
+
+const certCount = TERMS.filter(t => t.category === 'Certifications').length;
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function highlight(text, query) {
+  if (!query) return escapeHtml(text);
+  const escaped = escapeHtml(text);
+  const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return escaped.replace(new RegExp(`(${escapedQuery})`, 'gi'), '<span class="highlight">$1</span>');
+}
+
+function getFilteredTerms() {
+  return TERMS.filter(t => {
+    const matchesLetter = currentFilter === 'ALL' || t.term.toUpperCase().startsWith(currentFilter);
+    const q = searchQuery.toLowerCase();
+    const matchesSearch = !q || t.term.toLowerCase().includes(q) || t.definition.toLowerCase().includes(q);
+    return matchesLetter && matchesSearch;
+  });
+}
+
+function buildAlphaBar() {
+  const bar = document.getElementById('alpha-bar');
+  const letters = [...new Set(TERMS.map(t => t.term[0].toUpperCase()))].sort();
+  bar.innerHTML = '';
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'alpha-btn all active';
+  allBtn.textContent = 'ALL';
+  allBtn.onclick = () => setFilter('ALL');
+  bar.appendChild(allBtn);
+
+  letters.forEach(l => {
+    const btn = document.createElement('button');
+    btn.className = 'alpha-btn';
+    btn.textContent = l;
+    btn.id = `alpha-${l}`;
+    btn.onclick = () => setFilter(l);
+    bar.appendChild(btn);
+  });
+}
+
+function setFilter(letter) {
+  currentFilter = letter;
+  document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+  const target = letter === 'ALL' ? document.querySelector('.alpha-btn.all') : document.getElementById(`alpha-${letter}`);
+  if (target) target.classList.add('active');
+  render();
+}
+
+function render() {
+  const filtered = getFilteredTerms();
+  const container = document.getElementById('glossary-container');
+  const info = document.getElementById('result-info');
+
+  document.getElementById('filtered-count').textContent = filtered.length;
+  info.innerHTML = filtered.length === TERMS.length
+    ? `Displaying all <span>${TERMS.length}</span> terms`
+    : `Found <span>${filtered.length}</span> of ${TERMS.length} terms`;
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="no-results"><div class="nr-icon">◎</div><p>No terms match your query</p></div>`;
+    return;
+  }
+
+  // Group by first letter
+  const grouped = {};
+  filtered.forEach(t => {
+    const key = t.term[0].toUpperCase();
+    if (!grouped[key]) grouped[key] = [];
+    grouped[key].push(t);
+  });
+
+  container.innerHTML = '';
+  expandedCount = 0;
+
+  Object.keys(grouped).sort().forEach((letter, gi) => {
+    const section = document.createElement('div');
+    section.className = 'category-section';
+
+    const label = document.createElement('div');
+    label.className = 'category-label';
+    label.innerHTML = `${letter} <span class="category-count">${grouped[letter].length}</span>`;
+    section.appendChild(label);
+
+    const grid = document.createElement('div');
+    grid.className = currentView === 'grid' ? 'grid-layout' : 'list-layout';
+
+    grouped[letter].forEach((t, i) => {
+      const card = document.createElement('div');
+      card.className = 'term-card';
+      card.style.animationDelay = `${(gi * 3 + i) * 20}ms`;
+
+      const termHl = highlight(t.term, searchQuery);
+      const defHl  = highlight(t.definition, searchQuery);
+
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="term-name">${termHl}</div>
+          <div class="expand-icon">+</div>
+        </div>
+        <div class="term-preview">${defHl}</div>
+        <div class="term-definition">
+          ${defHl}
+          <button class="copy-btn" onclick="copyDef(event, this, ${JSON.stringify(t.definition)})">⎘ COPY</button>
+        </div>
+      `;
+
+      card.addEventListener('click', (e) => {
+        if (e.target.classList.contains('copy-btn')) return;
+        const wasExpanded = card.classList.contains('expanded');
+        card.classList.toggle('expanded');
+        expandedCount += wasExpanded ? -1 : 1;
+        document.getElementById('expanded-count').textContent = expandedCount;
+      });
+
+      grid.appendChild(card);
+    });
+
+    section.appendChild(grid);
+    container.appendChild(section);
+  });
+}
+
+function copyDef(e, btn, text) {
+  e.stopPropagation();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ COPIED';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '⎘ COPY'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+// Init
+document.getElementById('total-count').textContent = TERMS.length;
+document.getElementById('cert-count').textContent = certCount;
+document.getElementById('filtered-count').textContent = TERMS.length;
+
+buildAlphaBar();
+render();
+
+document.getElementById('search').addEventListener('input', e => {
+  searchQuery = e.target.value;
+  render();
+});
+
+document.getElementById('grid-btn').addEventListener('click', () => {
+  currentView = 'grid';
+  document.getElementById('grid-btn').classList.add('active');
+  document.getElementById('list-btn').classList.remove('active');
+  render();
+});
+
+document.getElementById('list-btn').addEventListener('click', () => {
+  currentView = 'list';
+  document.getElementById('list-btn').classList.add('active');
+  document.getElementById('grid-btn').classList.remove('active');
+  render();
+});
+</script>
+</body>
+</html>
