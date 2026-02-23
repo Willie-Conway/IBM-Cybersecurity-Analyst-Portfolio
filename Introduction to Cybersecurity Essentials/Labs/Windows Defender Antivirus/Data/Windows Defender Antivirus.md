@@ -329,6 +329,8 @@ To remove the test file from quarantine:
 2. Confirm the test file is no longer present
 3. This confirms Windows Defender successfully removed the threat
 
+![alt text](<../Screenshots/Typical Use cases of Windows Defender Antivirus/Scenario 2/Reviewing Alerts and Logs.png>)
+
 ---
 
 ## Troubleshooting Tips
@@ -356,6 +358,10 @@ In this hands-on lab, you have:
 | Scheduled a weekly full scan using Task Scheduler   | ✓        |
 | Simulated malware detection with EICAR test file    | ✓        |
 | Reviewed protection history and quarantine          | ✓        |
+
+
+<video controls src="Windows Defender Antivirus.mp4" title="Windows Defender Antivirus"></video>
+
 
 ### Key Takeaways
 
