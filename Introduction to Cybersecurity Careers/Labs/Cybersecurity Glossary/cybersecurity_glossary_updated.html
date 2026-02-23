@@ -501,10 +501,10 @@
 
   <header>
     <div class="header-deco left">SYS::INIT<br>VER 2.4.1<br>SECURE</div>
-    <div class="header-tag">// REFERENCE DATABASE v2.4.1</div>
+    <div class="header-tag">// REFERENCE DATABASE v3.0.0 · CUMULATIVE EDITION</div>
     <h1>CYBER<span>SEC</span></h1>
     <div style="font-family:'Rajdhani',sans-serif;font-size:18px;letter-spacing:8px;color:var(--dim);text-transform:uppercase;margin-top:4px;">GLOSSARY</div>
-    <div class="subtitle">THREAT INTEL · CERTIFICATIONS · FRAMEWORKS · PROTOCOLS<span class="cursor"></span></div>
+    <div class="subtitle">CERTIFICATIONS · ROLES · CONCEPTS · ORGANIZATIONS · SKILLS<span class="cursor"></span></div>
     <div class="header-deco right">ENCRYPTED<br>AUTH: OK<br>ACCESS: GRANTED</div>
   </header>
 
@@ -553,10 +553,8 @@
 
 <script>
 const TERMS = [
+  // ── CERTIFICATIONS ──
   { term: "A+", definition: "The CompTIA A+ certification validates foundational IT skills and knowledge. It covers essential areas such as troubleshooting, networking, operating systems, IT infrastructure, and data management.", category: "Certifications" },
-  { term: "Academic Pathways", definition: "Formal educational routes leading to a diploma or degree.", category: "General" },
-  { term: "Automation", definition: "Automating the configuration, operation, deployment, testing, and management of virtual and physical devices within a network.", category: "Concepts" },
-  { term: "Black Hat Hacker", definition: "An individual who identifies and exploits system vulnerabilities in an unethical manner.", category: "Threat Actors" },
   { term: "CASP+", definition: "CompTIA Advanced Security Practitioner involves an in-depth understanding of risk management, research and collaboration, and enterprise security integration, making one competent in addressing complex cyber threats at an organizational level.", category: "Certifications" },
   { term: "CC Certification", definition: "An entry-level certification option for those new to cybersecurity. This certification verifies an individual's understanding of foundational cybersecurity concepts, including access controls, network security, risk identification, and incident response and recovery.", category: "Certifications" },
   { term: "CCSP", definition: "The Certified Cloud Security Professional offered by (ISC)² is a globally recognized credential that validates a professional's expertise in cloud security.", category: "Certifications" },
@@ -564,22 +562,62 @@ const TERMS = [
   { term: "CDPSE", definition: "The Certified Data Privacy Solutions Engineer certification validates an individual's knowledge of IT data privacy measures.", category: "Certifications" },
   { term: "CEH", definition: "The Certified Ethical Hacker certification validates an individual's knowledge of ethical hacking.", category: "Certifications" },
   { term: "CERP", definition: "The American Bankers Association offers the Certified Risk Professional certification. It is ideal for individuals looking to demonstrate their knowledge of risk management within the banking industry.", category: "Certifications" },
-  { term: "CISO", definition: "Chief Information Security Officer — a top-level executive who establishes and maintains an enterprise's security vision, strategy, and programs.", category: "Roles" },
-  { term: "CISSP", definition: "Certified Information Systems Security Professional certification. This certification requires at least five years of professional experience. The CISSP is a mark of high prestige in cybersecurity.", category: "Certifications" },
   { term: "CGRC", definition: "Certified in the Governance of Enterprise IT Risk and Compliance validates an individual's proficiency in understanding and managing enterprise IT risk and compliance governance.", category: "Certifications" },
   { term: "CISA", definition: "The Certified Information Systems Auditor certification validates an individual's system auditing, control, monitoring, and assessment skills.", category: "Certifications" },
-  { term: "Cloud", definition: "A network of servers hosted on the internet used to store, manage, and process data as an alternative to a local server or personal computer.", category: "Concepts" },
-  { term: "CompTIA", definition: "Computing Technology Industry Association is a non-profit trade association that issues professional certifications for technology professionals globally.", category: "Organizations" },
-  { term: "Compliance", definition: "Adherence to privacy regulations, enterprise security policies, and best practices in cybersecurity.", category: "Concepts" },
+  { term: "CISSP", definition: "Certified Information Systems Security Professional certification. This certification requires at least five years of professional experience. The CISSP is a mark of high prestige in cybersecurity.", category: "Certifications" },
   { term: "CRCM", definition: "The American Bankers Association offers the Certified Regulatory Compliance Manager certification for professionals in banking compliance.", category: "Certifications" },
   { term: "CRISC", definition: "The Certified Risk and Information Systems Control certification validates knowledge of risk management.", category: "Certifications" },
   { term: "CSSLP", definition: "The Certified Secure Software Lifecycle Professional validates an individual's proficiency in incorporating security practices into the software development lifecycle (SDLC).", category: "Certifications" },
   { term: "CySA+", definition: "CompTIA Cybersecurity Analyst focuses on threat management, vulnerability management, cyber-incident response, security architecture, and toolsets.", category: "Certifications" },
+  { term: "GCED", definition: "The GIAC-Certified Enterprise Defender validates a professional's knowledge and skills in applying critical security controls, incident handling, and defense strategies in an enterprise setting.", category: "Certifications" },
+  { term: "GCIA", definition: "The GIAC-Certified Intrusion Analyst certification validates a professional's knowledge and skills in network and host monitoring, intrusion detection, and traffic analysis.", category: "Certifications" },
+  { term: "GCIP", definition: "GIAC Critical Infrastructure Protection certification validates an individual's knowledge in implementing, supporting, and securing essential systems.", category: "Certifications" },
+  { term: "GICSP", definition: "GIAC Global Industrial Cyber Security Professional certification validates an individual's knowledge of securing and supporting industrial control systems.", category: "Certifications" },
+  { term: "GLEG", definition: "The GIAC Law of Data Security & Investigations certification validates an individual's knowledge of business policies and compliance, contracts, data retention, fraud, cybersecurity investigations, and intellectual property.", category: "Certifications" },
+  { term: "GX-FA", definition: "The GIAC Experienced Forensic Analyst certification validates a professional's knowledge and skills in forensic analysis and threat hunting.", category: "Certifications" },
+  { term: "GX-IH", definition: "The GIAC Experienced Incident Handler certification validates a professional's incident response skills.", category: "Certifications" },
+  { term: "HCISPP", definition: "HealthCare Information Security and Privacy Practitioner Certification by (ISC)² validates proficiency in implementing, managing, and assessing security and privacy controls to protect healthcare organizations.", category: "Certifications" },
+  { term: "Network+", definition: "CompTIA Network+ validates the networking skills applicable to today's technology-driven world. It covers network design, troubleshooting, managing networks, and implementing network security standards.", category: "Certifications" },
+  { term: "PCIP", definition: "The PCI Security Standards Council offers the PCI Professional certification. This certification validates an individual's knowledge of payment security.", category: "Certifications" },
+  { term: "PenTest+", definition: "The CompTIA PenTest+ certification focuses on penetration testing and vulnerability assessment. It validates a professional's ability to identify, exploit, report, and manage network vulnerabilities.", category: "Certifications" },
+  { term: "Security+", definition: "The CompTIA Security+ certification validates the essential skills required in cybersecurity roles. Covers network security, threat management, security systems and protocols, identity and access management, and risk identification.", category: "Certifications" },
+  { term: "SSCP", definition: "The Systems Security Certified Practitioner certification validates an individual's proficiency in implementing, monitoring, and administering IT infrastructure.", category: "Certifications" },
+  // ── ORGANIZATIONS ──
+  { term: "CompTIA", definition: "Computing Technology Industry Association is a non-profit trade association that issues professional certifications for technology professionals globally.", category: "Organizations" },
+  { term: "EC-Council", definition: "International Council of Electronic Commerce Consultants provides forensics, security analysis, networking, incident handling, and cloud security certifications.", category: "Organizations" },
+  { term: "GIAC", definition: "Global Information Assurance Certification covers various specialties including cyber defense, penetration testing, incident response, and forensics. GIAC certifications are known for their practical, job-role-specific focus.", category: "Organizations" },
+  { term: "(ISC)²", definition: "International Information System Security Certification Consortium — a non-profit organization specializing in training and certifications for cybersecurity professionals.", category: "Organizations" },
+  // ── ROLES ──
+  { term: "Black Hat Hacker", definition: "An individual who identifies and exploits system vulnerabilities in an unethical manner for personal gain or malicious purposes.", category: "Roles" },
+  { term: "CISO (Chief Information Security Officer)", definition: "A top-level executive who establishes and maintains an enterprise's security vision, strategy, and programs.", category: "Roles" },
+  { term: "White Hat Hacker", definition: "A professional who identifies and exploits system vulnerabilities in an ethical and controlled manner. They conduct comprehensive system analyses, document the testing process, recommend security measures, and educate staff on best practices.", category: "Roles" },
+  // ── CONCEPTS ──
+  { term: "Automation", definition: "Automating the configuration, operation, deployment, testing, and management of virtual and physical devices within a network.", category: "Concepts" },
+  { term: "Cloud", definition: "A network of servers hosted on the internet used to store, manage, and process data as an alternative to a local server or personal computer.", category: "Concepts" },
+  { term: "Compliance", definition: "Adherence to privacy regulations, enterprise security policies, and best practices in cybersecurity.", category: "Concepts" },
   { term: "Cybersecurity", definition: "The practice of protecting computers, servers, mobile devices, electronic systems, networks, and data from digital attacks.", category: "Concepts" },
   { term: "Cybersecurity Design & Implementation", definition: "The process of designing and setting up measures to protect an organization's digital assets.", category: "Concepts" },
-  { term: "Database Skill", definition: "Knowledge of database types, schemas, administration tasks, and using permissions and roles to limit sensitive data access is essential.", category: "Skills" },
-  { term: "EC-Council", definition: "International Council of Electronic Commerce Consultants provides forensics, security analysis, networking, incident handling, and cloud security certifications.", category: "Organizations" },
   { term: "Encryption Protocols", definition: "Security measures implemented to protect sensitive information from unauthorized access, modification, or destruction.", category: "Concepts" },
+  { term: "File Systems", definition: "Organize and secure data within a system, controlling how data is stored, retrieved, and protected.", category: "Concepts" },
+  { term: "Firewalls", definition: "A network security device that monitors and controls incoming and outgoing network traffic based on predetermined security rules.", category: "Concepts" },
+  { term: "Memory Management", definition: "A process affecting system performance and security within operating systems — controls allocation and access to memory resources.", category: "Concepts" },
+  { term: "Risk Management", definition: "The process of identifying, assessing, and prioritizing risks, followed by implementing procedures and resources to minimize the impact of those risks.", category: "Concepts" },
+  { term: "Security Audits", definition: "The process of identifying, assessing, and prioritizing risks, followed by implementing procedures and resources to minimize the impact of these risks on an organization.", category: "Concepts" },
+  { term: "Security Operations", definition: "Maintaining and monitoring security infrastructure, carrying out incident response activities, ensuring compliance with regulations, and collaborating with other IT teams to manage security incidents effectively.", category: "Concepts" },
+  { term: "System Analyses", definition: "Studies conducted to understand a system's function and design improvement strategies.", category: "Concepts" },
+  { term: "Threat Management", definition: "A process used by cybersecurity professionals to prevent cyberattacks, detect cyber threats, and respond to security incidents.", category: "Concepts" },
+  { term: "Vulnerabilities", definition: "Weak points in a system that could potentially be exploited by malicious actors to gain unauthorized access or cause harm.", category: "Concepts" },
+  { term: "Vulnerability Management", definition: "The continuous discovery, prioritization, and resolution of security vulnerabilities in an organization's IT infrastructure and hardware.", category: "Concepts" },
+  // ── SKILLS ──
+  { term: "Database Skill", definition: "Knowledge of database types, schemas, administration tasks, and using permissions and roles to limit sensitive data access is essential.", category: "Skills" },
+  { term: "Networking Skills", definition: "Involves understanding the structure and functions of various types of networks, network protocols, OSI models, troubleshooting network problems, network monitoring tools, and network security measures.", category: "Skills" },
+  { term: "User Permissions and Roles", definition: "Used within an operating system to limit access to sensitive data, ensuring users can only access the resources required for their role.", category: "Skills" },
+  // ── GENERAL ──
+  { term: "Academic Pathways", definition: "Formal educational routes leading to a diploma or degree.", category: "General" },
+  { term: "Entry-Level Career", definition: "The starting point of a career, often having lower pay and requiring less experience or training.", category: "General" },
+  { term: "Median", definition: "The middle number in a sorted list of numbers — a key statistical measure used in salary and data analysis.", category: "General" },
+  { term: "Networking", definition: "The process of interacting with others to exchange information and developing professional or social contacts.", category: "General" },
+  { term: "Range", definition: "The difference between the lowest and highest values in a data set.", category: "General" },
 ];
 
 let currentFilter = 'ALL';
@@ -684,10 +722,17 @@ function render() {
       const termHl = highlight(t.term, searchQuery);
       const defHl  = highlight(t.definition, searchQuery);
 
+      const catColor = {
+        'Certifications':'#00d4ff','Organizations':'#00ff9d','Roles':'#f0a500',
+        'Concepts':'#c084fc','Skills':'#4ade80','General':'#94a3b8'
+      }[t.category] || '#94a3b8';
       card.innerHTML = `
         <div class="card-header">
           <div class="term-name">${termHl}</div>
           <div class="expand-icon">+</div>
+        </div>
+        <div style="padding:0 16px 8px;display:flex;gap:6px;align-items:center;">
+          <span style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:2px;color:${catColor};background:${catColor}22;border:1px solid ${catColor}44;">${t.category}</span>
         </div>
         <div class="term-preview">${defHl}</div>
         <div class="term-definition">

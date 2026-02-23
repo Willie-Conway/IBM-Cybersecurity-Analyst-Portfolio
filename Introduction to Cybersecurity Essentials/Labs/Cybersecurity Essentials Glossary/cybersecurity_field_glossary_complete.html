@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity — Field Reference Glossary</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #080b10;
+  --surface:  #0d1117;
+  --panel:    #111827;
+  --panel2:   #161f2e;
+  --border:   #1e2d3d;
+  --border2:  #273d52;
+  --red:      #f43f5e;
+  --red-dim:  #9f1239;
+  --green:    #22c55e;
+  --green-dim:#15803d;
+  --blue:     #38bdf8;
+  --blue-dim: #0369a1;
+  --yellow:   #facc15;
+  --purple:   #c084fc;
+  --orange:   #fb923c;
+  --teal:     #2dd4bf;
+  --text:     #e2e8f0;
+  --text-mid: #94a3b8;
+  --text-dim: #475569;
+  --cat-attack:   #f43f5e;
+  --cat-defense:  #22c55e;
+  --cat-crypto:   #38bdf8;
+  --cat-auth:     #c084fc;
+  --cat-browser:  #facc15;
+  --cat-network:  #fb923c;
+  --cat-data:     #2dd4bf;
+  --cat-general:  #94a3b8;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* bg effects */
+.scan-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.scan-bg::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(34,197,94,0.011) 3px,rgba(34,197,94,0.011) 4px);}
+.scan-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(244,63,94,0.25) 40%,rgba(244,63,94,0.55) 50%,rgba(244,63,94,0.25) 60%,transparent 100%);animation:sweep 7s ease-in-out infinite;top:0;box-shadow:0 0 18px rgba(244,63,94,0.35);}
+@keyframes sweep{0%{top:-2px;opacity:0;}5%{opacity:1;}95%{opacity:.5;}100%{top:100%;opacity:0;}}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(34,197,94,0.055) 1px,transparent 1px);background-size:28px 28px;z-index:0;pointer-events:none;}
+body::after{content:'';position:fixed;top:0;left:0;width:100px;height:100px;border-top:2px solid rgba(244,63,94,0.15);border-left:2px solid rgba(244,63,94,0.15);z-index:0;pointer-events:none;}
+
+.app{position:relative;z-index:1;min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;}
+
+/* HEADER */
+header{border-bottom:1px solid var(--border);background:rgba(8,11,16,0.96);backdrop-filter:blur(16px);}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;padding:28px 44px 22px;gap:24px;}
+.brand-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--red);letter-spacing:4px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.brand-eyebrow::before{content:'';width:6px;height:6px;background:var(--red);border-radius:50%;animation:blink 1.4s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.brand-title{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:clamp(24px,4vw,40px);font-weight:700;color:#fff;line-height:1;letter-spacing:-1px;}
+.brand-title em{font-style:normal;color:var(--red);}
+.brand-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:1.5px;margin-top:8px;line-height:1.8;}
+
+.threat-panel{display:flex;gap:16px;flex-shrink:0;}
+.tstat{text-align:right;padding:10px 14px;background:rgba(244,63,94,0.04);border:1px solid rgba(244,63,94,0.12);border-radius:6px;min-width:76px;}
+.tstat-val{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;color:var(--red);line-height:1;}
+.tstat-val.g{color:var(--green);}
+.tstat-val.b{color:var(--blue);}
+.tstat-val.y{color:var(--yellow);}
+.tstat-label{font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;margin-top:3px;}
+
+/* CATEGORY FILTER BAR */
+.cat-bar{display:flex;align-items:center;gap:6px;padding:13px 44px;border-top:1px solid var(--border);overflow-x:auto;scrollbar-width:none;flex-wrap:wrap;row-gap:6px;}
+.cat-bar::-webkit-scrollbar{display:none;}
+.bar-label{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:3px;text-transform:uppercase;white-space:nowrap;margin-right:4px;}
+.cat-pill{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 12px;border-radius:3px;border:1px solid transparent;cursor:pointer;transition:all .18s;white-space:nowrap;letter-spacing:.4px;font-weight:500;background:transparent;display:flex;align-items:center;gap:5px;}
+.cat-pill .pip{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.pill-all{color:var(--text-mid);border-color:var(--border2);}
+.pill-all:hover,.pill-all.active{color:var(--green);border-color:var(--green);background:rgba(34,197,94,0.08);}
+.pill-attack{color:var(--cat-attack);border-color:rgba(244,63,94,0.25);background:rgba(244,63,94,0.05);}
+.pill-defense{color:var(--cat-defense);border-color:rgba(34,197,94,0.25);background:rgba(34,197,94,0.05);}
+.pill-crypto{color:var(--cat-crypto);border-color:rgba(56,189,248,0.25);background:rgba(56,189,248,0.05);}
+.pill-auth{color:var(--cat-auth);border-color:rgba(192,132,252,0.25);background:rgba(192,132,252,0.05);}
+.pill-browser{color:var(--cat-browser);border-color:rgba(250,204,21,0.25);background:rgba(250,204,21,0.05);}
+.pill-network{color:var(--cat-network);border-color:rgba(251,146,60,0.25);background:rgba(251,146,60,0.05);}
+.pill-data{color:var(--cat-data);border-color:rgba(45,212,191,0.25);background:rgba(45,212,191,0.05);}
+.pill-general{color:var(--cat-general);border-color:rgba(148,163,184,0.25);background:rgba(148,163,184,0.05);}
+.pill-attack.active{background:rgba(244,63,94,0.15);border-color:var(--cat-attack);}
+.pill-defense.active{background:rgba(34,197,94,0.15);border-color:var(--cat-defense);}
+.pill-crypto.active{background:rgba(56,189,248,0.15);border-color:var(--cat-crypto);}
+.pill-auth.active{background:rgba(192,132,252,0.15);border-color:var(--cat-auth);}
+.pill-browser.active{background:rgba(250,204,21,0.15);border-color:var(--cat-browser);}
+.pill-network.active{background:rgba(251,146,60,0.15);border-color:var(--cat-network);}
+.pill-data.active{background:rgba(45,212,191,0.15);border-color:var(--cat-data);}
+.pill-general.active{background:rgba(148,163,184,0.15);border-color:var(--cat-general);}
+
+/* CONTROLS */
+.controls{position:sticky;top:0;z-index:20;background:rgba(8,11,16,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:12px 44px;display:flex;align-items:center;gap:14px;}
+.search-wrap{flex:1;max-width:520px;position:relative;}
+.s-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim);pointer-events:none;}
+#searchInput{width:100%;padding:9px 14px 9px 40px;background:var(--panel);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none;transition:all .2s;}
+#searchInput:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(244,63,94,0.1);}
+#searchInput::placeholder{color:var(--text-dim);}
+.ctrl-right{display:flex;align-items:center;gap:10px;margin-left:auto;}
+.res-badge{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim);white-space:nowrap;}
+.res-badge strong{color:var(--yellow);}
+.vtoggle{display:flex;background:var(--panel);border:1px solid var(--border2);border-radius:5px;overflow:hidden;}
+.vbtn{padding:7px 12px;background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:13px;transition:all .15s;font-family:'IBM Plex Mono',monospace;}
+.vbtn.active{background:var(--red);color:white;}
+.exp-ctrl{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:7px 13px;background:var(--panel);border:1px solid var(--border2);border-radius:5px;color:var(--text-dim);cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.5px;}
+.exp-ctrl:hover{border-color:var(--green);color:var(--green);}
+
+/* MAIN */
+main{padding:28px 44px 60px;}
+
+.alpha-group{margin-bottom:36px;}
+.alpha-hdr{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+.alpha-glyph{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:38px;font-weight:700;color:rgba(244,63,94,0.1);line-height:1;min-width:40px;}
+.alpha-rule{flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent);}
+.alpha-meta{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;}
+
+.grid-layout{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:10px;}
+.list-layout{display:flex;flex-direction:column;gap:7px;}
+
+/* CARDS */
+.term-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s;animation:cardIn .22s ease both;position:relative;}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.term-card:hover{box-shadow:0 6px 28px rgba(0,0,0,.5);transform:translateY(-2px);border-color:var(--border2);}
+.term-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
+.term-card[data-cat="attack"]::before{background:var(--cat-attack);}
+.term-card[data-cat="defense"]::before{background:var(--cat-defense);}
+.term-card[data-cat="crypto"]::before{background:var(--cat-crypto);}
+.term-card[data-cat="auth"]::before{background:var(--cat-auth);}
+.term-card[data-cat="browser"]::before{background:var(--cat-browser);}
+.term-card[data-cat="network"]::before{background:var(--cat-network);}
+.term-card[data-cat="data"]::before{background:var(--cat-data);}
+.term-card[data-cat="general"]::before{background:var(--cat-general);}
+.term-card.open[data-cat="attack"]{border-color:rgba(244,63,94,.4);box-shadow:0 0 0 1px rgba(244,63,94,.18),0 8px 32px rgba(244,63,94,.1);}
+.term-card.open[data-cat="defense"]{border-color:rgba(34,197,94,.4);box-shadow:0 0 0 1px rgba(34,197,94,.18),0 8px 32px rgba(34,197,94,.08);}
+.term-card.open[data-cat="crypto"]{border-color:rgba(56,189,248,.4);box-shadow:0 0 0 1px rgba(56,189,248,.18),0 8px 32px rgba(56,189,248,.08);}
+.term-card.open[data-cat="auth"]{border-color:rgba(192,132,252,.4);box-shadow:0 0 0 1px rgba(192,132,252,.18),0 8px 32px rgba(192,132,252,.08);}
+.term-card.open[data-cat="browser"]{border-color:rgba(250,204,21,.4);box-shadow:0 0 0 1px rgba(250,204,21,.18),0 8px 32px rgba(250,204,21,.08);}
+.term-card.open[data-cat="network"]{border-color:rgba(251,146,60,.4);box-shadow:0 0 0 1px rgba(251,146,60,.18),0 8px 32px rgba(251,146,60,.08);}
+.term-card.open[data-cat="data"]{border-color:rgba(45,212,191,.4);box-shadow:0 0 0 1px rgba(45,212,191,.18),0 8px 32px rgba(45,212,191,.08);}
+.term-card.open[data-cat="general"]{border-color:rgba(148,163,184,.35);}
+
+.card-head{padding:13px 14px 11px 18px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.head-left{flex:1;min-width:0;}
+.term-title{font-size:13.5px;font-weight:600;color:#fff;line-height:1.3;margin-bottom:5px;}
+.term-title .hl{background:rgba(250,204,21,.22);color:var(--yellow);border-radius:2px;padding:0 2px;}
+.cat-tag{display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px 2px 6px;border-radius:2px;}
+.cat-tag::before{content:'';width:4px;height:4px;border-radius:50%;}
+.tag-attack{color:var(--cat-attack);background:rgba(244,63,94,.1);}.tag-attack::before{background:var(--cat-attack);}
+.tag-defense{color:var(--cat-defense);background:rgba(34,197,94,.1);}.tag-defense::before{background:var(--cat-defense);}
+.tag-crypto{color:var(--cat-crypto);background:rgba(56,189,248,.1);}.tag-crypto::before{background:var(--cat-crypto);}
+.tag-auth{color:var(--cat-auth);background:rgba(192,132,252,.1);}.tag-auth::before{background:var(--cat-auth);}
+.tag-browser{color:var(--cat-browser);background:rgba(250,204,21,.1);}.tag-browser::before{background:var(--cat-browser);}
+.tag-network{color:var(--cat-network);background:rgba(251,146,60,.1);}.tag-network::before{background:var(--cat-network);}
+.tag-data{color:var(--cat-data);background:rgba(45,212,191,.1);}.tag-data::before{background:var(--cat-data);}
+.tag-general{color:var(--cat-general);background:rgba(148,163,184,.1);}.tag-general::before{background:var(--cat-general);}
+
+.toggle-icon{font-size:18px;color:var(--text-dim);transition:transform .2s,color .2s;flex-shrink:0;line-height:1;margin-top:1px;}
+.term-card.open .toggle-icon{transform:rotate(45deg);color:var(--green);}
+.card-preview{padding:0 14px 12px 18px;font-size:12px;color:var(--text-dim);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.term-card.open .card-preview{display:none;}
+.card-body{display:none;border-top:1px solid var(--border);padding:14px 14px 14px 18px;}
+.term-card.open .card-body{display:block;}
+.def-box{padding:11px 13px;border-radius:5px;border-left:3px solid;font-size:13px;line-height:1.75;color:var(--text);margin-bottom:10px;background:var(--panel2);}
+.def-box .hl{background:rgba(250,204,21,.2);color:var(--yellow);border-radius:2px;padding:0 2px;}
+.term-card[data-cat="attack"] .def-box{border-color:var(--cat-attack);}
+.term-card[data-cat="defense"] .def-box{border-color:var(--cat-defense);}
+.term-card[data-cat="crypto"] .def-box{border-color:var(--cat-crypto);}
+.term-card[data-cat="auth"] .def-box{border-color:var(--cat-auth);}
+.term-card[data-cat="browser"] .def-box{border-color:var(--cat-browser);}
+.term-card[data-cat="network"] .def-box{border-color:var(--cat-network);}
+.term-card[data-cat="data"] .def-box{border-color:var(--cat-data);}
+.term-card[data-cat="general"] .def-box{border-color:var(--cat-general);}
+.see-also{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);margin-bottom:10px;line-height:1.6;}
+.see-also span{color:var(--blue);}
+.card-actions{display:flex;justify-content:flex-end;}
+.copy-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 12px;background:transparent;border:1px solid var(--border2);border-radius:3px;color:var(--text-dim);cursor:pointer;transition:all .2s;letter-spacing:.5px;}
+.copy-btn:hover{border-color:var(--green);color:var(--green);}
+.copy-btn.copied{border-color:var(--green);color:var(--green);}
+
+.list-layout .card-head{padding:11px 14px 9px 18px;}
+.list-layout .card-preview{-webkit-line-clamp:1;}
+.list-layout .term-card:hover{transform:translateX(4px) translateY(0);}
+
+.empty-state{text-align:center;padding:80px 20px;}
+.empty-icon{font-size:40px;opacity:.2;margin-bottom:14px;}
+.empty-msg{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);letter-spacing:1px;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);background:var(--surface);padding:14px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.foot-cats{display:flex;gap:14px;flex-wrap:wrap;}
+.fc-item{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);display:flex;align-items:center;gap:5px;}
+.fc-pip{width:6px;height:6px;border-radius:1px;}
+.fc-item strong{color:var(--text);}
+.foot-right{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:1px;}
+.foot-right span{color:var(--red);}
+
+@media(max-width:768px){
+  .header-top{padding:20px;flex-direction:column;}
+  .threat-panel{display:none;}
+  .cat-bar{padding:10px 20px;}
+  .controls{padding:10px 20px;flex-wrap:wrap;}
+  .search-wrap{max-width:100%;}
+  main{padding:16px 20px 40px;}
+  .grid-layout{grid-template-columns:1fr;}
+  footer{padding:12px 20px;}
+  .exp-ctrl{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="scan-bg"><div class="scan-line"></div></div>
+<div class="app">
+
+<header>
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-eyebrow">THREAT INTEL DB · ACTIVE · 16 PAGES</div>
+      <div class="brand-title"><em>CYBER</em>SECURITY</div>
+      <div class="brand-title" style="font-size:clamp(18px,3vw,28px);color:var(--text-mid);">FIELD REFERENCE GLOSSARY</div>
+      <div class="brand-sub">ATTACKS · DEFENSE · CRYPTOGRAPHY · AUTHENTICATION · NETWORKING · DATA · BROWSER SECURITY</div>
+    </div>
+    <div class="threat-panel">
+      <div class="tstat"><div class="tstat-val" id="h-total">0</div><div class="tstat-label">Total Terms</div></div>
+      <div class="tstat"><div class="tstat-val g">8</div><div class="tstat-label">Categories</div></div>
+      <div class="tstat"><div class="tstat-val b" id="h-open">0</div><div class="tstat-label">Expanded</div></div>
+      <div class="tstat"><div class="tstat-val y" id="h-vis">0</div><div class="tstat-label">Showing</div></div>
+    </div>
+  </div>
+  <div class="cat-bar">
+    <span class="bar-label">FILTER ›</span>
+    <button class="cat-pill pill-all active" data-filter="all">ALL TERMS</button>
+    <button class="cat-pill pill-attack"  data-filter="attack"><span class="pip" style="background:var(--cat-attack)"></span>Attacks &amp; Threats</button>
+    <button class="cat-pill pill-defense" data-filter="defense"><span class="pip" style="background:var(--cat-defense)"></span>Defense &amp; Protection</button>
+    <button class="cat-pill pill-crypto"  data-filter="crypto"><span class="pip" style="background:var(--cat-crypto)"></span>Cryptography</button>
+    <button class="cat-pill pill-auth"    data-filter="auth"><span class="pip" style="background:var(--cat-auth)"></span>Authentication &amp; Access</button>
+    <button class="cat-pill pill-network" data-filter="network"><span class="pip" style="background:var(--cat-network)"></span>Networking &amp; VPN</button>
+    <button class="cat-pill pill-data"    data-filter="data"><span class="pip" style="background:var(--cat-data)"></span>Data &amp; Privacy</button>
+    <button class="cat-pill pill-browser" data-filter="browser"><span class="pip" style="background:var(--cat-browser)"></span>Browser &amp; Web</button>
+    <button class="cat-pill pill-general" data-filter="general"><span class="pip" style="background:var(--cat-general)"></span>General Concepts</button>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="s-icon">⌕</span>
+    <input type="text" id="searchInput" placeholder="Search terms or definitions…  (Ctrl+K)" autocomplete="off">
+  </div>
+  <div class="ctrl-right">
+    <div class="res-badge">Showing <strong id="vis-count">0</strong> / <strong id="tot-count">0</strong></div>
+    <div class="vtoggle">
+      <button class="vbtn active" id="btn-grid">⊞</button>
+      <button class="vbtn"        id="btn-list">☰</button>
+    </div>
+    <button class="exp-ctrl" id="expandAll">Expand All</button>
+  </div>
+</div>
+
+<main id="main"></main>
+
+<footer>
+  <div class="foot-cats">
+    <div class="fc-item"><div class="fc-pip" style="background:var(--cat-attack)"></div>Attacks <strong id="fc-attack">0</strong></div>
+    <div class="fc-item"><div class="fc-pip" style="background:var(--cat-defense)"></div>Defense <strong id="fc-defense">0</strong></div>
+    <div class="fc-item"><div class="fc-pip" style="background:var(--cat-crypto)"></div>Crypto <strong id="fc-crypto">0</strong></div>
+    <div class="fc-item"><div class="fc-pip" style="background:var(--cat-auth)"></div>Auth <strong id="fc-auth">0</strong></div>
+    <div class="fc-item"><div class="fc-pip" style="background:var(--cat-network)"></div>Network <strong id="fc-network">0</strong></div>
+    <div class="fc-item"><div class="fc-pip" style="background:var(--cat-data)"></div>Data <strong id="fc-data">0</strong></div>
+    <div class="fc-item"><div class="fc-pip" style="background:var(--cat-browser)"></div>Browser <strong id="fc-browser">0</strong></div>
+    <div class="fc-item"><div class="fc-pip" style="background:var(--cat-general)"></div>General <strong id="fc-general">0</strong></div>
+  </div>
+  <div class="foot-right">CYBERSECURITY GLOSSARY · <span>WILLIE CONWAY</span> · COMPTIA SEC+</div>
+</footer>
+</div>
+
+<script>
+const DATA = [
+  // A
+  {term:"Access Control",cat:"auth",def:"Prevents unauthorized viewing, modification, or copying of data. IT staff use access control to restrict what users can do, which resources they have access to, and what functions they are allowed to perform.",see:"See also: RBAC, ROLP, Authorization"},
+  {term:"Access Tokens",cat:"attack",def:"Bits of code that signify a user has successfully authenticated. Hackers get access tokens by sniffing network traffic between trusted entities, then hijack the session and use the token to impersonate trusted entities — intercepting or modifying any information sent.",see:"See also: Replay Attack, Trusted Entities"},
+  {term:"ActiveX",cat:"browser",def:"Old online browser technology for downloading and embedding content on websites. Now largely deprecated due to significant security vulnerabilities."},
+  {term:"Add-ons",cat:"browser",def:"Small bits of code or software applied to browsers to enhance functionality and user experience. Toolbars, plug-ins, and extensions are all examples of browser add-ons.",see:"See also: Extensions, Plug-ins, Toolbars"},
+  {term:"Adware",cat:"attack",def:"Software coded into online ads that records your personal data, website visits, and keystrokes to send personalized ads. Often bundled with apps and activated on install. Can cause sluggish performance, browser changes, crashes, and popup ads."},
+  {term:"Anti-Replay Protection",cat:"network",def:"Network standards that stop hackers from re-using captured data packets to gain unauthorized access.",see:"See also: IPsec"},
+  {term:"Asymmetric Encryption",cat:"crypto",def:"Uses a public key and a private key pair. More complex and slower than symmetric encryption; used for smaller data amounts. Safe to share the public key openly — only the private key can reverse its action. Also called 'Public Key Cryptography.' Used in authentication, digital certificates, digital signatures, and key exchange.",see:"See also: Symmetric Encryption, Digital Certificate, PKI"},
+  {term:"Authentication",cat:"auth",def:"The act of confirming the identity of a user. Involves two steps: entering the correct login information and confirming that it is really you."},
+  {term:"Authentication Factors",cat:"auth",def:"Ways to confirm a user's identity. These include: something you know (password/security question), something you have (2FA card), and something you are (fingerprint/biometric scan)."},
+  {term:"Authentication Header (AH) Protocol",cat:"crypto",def:"Protocol that authenticates the sender and both IP addresses involved in a communication.",see:"See also: IPsec, ESP Protocol"},
+  {term:"Authentication Methods",cat:"auth",def:"Ways to log in to a system. These include Single Sign-On (SSO), Two-Factor Authentication (2FA), and Multi-Factor Authentication (MFA)."},
+  {term:"Authorization",cat:"auth",def:"Permission to access a location or perform an action. Access control must be configured before authorization can be granted.",see:"See also: Access Control"},
+  {term:"Autorun",cat:"defense",def:"Computer feature that allows inserted drives and disks to run automatically. Disabling autorun is a security best practice — an infected drive could silently install malware the moment it is inserted."},
+  // B
+  {term:"Baiting",cat:"attack",def:"In social engineering, the use of a lure to trick victims — just like bait used to catch a fish. Lures can be physical (infected USB drive) or logical (fake online ad).",see:"See also: Social Engineering, Physical Lure, Logical Lure"},
+  {term:"BIOS (Basic Input Output System)",cat:"general",def:"Firmware that boots up Windows and Linux PCs, runs hardware checks, and starts the OS. A critical low-level target for persistent malware.",see:"See also: Firmware, BIOS Password, UEFI"},
+  {term:"BIOS Password",cat:"auth",def:"A security feature requiring a correct password to start a system's OS. Also called 'firmware password.' Prevents unauthorized users from booting into the system.",see:"See also: BIOS, Firmware"},
+  {term:"Biometrics",cat:"auth",def:"Body scan that can confirm whether a person physically accessed a device, network, or area. Examples include fingerprints, facial recognition, and iris scans.",see:"See also: Non-repudiation"},
+  {term:"Bloatware",cat:"defense",def:"Unwanted trial software usually pre-loaded on new devices. Aging bloatware becomes outdated and may contain unpatched vulnerabilities that attackers can exploit."},
+  {term:"Browser History",cat:"browser",def:"A list of every page you've visited and for how long. Can be used against you by family, hackers, or law enforcement. Clear regularly using browser settings.",see:"See also: Browsing History, Digital Accounting"},
+  {term:"Browsing History",cat:"browser",def:"List of recently visited websites accessible to anyone with device access. Attackers use it to identify impersonation targets; companies use it to monitor work device activity.",see:"See also: Digital Accounting, Browser History"},
+  {term:"Brute Force Attacks",cat:"attack",def:"A password cracking method where hackers submit as many password combinations as possible in rapid succession, hoping one will succeed."},
+  {term:"Buffer Overflow",cat:"attack",def:"Common type of DoS attack that sends a website or server more traffic or data than it can handle, causing crashes or enabling arbitrary code execution.",see:"See also: DoS Attack"},
+  // C
+  {term:"Cache",cat:"browser",def:"Storage area that holds downloaded web pages you've visited for faster reloading. Very large caches cause sluggish performance. Use browser settings to clear the cache and set size limits."},
+  {term:"Certificate Authority (CA)",cat:"crypto",def:"A trusted organization that issues digital certificates. Major CAs include Apple, Microsoft, Mozilla, and Google. Also called 'Root Certificate Store.'",see:"See also: Digital Certificate, SSL Certificates, HTTPS, PKI"},
+  {term:"CIA Triad",cat:"general",def:"The three core principles of information security: Confidentiality (data protected from unauthorized access), Integrity (data protected from unauthorized changes), and Availability (data accessible when needed)."},
+  {term:"Cipher",cat:"crypto",def:"An algorithm used to scramble plaintext into unreadable ciphertext to protect it from unauthorized access."},
+  {term:"Ciphertext",cat:"crypto",def:"Plain text that has been encrypted using a cipher, making it unreadable without the corresponding decryption key."},
+  {term:"Company Confidential Information",cat:"data",def:"Any information used to run a company — including intellectual property, product designs, procedures, plans, employee records, and financial data.",see:"See also: Confidential Information"},
+  {term:"Confidential Information",cat:"data",def:"Information that must be kept secret. The four universally protected types are: PII, Company Confidential Information, Customer Confidential Information, and PHI. Companies rank information by sensitivity level."},
+  {term:"Cookies",cat:"browser",def:"Text files with small pieces of data stored by websites on your browser to track you. Allow sites to remember logins, shopping carts, and preferences. Even legitimate cookies can be harmful if your account is compromised.",see:"See also: Third-Party Cookies, Zombie Cookies, Digital Accounting"},
+  {term:"Cookies — Authentication",cat:"browser",def:"Authentication cookies save logins, usernames, and passwords so you don't have to re-enter them. A prime target for session hijacking attacks."},
+  {term:"Cookies — Session",cat:"browser",def:"Temporary cookies stored in RAM and automatically deleted when the browsing session ends. Used for single-session tracking only."},
+  {term:"Cookies — Third-Party",cat:"browser",def:"Cookies from sites other than the one you are visiting. Track users across the web, often generated by embedded ads — even if you never click them."},
+  {term:"Cookies — Zombie",cat:"attack",def:"Third-party cookies that bypass normal deletion by storing code directly on your device to recreate themselves after removal. Extremely difficult to eliminate; sometimes used to permanently ban users from websites."},
+  {term:"Cryptographic Hash",cat:"crypto",def:"A fixed-length string created by running data through an algorithm. Any change to the original data produces a completely different hash. Used to verify data integrity and securely store passwords. If stored hash and new hash match at login, access is granted.",see:"See also: Hashing, Password Hash"},
+  {term:"Customer Confidential Information",cat:"data",def:"Information customers or partners provide to companies, including PII, purchase histories, and credit card information.",see:"See also: Confidential Information"},
+  // D
+  {term:"Data",cat:"data",def:"Raw values and facts usually collected by automated systems — such as page visits, link clicks, and monthly sales.",see:"See also: Information, Insights, Data Analytics"},
+  {term:"Data Analytics",cat:"data",def:"The processing of raw data to create meaningful information and business insights.",see:"See also: Data, Information, Insights"},
+  {term:"Data at Rest",cat:"data",def:"Data residing on a storage device where files aren't open or being transmitted. Can be encrypted at the file level, storage device level, or cloud level. Less vulnerable than data in motion, but not immune from attacks."},
+  {term:"Data Availability",cat:"data",def:"Ensures authorized users have immediate and reliable access to their data. Threatened by hardware failures, software downtime, network issues, and cyberattacks. High-availability systems use redundant servers and network monitoring."},
+  {term:"Data Breaches",cat:"attack",def:"Intentional data leaks caused by cybercriminals. Occur when social engineering or phishing attacks trick employees into leaking sensitive credentials or information.",see:"See also: Phishing, Social Engineering"},
+  {term:"Data Capture",cat:"data",def:"Collection of data from multiple sources and secure storage in relational databases or data warehouses. Sources include server logs, IoT sensors, and customer surveys.",see:"See also: Data Correlation, Meaningful Reporting"},
+  {term:"Data Confidentiality",cat:"data",def:"Control of data access using security tools like encryption and MFA to keep data secure. Prevents identity theft, compromised accounts, legal concerns, and reputational damage."},
+  {term:"Data Correlation",cat:"data",def:"Analysis of raw data points to find connections or patterns. Netflix uses this to predict which content will succeed. AI and machine learning automate parts of the analysis.",see:"See also: Data Capture, Meaningful Reporting"},
+  {term:"Data Dumps",cat:"attack",def:"When cybercriminals release stolen data onto the dark web for monetary gain. May include PII, PHI, bank account numbers, PINs, and social security numbers — used for identity theft and password attacks."},
+  {term:"Data in Motion",cat:"data",def:"Data actively moving between two devices — two computers, a mobile device and mail server, or your computer and a bank website. Especially vulnerable to interception attacks like man-in-the-middle. Also called 'data in transit.'",see:"See also: Man-in-the-Middle Attack, VPN"},
+  {term:"Data in Transit",cat:"data",def:"See: Data in Motion."},
+  {term:"Data Integrity",cat:"data",def:"The collection of actions and fail-safes that protect data accuracy, completeness, and consistency across storage, processing, and transit. The two main types are physical and logical integrity."},
+  {term:"Data Integrity (Logical)",cat:"data",def:"Checks and protocols that protect data from human error and hackers, confirming that data is correct and accurate as it's used across an organization."},
+  {term:"Data Integrity (Physical)",cat:"data",def:"The collection of actions and fail-safes that protect the physical systems that store and process data."},
+  {term:"Data Leaks",cat:"data",def:"The accidental exposure of confidential or sensitive data through a security vulnerability — distinct from intentional data breaches.",see:"See also: Data Breaches"},
+  {term:"Data-Driven Business Decisions",cat:"data",def:"Business decisions based on data capture, data correlation, and meaningful reporting.",see:"See also: Data Capture, Data Correlation, Meaningful Reporting"},
+  {term:"DDoS Attack (Distributed Denial of Service)",cat:"attack",def:"A DoS attack made with a large collection of malware-infected computers (a botnet). Far more devastating than standard DoS attacks and harder to identify and shut down.",see:"See also: DoS Attack, Botnet"},
+  {term:"Decryption Key",cat:"crypto",def:"A key used to decrypt (unscramble) encrypted data back into a readable or usable format.",see:"See also: Encryption Key"},
+  {term:"Default Usernames and Passwords",cat:"auth",def:"Default login credentials that come with new hardware or software. Have admin-level privileges and are easily found online in help guides. Hackers exploit them to break into apps, devices, OSes, databases, and BIOS."},
+  {term:"Denial of Service (DoS)",cat:"attack",def:"Cyberattack where a website or server is flooded with so much traffic that it overwhelms the system, degrading performance until it cannot respond.",see:"See also: DDoS Attack, Buffer Overflow, SYN Flood, ICMP Flood"},
+  {term:"Device Lock",cat:"defense",def:"Locking a device physically (behind a locked door, steel cable) or digitally with passwords or PINs to prevent unauthorized physical access."},
+  {term:"Dictionary Attacks",cat:"attack",def:"A password cracking method where hackers use words pulled from dictionaries or newspapers to systematically attempt to crack passwords."},
+  {term:"Digital Accounting",cat:"general",def:"Investigating online and network activity to discover the reasons behind a certain outcome. Used in troubleshooting, security analysis, forensics, and hacking.",see:"See also: Logs, Browsing History, Tracking"},
+  {term:"Digital Certificate",cat:"crypto",def:"A security approval that includes a public encryption key. If the recipient trusts the CA that issued it, they use a private key to decrypt the data. Also used in smart card authentication.",see:"See also: CA, PKI, SSL Certificates"},
+  {term:"Digital Millennium Copyright Act (DMCA)",cat:"general",def:"Law that makes it illegal to bypass copy protections or develop technology that helps bypass copy protections.",see:"See also: DRM, Digital Products"},
+  {term:"Digital Products",cat:"general",def:"Non-tangible assets a company owns — including software, online music, e-books, audiobooks, and web elements like templates or themes.",see:"See also: DRM, DMCA"},
+  {term:"Digital Receipt",cat:"crypto",def:"Encryption and authentication method used to prove that a message was sent from one party to another.",see:"See also: Non-repudiation"},
+  {term:"Digital Rights Management (DRM)",cat:"general",def:"Code added directly to files that helps prevent digital assets from being copied or pirated. Tools exist that can remove DRM code.",see:"See also: Digital Products, DMCA"},
+  {term:"Digital Signatures",cat:"crypto",def:"A regular signature used with a hardware or software token that authenticates the signer. The sender encrypts a signature with a private key; the recipient decrypts it with the sender's public key to verify authenticity.",see:"See also: PKI, Non-repudiation, Asymmetric Encryption"},
+  {term:"Drive Encryption",cat:"crypto",def:"The scrambling of a drive's data so it becomes unreadable without the decryption key.",see:"See also: Encryption, Firmware"},
+  {term:"Dumpster Diving",cat:"attack",def:"Physically searching through trash to find valuable data — customer lists, business plans, product designs, or access codes. Companies require document shredding and device destruction to prevent this attack vector."},
+  // E
+  {term:"Eavesdropping",cat:"attack",def:"When hackers use a packet sniffer to read unencrypted network traffic to intercept, alter, or delete data. Occurs on wireless, wired, and phone connections. Also called 'packet sniffing.'",see:"See also: Packet Sniffer, Man-in-the-Middle Attack, VPN"},
+  {term:"Email Management",cat:"defense",def:"Classifying and organizing email messages to prioritize communications and improve security. Includes using folders, filters, unsubscribing from lists, and blocking spam."},
+  {term:"Encapsulating Security Payload (ESP) Protocol",cat:"crypto",def:"An IPsec protocol that encrypts data and authenticates both the data and the sender.",see:"See also: IPsec, AH Protocol"},
+  {term:"Encryption",cat:"crypto",def:"The act of taking readable plaintext and scrambling it into unreadable ciphertext using an algorithm. Can only be read by a recipient with the decryption key. Used at the network layer and locally for drives and devices. Mandatory in some industries.",see:"See also: Encryption Key, Decryption Key, Cipher"},
+  {term:"Encryption and Hashing Algorithms",cat:"crypto",def:"Algorithms that scramble data for security purposes.",see:"See also: IPsec, Hashing"},
+  {term:"Encryption Key",cat:"crypto",def:"A series of random, unique numbers combined with powerful algorithms used to encrypt (scramble) data before it is sent. The recipient uses a decryption key to unscramble it.",see:"See also: Decryption Key, Symmetric Encryption, Asymmetric Encryption"},
+  {term:"Exploits",cat:"attack",def:"Pieces of code that use vulnerabilities in hardware or software to gain access to a system. Malware-infected websites use exploits to automatically download malware — known as a drive-by download."},
+  {term:"Extension",cat:"browser",def:"Small piece of source code that adds a function or feature to a browser. Ad-blockers and PDF readers are examples. Given special browser authorizations, making them attractive targets for attackers.",see:"See also: Add-ons"},
+  // F
+  {term:"File Integrity Monitoring (FIM)",cat:"defense",def:"Software that audits sensitive files and folders to ensure all activity is authorized."},
+  {term:"Firewall",cat:"defense",def:"Software or hardware that monitors connections and blocks harmful traffic based on preset rules. Schools and businesses use firewalls to block social media, inappropriate content, and dangerous downloads."},
+  {term:"Firmware",cat:"general",def:"Software that tells hardware how to behave. Security firmware protects devices and data from malware and tampering. Outdated firmware leaves devices vulnerable.",see:"See also: BIOS, UEFI, Secure Boot"},
+  {term:"Firmware Password",cat:"auth",def:"A security feature requiring a correct password to start a system's OS. Prevents unauthorized users from booting the system.",see:"See also: Firmware, BIOS"},
+  // G
+  {term:"General Data Protection Regulation (GDPR)",cat:"data",def:"Set of regulations mandating digital privacy for all countries in the European Union."},
+  // H
+  {term:"Hardening",cat:"defense",def:"The process of securing a device to minimize vulnerabilities. Includes disabling unneeded features, regularly updating firmware and software, and using firewalls, VPNs, and antimalware.",see:"See also: Patches, Firewall, VPN"},
+  {term:"Hashing",cat:"crypto",def:"When an algorithm transforms an input string (like a password) into a smaller, fixed-length output hash saved to a file. A hash is like a digital fingerprint. If a password hash is cracked, attackers can potentially determine over 90% of unknown passwords hashed the same way.",see:"See also: Cryptographic Hash, Password Hash"},
+  {term:"HIPAA (Health Insurance Portability and Accountability Act)",cat:"data",def:"Set of regulations mandating the use and disclosure of protected health information in America.",see:"See also: PHI"},
+  {term:"HTTP Protocol",cat:"network",def:"Hypertext Transfer Protocol — governs the flow of online traffic. Not encrypted.",see:"See also: HTTPS Protocol, HTTP Websites"},
+  {term:"HTTP Websites",cat:"browser",def:"Websites relying on HTTP are not secure — especially over public wifi. Everything sent and received is in plain text, making users easy targets for cybercriminals.",see:"See also: HTTPS Websites"},
+  {term:"HTTPS Protocol",cat:"network",def:"Hypertext Transfer Protocol Secure — governs online traffic and provides encryption for security.",see:"See also: HTTP Protocol, SSL Certificates"},
+  {term:"HTTPS Websites",cat:"browser",def:"Provides an encrypted connection between you and websites. Identifiable by 'HTTPS' in the URL or a lock icon in the browser. Note: HTTPS only secures the connection — a site can use HTTPS and still be fraudulent.",see:"See also: HTTP Websites, SSL Certificates, CA"},
+  // I
+  {term:"ICMP Flood",cat:"attack",def:"DoS attack where diagnostic pings are sent to every computer on a network, causing each to ping every other, until the entire network crashes.",see:"See also: DoS Attack"},
+  {term:"Identity Fraud",cat:"attack",def:"The act of using personal, private, or financial information stolen from victims to commit fraud.",see:"See also: Identity Theft"},
+  {term:"Identity Theft",cat:"attack",def:"Stealing personal, private, or financial information from a person with the intent of assuming their identity and committing fraud.",see:"See also: Identity Fraud, PII"},
+  {term:"Impersonation",cat:"attack",def:"When a hacker sets up a fake public wifi network, a spoofed website, or pretends to be someone else to steal credentials or data. Can be used individually or in combination with phishing and social engineering.",see:"See also: Social Engineering, Phishing"},
+  {term:"Incognito Mode",cat:"browser",def:"See: Private Browsing.",see:"See also: Private Browsing"},
+  {term:"Information",cat:"general",def:"A summary of raw data — for example, positive or negative trends that emerge after a specific change.",see:"See also: Data, Insights, Data Analytics"},
+  {term:"Information Asset",cat:"data",def:"Information or data that has value — such as patient records, customer information, and intellectual property. Can exist physically, on paper, on disks, or electronically in databases and files."},
+  {term:"Insights",cat:"data",def:"Conclusions based on the results of information analysis. Meaningful business decisions are based on insights derived from data.",see:"See also: Information, Data, Data Analytics"},
+  {term:"Intellectual Property (IP)",cat:"data",def:"Creations of the mind that are generally intangible — protected by copyright, trademark, and patent law. Includes industrial designs, trade secrets, research discoveries, and employee knowledge. Often protected by NDAs."},
+  {term:"Internet Key Exchange (IKE)",cat:"crypto",def:"Secure exchange of cryptographic keys.",see:"See also: IPsec"},
+  {term:"Internet Protocol Security (IPsec)",cat:"network",def:"A suite of network standards and protocols using cryptography to protect data traveling over the Internet. Core protocols are AH and ESP. Uses security associations (SA), IKE, encryption and hashing algorithms, and anti-replay protection. Has two modes: tunnel and transport.",see:"See also: AH Protocol, ESP Protocol, VPN"},
+  {term:"IPsec Transport Mode",cat:"network",def:"The IP header of the original data packet is left unencrypted; only the content is encrypted. Common in host-to-site VPN.",see:"See also: IPsec, IPsec Tunnel Mode"},
+  {term:"IPsec Tunnel Mode",cat:"network",def:"The entire data packet is wrapped in a new packet, encrypted, and given a new header. Common in site-to-site VPN.",see:"See also: IPsec, IPsec Transport Mode"},
+  // J
+  {term:"Jailbreaking",cat:"general",def:"Removing device restrictions on Apple iPhones to install non-approved apps. Adds functionality but introduces significant security vulnerabilities.",see:"See also: Rooting"},
+  {term:"Java",cat:"browser",def:"Programming language used to enhance website interactivity. Can introduce security risks when enabled in browsers alongside ActiveX."},
+  // L
+  {term:"Logical Lure",cat:"attack",def:"An online ad or social media post that looks too good to be true, designed to trick users into clicking so attackers can install malware and steal credentials or financial data.",see:"See also: Social Engineering, Baiting"},
+  {term:"Logs",cat:"defense",def:"Files that capture access events, changes, error messages, and other system information. Audit logs show who did what and how the system behaved — essential for security analysis and forensics.",see:"See also: Digital Accounting"},
+  // M
+  {term:"Macro Viruses",cat:"attack",def:"Bits of code that affect Microsoft Office files by exploiting the macros they use to automate tasks."},
+  {term:"Malicious Websites",cat:"attack",def:"Websites that mimic real sites to trick users into entering login or payment data, or to install malware. Often have typos, poor design, or trick URLs (e.g., zero instead of 'O', capital 'I' instead of lowercase 'l')."},
+  {term:"Malware",cat:"attack",def:"Software designed to compromise computer systems. Types include viruses, worms, trojans, exploits, spyware, adware, and ransomware. Can steal data, record activity, spam contacts, and connect your computer to a botnet.",see:"See also: Viruses, Ransomware, Spyware, Trojans, Worms"},
+  {term:"Man-in-the-Middle Attack",cat:"attack",def:"A form of eavesdropping where an attacker secretly intercepts communication between a victim and a recipient. Can be physical or logical. Includes spoofing, hijacking, and cookie theft.",see:"See also: Eavesdropping, Replay Attack"},
+  {term:"Man-in-the-Middle Attack (Logical)",cat:"attack",def:"The attacker sends fake emails or texts with malicious links that direct victims to sites that steal data and install malware.",see:"See also: Man-in-the-Middle Attack, Phishing"},
+  {term:"Man-in-the-Middle Attack (Physical)",cat:"attack",def:"The attacker is physically near the victim on the same network, sniffing unencrypted traffic to gain access to everything the victim does online.",see:"See also: Man-in-the-Middle Attack, Eavesdropping"},
+  {term:"Meaningful Reporting",cat:"data",def:"Presentation of analyzed information using charts, keyword searches, and graphs to help companies derive business insights.",see:"See also: Data Capture, Data Correlation"},
+  {term:"Multi-Factor Authentication (MFA)",cat:"auth",def:"Authentication method requiring multiple factors before access is granted. Typically requires a code sent to email or phone in addition to a password.",see:"See also: 2FA, SSO, Authentication Methods"},
+  // N
+  {term:"Near Field Communication (NFC)",cat:"network",def:"Wireless technology that transfers data across devices with a tap or bump. Used for payments and contact sharing. Shorter range than Bluetooth with limited built-in security."},
+  {term:"Non-repudiation",cat:"auth",def:"The ability to prove that a message was sent and received — ensuring parties cannot deny their involvement. Examples include video, biometrics, digital signatures, and digital receipts.",see:"See also: Digital Signatures, Digital Receipt, Biometrics"},
+  // O
+  {term:"Open Network",cat:"network",def:"Free, unencrypted networks that do not require a password. Found in airports, coffee shops, and hotels. Network providers may track and sell user data. Invite eavesdroppers and session hijackers. Also called 'public wifi' or 'unsecure network.'",see:"See also: Eavesdropping, VPN"},
+  {term:"Original Equipment Manufacturer (OEM)",cat:"general",def:"The original maker of a hardware device. OEMs provide drivers and firmware updates on their websites."},
+  // P
+  {term:"Packet Sniffer",cat:"attack",def:"A tool that intercepts everything transmitted on a network. On unencrypted networks, packet sniffers can view all data. On encrypted networks, they can only see packet origin and destination.",see:"See also: Eavesdropping"},
+  {term:"Packet Sniffing",cat:"attack",def:"See: Eavesdropping.",see:"See also: Eavesdropping, Packet Sniffer"},
+  {term:"Password Cracking",cat:"attack",def:"Getting a correct password in an unauthorized way. Methods include brute force, dictionary attacks, and rainbow attacks.",see:"See also: Brute Force Attacks, Dictionary Attacks, Rainbow Attacks"},
+  {term:"Password Hash",cat:"crypto",def:"The string of letters and numbers that result after a password is processed by a scrambling algorithm.",see:"See also: Hashing, Cryptographic Hash"},
+  {term:"Patches",cat:"defense",def:"Updates to apps and OSes that fix security weaknesses. Released regularly alongside improvement updates. Note: patches are responses to KNOWN threats — meaning the threat has already affected someone.",see:"See also: Hardening, Firmware"},
+  {term:"Personally Identifiable Information (PII)",cat:"data",def:"Any information that can be used to identify someone — including government ID numbers, birthdates, addresses, and phone numbers.",see:"See also: Confidential Information"},
+  {term:"Phishing",cat:"attack",def:"Email or text-based social engineering attacks used to steal usernames, passwords, bank account info, and Social Security numbers. Uses fear, greed, or urgency to trick users into clicking malicious links. Often contains typos and grammatical errors.",see:"See also: Social Engineering, Impersonation"},
+  {term:"Physical Lure",cat:"attack",def:"A physical object (such as a malware-infected USB drive) deliberately left somewhere to trick a victim into plugging it into their computer.",see:"See also: Social Engineering, Baiting"},
+  {term:"Plain Text",cat:"crypto",def:"Data that has not been encrypted — readable by anyone who intercepts it.",see:"See also: Ciphertext, Encryption"},
+  {term:"Plug-ins",cat:"browser",def:"Site-specific browser add-ons that require clicking to install. No longer supported in modern browsers, replaced by extensions.",see:"See also: Add-ons, Extensions"},
+  {term:"Polymorphic Viruses",cat:"attack",def:"Bits of code that change their characteristics to evade cybersecurity defenses. 97% of all malware uses polymorphic techniques."},
+  {term:"Pretexting",cat:"attack",def:"When an attacker impersonates someone with authority — a police officer, bank representative, or coworker — using fear, urgency, or friendliness to trick victims into revealing information or performing actions.",see:"See also: Social Engineering"},
+  {term:"Private Browsing",cat:"browser",def:"Browser mode that doesn't save browsing history, cookies, site data, or form data. Also called 'incognito mode.' However, activity is still visible to employers, schools, and ISPs. Bookmarks and downloads created during private browsing are kept."},
+  {term:"Program Viruses",cat:"attack",def:"Bits of code that insert themselves into another program to spread and execute malicious actions.",see:"See also: Viruses, Malware"},
+  {term:"Protected Health Information (PHI)",cat:"data",def:"Any information in a person's medical record that can be used to identify them — including PII, medical history, prescription lists, and photos.",see:"See also: Confidential Information, HIPAA"},
+  {term:"Public Key Infrastructure (PKI)",cat:"crypto",def:"A system where users are validated with a digital certificate issued by a Certificate Authority.",see:"See also: CA, Digital Certificate, Digital Signatures, Smart Card Authentication"},
+  {term:"Public Wifi",cat:"network",def:"See: Open Network.",see:"See also: Open Network"},
+  // R
+  {term:"Rainbow Attacks",cat:"attack",def:"A type of password cracking attack where hackers use precomputed hash tables (rainbow tables) derived from original password hashes to generate and test all possible passwords."},
+  {term:"Ransomware",cat:"attack",def:"Software that locks a system, encrypts its files, and displays a ransom demand. To regain access, you either pay the ransom or perform a full system restore from a backup.",see:"See also: Malware, Encryption"},
+  {term:"Relational Database Management System (RDBMS)",cat:"defense",def:"A database that records user access and data changes. Safer than a spreadsheet program for managing sensitive records.",see:"See also: Digital Accounting"},
+  {term:"Replay Attack",cat:"attack",def:"A type of man-in-the-middle attack that intercepts and retransmits data. Involves 'trusted entities' and requires an 'access token.' Also known as repeat or playback attacks.",see:"See also: Man-in-the-Middle Attack, Access Tokens, Trusted Entities"},
+  {term:"Role-Based Access Control (RBAC)",cat:"auth",def:"Access control method that follows a company's org chart. Users are assigned to groups (roles) with specific permissions — always at the lowest privilege level needed to do their job.",see:"See also: ROLP, Access Control"},
+  {term:"Root Certificate Store",cat:"crypto",def:"See: Certificate Authority (CA).",see:"See also: CA, SSL Certificates"},
+  {term:"Rooting",cat:"general",def:"Removing device restrictions on Android phones to install non-approved apps. Adds functionality but introduces significant security vulnerabilities.",see:"See also: Jailbreaking"},
+  {term:"Rule of Least Privilege (ROLP)",cat:"auth",def:"Access control method where access is only granted to the resources a user needs to fulfill their specific role — nothing more.",see:"See also: RBAC, Access Control"},
+  // S
+  {term:"Search Engine Algorithms",cat:"browser",def:"Algorithms used by search engines to detect harmful sites. Browsers use these results to warn users about potential malware, phishing, or compromised sites."},
+  {term:"Secure Boot",cat:"defense",def:"A UEFI feature that confirms an OS manufacturer's digital signature during startup, preventing malware from taking control during the boot process.",see:"See also: Firmware, UEFI"},
+  {term:"Secure Sockets Layer (SSL) Certificates",cat:"crypto",def:"Certificate that authenticates a website's identity and enables an encrypted connection between a web server and browser. Issued by CAs. Required for HTTPS. Indicated by a lock icon in the browser URL bar. Also called 'security certificate' or 'trust seal.'",see:"See also: CA, HTTPS Websites, PKI"},
+  {term:"Security Associations (SA)",cat:"network",def:"Defines which types of hashing and encryption algorithms are used in an IPsec connection.",see:"See also: IPsec"},
+  {term:"Security Certificate",cat:"crypto",def:"See: SSL Certificate.",see:"See also: SSL Certificates"},
+  {term:"Security Zones",cat:"browser",def:"A feature of older browsers that blocks or allows websites and confines them to different security zones. Modern browsers do not use security zones. Older web apps may still require enabling ActiveX via security zone settings."},
+  {term:"Session Hijacking",cat:"attack",def:"When an attacker intercepts and takes over an active connection — for example, hijacking a banking session to transfer funds to an outside account.",see:"See also: Man-in-the-Middle Attack, Access Tokens"},
+  {term:"Shoulder Surfing",cat:"attack",def:"When an attacker positions themselves in a public area to visually observe usernames, passwords, PINs, and other sensitive input. Common in busy public places."},
+  {term:"Single Sign-On (SSO)",cat:"auth",def:"Authentication method that lets you log in to multiple applications and platforms using a single set of credentials.",see:"See also: Authentication Methods, MFA"},
+  {term:"Smart Card Authentication",cat:"auth",def:"User authentication using a card with a security chip containing a public/private key pair and digital certificate. If the server trusts the CA, it sends an encrypted challenge only decryptable by the smart card's private key.",see:"See also: PKI, Digital Certificate"},
+  {term:"Snooping",cat:"attack",def:"Cyberattack that intercepts data between devices, potentially revealing logins, credit card numbers, and intellectual property. Types include eavesdropping, man-in-the-middle, and replay attacks. Common on open, unsecured networks.",see:"See also: Eavesdropping, Man-in-the-Middle Attack"},
+  {term:"Social Engineering",cat:"attack",def:"The use of psychological manipulation to trick people into revealing sensitive information or making security mistakes. Relies on human error — uses fear, urgency, and trust against victims.",see:"See also: Pretexting, Baiting, Phishing"},
+  {term:"Software or License Theft",cat:"attack",def:"The unauthorized copying or use of copyright-protected software, including pirating software and counterfeiting activation codes."},
+  {term:"Spam",cat:"attack",def:"Unwanted, unsolicited digital communication sent in bulk — via email, text, instant message, robocall, or social media. Can be used to distribute malware and phishing attacks. Email servers filter most spam but some still gets through."},
+  {term:"Spyware",cat:"attack",def:"Software that collects personal data, login credentials, credit card information, and online activity. Can activate a device's camera or microphone. Can be legitimate or malicious.",see:"See also: Malware"},
+  {term:"Stealth Viruses",cat:"attack",def:"Bits of code that copy themselves to different locations to evade antivirus detection and scans.",see:"See also: Viruses, Polymorphic Viruses"},
+  {term:"Strong Password",cat:"defense",def:"A password that is long, difficult to guess, and uses a mix of numbers, letters, symbols, and capitalizations. Passphrases like 'Johnny Appleseed loves apples' with added numbers and symbols are very strong."},
+  {term:"Symmetric Encryption",cat:"crypto",def:"A single key is used to both encrypt and decrypt data. Uses less memory than asymmetric encryption, making it ideal for large data exchanges. However, if the key is intercepted, all data is compromised. Also called 'single-key' or 'private key' encryption.",see:"See also: Asymmetric Encryption"},
+  {term:"SYN Flood",cat:"attack",def:"A DoS attack that sends a rapid series of incomplete TCP connection requests, flooding a website until the server crashes.",see:"See also: DoS Attack"},
+  // T
+  {term:"Toolbars",cat:"browser",def:"Browser add-ons designed for added functionality like spell check and autofill. Largely considered nuisance-ware — some installed malware and tracked browsing habits. Now a thing of the past in modern browsers.",see:"See also: Add-ons"},
+  {term:"Tracking",cat:"browser",def:"Following a person to monitor their online activity. Websites can track your OS, browser version, extensions, screen resolution, fonts, time zone, language, and time spent on pages.",see:"See also: Digital Accounting, Cookies"},
+  {term:"Trojans",cat:"attack",def:"Bits of code that trick you into installing seemingly legitimate software that actually contains harmful malware.",see:"See also: Malware"},
+  {term:"Trust Seal",cat:"crypto",def:"See: SSL Certificate.",see:"See also: SSL Certificates"},
+  {term:"Trusted Entities",cat:"auth",def:"Users or websites that receive an access token after verifying their identity. Examples include connecting to your bank or work network on a registered device.",see:"See also: Replay Attack, Access Tokens"},
+  {term:"Trusted Platform Module (TPM)",cat:"defense",def:"A chip that stores and manages encryption keys. TPM chips will not start a device or decrypt data if tampering is detected.",see:"See also: Firmware, Encryption Key"},
+  {term:"Two-Factor Authentication (2FA)",cat:"auth",def:"Authentication method that requires an additional authentication device or code before access is granted.",see:"See also: MFA, Authentication Methods"},
+  // U
+  {term:"UEFI (Unified Extensible Firmware Interface)",cat:"general",def:"Newer and more advanced boot firmware that replaces BIOS. Supports Secure Boot and other modern security features.",see:"See also: Firmware, BIOS, Secure Boot"},
+  {term:"Unsecure Network",cat:"network",def:"See: Open Network.",see:"See also: Open Network"},
+  // V
+  {term:"Viruses",cat:"attack",def:"Programs designed to spread from host to host. An infected file must be started by a user to activate. Viruses can activate webcams, record keystrokes, steal data, corrupt files, and hijack email accounts.",see:"See also: Malware, Worms, Trojans"},
+  {term:"Virtual Private Network (VPN)",cat:"network",def:"Technology that encrypts all traffic coming out of your device or site — creating an encrypted tunnel between two or more endpoints. Makes eavesdropping, man-in-the-middle, and replay attacks significantly more difficult. Can be hardware or software based.",see:"See also: Eavesdropping, Man-in-the-Middle Attack, IPsec"},
+  {term:"VPN Hardware Device",cat:"network",def:"Devices specifically designed to create VPNs, including VPN concentrators, routers, and firewalls with VPN functionality.",see:"See also: VPN"},
+  {term:"VPN — Host-to-Host",cat:"network",def:"Two remote users connect securely to each other. Both devices use VPN software to encrypt and decrypt traffic traversing the internet.",see:"See also: VPN"},
+  {term:"VPN — Host-to-Site",cat:"network",def:"A remote user connects securely to a site. The host uses VPN software; the site uses a VPN device. Traffic is encrypted by the sender's VPN and decrypted at the site.",see:"See also: VPN, IPsec Transport Mode"},
+  {term:"VPN — Site-to-Site",cat:"network",def:"Two sites connect across the internet using VPN devices at each end. Internal traffic is unencrypted within each site; traffic crossing the internet is encrypted by the originating VPN and decrypted at the destination.",see:"See also: VPN, IPsec Tunnel Mode"},
+  // W
+  {term:"Whois Lookup Tool",cat:"defense",def:"Online tool that shows who owns a website — useful for verifying the legitimacy of a domain."},
+  {term:"Windows Defender",cat:"defense",def:"Pre-loaded anti-malware software from Microsoft. Protects against viruses and malware for free, integrates with Windows Firewall. Does not perform VPN functions."},
+  {term:"Wiretapping",cat:"attack",def:"Covertly intercepting phone-based and internet-based communications — including calls, texts, social media, and fax. Can be done legally with a warrant. Wiretapping can only listen — it cannot alter or stop data. Also known as 'lawful interception.'"},
+  {term:"Worms",cat:"attack",def:"Viruses that start themselves after identifying system weaknesses — no user action required. Unlike standard viruses, worms can be controlled remotely.",see:"See also: Malware, Viruses"},
+];
+
+DATA.sort((a,b) => a.term.localeCompare(b.term));
+
+const CATS = {
+  attack:'Attacks & Threats', defense:'Defense & Protection', crypto:'Cryptography',
+  auth:'Authentication & Access', network:'Networking & VPN', data:'Data & Privacy',
+  browser:'Browser & Web', general:'General Concepts'
+};
+
+let filter='all', query='', view='grid', allOpen=false, openCount=0;
+const $=id=>document.getElementById(id);
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function hl(t,q){
+  if(!q)return esc(t);
+  const e=esc(t),qe=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return e.replace(new RegExp(`(${qe})`,'gi'),'<span class="hl">$1</span>');
+}
+
+function getFiltered(){
+  const q=query.toLowerCase();
+  return DATA.filter(d=>{
+    const mc=filter==='all'||d.cat===filter;
+    const mq=!q||d.term.toLowerCase().includes(q)||d.def.toLowerCase().includes(q);
+    return mc&&mq;
+  });
+}
+
+function render(){
+  const filtered=getFiltered();
+  $('vis-count').textContent=filtered.length;
+  $('h-vis').textContent=filtered.length;
+  const main=$('main');
+
+  if(!filtered.length){
+    main.innerHTML=`<div class="empty-state"><div class="empty-icon">◎</div><div class="empty-msg">NO_MATCH :: "${esc(query)}"</div></div>`;
+    return;
+  }
+
+  const groups={};
+  filtered.forEach(d=>{const k=d.term[0].toUpperCase();if(!groups[k])groups[k]=[];groups[k].push(d);});
+
+  main.innerHTML='';
+  openCount=0;
+  $('h-open').textContent=0;
+
+  Object.keys(groups).sort().forEach((letter,gi)=>{
+    const sec=document.createElement('div');
+    sec.className='alpha-group';
+    sec.innerHTML=`
+      <div class="alpha-hdr">
+        <div class="alpha-glyph">${letter}</div>
+        <div class="alpha-rule"></div>
+        <div class="alpha-meta">${groups[letter].length} TERM${groups[letter].length!==1?'S':''}</div>
+      </div>
+      <div class="${view==='grid'?'grid-layout':'list-layout'}" id="g-${letter}"></div>`;
+    main.appendChild(sec);
+
+    const grid=document.getElementById(`g-${letter}`);
+    groups[letter].forEach((d,i)=>{
+      const card=document.createElement('div');
+      card.className='term-card';
+      card.dataset.cat=d.cat;
+      card.style.animationDelay=`${(gi*5+i)*14}ms`;
+
+      card.innerHTML=`
+        <div class="card-head">
+          <div class="head-left">
+            <div class="term-title">${hl(d.term,query)}</div>
+            <div class="cat-tag tag-${d.cat}">${CATS[d.cat]}</div>
+          </div>
+          <div class="toggle-icon">+</div>
+        </div>
+        <div class="card-preview">${esc(d.def)}</div>
+        <div class="card-body">
+          <div class="def-box">${hl(d.def,query)}</div>
+          ${d.see?`<div class="see-also">// <span>${esc(d.see)}</span></div>`:''}
+          <div class="card-actions"><button class="copy-btn">⎘ COPY DEF</button></div>
+        </div>`;
+
+      card.addEventListener('click',e=>{
+        if(e.target.classList.contains('copy-btn'))return;
+        const was=card.classList.contains('open');
+        card.classList.toggle('open');
+        openCount+=was?-1:1;
+        $('h-open').textContent=Math.max(0,openCount);
+      });
+
+      card.querySelector('.copy-btn').addEventListener('click',e=>{
+        e.stopPropagation();
+        const btn=e.currentTarget;
+        navigator.clipboard.writeText(d.def).then(()=>{
+          btn.textContent='✓ COPIED';btn.classList.add('copied');
+          setTimeout(()=>{btn.textContent='⎘ COPY DEF';btn.classList.remove('copied');},1500);
+        });
+      });
+
+      grid.appendChild(card);
+    });
+  });
+}
+
+function updateFooter(){
+  const cats={attack:0,defense:0,crypto:0,auth:0,network:0,data:0,browser:0,general:0};
+  DATA.forEach(d=>cats[d.cat]++);
+  Object.keys(cats).forEach(k=>$(`fc-${k}`).textContent=cats[k]);
+  $('h-total').textContent=DATA.length;
+  $('tot-count').textContent=DATA.length;
+  $('vis-count').textContent=DATA.length;
+  $('h-vis').textContent=DATA.length;
+}
+
+updateFooter();
+render();
+
+let st;
+$('searchInput').addEventListener('input',e=>{
+  clearTimeout(st);
+  st=setTimeout(()=>{query=e.target.value;render();},220);
+});
+
+document.querySelectorAll('[data-filter]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    filter=btn.dataset.filter;
+    document.querySelectorAll('[data-filter]').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  });
+});
+
+$('btn-grid').addEventListener('click',()=>{view='grid';$('btn-grid').classList.add('active');$('btn-list').classList.remove('active');render();});
+$('btn-list').addEventListener('click',()=>{view='list';$('btn-list').classList.add('active');$('btn-grid').classList.remove('active');render();});
+
+$('expandAll').addEventListener('click',()=>{
+  allOpen=!allOpen;
+  document.querySelectorAll('.term-card').forEach(c=>c.classList.toggle('open',allOpen));
+  openCount=allOpen?getFiltered().length:0;
+  $('h-open').textContent=openCount;
+  $('expandAll').textContent=allOpen?'Collapse All':'Expand All';
+});
+
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();$('searchInput').focus();}
+});
+</script>
+</body>
+</html>
