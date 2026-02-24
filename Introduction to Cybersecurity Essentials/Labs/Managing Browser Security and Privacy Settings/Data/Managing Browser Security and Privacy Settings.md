@@ -14,14 +14,26 @@ The Safety Check tool in Chrome reviews your browser's security and privacy sett
 **Steps:**
 
 1. Open Google Chrome.
+
+![alt text](<../Screenshots/Exercise 1 - Identify How to Perform a Safety Check within a Google Chrome Browser/Google Chrome browser.png>)
+
 2. Click on the three vertical dots (Customize and control Google Chrome) in the top-right corner.
 3. Navigate to **Settings**.
+
+![alt text](<../Screenshots/Exercise 1 - Identify How to Perform a Safety Check within a Google Chrome Browser/Click the three dots.png>)
+
 4. In the left-hand menu, select **Privacy and security**.
+   
+ ![alt text](<../Screenshots/Exercise 1 - Identify How to Perform a Safety Check within a Google Chrome Browser/Click on Safety check.png>)
+
 5. Click on **Safety check**. Chrome will automatically run a check and review:
    - Compromised passwords
    - Safe Browsing status
    - Available updates
    - Unwanted software or extensions
+
+
+ ![alt text](<../Screenshots/Exercise 1 - Identify How to Perform a Safety Check within a Google Chrome Browser/Once the safety check completes.png>)
 
 ## Exercise 2: Identify Options for Clearing Google Chrome Browsing Data
 
@@ -30,11 +42,19 @@ Clearing your browsing data helps protect your privacy by removing local records
 **Steps:**
 
 1. In Chrome, click the three vertical dots and go to **Settings** > **Privacy and security**.
+
+![alt text](<../Screenshots/Exercise 2 - Identify Options for Clearing Google Chrome Browsing Data/Go to Settings then Privacy and security.png>)
+
 2. Click on **Clear browsing data**.
+
+![alt text](<../Screenshots/Exercise 2 - Identify Options for Clearing Google Chrome Browsing Data/Click on Clear browsing data.png>)
+
 3. A dialog box will appear with two main tabs:
    - **Basic:** Allows you to clear browsing history, cookies, and cached images and files. You can select the time range (e.g., Last hour, All time).
    - **Advanced:** Provides more granular options, including clearing download history, passwords, autofill form data, and site settings.
 4. Select the desired data types and time range, then click **Clear data**.
+
+![alt text](<../Screenshots/Exercise 2 - Identify Options for Clearing Google Chrome Browsing Data/Then click Clear data.png>)
 
 ## Exercise 3: Identify How to Check and Clear Google Chrome Browsing History
 
