@@ -68,47 +68,47 @@ Here you will see the firewall status for three network profiles:
 3. Observe the **Incoming connections** option (note: this blocks all incoming traffic if enabled)
 4. Click the back arrow to return
 
-![alt text](../Screenshots/Domain network details with firewall toggle On.png)
+![alt text](<../Screenshots/Exercise 1 - Enable Firewall on different Network Profiles/Domain network details with firewall toggle On.png>)
 
-![alt text](../Screenshots/Domain network details with firewall toggle On back.png)
+![alt text](<../Screenshots/Exercise 1 - Enable Firewall on different Network Profiles/Domain network details with firewall toggle On back.png>)
 
 ### Step 5: Review Private Network Settings
 
-![alt text](../Screenshots/Private network details with firewall toggle On.png)
+![alt text](<../Screenshots/Exercise 1 - Enable Firewall on different Network Profiles/Private network details with firewall toggle On.png>)
 
 1. Click **Private network**
 2. Verify that **Windows Defender Firewall** is toggled to **On**
 3. Click the back arrow to return
 
-![alt text](../Screenshots/Windows Defender Firewall is toggled to On.png)
+![alt text](<../Screenshots/Exercise 1 - Enable Firewall on different Network Profiles/Windows Defender Firewall is toggled to On.png>)
 
 ### Step 6: Review Public Network Settings
 
-![alt text](../Screenshots/Public network details with firewall toggle On.png)
+![alt text](<../Screenshots/Exercise 1 - Enable Firewall on different Network Profiles/Public network details with firewall toggle On.png>)
 
 1. Click **Public network**
 2. Verify that **Windows Defender Firewall** is toggled to **On**
 3. Click the back arrow to return
 
-![alt text](../Screenshots/Public network details with firewall toggle On back.png)
+![alt text](<../Screenshots/Exercise 1 - Enable Firewall on different Network Profiles/Public network details with firewall toggle On back.png>)
 
 ### Step 7: Allow an App Through Firewall
 
 1. Click **Allow an app through firewall**
 
-![alt text](../Screenshots/Allow an app through firewall highlighted.png)
+![alt text](<../Screenshots/Exercise 1 - Enable Firewall on different Network Profiles/Allow an app through firewall highlighted.png>)
 
-1. Scroll to locate **Google Chrome** or **Mozilla Firefox**
-2. Observe the current configuration (note which networks each app is allowed on)
+2. Scroll to locate **Google Chrome** or **Mozilla Firefox**
+3. Observe the current configuration (note which networks each app is allowed on)
 
-![alt text](../Screenshots/Allowed apps list showing Firefox permitted on Private network only.png)
+![alt text](<../Screenshots/Exercise 1 - Enable Firewall on different Network Profiles/Allowed apps list showing Firefox permitted on Private network only.png>)
 
-1. Click the **Public** box next to Firefox to add a checkmark
-2. Click **OK** to save changes
+4. Click the **Public** box next to Firefox to add a checkmark
+5. Click **OK** to save changes
 
 *Users will now be able to use Mozilla Firefox on the public network*
 
-![alt text](../Screenshots/Allowing Mozilla Firefox on public network.png)
+![alt text](<../Screenshots/Exercise 1 - Enable Firewall on different Network Profiles/Allowing Mozilla Firefox on public network.png>)
 
 ---
 
@@ -116,17 +116,17 @@ Here you will see the firewall status for three network profiles:
 
 The first exercise used the consumer-friendly version of Windows Defender Firewall. In this exercise, we will explore **Windows Defender Firewall with Advanced Security**, which provides more in-depth configuration options.
 
-![alt text](../Screenshots/Inbound rules list with New Rule option.png)
+![alt text](<../Screenshots/Exercise 2 - Windows Firewall with Advanced Security/Inbound rules list with New Rule option.png>)
 
 ### Step 1: Open Advanced Security
 
-![alt text](../Screenshots/Click Firewall & network protection.png)
+![alt text](<../Screenshots/Exercise 2 - Windows Firewall with Advanced Security/Click Firewall & network protection.png>)
 
 1. From the **Firewall & network protection** window, click **Advanced settings** in the left pane
 
-![alt text](../Screenshots/Advanced settings highlighted in left pane.png)
+![alt text](<../Screenshots/Exercise 2 - Windows Firewall with Advanced Security/Advanced settings highlighted in left pane.png>)
 
-1. This opens the **Windows Defender Firewall with Advanced Security** window
+2. This opens the **Windows Defender Firewall with Advanced Security** window
 
 ### Step 2: Understand the Interface
 
@@ -151,19 +151,19 @@ The Remote Desktop feature allows remote connection and control of a computer. B
 
 ### Step 1: Create New Inbound Rule
 
-![alt text](../Screenshots/Opens the Windows Defender Firewall with Advanced Security window.png)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 1 - Block Remote Desktop on the Public Network Using Windows Firewall (Inbound Rules)/Opens the Windows Defender Firewall with Advanced Security window.png>)
 
 1. In the left pane, click **Inbound Rules**
 2. In the right pane, click **New Rule…**
 
-![alt text](../Screenshots/Create New Inbound Rule.png)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 1 - Block Remote Desktop on the Public Network Using Windows Firewall (Inbound Rules)/Create New Inbound Rule.png>)
 
 ### Step 2: Select Rule Type
 
 1. Select **Port**
 2. Click **Next**
 
-![alt text](../Screenshots/Select Rule Type - Port selected.png)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 1 - Block Remote Desktop on the Public Network Using Windows Firewall (Inbound Rules)/Select Rule Type - Port selected.png>)
 
 ### Step 3: Specify Port
 
@@ -171,14 +171,14 @@ The Remote Desktop feature allows remote connection and control of a computer. B
 2. In **Specific local ports**, enter **3389** (default RDP port)
 3. Click **Next**
 
-![alt text](../Screenshots/Specify Port - TCP port 3389.png)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 1 - Block Remote Desktop on the Public Network Using Windows Firewall (Inbound Rules)/Specify Port - TCP port 3389.png>)
 
 ### Step 4: Specify Action
 
 1. Select **Block the connection**
 2. Click **Next**
 
-![alt text](../Screenshots/Action - Block the connection selected.png)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 1 - Block Remote Desktop on the Public Network Using Windows Firewall (Inbound Rules)/Action - Block the connection selected.png>)
 
 ### Step 5: Select Profile
 
@@ -186,7 +186,7 @@ The Remote Desktop feature allows remote connection and control of a computer. B
 2. Deselect **Domain** and **Private**
 3. Click **Next**
 
-![alt text](../Screenshots/Profile - Only Public selected.png)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 1 - Block Remote Desktop on the Public Network Using Windows Firewall (Inbound Rules)/Profile - Only Public selected.png>)
 
 ### Step 6: Name the Rule
 
@@ -194,14 +194,14 @@ The Remote Desktop feature allows remote connection and control of a computer. B
 2. Add an optional description
 3. Click **Finish**
 
-![alt text](../Screenshots/Name the rule - Block Remote Desktop on Public Network.png)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 1 - Block Remote Desktop on the Public Network Using Windows Firewall (Inbound Rules)/Name the rule - Block Remote Desktop on Public Network.png>)
 
 ### Step 7: Verify the Rule
 
 1. Click **Inbound Rules**
 2. Verify the new rule is enabled (red circle indicates blocking rule)
 
-![alt text](../Screenshots/New rule displayed in Inbound Rules list with red circle.png)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 1 - Block Remote Desktop on the Public Network Using Windows Firewall (Inbound Rules)/New rule displayed in Inbound Rules list with red circle.png>)
 
 ---
 
@@ -214,16 +214,16 @@ Creating outbound rules to restrict applications from sending data over the inte
 1. In the left pane, click **Outbound Rules**
 2. In the right pane, click **New Rule…**
 
-![alt text](<../Screenshots/Outbound Rules with New Rule option.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 2 - Block Outbound Traffic for Specified Applications (Outbound Rules)/Outbound Rules with New Rule option.png>)
 
-![alt text](<../Screenshots/New Rule…..png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 2 - Block Outbound Traffic for Specified Applications (Outbound Rules)/New Rule…..png>)
 
 ### Step 2: Choose Rule Type
 
 1. Select **Program**
 2. Click **Next**
 
-![alt text](<../Screenshots/Rule Type - Program selected.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 2 - Block Outbound Traffic for Specified Applications (Outbound Rules)/Rule Type - Program selected.png>)
 
 ### Step 3: Specify Program Path
 
@@ -236,11 +236,11 @@ Creating outbound rules to restrict applications from sending data over the inte
 - Select `chrome.exe`
 - Click **Open**
 
-![alt text](<../Screenshots/Program path selection for Chrome.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 2 - Block Outbound Traffic for Specified Applications (Outbound Rules)/Program path selection for Chrome.png>)
 
 1. Click **Next**
 
-![alt text](<../Screenshots/Click Next.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 2 - Block Outbound Traffic for Specified Applications (Outbound Rules)/Click Next.png>)
 
 ### Step 4: Select Action
 
@@ -258,7 +258,7 @@ Creating outbound rules to restrict applications from sending data over the inte
 2. Add an optional description
 3. Click **Finish**
 
-![alt text](<../Screenshots/Name the rule - Block Chrome Internet Access.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 2 - Block Outbound Traffic for Specified Applications (Outbound Rules)/Name the rule - Block Chrome Internet Access.png>)
 
 ### Step 7: Verify the Rule
 
@@ -316,26 +316,26 @@ KMS (Key Management Service) is used to activate Microsoft products within organ
 1. In **Inbound Rules**, scroll to find **Key Management Service (TCP-In)**
 2. Note the current status (Enabled column says "No," Action column says "Allow")
 
-![alt text](<../Screenshots/Key Management Service inbound rule in list.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 4 (Inbound Rules) - Allow Key Management Service on the Domain and Private network, and deny the connection on the Public network/Key Management Service inbound rule in list.png>)
 
 ### Step 2: Examine KMS Rule Properties
 
 1. Double-click the **Key Management Service (TCP-In)** rule
 2. Review the **General** tab (name, description, action)
 
-![alt text](<../Screenshots/Key Management Service Properties - General tab.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 4 (Inbound Rules) - Allow Key Management Service on the Domain and Private network, and deny the connection on the Public network/Key Management Service Properties - General tab.png>)
 
 ### Step 3: Modify Profile Settings
 
 1. Click the **Advanced** tab
 2. Note that **Domain, Private, and Public** are all selected
 
-![alt text](<../Screenshots/Advanced tab showing all three profiles selected.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 4 (Inbound Rules) - Allow Key Management Service on the Domain and Private network, and deny the connection on the Public network/Advanced tab showing all three profiles selected.png>)
 
-1. Click **Public** to remove the checkmark
-2. Click **Apply**, then **OK**
+3. Click **Public** to remove the checkmark
+4. Click **Apply**, then **OK**
 
-![alt text](<../Screenshots/Public profile removed - only Domain and Private selected.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 4 (Inbound Rules) - Allow Key Management Service on the Domain and Private network, and deny the connection on the Public network/Public profile removed - only Domain and Private selected.png>)
 
 ### Step 4: Create Blocking Rule for Public Network
 
@@ -343,32 +343,32 @@ KMS (Key Management Service) is used to activate Microsoft products within organ
 2. Select **Copy**
 3. Press **Ctrl+V** to paste (creates duplicate rule)
 
-![alt text](<../Screenshots/Copy and paste to create new rule.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 4 (Inbound Rules) - Allow Key Management Service on the Domain and Private network, and deny the connection on the Public network/Copy and paste to create new rule.png>)
 
 ### Step 5: Configure the New Rule to Block
 
-![alt text](<../Screenshots/Key Management Service (TCP-In) inbound rule.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 4 (Inbound Rules) - Allow Key Management Service on the Domain and Private network, and deny the connection on the Public network/Key Management Service (TCP-In) inbound rule.png>)
 
 1. Double-click the new **Key Management Service (TCP-In)** rule
 2. On **General** tab, select **Block the connection**
 3. Click **Apply**
 
-![alt text](<../Screenshots/New rule - Block the connection selected.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 4 (Inbound Rules) - Allow Key Management Service on the Domain and Private network, and deny the connection on the Public network/New rule - Block the connection selected.png>)
 
 ### Step 6: Set Profile for Blocking Rule
 
-![alt text](<../Screenshots/Advanced tab - Only Public selected for blocking rule.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 4 (Inbound Rules) - Allow Key Management Service on the Domain and Private network, and deny the connection on the Public network/Advanced tab - Only Public selected for blocking rule.png>)
 
 1. Click the **Advanced** tab
 2. Click **Domain** and **Private** to remove checkmarks
 3. Click **Public** to add a checkmark
 4. Click **OK**
 
-![alt text](<../Screenshots/Click the Domain and Private boxes to remove the checkmarks.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 4 (Inbound Rules) - Allow Key Management Service on the Domain and Private network, and deny the connection on the Public network/Click the Domain and Private boxes to remove the checkmarks.png>)
 
 ### Step 7: Enable Both Rules
 
-![alt text](<../Screenshots/Right-click each Key Management Service (TCP-In) rule and click Enable rule.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 4 (Inbound Rules) - Allow Key Management Service on the Domain and Private network, and deny the connection on the Public network/Right-click each Key Management Service (TCP-In) rule and click Enable rule.png>)
 
 1. Right-click the first KMS rule (Allow - Domain/Private)
 2. Select **Enable Rule**
@@ -382,7 +382,7 @@ Observe the rule status indicators:
 - **Green checkmark**: Allow rule enabled (Domain/Private)
 - **Red circle with line**: Block rule enabled (Public)
 
-![alt text](<../Screenshots/Both KMS rules enabled with proper indicators.png>)
+![alt text](<../Screenshots/Typical use cases with Windows Firewall Advanced Security options/Scenario 4 (Inbound Rules) - Allow Key Management Service on the Domain and Private network, and deny the connection on the Public network/Both KMS rules enabled with proper indicators.png>)
 
 ---
 
