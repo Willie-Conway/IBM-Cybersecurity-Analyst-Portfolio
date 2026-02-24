@@ -1,4 +1,5 @@
-![alt text](../Screenshots/Windows Defender.png)
+
+![alt text](<../Screenshots/Windows Defender.png>)
 
 # Hands-on Lab: Windows Firewall with Advanced Security
 
@@ -40,13 +41,13 @@ In this exercise, we will review Windows Defender Firewall configuration and und
 1. Click the Windows **Start** button
 2. Select **Windows Security** from the menu
 
-![alt text](../Screenshots/Windows Security selected from the Start menu.png.png)
+![alt text](<../Screenshots/Exercise 1 - Enable Firewall on different Network Profiles/Windows Security selected from the Start menu.png>)
 
 ### Step 2: Access Firewall & Network Protection
 
 1. Click **Firewall & network protection**
 
-![alt text](../Screenshots/Security at a glance window with Firewall & network protection selected.png)
+![alt text](<../Screenshots/Exercise 1 - Enable Firewall on different Network Profiles/Security at a glance window with Firewall & network protection selected.png>)
 
 ### Step 3: Understand Network Profiles
 
@@ -58,7 +59,7 @@ Here you will see the firewall status for three network profiles:
 | **Private network** | Discoverable networks where only devices on that network can discover each other (e.g., home networks)  |
 | **Public network**  | Non-discoverable networks where your device cannot be discovered by others (e.g., coffee shop, library) |
 
-![alt text](../Screenshots/Firewall & network protection window showing three network profiles.png)
+![alt text](<../Screenshots/Exercise 1 - Enable Firewall on different Network Profiles/Firewall & network protection window showing three network profiles.png>)
 
 ### Step 4: Review Domain Network Settings
 
@@ -97,13 +98,13 @@ Here you will see the firewall status for three network profiles:
 
 ![alt text](../Screenshots/Allow an app through firewall highlighted.png)
 
-2. Scroll to locate **Google Chrome** or **Mozilla Firefox**
-3. Observe the current configuration (note which networks each app is allowed on)
+1. Scroll to locate **Google Chrome** or **Mozilla Firefox**
+2. Observe the current configuration (note which networks each app is allowed on)
 
 ![alt text](../Screenshots/Allowed apps list showing Firefox permitted on Private network only.png)
 
-4. Click the **Public** box next to Firefox to add a checkmark
-5. Click **OK** to save changes
+1. Click the **Public** box next to Firefox to add a checkmark
+2. Click **OK** to save changes
 
 *Users will now be able to use Mozilla Firefox on the public network*
 
@@ -125,7 +126,7 @@ The first exercise used the consumer-friendly version of Windows Defender Firewa
 
 ![alt text](../Screenshots/Advanced settings highlighted in left pane.png)
 
-2. This opens the **Windows Defender Firewall with Advanced Security** window
+1. This opens the **Windows Defender Firewall with Advanced Security** window
 
 ### Step 2: Understand the Interface
 
@@ -331,8 +332,8 @@ KMS (Key Management Service) is used to activate Microsoft products within organ
 
 ![alt text](<../Screenshots/Advanced tab showing all three profiles selected.png>)
 
-3. Click **Public** to remove the checkmark
-4. Click **Apply**, then **OK**
+1. Click **Public** to remove the checkmark
+2. Click **Apply**, then **OK**
 
 ![alt text](<../Screenshots/Public profile removed - only Domain and Private selected.png>)
 
