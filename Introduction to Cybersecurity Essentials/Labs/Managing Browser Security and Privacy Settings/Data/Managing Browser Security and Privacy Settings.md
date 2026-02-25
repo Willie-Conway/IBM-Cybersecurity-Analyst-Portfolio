@@ -1,4 +1,3 @@
-
 ![alt text](<../Screenshots/Google Chrome.png>)
 
 # Hands-on Lab: Managing Browser Security and Privacy Settings
@@ -23,8 +22,8 @@ The Safety Check tool in Chrome reviews your browser's security and privacy sett
 ![alt text](<../Screenshots/Exercise 1 - Identify How to Perform a Safety Check within a Google Chrome Browser/Click the three dots.png>)
 
 4. In the left-hand menu, select **Privacy and security**.
-   
- ![alt text](<../Screenshots/Exercise 1 - Identify How to Perform a Safety Check within a Google Chrome Browser/Click on Safety check.png>)
+
+![alt text](<../Screenshots/Exercise 1 - Identify How to Perform a Safety Check within a Google Chrome Browser/Click on Safety check.png>)
 
 5. Click on **Safety check**. Chrome will automatically run a check and review:
    - Compromised passwords
@@ -32,8 +31,7 @@ The Safety Check tool in Chrome reviews your browser's security and privacy sett
    - Available updates
    - Unwanted software or extensions
 
-
- ![alt text](<../Screenshots/Exercise 1 - Identify How to Perform a Safety Check within a Google Chrome Browser/Once the safety check completes.png>)
+![alt text](<../Screenshots/Exercise 1 - Identify How to Perform a Safety Check within a Google Chrome Browser/Once the safety check completes.png>)
 
 ## Exercise 2: Identify Options for Clearing Google Chrome Browsing Data
 
@@ -64,9 +62,30 @@ Viewing and managing your browsing history is a fundamental privacy task.
 
 1. To view your browsing history, you can either:
    - Press `Ctrl+H` (Windows/Linux) or `Cmd+Y` (Mac).
+
+![alt text](<../Screenshots/Exercise 3 - Identify How to Check and Clear Google Chrome Browsing History/Select delete browsing data.png>)
+
    - Type `chrome://history` into the address bar and press Enter.
+  
+![alt text](<../Screenshots/Exercise 3 - Identify How to Check and Clear Google Chrome Browsing History/Type ibm.com then press enter.png>)
+
+![alt text](<../Screenshots/Exercise 3 - Identify How to Check and Clear Google Chrome Browsing History/Replace the ibm.com text with chrome.png>)
+
 2. You will see a list of websites you have visited, organized by date and time.
+   
+![alt text](<../Screenshots/Exercise 3 - Identify How to Check and Clear Google Chrome Browsing History/Search history and click List.png>)
+
+- To clear history, select **Delete browsing data**.
+
+![alt text](<../Screenshots/Exercise 3 - Identify How to Check and Clear Google Chrome Browsing History/Select Delete browsing data.png>)
+
+- You can also filter your history by selecting a time range, such as "Last 24 hours."
+
+![alt text](<../Screenshots/Exercise 3 - Identify How to Check and Clear Google Chrome Browsing History/Select last 24 hours.png>)
+
 3. To clear your history from this view, click "Clear browsing data" on the left-hand side, which will take you to the menu described in Exercise 2.
+
+![alt text](<../Screenshots/Exercise 3 - Identify How to Check and Clear Google Chrome Browsing History/Click the history tab to view the history.png>)
 
 ## Exercise 4: Identify and Configure Settings in Google Chrome Browser for Privacy and Security
 
@@ -76,26 +95,64 @@ This exercise guides you through configuring key privacy settings and understand
 
 1. **Navigate to Privacy and Security Settings:**
 
+- Select **Privacy Guide** from the menu.
+
+![alt text](<../Screenshots/Exercise 4 -  Identify and Configure Settings in Google Chrome Browser for Privacy and Security/Select Privacy Guide.png>)
+
    - Go to **Settings** > **Privacy and security**.
+   - 
+  - Click on **Privacy Guide**.
+  
+  ![alt text](<../Screenshots/Exercise 4 -  Identify and Configure Settings in Google Chrome Browser for Privacy and Security/In the Privacy Guide window.png>)
+
 2. **Review Cookies and Site Data:**
+
+
+- Turn option on, then click Next
+
+![alt text](<../Screenshots/Exercise 4 -  Identify and Configure Settings in Google Chrome Browser for Privacy and Security/Turn option on.png>)
+
+- Select the **Standard protection** option.
+
+![alt text](<../Screenshots/Exercise 4 -  Identify and Configure Settings in Google Chrome Browser for Privacy and Security/The standard protection option.png>)
 
    - Click on **Third-party cookies**.
    - You will see options to block third-party cookies in different scenarios.
+
+   - Select **Enhanced protection**
+  
+![alt text](<../Screenshots/Exercise 4 -  Identify and Configure Settings in Google Chrome Browser for Privacy and Security/Select Enhanced protection.png>)
+
+- Select **Block all third-party cookies**
+
+![alt text](<../Screenshots/Exercise 4 -  Identify and Configure Settings in Google Chrome Browser for Privacy and Security/Choose third-party cookie preferences.png>)
+
 3. **Understanding Incognito Mode and Cookies:**
 
    - **Note:** When a browser is in Incognito mode (also known as Private browsing), your browsing history is not saved locally on your device. However, it is important to understand that your activity is not invisible to everyone.
+
+![alt text](<../Screenshots/Exercise 4 -  Identify and Configure Settings in Google Chrome Browser for Privacy and Security/Block all third-party cookies.png>)
+
      - **Example:** If you log into your social media account in an Incognito window, the website itself can still track your activity on *their own site* during that session using its own first-party cookies.
    - Your internet service provider (ISP), employer (if on a work network), and the websites you visit can still see your activity.
-4. **Configure Cookie Settings:**
+3. **Configure Cookie Settings:**
 
    - Select the option **Block all third-party cookies**.
    - **Note:** Be aware that selecting this option may cause some features on certain websites to stop working.
      - **Example:** An e-commerce site like Amazon might use third-party cookies to show you personalized product recommendations or to keep items in your shopping cart if you leave the site. Blocking all third-party cookies could break these features.
    - After reviewing, ensure **Block all third-party cookies** is selected, then proceed.
-5. **Complete the Privacy Guide (if applicable):**
+4. **Complete the Privacy Guide (if applicable):**
+
+- Click **Next** to continue.
+
+![alt text](<../Screenshots/Exercise 4 -  Identify and Configure Settings in Google Chrome Browser for Privacy and Security/This completes the Privacy Guide review.png>)
 
    - This completes the review of privacy settings. Next, you will verify that the settings are enabled.
-6. **Verify Safe Browsing Settings:**
+5. **Verify Safe Browsing Settings:**
+
+- Click on **Safe Browsing** to view the settings.
+
+![alt text](<../Screenshots/Exercise 4 -  Identify and Configure Settings in Google Chrome Browser for Privacy and Security/View Preferences and notice safebrowsing.enabled.png>)
 
    - Open a new tab and visit `chrome://safe-browsing`.
    - Once on the site, scroll down to view **Preferences**.
