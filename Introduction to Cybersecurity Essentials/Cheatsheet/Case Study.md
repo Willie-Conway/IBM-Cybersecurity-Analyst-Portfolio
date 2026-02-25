@@ -1,10 +1,8 @@
-
 <p float="left">
     <img src="../Cheatsheet/Yahoo.png" width="300" />
     <img src="../Cheatsheet/Equifax.png" width="300" />
     <img src="../Cheatsheet/Experian.png" width="300" />
 </p>
-
 
 # Case Study: Major Cybersecurity Breaches
 
