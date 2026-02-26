@@ -97,6 +97,8 @@ The Global Information Assurance Certification (GIAC) organization offers a wide
 
 ---
 
+![alt text](ISACA.png)
+
 ## ISACA Certifications
 
 ISACA (Information Systems Audit and Control Association) offers certifications focused on audit, risk, and governance, particularly valued in enterprise and compliance-focused roles.
@@ -157,6 +159,8 @@ ISACA (Information Systems Audit and Control Association) offers certifications 
 > **Why CDPSE Matters:** With increasing privacy regulations worldwide (GDPR, CCPA, etc.), organizations need professionals who can implement technical privacy controls. CDPSE validates the technical skills to build privacy into systems, not just policy knowledge.
 
 ---
+
+![alt text](EC-Council.png)
 
 ## EC-Council Certifications
 

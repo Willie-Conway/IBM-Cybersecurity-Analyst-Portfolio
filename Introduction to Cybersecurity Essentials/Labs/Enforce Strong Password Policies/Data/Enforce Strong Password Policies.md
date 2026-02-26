@@ -394,6 +394,9 @@ In this hands-on lab, you have:
 | Enabled password complexity requirements                  | ✓        |
 | Completed practice exercises                              | ✓        |
 
+
+<video controls src="Enforce Strong Password Policies.mp4" title="Enforce Strong Password Policies"></video>
+
 ### Key Takeaways
 
 - **Password strength matters** – Weak passwords can be cracked instantly
