@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity History // Event Log</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #070a0f;
+  --surface: #0c1118;
+  --panel:   #101720;
+  --panel2:  #141e2a;
+  --border:  #1a2535;
+  --border2: #243244;
+  --amber:   #f59e0b;
+  --amber2:  #d97706;
+  --red:     #ef4444;
+  --green:   #22c55e;
+  --blue:    #38bdf8;
+  --purple:  #a78bfa;
+  --teal:    #2dd4bf;
+  --text:    #e2e8f0;
+  --mid:     #94a3b8;
+  --dim:     #475569;
+  --era-70s: #f59e0b;
+  --era-80s: #ef4444;
+  --era-90s: #22c55e;
+  --era-00s: #38bdf8;
+  --era-10s: #a78bfa;
+  --era-20s: #2dd4bf;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── BACKGROUND ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: radial-gradient(circle, rgba(245,158,11,0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  z-index: 0; pointer-events: none;
+}
+
+.scan-overlay {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(245,158,11,0.008) 2px, rgba(245,158,11,0.008) 3px);
+}
+
+.sweep {
+  position: fixed; left: 0; right: 0; height: 1px; z-index: 0; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(245,158,11,0.4), transparent);
+  animation: sweep 10s ease-in-out infinite;
+}
+@keyframes sweep { 0%{top:-2px;opacity:0;} 8%{opacity:1;} 92%{opacity:.3;} 100%{top:100%;opacity:0;} }
+
+/* ── LAYOUT ── */
+.page { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* ── HEADER ── */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: rgba(7,10,15,0.96);
+  backdrop-filter: blur(16px);
+  position: sticky; top: 0; z-index: 30;
+  padding: 0 24px;
+}
+
+.header-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0; gap: 20px;
+}
+
+.logo-block {}
+.logo-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px; color: var(--amber); letter-spacing: 4px;
+  text-transform: uppercase; display: flex; align-items: center; gap: 6px;
+}
+.logo-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--amber); border-radius: 50%; animation: blink 1.4s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.logo-title {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: clamp(20px, 3vw, 32px); font-weight: 700;
+  color: #fff; letter-spacing: -1px; line-height: 1; margin-top: 4px;
+}
+.logo-title em { font-style: normal; color: var(--amber); }
+
+.header-meta { display: flex; gap: 20px; }
+.hm-item { text-align: right; }
+.hm-val { font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 600; color: var(--amber); line-height: 1; }
+.hm-label { font-size: 9px; color: var(--dim); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+
+/* ── NAV TABS ── */
+.nav-tabs {
+  display: flex; gap: 2px;
+  border-top: 1px solid var(--border);
+  padding: 0;
+  overflow-x: auto; scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  padding: 10px 18px; color: var(--dim); cursor: pointer;
+  border: none; background: none; letter-spacing: 1px; text-transform: uppercase;
+  border-bottom: 2px solid transparent; transition: all .2s; white-space: nowrap;
+}
+.nav-tab:hover { color: var(--mid); }
+.nav-tab.active { color: var(--amber); border-bottom-color: var(--amber); background: rgba(245,158,11,0.05); }
+
+/* ── SECTIONS ── */
+.section { display: none; padding-top: 40px; }
+.section.active { display: block; }
+
+/* ── SECTION HEADING ── */
+.sec-heading {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  color: var(--amber); letter-spacing: 4px; text-transform: uppercase;
+  display: flex; align-items: center; gap: 12px; margin-bottom: 32px;
+}
+.sec-heading::before { content: '//'; opacity: .5; }
+.sec-heading::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border2), transparent); }
+
+/* ── TIMELINE ── */
+.timeline { position: relative; }
+
+/* vertical rail */
+.timeline::before {
+  content: ''; position: absolute;
+  left: 110px; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(180deg, var(--amber) 0%, var(--red) 30%, var(--blue) 60%, var(--teal) 100%);
+  opacity: .3;
+}
+
+.era-block { margin-bottom: 56px; }
+
+.era-label {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+}
+.era-decade {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 42px; font-weight: 700; line-height: 1;
+  min-width: 100px; text-align: right;
+  opacity: .08;
+}
+.era-line { flex: 1; height: 1px; }
+.era-tag {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  letter-spacing: 3px; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 2px; border: 1px solid; white-space: nowrap;
+}
+
+.era-70s .era-decade { color: var(--era-70s); }
+.era-70s .era-line   { background: var(--era-70s); opacity: .2; }
+.era-70s .era-tag    { color: var(--era-70s); border-color: rgba(245,158,11,.3); background: rgba(245,158,11,.06); }
+
+.era-80s .era-decade { color: var(--era-80s); }
+.era-80s .era-line   { background: var(--era-80s); opacity: .2; }
+.era-80s .era-tag    { color: var(--era-80s); border-color: rgba(239,68,68,.3); background: rgba(239,68,68,.06); }
+
+.era-90s .era-decade { color: var(--era-90s); }
+.era-90s .era-line   { background: var(--era-90s); opacity: .2; }
+.era-90s .era-tag    { color: var(--era-90s); border-color: rgba(34,197,94,.3); background: rgba(34,197,94,.06); }
+
+.era-00s .era-decade { color: var(--era-00s); }
+.era-00s .era-line   { background: var(--era-00s); opacity: .2; }
+.era-00s .era-tag    { color: var(--era-00s); border-color: rgba(56,189,248,.3); background: rgba(56,189,248,.06); }
+
+.era-10s .era-decade { color: var(--era-10s); }
+.era-10s .era-line   { background: var(--era-10s); opacity: .2; }
+.era-10s .era-tag    { color: var(--era-10s); border-color: rgba(167,139,250,.3); background: rgba(167,139,250,.06); }
+
+.era-20s .era-decade { color: var(--era-20s); }
+.era-20s .era-line   { background: var(--era-20s); opacity: .2; }
+.era-20s .era-tag    { color: var(--era-20s); border-color: rgba(45,212,191,.3); background: rgba(45,212,191,.06); }
+
+/* event rows */
+.event-row {
+  display: flex; gap: 0; margin-bottom: 16px;
+  animation: fadeUp .3s ease both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+
+.event-year {
+  font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600;
+  min-width: 100px; text-align: right; padding-right: 0; padding-top: 16px;
+  line-height: 1;
+}
+
+.event-node {
+  width: 22px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center;
+  position: relative;
+}
+.event-dot {
+  width: 9px; height: 9px; border-radius: 50%; border: 2px solid;
+  margin-top: 20px; flex-shrink: 0; position: relative; z-index: 1;
+  background: var(--bg);
+}
+.event-vline { width: 1px; flex: 1; margin-top: 4px; opacity: .15; }
+
+.event-card {
+  flex: 1; margin-left: 16px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden; cursor: pointer;
+  transition: border-color .2s, box-shadow .2s, transform .15s;
+}
+.event-card:hover { transform: translateX(4px); box-shadow: 0 4px 24px rgba(0,0,0,.4); }
+
+.card-top {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 16px 10px;
+}
+.event-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.event-title-block { flex: 1; }
+.event-name {
+  font-size: 14px; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 3px;
+}
+.event-type {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 2px; border: 1px solid;
+  display: inline-block;
+}
+.toggle-btn { font-size: 16px; color: var(--dim); transition: transform .2s, color .2s; flex-shrink: 0; margin-top: 2px; }
+
+.card-preview { padding: 0 16px 12px; font-size: 12px; color: var(--dim); line-height: 1.55; }
+
+.card-body { display: none; border-top: 1px solid var(--border); }
+.card-body-inner { padding: 14px 16px; }
+
+.event-desc { font-size: 13px; line-height: 1.75; color: var(--mid); margin-bottom: 12px; }
+
+.impact-box {
+  background: var(--panel2); border-radius: 5px; overflow: hidden;
+}
+.impact-hdr {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; border-bottom: 1px solid var(--border);
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+.impact-dot { width: 6px; height: 6px; border-radius: 50%; }
+.impact-text { padding: 10px 12px; font-size: 12px; color: var(--mid); line-height: 1.65; }
+
+.event-card.open .toggle-btn { transform: rotate(45deg); color: var(--amber); }
+.event-card.open .card-body  { display: block; }
+.event-card.open .card-preview { display: none; }
+
+/* type colors */
+.type-worm    { color: var(--red);    border-color: rgba(239,68,68,.3);    background: rgba(239,68,68,.06); }
+.type-virus   { color: var(--amber);  border-color: rgba(245,158,11,.3);   background: rgba(245,158,11,.06); }
+.type-defense { color: var(--green);  border-color: rgba(34,197,94,.3);    background: rgba(34,197,94,.06); }
+.type-breach  { color: var(--blue);   border-color: rgba(56,189,248,.3);   background: rgba(56,189,248,.06); }
+.type-ransom  { color: var(--purple); border-color: rgba(167,139,250,.3);  background: rgba(167,139,250,.06); }
+.type-nation  { color: var(--teal);   border-color: rgba(45,212,191,.3);   background: rgba(45,212,191,.06); }
+.type-concept { color: var(--mid);    border-color: rgba(148,163,184,.3);  background: rgba(148,163,184,.06); }
+
+/* year / dot colors by era */
+.era-70s .event-year { color: var(--era-70s); }
+.era-70s .event-dot  { border-color: var(--era-70s); }
+.era-70s .event-vline{ background: var(--era-70s); }
+.era-70s .impact-hdr { color: var(--era-70s); }
+.era-70s .impact-dot { background: var(--era-70s); }
+
+.era-80s .event-year { color: var(--era-80s); }
+.era-80s .event-dot  { border-color: var(--era-80s); }
+.era-80s .event-vline{ background: var(--era-80s); }
+.era-80s .impact-hdr { color: var(--era-80s); }
+.era-80s .impact-dot { background: var(--era-80s); }
+
+.era-90s .event-year { color: var(--era-90s); }
+.era-90s .event-dot  { border-color: var(--era-90s); }
+.era-90s .event-vline{ background: var(--era-90s); }
+.era-90s .impact-hdr { color: var(--era-90s); }
+.era-90s .impact-dot { background: var(--era-90s); }
+
+.era-00s .event-year { color: var(--era-00s); }
+.era-00s .event-dot  { border-color: var(--era-00s); }
+.era-00s .event-vline{ background: var(--era-00s); }
+.era-00s .impact-hdr { color: var(--era-00s); }
+.era-00s .impact-dot { background: var(--era-00s); }
+
+.era-10s .event-year { color: var(--era-10s); }
+.era-10s .event-dot  { border-color: var(--era-10s); }
+.era-10s .event-vline{ background: var(--era-10s); }
+.era-10s .impact-hdr { color: var(--era-10s); }
+.era-10s .impact-dot { background: var(--era-10s); }
+
+.era-20s .event-year { color: var(--era-20s); }
+.era-20s .event-dot  { border-color: var(--era-20s); }
+.era-20s .event-vline{ background: var(--era-20s); }
+.era-20s .impact-hdr { color: var(--era-20s); }
+.era-20s .impact-dot { background: var(--era-20s); }
+
+/* event-card open border highlights */
+.era-70s .event-card.open { border-color: rgba(245,158,11,.4); box-shadow: 0 0 0 1px rgba(245,158,11,.15); }
+.era-80s .event-card.open { border-color: rgba(239,68,68,.4);  box-shadow: 0 0 0 1px rgba(239,68,68,.15); }
+.era-90s .event-card.open { border-color: rgba(34,197,94,.4);  box-shadow: 0 0 0 1px rgba(34,197,94,.15); }
+.era-00s .event-card.open { border-color: rgba(56,189,248,.4); box-shadow: 0 0 0 1px rgba(56,189,248,.15); }
+.era-10s .event-card.open { border-color: rgba(167,139,250,.4);box-shadow: 0 0 0 1px rgba(167,139,250,.15); }
+.era-20s .event-card.open { border-color: rgba(45,212,191,.4); box-shadow: 0 0 0 1px rgba(45,212,191,.15); }
+
+/* ── QUIZ ── */
+.quiz-progress {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 28px;
+}
+.progress-bar-wrap {
+  flex: 1; height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden;
+}
+.progress-bar { height: 100%; background: var(--amber); border-radius: 2px; transition: width .4s ease; width: 0%; }
+.progress-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--dim); white-space: nowrap; }
+.score-display { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--amber); white-space: nowrap; }
+
+.quiz-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  margin-bottom: 14px; overflow: hidden; transition: border-color .2s;
+}
+.quiz-card.answered-correct { border-color: rgba(34,197,94,.4); }
+.quiz-card.answered-wrong   { border-color: rgba(239,68,68,.4); }
+
+.q-header {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 16px 18px 14px;
+}
+.q-num {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--amber);
+  letter-spacing: 1px; padding: 2px 8px; background: rgba(245,158,11,.1);
+  border: 1px solid rgba(245,158,11,.25); border-radius: 2px; flex-shrink: 0; margin-top: 1px;
+}
+.q-text { font-size: 13.5px; font-weight: 500; line-height: 1.6; color: var(--text); }
+
+.q-options { padding: 0 18px 8px; display: flex; flex-direction: column; gap: 7px; }
+.q-option {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px; border-radius: 5px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--panel);
+  transition: all .15s; font-size: 13px; line-height: 1.5;
+}
+.q-option:hover { border-color: var(--border2); background: var(--panel2); }
+.q-option input { display: none; }
+.q-option .opt-letter {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  color: var(--dim); min-width: 14px; margin-top: 2px; flex-shrink: 0;
+}
+.q-option.selected { border-color: var(--amber); background: rgba(245,158,11,.07); }
+.q-option.selected .opt-letter { color: var(--amber); }
+.q-option.correct-reveal { border-color: var(--green) !important; background: rgba(34,197,94,.08) !important; }
+.q-option.correct-reveal .opt-letter { color: var(--green) !important; }
+.q-option.wrong-reveal   { border-color: var(--red) !important;   background: rgba(239,68,68,.08) !important; }
+.q-option.wrong-reveal   .opt-letter { color: var(--red) !important; }
+.q-option.disabled { pointer-events: none; }
+
+.q-footer { padding: 10px 18px 16px; display: flex; align-items: center; gap: 12px; }
+.check-btn {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px;
+  padding: 8px 18px; border-radius: 4px; border: 1px solid var(--amber);
+  background: rgba(245,158,11,.1); color: var(--amber); cursor: pointer;
+  transition: all .2s; text-transform: uppercase;
+}
+.check-btn:hover { background: rgba(245,158,11,.2); }
+.check-btn:disabled { opacity: .3; cursor: default; pointer-events: none; }
+
+.q-feedback {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; display: none;
+}
+.q-feedback.show { display: block; }
+.q-feedback.ok  { color: var(--green); }
+.q-feedback.err { color: var(--red); }
+
+/* ── GLOSSARY TABLE ── */
+.gloss-table { width: 100%; border-collapse: collapse; }
+.gloss-table th {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--amber);
+  padding: 12px 16px; border-bottom: 1px solid var(--border2);
+  text-align: left; background: var(--panel);
+}
+.gloss-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.6; vertical-align: top; }
+.gloss-table tr:last-child td { border-bottom: none; }
+.gloss-table tr { background: var(--surface); transition: background .15s; }
+.gloss-table tr:hover { background: var(--panel); }
+.term-cell { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--amber); font-weight: 500; white-space: nowrap; }
+.def-cell { color: var(--mid); }
+
+/* ── CHECKLIST ── */
+.check-items { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.check-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 16px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; cursor: pointer; transition: all .2s;
+}
+.check-item:hover { border-color: var(--border2); }
+.check-item.done { border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.04); }
+
+.check-box {
+  width: 18px; height: 18px; border: 1.5px solid var(--border2); border-radius: 3px;
+  flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; transition: all .2s;
+}
+.check-item.done .check-box { border-color: var(--green); background: rgba(34,197,94,.15); color: var(--green); }
+
+.check-text { font-size: 13px; line-height: 1.5; color: var(--mid); }
+.check-item.done .check-text { color: var(--text); text-decoration: line-through; opacity: .6; }
+
+.submit-row { display: flex; align-items: center; gap: 16px; }
+.submit-btn {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1.5px;
+  padding: 10px 22px; border-radius: 4px; border: 1px solid var(--amber);
+  background: rgba(245,158,11,.1); color: var(--amber); cursor: pointer;
+  transition: all .2s; text-transform: uppercase;
+}
+.submit-btn:hover { background: rgba(245,158,11,.2); box-shadow: 0 0 20px rgba(245,158,11,.15); }
+
+.completion-msg {
+  font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+  padding: 12px 16px; border-radius: 4px; display: none;
+}
+.completion-msg.show { display: block; }
+.completion-msg.ok  { color: var(--green); background: rgba(34,197,94,.08);  border: 1px solid rgba(34,197,94,.3); }
+.completion-msg.err { color: var(--amber); background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.3); }
+
+/* ── RESEARCH ── */
+.research-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  margin-bottom: 12px; padding: 16px 18px;
+}
+.rc-title { font-size: 13.5px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+.rc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--amber); margin-bottom: 10px; letter-spacing: 1px; }
+.rc-desc { font-size: 13px; line-height: 1.65; color: var(--mid); }
+
+.research-steps {
+  background: var(--panel); border: 1px solid var(--border2); border-radius: 6px;
+  padding: 16px 18px; margin-top: 20px;
+}
+.rs-heading { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--blue); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+.rs-item { display: flex; gap: 12px; margin-bottom: 10px; font-size: 13px; line-height: 1.6; color: var(--mid); }
+.rs-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--blue); background: rgba(56,189,248,.1); border: 1px solid rgba(56,189,248,.2); border-radius: 2px; padding: 1px 6px; height: fit-content; margin-top: 2px; flex-shrink: 0; }
+
+.open-browser-btn {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px;
+  padding: 9px 18px; border-radius: 4px; border: 1px solid var(--blue);
+  background: rgba(56,189,248,.08); color: var(--blue); cursor: pointer;
+  transition: all .2s; text-transform: uppercase; margin-top: 16px; display: inline-block;
+}
+.open-browser-btn:hover { background: rgba(56,189,248,.15); }
+
+/* ── REFLECTIONS ── */
+.reflect-item {
+  display: flex; gap: 14px; padding: 16px 18px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px; margin-bottom: 10px;
+}
+.ri-num { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--purple); background: rgba(167,139,250,.1); border: 1px solid rgba(167,139,250,.25); border-radius: 2px; padding: 2px 8px; height: fit-content; flex-shrink: 0; margin-top: 2px; }
+.ri-text { font-size: 13px; line-height: 1.65; color: var(--mid); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border); background: var(--surface);
+  margin-top: 60px; padding: 14px 24px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  color: var(--dim); letter-spacing: 1px; text-align: center;
+}
+footer span { color: var(--amber); }
+
+@media(max-width:680px){
+  .timeline::before { left: 20px; }
+  .event-year { min-width: 60px; font-size: 11px; }
+  .era-decade { font-size: 28px; min-width: 60px; }
+  .header-meta { display: none; }
+  .hm-val { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+<div class="scan-overlay"></div>
+<div class="sweep"></div>
+
+<!-- STICKY HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo-block">
+      <div class="logo-eyebrow">THREAT HISTORY LOG · ACTIVE</div>
+      <div class="logo-title"><em>CYBER</em>SECURITY // EVENT LOG</div>
+    </div>
+    <div class="header-meta">
+      <div class="hm-item"><div class="hm-val">17</div><div class="hm-label">Events</div></div>
+      <div class="hm-item"><div class="hm-val" style="color:var(--green)" id="h-score">0</div><div class="hm-label">Quiz Score</div></div>
+      <div class="hm-item"><div class="hm-val" style="color:var(--teal)" id="h-checks">0/6</div><div class="hm-label">Checklist</div></div>
+    </div>
+  </div>
+  <nav class="nav-tabs">
+    <button class="nav-tab active" data-tab="timeline">Timeline</button>
+    <button class="nav-tab" data-tab="quiz">Knowledge Check</button>
+    <button class="nav-tab" data-tab="glossary">Key Terminology</button>
+    <button class="nav-tab" data-tab="research">Research Activity</button>
+    <button class="nav-tab" data-tab="reflection">Reflection</button>
+    <button class="nav-tab" data-tab="checklist">Lab Checklist</button>
+  </nav>
+</header>
+
+<div class="page">
+
+<!-- ══════════════════════════════════════
+     SECTION: TIMELINE
+══════════════════════════════════════ -->
+<section class="section active" id="tab-timeline">
+  <div class="sec-heading">HISTORICAL EVENT LOG · 1971–2021</div>
+
+  <div class="timeline">
+
+    <!-- 1970s -->
+    <div class="era-block era-70s">
+      <div class="era-label">
+        <div class="era-decade">70s</div>
+        <div class="era-line"></div>
+        <div class="era-tag">Early Origins</div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">1971</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">📟</div>
+            <div class="event-title-block">
+              <div class="event-name">Creeper Worm</div>
+              <span class="event-type type-worm">Worm</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">First known computer worm — created by Bob Thomas at BBN Technologies.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">Created by Bob Thomas at BBN Technologies, the Creeper worm spread across ARPANET and displayed the message: "I'M THE CREEPER: CATCH ME IF YOU CAN." It was experimental — not malicious — but it proved programs could self-replicate across a network.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Demonstrated that programs could self-replicate across networks. Directly led to the creation of Reaper — the first known anti-malware software.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">1972</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">🔧</div>
+            <div class="event-title-block">
+              <div class="event-name">Reaper — First Anti-Malware</div>
+              <span class="event-type type-defense">Defense</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">Created by Ray Tomlinson (inventor of email) to hunt and destroy the Creeper worm on ARPANET.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">Ray Tomlinson — also the inventor of email — wrote Reaper specifically to find and delete the Creeper worm from ARPANET machines. It was itself a self-replicating program, making it arguably the first cyber "defender" agent in history.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">The first anti-malware software in history. Established the precedent that every new type of attack would eventually generate a defensive countermeasure.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1980s -->
+    <div class="era-block era-80s">
+      <div class="era-label">
+        <div class="era-decade">80s</div>
+        <div class="era-line"></div>
+        <div class="era-tag">The Definition Era</div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">1983</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">📚</div>
+            <div class="event-title-block">
+              <div class="event-name">"Computer Virus" Coined</div>
+              <span class="event-type type-concept">Concept</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">Frederick Cohen formally coined the term "computer virus" in his PhD thesis at USC.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">Doctoral student Frederick Cohen at the University of Southern California formally defined and coined the term "computer virus" in his dissertation — describing it as a program that can infect other programs by modifying them to include a copy of itself.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Standardized the terminology for self-replicating malicious code and gave researchers a common language to study, document, and defend against these threats.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">1986</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">🐛</div>
+            <div class="event-title-block">
+              <div class="event-name">Brain Virus</div>
+              <span class="event-type type-virus">Virus</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">The first IBM PC-compatible virus — created by two Pakistani brothers, it infected floppy disk boot sectors.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">Created by brothers Basit and Amjad Farooq Alvi in Lahore, Pakistan. Originally intended to protect their medical software from piracy, Brain spread by infecting the boot sector of floppy disks. It unusually included the creators' names, addresses, and phone numbers in its code.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">The first virus to target IBM PC users. Introduced the concept of malware attribution — the creators' contact info was embedded in the virus code. Demonstrated that consumer hardware was now a target.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">1988</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">🕸️</div>
+            <div class="event-title-block">
+              <div class="event-name">Morris Worm</div>
+              <span class="event-type type-worm">Worm</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">Robert Morris's worm infected ~6,000 computers — roughly 10% of the internet at the time.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">Created by Cornell graduate student Robert Morris, the worm exploited Unix vulnerabilities and spread far faster than intended due to a coding error. It caused significant performance degradation and crashes across the early internet. Morris was the first person convicted under the Computer Fraud and Abuse Act.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">First major cybercrime prosecution under the Computer Fraud and Abuse Act. Directly led to the creation of CERT/CC (Computer Emergency Response Team) at Carnegie Mellon — establishing the concept of coordinated cyber incident response.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1990s -->
+    <div class="era-block era-90s">
+      <div class="era-label">
+        <div class="era-decade">90s</div>
+        <div class="era-line"></div>
+        <div class="era-tag">The Internet Age Begins</div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">1990</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">🔥</div>
+            <div class="event-title-block">
+              <div class="event-name">First Packet Filtering Firewalls</div>
+              <span class="event-type type-defense">Defense</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">Packet filtering firewalls emerged as the first line of defense for network security.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">As the internet expanded commercially, the need for network border control became critical. Packet filtering firewalls — which inspect incoming and outgoing traffic based on predefined rules — emerged as the foundational defense layer, forming the first "perimeter."</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Established network perimeter security as a fundamental practice. The firewall model — assumed trust inside, block outside — defined enterprise security architecture for the next two decades.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">1999</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">💌</div>
+            <div class="event-title-block">
+              <div class="event-name">Melissa Virus</div>
+              <span class="event-type type-virus">Virus</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">Email-borne virus infected ~20% of computers worldwide, causing $80 million in damages.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">Created by David L. Smith, Melissa spread as a Microsoft Word document via email. When opened, it emailed copies of itself to the first 50 people in the victim's address book. It overwhelmed mail servers at major corporations and government agencies within days.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">First major email-borne malware. Demonstrated the viral power of social engineering combined with email — a formula attackers would refine for decades. Prompted many organizations to implement email filtering.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2000s -->
+    <div class="era-block era-00s">
+      <div class="era-label">
+        <div class="era-decade">00s</div>
+        <div class="era-line"></div>
+        <div class="era-tag">Organized Cybercrime</div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">2000</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">❤️</div>
+            <div class="event-title-block">
+              <div class="event-name">ILOVEYOU Worm</div>
+              <span class="event-type type-worm">Worm</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">Social engineering attack caused $5.5–8.7 billion in damages across the globe.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">Originating in the Philippines, ILOVEYOU arrived as an email attachment titled "LOVE-LETTER-FOR-YOU.TXT.vbs." Curiosity drove millions to open it. It overwrote files and propagated itself to all contacts in Outlook. It infected an estimated 10% of internet-connected computers within 10 days.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Demonstrated the devastating global reach of social engineering attacks. Raised public awareness about email security and prompted legislation in the Philippines — leading to its Computer Crimes Act.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">2005</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">💰</div>
+            <div class="event-title-block">
+              <div class="event-name">Rise of Organized Cybercrime</div>
+              <span class="event-type type-concept">Concept Shift</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">Hackers shifted from seeking notoriety to criminal enterprises pursuing profit via phishing, botnets, and ransomware.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">By the mid-2000s, the hacker culture had fundamentally transformed. Criminal organizations adopted enterprise models — recruiting programmers, running botnets as a service, and monetizing stolen data. Phishing kits were sold online. Ransomware emerged as a revenue stream.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Cybercrime became a business. Led to financial cybersecurity regulations, the rise of dedicated cyber crime units in law enforcement, and PCI-DSS compliance standards for payment data protection.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">2008</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">🌐</div>
+            <div class="event-title-block">
+              <div class="event-name">Conficker Worm</div>
+              <span class="event-type type-worm">Worm</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">Created one of the largest botnets in history — infecting millions of computers worldwide.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">Conficker exploited a Windows Server Service vulnerability and spread via network shares and removable drives. At its peak it infected over 9 million computers across 190 countries. A multinational working group — the Conficker Cabal — was assembled to counter it.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Demonstrated the coordination challenges in global incident response. Highlighted the need for international cooperation in cybersecurity and the critical importance of patch management.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2010s -->
+    <div class="era-block era-10s">
+      <div class="era-label">
+        <div class="era-decade">10s</div>
+        <div class="era-line"></div>
+        <div class="era-tag">Nation-State Warfare</div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">2010</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">⚛️</div>
+            <div class="event-title-block">
+              <div class="event-name">Stuxnet</div>
+              <span class="event-type type-nation">Nation-State</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">State-sponsored worm targeting Iranian nuclear centrifuges — the first cyberattack to cause real-world physical damage.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">Widely attributed to the US and Israel, Stuxnet targeted the Siemens PLCs controlling uranium enrichment centrifuges at Natanz, Iran. It caused centrifuges to spin at irregular speeds while reporting normal readings to operators. An estimated 1,000 centrifuges were destroyed. It exploited four zero-day vulnerabilities simultaneously — unprecedented at the time.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Marked the dawn of nation-state cyber warfare. The first cyberweapon to cause physical destruction of industrial equipment. Fundamentally changed how governments, militaries, and critical infrastructure operators think about digital threats.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">2012</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">👥</div>
+            <div class="event-title-block">
+              <div class="event-name">APTs Formally Recognized</div>
+              <span class="event-type type-concept">Concept</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">Advanced Persistent Threats became a formally recognized threat category — state-sponsored groups with long-term access objectives.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">As incidents like Stuxnet and Operation Aurora (Google breach) accumulated, the security community formally defined and recognized "Advanced Persistent Threats" — organized groups, often state-backed, that gain covert long-term access to networks for espionage, disruption, or data theft rather than quick financial gain.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Changed threat modeling permanently. Organizations had to account not just for opportunistic attackers but for patient, well-resourced adversaries with specific targets and long-term dwell times inside networks.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">2013</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">📊</div>
+            <div class="event-title-block">
+              <div class="event-name">Yahoo Data Breach</div>
+              <span class="event-type type-breach">Data Breach</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">3 billion accounts compromised in the largest data breach in history (disclosed 2016–2017).</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">Occurring in 2013–2014 but not publicly disclosed until 2016 and fully quantified in 2017, the Yahoo breach compromised every account in its user base — 3 billion in total. Attackers stole names, email addresses, phone numbers, dates of birth, and security questions. It resulted in Verizon reducing its acquisition price by $350 million.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Illustrated the catastrophic scale of data collection and breach impact. Highlighted the legal obligation for timely breach disclosure and the lasting financial consequences for companies that fail to protect user data.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">2017</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">🔒</div>
+            <div class="event-title-block">
+              <div class="event-name">WannaCry Ransomware</div>
+              <span class="event-type type-ransom">Ransomware</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">Affected 200,000+ computers in 150 countries, exploiting the NSA's EternalBlue Windows exploit.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">WannaCry spread using EternalBlue — an NSA-developed exploit leaked by the Shadow Brokers group — targeting unpatched Windows SMB vulnerabilities. It encrypted files and demanded Bitcoin ransoms. It hit hospitals (UK's NHS was severely disrupted), telecoms, and government agencies worldwide. Attributed to North Korea's Lazarus Group.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Triggered global ransomware awareness. Underscored the critical importance of patch management. Raised concerns about government stockpiling of zero-day exploits when those exploits can be stolen and weaponized by adversaries.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2020s -->
+    <div class="era-block era-20s">
+      <div class="era-label">
+        <div class="era-decade">20s</div>
+        <div class="era-line"></div>
+        <div class="era-tag">Supply Chain & Infrastructure</div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">2020</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">🎯</div>
+            <div class="event-title-block">
+              <div class="event-name">SolarWinds Attack</div>
+              <span class="event-type type-nation">Nation-State</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">Supply chain attack compromised 18,000 organizations including US government agencies — attributed to Russian SVR.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">Russian intelligence (SVR/Cozy Bear) inserted malicious code into SolarWinds Orion software updates. Since Orion is widely used for IT monitoring, the trojanized update was distributed to ~18,000 organizations including the Pentagon, Treasury, State Department, and major corporations. Attackers had silent access for months before discovery.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Redefined the concept of software supply chain risk. Demonstrated that trusted, legitimate software updates are themselves attack vectors. Prompted sweeping reviews of government procurement security requirements and vendor trust frameworks.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">2021</div>
+        <div class="event-node"><div class="event-dot"></div><div class="event-vline"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">⛽</div>
+            <div class="event-title-block">
+              <div class="event-name">Colonial Pipeline Attack</div>
+              <span class="event-type type-ransom">Ransomware</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">DarkSide ransomware disrupted fuel supply across the US East Coast — the largest cyberattack on US energy infrastructure.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">The DarkSide criminal group compromised Colonial Pipeline — which supplies ~45% of East Coast fuel — by gaining access via a leaked VPN password. Colonial preemptively shut down operations, causing fuel shortages and panic buying across six states. The company paid a $4.4 million ransom, though the FBI later recovered much of it.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Proved that ransomware attacks on critical infrastructure are not hypothetical — they cause real-world consequences for civilians. Led to executive orders strengthening US critical infrastructure cybersecurity requirements and mandatory incident reporting for pipeline operators.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="event-row">
+        <div class="event-year">2021</div>
+        <div class="event-node"><div class="event-dot"></div></div>
+        <div class="event-card" onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="event-icon">📦</div>
+            <div class="event-title-block">
+              <div class="event-name">Log4Shell (CVE-2021-44228)</div>
+              <span class="event-type type-breach">Critical Vuln</span>
+            </div>
+            <div class="toggle-btn">+</div>
+          </div>
+          <div class="card-preview">Critical zero-day in the ubiquitous Log4j library affected hundreds of millions of applications worldwide.</div>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="event-desc">A remote code execution vulnerability in Apache Log4j — one of the most widely used Java logging libraries — was disclosed in December 2021. Because Log4j is embedded in thousands of products across virtually every industry, the attack surface was enormous. Exploitation was trivially simple: sending a specially crafted string in a log message was sufficient to achieve remote code execution.</div>
+            <div class="impact-box">
+              <div class="impact-hdr"><div class="impact-dot"></div>HISTORICAL IMPACT</div>
+              <div class="impact-text">Highlighted the hidden complexity and risk of open-source software dependency chains. Prompted a global reckoning with Software Bill of Materials (SBOM) requirements and dramatically accelerated conversations about software supply chain transparency.</div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /timeline -->
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION: QUIZ
+══════════════════════════════════════ -->
+<section class="section" id="tab-quiz">
+  <div class="sec-heading">KNOWLEDGE ASSESSMENT · 5 QUESTIONS</div>
+
+  <div class="quiz-progress">
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+    <div class="progress-label" id="progress-label">0 of 5 answered</div>
+    <div class="score-display" id="score-label">Score: 0/5</div>
+  </div>
+
+  <div id="quiz-container"></div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION: GLOSSARY
+══════════════════════════════════════ -->
+<section class="section" id="tab-glossary">
+  <div class="sec-heading">KEY TERMINOLOGY · MALWARE & THREAT TYPES</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+    <table class="gloss-table">
+      <tr>
+        <th style="width:200px;">TERM</th>
+        <th>DEFINITION</th>
+      </tr>
+      <tr>
+        <td class="term-cell">Worm</td>
+        <td class="def-cell">Self-replicating malware that spreads across networks without human interaction. Unlike viruses, worms don't need to attach to a host file.</td>
+      </tr>
+      <tr>
+        <td class="term-cell">Virus</td>
+        <td class="def-cell">Malware that attaches itself to a program or file and requires human action (e.g., opening a file) to activate and spread.</td>
+      </tr>
+      <tr>
+        <td class="term-cell">APT</td>
+        <td class="def-cell">Advanced Persistent Threat — a state-sponsored or organized group that maintains long-term covert access to networks for espionage or disruption.</td>
+      </tr>
+      <tr>
+        <td class="term-cell">Ransomware</td>
+        <td class="def-cell">Malware that encrypts a victim's data and demands a ransom payment (usually cryptocurrency) in exchange for the decryption key.</td>
+      </tr>
+      <tr>
+        <td class="term-cell">Botnet</td>
+        <td class="def-cell">A network of internet-connected devices infected with malware and remotely controlled by an attacker, often used for DDoS attacks or spam campaigns.</td>
+      </tr>
+      <tr>
+        <td class="term-cell">Supply Chain Attack</td>
+        <td class="def-cell">Compromising software or hardware before delivery to end users — exploiting the trust placed in software vendors and update mechanisms.</td>
+      </tr>
+      <tr>
+        <td class="term-cell">Zero-Day</td>
+        <td class="def-cell">A previously unknown software vulnerability that has been discovered by attackers before the vendor is aware — with "zero days" of advance notice to prepare a patch.</td>
+      </tr>
+      <tr>
+        <td class="term-cell">Social Engineering</td>
+        <td class="def-cell">Psychological manipulation of people into performing actions or divulging confidential information — exploiting human trust rather than technical vulnerabilities.</td>
+      </tr>
+      <tr>
+        <td class="term-cell">CERT</td>
+        <td class="def-cell">Computer Emergency Response Team — organizations that coordinate responses to cybersecurity incidents. The first CERT/CC was established at Carnegie Mellon in 1988 following the Morris Worm.</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION: RESEARCH
+══════════════════════════════════════ -->
+<section class="section" id="tab-research">
+  <div class="sec-heading">RESEARCH ACTIVITY · DEEPER ANALYSIS</div>
+
+  <p style="font-size:13px;color:var(--mid);margin-bottom:20px;line-height:1.65;">Select one of the following events to research independently. Use the guiding questions below to structure your notes.</p>
+
+  <div class="research-card">
+    <div class="rc-title">Morris Worm (1988)</div>
+    <div class="rc-meta">// TOPIC: INCIDENT RESPONSE ORIGINS</div>
+    <div class="rc-desc">Research how the Morris Worm incident directly led to the creation of CERT/CC — and why a permanent, coordinated incident response organization was seen as necessary after this event.</div>
+  </div>
+
+  <div class="research-card">
+    <div class="rc-title">Stuxnet (2010)</div>
+    <div class="rc-meta">// TOPIC: CYBER-PHYSICAL WARFARE</div>
+    <div class="rc-desc">Investigate how Stuxnet targeted Siemens PLCs controlling specific centrifuge models — and what this revealed about the vulnerability of industrial control systems (ICS) and SCADA environments.</div>
+  </div>
+
+  <div class="research-card">
+    <div class="rc-title">SolarWinds Supply Chain Attack (2020)</div>
+    <div class="rc-meta">// TOPIC: SUPPLY CHAIN RISK</div>
+    <div class="rc-desc">Explore how attackers inserted malicious code into a legitimate software update — and what the concept of a Software Bill of Materials (SBOM) is, and why it has become a security priority.</div>
+  </div>
+
+  <div class="research-steps">
+    <div class="rs-heading">// RESEARCH FRAMEWORK</div>
+    <div class="rs-item"><div class="rs-num">01</div>What happened in the attack — describe the technical method used.</div>
+    <div class="rs-item"><div class="rs-num">02</div>Why it was significant — what made it different from prior incidents?</div>
+    <div class="rs-item"><div class="rs-num">03</div>How it changed cybersecurity practices — what policies, tools, or standards emerged afterward?</div>
+    <p style="font-size:12px;color:var(--dim);margin-top:10px;font-family:'IBM Plex Mono',monospace;">Write a 2–3 paragraph summary covering the above points and save to your Cybersecurity-Lab folder.</p>
+    <button class="open-browser-btn" onclick="window.open('https://www.bing.com','_blank')">⌕ Open Browser</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION: REFLECTION
+══════════════════════════════════════ -->
+<section class="section" id="tab-reflection">
+  <div class="sec-heading">REFLECTION QUESTIONS · CRITICAL THINKING</div>
+  <p style="font-size:13px;color:var(--mid);margin-bottom:24px;line-height:1.65;">Answer the following in Notepad and save to your Cybersecurity-Lab folder. These questions require analysis beyond summarization — consider cause and effect, patterns, and future implications.</p>
+
+  <div class="reflect-item">
+    <div class="ri-num">01</div>
+    <div class="ri-text">How has the motivation for cyberattacks evolved from the 1970s to today? Trace the shift from academic curiosity → notoriety seeking → financial crime → nation-state warfare. What does this progression tell us about the relationship between technology and human behavior?</div>
+  </div>
+  <div class="reflect-item">
+    <div class="ri-num">02</div>
+    <div class="ri-text">Why was Stuxnet considered a "game-changer" in cybersecurity history? What boundary did it cross that no previous cyberattack had crossed — and what precedent does that set for future conflicts?</div>
+  </div>
+  <div class="reflect-item">
+    <div class="ri-num">03</div>
+    <div class="ri-text">What lessons can organizations learn from the SolarWinds supply chain attack? If attackers can compromise the update mechanism of trusted software, how should organizations rethink their vendor trust models and update verification processes?</div>
+  </div>
+  <div class="reflect-item">
+    <div class="ri-num">04</div>
+    <div class="ri-text">How might artificial intelligence change the future of cybersecurity — both for defenders and for attackers? Consider AI-powered threat detection, automated patching, and also AI-generated phishing and autonomous malware.</div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION: CHECKLIST
+══════════════════════════════════════ -->
+<section class="section" id="tab-checklist">
+  <div class="sec-heading">LAB COMPLETION CHECKLIST</div>
+
+  <div class="check-items" id="checklist">
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text">Reviewed the complete cybersecurity timeline — 1970s through 2020s</div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text">Completed all 5 knowledge check questions in the Quiz section</div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text">Selected and researched one major cybersecurity event in depth</div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text">Reviewed all terms in the Key Terminology glossary</div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text">Completed all 4 reflection questions in writing</div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text">Saved research notes and reflections to the Cybersecurity-Lab folder</div>
+    </div>
+  </div>
+
+  <div class="submit-row">
+    <button class="submit-btn" onclick="submitChecklist()">Submit Completion</button>
+    <div class="completion-msg" id="completion-msg"></div>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<footer>
+  CYBERSECURITY HISTORY · EVENT LOG &nbsp;·&nbsp; <span>WILLIE CONWAY</span> &nbsp;·&nbsp; COMPTIA SEC+ CERTIFIED
+</footer>
+
+<script>
+// ── TAB NAVIGATION ──
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const id = tab.dataset.tab;
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(`tab-${id}`).classList.add('active');
+  });
+});
+
+// ── TIMELINE TOGGLE ──
+function toggleCard(card) {
+  card.classList.toggle('open');
+}
+
+// ── QUIZ ──
+const QUESTIONS = [
+  {
+    q: "What was the Creeper worm and why is it historically significant?",
+    opts: ["The first ransomware attack, demanding payment in early digital currency","The first computer worm — demonstrating that programs could self-replicate across networks","A virus that targeted banking and financial mainframe systems","The first phishing attack, using social engineering via ARPANET email"],
+    correct: 1,
+    explain: "Creeper (1971) was the first known self-replicating program to spread across a network. It was not malicious but proved the concept — and directly led to the creation of Reaper, the first anti-malware software."
+  },
+  {
+    q: "What was the most significant impact of the Morris Worm (1988)?",
+    opts: ["It caused physical damage to computers and servers across ARPANET","It led to the creation of CERT and the first major prosecution under the Computer Fraud and Abuse Act","It stole millions of user passwords and credit card records","It was the first ransomware attack to encrypt victim files"],
+    correct: 1,
+    explain: "The Morris Worm resulted in the first Computer Fraud and Abuse Act conviction and prompted the creation of CERT/CC at Carnegie Mellon — establishing coordinated incident response as a discipline."
+  },
+  {
+    q: "What made Stuxnet (2010) fundamentally different from all prior malware?",
+    opts: ["It was the fastest-spreading worm ever recorded, infecting billions of devices","It caused real-world physical destruction — damaging industrial centrifuges in Iran","It was the first email-based virus to use social engineering","It targeted Apple Mac systems, which had previously been considered secure"],
+    correct: 1,
+    explain: "Stuxnet crossed a critical line — it caused physical destruction of real-world equipment (Iranian nuclear centrifuges). This marked the beginning of cyber warfare as a domain capable of kinetic-level consequences."
+  },
+  {
+    q: "How have attacker motivations evolved across the decades covered in this timeline?",
+    opts: ["Motivations have remained consistent — attackers have always sought financial gain","From academic curiosity and notoriety, to organized financial crime, to nation-state strategic objectives","Attackers shifted exclusively to targeting governments after the 2000s","Attacks became less sophisticated as defenses improved over time"],
+    correct: 1,
+    explain: "The timeline shows a clear progression: 1970s–80s (experimentation/curiosity) → 1990s–2000s (notoriety, then financial crime) → 2010s–2020s (nation-state warfare, critical infrastructure attacks)."
+  },
+  {
+    q: "What is a supply chain attack, as demonstrated by the SolarWinds incident (2020)?",
+    opts: ["A physical attack on logistics and shipping company networks","Compromising software or hardware before delivery — exploiting trusted update mechanisms to reach many targets at once","A coordinated attack on retail stores and point-of-sale systems","Phishing employees of supplier companies to steal credentials"],
+    correct: 1,
+    explain: "SolarWinds attackers inserted malicious code into a legitimate software update, which was then distributed to ~18,000 organizations that trusted the update. This is the defining characteristic of a supply chain attack."
+  }
+];
+
+let answered = new Array(QUESTIONS.length).fill(false);
+let scores   = new Array(QUESTIONS.length).fill(false);
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  QUESTIONS.forEach((q, qi) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.id = `qcard-${qi}`;
+
+    const letters = ['A','B','C','D'];
+    const optsHtml = q.opts.map((o, oi) => `
+      <div class="q-option" id="qopt-${qi}-${oi}" onclick="selectOpt(${qi}, ${oi})">
+        <span class="opt-letter">${letters[oi]}</span>
+        <span>${o}</span>
+      </div>`).join('');
+
+    card.innerHTML = `
+      <div class="q-header">
+        <span class="q-num">Q${qi+1}</span>
+        <div class="q-text">${q.q}</div>
+      </div>
+      <div class="q-options">${optsHtml}</div>
+      <div class="q-footer">
+        <button class="check-btn" id="qbtn-${qi}" onclick="checkQ(${qi})" disabled>Check Answer</button>
+        <div class="q-feedback" id="qfb-${qi}"></div>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+let selected = new Array(QUESTIONS.length).fill(-1);
+
+function selectOpt(qi, oi) {
+  if (answered[qi]) return;
+  selected[qi] = oi;
+  document.querySelectorAll(`[id^="qopt-${qi}-"]`).forEach(el => el.classList.remove('selected'));
+  document.getElementById(`qopt-${qi}-${oi}`).classList.add('selected');
+  document.getElementById(`qbtn-${qi}`).disabled = false;
+}
+
+function checkQ(qi) {
+  if (answered[qi] || selected[qi] === -1) return;
+  answered[qi] = true;
+  const correct = QUESTIONS[qi].correct;
+  const userSel = selected[qi];
+  const isRight = userSel === correct;
+  scores[qi] = isRight;
+
+  // disable all options
+  document.querySelectorAll(`[id^="qopt-${qi}-"]`).forEach((el, oi) => {
+    el.classList.add('disabled');
+    if (oi === correct) el.classList.add('correct-reveal');
+    else if (oi === userSel && !isRight) el.classList.add('wrong-reveal');
+  });
+
+  document.getElementById(`qbtn-${qi}`).disabled = true;
+
+  const fb = document.getElementById(`qfb-${qi}`);
+  fb.classList.add('show');
+  if (isRight) {
+    fb.classList.add('ok');
+    fb.textContent = '✓ Correct — ' + QUESTIONS[qi].explain;
+    document.getElementById(`qcard-${qi}`).classList.add('answered-correct');
+  } else {
+    fb.classList.add('err');
+    fb.textContent = '✗ Incorrect — ' + QUESTIONS[qi].explain;
+    document.getElementById(`qcard-${qi}`).classList.add('answered-wrong');
+  }
+
+  updateQuizProgress();
+}
+
+function updateQuizProgress() {
+  const total   = QUESTIONS.length;
+  const done    = answered.filter(Boolean).length;
+  const correct = scores.filter(Boolean).length;
+  const pct     = Math.round((done / total) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `${done} of ${total} answered`;
+  document.getElementById('score-label').textContent = `Score: ${correct}/${total}`;
+  document.getElementById('h-score').textContent = `${correct}/${total}`;
+}
+
+// ── CHECKLIST ──
+function toggleCheck(item) {
+  item.classList.toggle('done');
+  if (item.classList.contains('done')) item.querySelector('.check-box').textContent = '✓';
+  else item.querySelector('.check-box').textContent = '';
+  const total  = document.querySelectorAll('.check-item').length;
+  const done   = document.querySelectorAll('.check-item.done').length;
+  document.getElementById('h-checks').textContent = `${done}/${total}`;
+}
+
+function submitChecklist() {
+  const total = document.querySelectorAll('.check-item').length;
+  const done  = document.querySelectorAll('.check-item.done').length;
+  const msg   = document.getElementById('completion-msg');
+  msg.classList.add('show');
+  if (done === total) {
+    msg.classList.remove('err'); msg.classList.add('ok');
+    msg.textContent = '✓ Lab complete — all tasks verified. Well done.';
+  } else {
+    msg.classList.remove('ok'); msg.classList.add('err');
+    msg.textContent = `⚠ ${done}/${total} tasks completed. Return to remaining sections to finish the lab.`;
+  }
+}
+
+buildQuiz();
+updateQuizProgress();
+</script>
+</body>
+</html>

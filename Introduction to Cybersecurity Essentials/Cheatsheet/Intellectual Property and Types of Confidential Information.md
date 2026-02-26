@@ -1,4 +1,4 @@
-![alt text](<Intellectual Property and Types of Confidential Information.png>)
+![alt text](<Intellectual Property and Types of Confidential Information (2).png>)
 
 # Intellectual Property and Types of Confidential Information
 

@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SENTINEL — Insider Threat Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&family=Syne+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #050810;
+  --bg2:      #080c16;
+  --surface:  #0c1220;
+  --panel:    #101828;
+  --panel2:   #141f30;
+  --border:   #1c2a3f;
+  --border2:  #253650;
+  --orange:   #ff6b35;
+  --orange2:  #e85d2f;
+  --yellow:   #fbbf24;
+  --red:      #f43f5e;
+  --red2:     #dc2626;
+  --green:    #10b981;
+  --blue:     #3b82f6;
+  --cyan:     #06b6d4;
+  --purple:   #8b5cf6;
+  --text:     #e2e8f0;
+  --mid:      #94a3b8;
+  --dim:      #4b6080;
+  --risk-crit: #f43f5e;
+  --risk-high: #fb923c;
+  --risk-med:  #fbbf24;
+  --risk-low:  #10b981;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* ── BACKGROUND ── */
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(255,107,53,0.06),transparent),
+             radial-gradient(ellipse 40% 40% at 90% 60%,rgba(59,130,246,0.04),transparent);
+  z-index:0;pointer-events:none;}
+body::after{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(255,107,53,0.03) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,107,53,0.03) 1px,transparent 1px);
+  background-size:48px 48px;z-index:0;pointer-events:none;}
+
+/* ── APP SHELL ── */
+.app{position:relative;z-index:1;display:grid;grid-template-columns:220px 1fr;grid-template-rows:56px 1fr;min-height:100vh;}
+
+/* ── TOP BAR ── */
+.topbar{grid-column:1/-1;background:rgba(5,8,16,0.97);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 24px;gap:20px;backdrop-filter:blur(16px);position:sticky;top:0;z-index:50;}
+.topbar-brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.brand-icon{width:28px;height:28px;background:var(--orange);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#000;font-family:'Syne Mono',monospace;}
+.brand-name{font-family:'Syne Mono',monospace;font-size:16px;font-weight:400;letter-spacing:4px;color:#fff;}
+.brand-name em{color:var(--orange);font-style:normal;}
+.topbar-sep{width:1px;height:24px;background:var(--border);flex-shrink:0;}
+.topbar-status{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mid);}
+.status-dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s ease infinite;}
+.status-dot.live{background:var(--red);box-shadow:0 0 8px var(--red);}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(1.2);}}
+.topbar-alerts{display:flex;gap:10px;margin-left:auto;}
+.alert-chip{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 10px;border-radius:3px;border:1px solid;display:flex;align-items:center;gap:5px;}
+.chip-crit{color:var(--red);border-color:rgba(244,63,94,.3);background:rgba(244,63,94,.08);}
+.chip-warn{color:var(--yellow);border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.08);}
+.chip-ok  {color:var(--green);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.08);}
+.topbar-time{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);white-space:nowrap;}
+
+/* ── SIDEBAR ── */
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:20px 0;display:flex;flex-direction:column;gap:2px;overflow-y:auto;}
+.nav-section{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:3px;text-transform:uppercase;padding:14px 20px 6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;transition:all .15s;border-left:2px solid transparent;font-size:13px;font-weight:500;color:var(--mid);}
+.nav-item:hover{color:var(--text);background:rgba(255,107,53,.04);}
+.nav-item.active{color:var(--orange);border-left-color:var(--orange);background:rgba(255,107,53,.07);}
+.nav-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0;}
+.nav-badge{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;padding:1px 7px;border-radius:10px;background:rgba(244,63,94,.15);color:var(--red);border:1px solid rgba(244,63,94,.3);}
+.sidebar-footer{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border);}
+.sf-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);margin-bottom:6px;letter-spacing:2px;}
+.sf-val{font-size:13px;color:var(--orange);font-weight:600;}
+
+/* ── MAIN CONTENT ── */
+.main{overflow-y:auto;height:calc(100vh - 56px);}
+.view{display:none;padding:28px 28px 60px;}
+.view.active{display:block;}
+
+/* ── COMMON ── */
+.view-header{margin-bottom:28px;}
+.view-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--orange);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;}
+.view-title{font-size:clamp(22px,3vw,32px);font-weight:800;color:#fff;letter-spacing:-1px;line-height:1.1;}
+.view-sub{font-size:13px;color:var(--mid);margin-top:6px;line-height:1.6;}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.card-hdr{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.card-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mid);letter-spacing:2px;text-transform:uppercase;}
+.card-body{padding:16px 18px;}
+
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 20px;}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.stat-val{font-size:32px;font-weight:800;line-height:1;color:#fff;}
+.stat-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mid);margin-top:5px;}
+.stat-bar{height:3px;border-radius:2px;margin-top:10px;background:var(--border2);}
+.stat-fill{height:100%;border-radius:2px;transition:width .6s ease;}
+
+/* risk colors */
+.risk-crit{color:var(--risk-crit);}
+.risk-high{color:var(--risk-high);}
+.risk-med{color:var(--risk-med);}
+.risk-low{color:var(--risk-low);}
+
+/* ══════════════════════════════
+   DASHBOARD
+══════════════════════════════ */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+
+.activity-feed{display:flex;flex-direction:column;gap:0;}
+.feed-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);animation:slideIn .3s ease both;}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
+.feed-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);white-space:nowrap;padding-top:2px;min-width:52px;}
+.feed-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.feed-content{flex:1;}
+.feed-action{font-size:12px;color:var(--text);line-height:1.4;}
+.feed-meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);margin-top:2px;}
+.feed-severity{font-family:'JetBrains Mono',monospace;font-size:9px;padding:1px 7px;border-radius:2px;border:1px solid;margin-left:auto;flex-shrink:0;height:fit-content;}
+
+/* employee risk list */
+.emp-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;margin:0 -18px;padding-left:18px;padding-right:18px;}
+.emp-row:hover{background:rgba(255,107,53,.04);}
+.emp-avatar{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.emp-info{flex:1;min-width:0;}
+.emp-name{font-size:13px;font-weight:600;color:var(--text);}
+.emp-role{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);}
+.emp-score{text-align:right;}
+.risk-score{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;line-height:1;}
+.risk-label{font-size:9px;text-transform:uppercase;letter-spacing:1px;}
+.risk-bar-wrap{width:60px;height:4px;background:var(--border2);border-radius:2px;margin-top:4px;margin-left:auto;}
+.risk-bar-fill{height:100%;border-radius:2px;}
+
+/* mini chart bars */
+.mini-chart{display:flex;align-items:flex-end;gap:3px;height:40px;}
+.mc-bar{flex:1;border-radius:2px 2px 0 0;transition:height .4s ease;min-height:3px;}
+
+/* ══════════════════════════════
+   SIMULATIONS
+══════════════════════════════ */
+.sim-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+.sim-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;}
+.sim-card:hover{border-color:var(--orange);box-shadow:0 8px 32px rgba(255,107,53,.12);transform:translateY(-3px);}
+.sim-banner{height:100px;position:relative;display:flex;align-items:flex-end;padding:12px 16px;overflow:hidden;}
+.sim-banner-icon{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:42px;opacity:.25;}
+.sim-difficulty{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 8px;border-radius:2px;border:1px solid;letter-spacing:1px;}
+.sim-info{padding:16px;}
+.sim-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:5px;}
+.sim-desc{font-size:12px;color:var(--mid);line-height:1.55;margin-bottom:12px;}
+.sim-meta{display:flex;gap:12px;}
+.sim-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);display:flex;align-items:center;gap:4px;}
+.sim-btn{width:100%;padding:9px;border-radius:5px;border:none;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .2s;margin-top:12px;}
+.sim-btn-start{background:var(--orange);color:#000;}
+.sim-btn-start:hover{background:var(--orange2);}
+.sim-btn-done{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.3);}
+
+/* ── SIMULATION PLAYER ── */
+#sim-player{display:none;position:fixed;inset:0;background:rgba(5,8,16,0.96);z-index:100;overflow-y:auto;backdrop-filter:blur(8px);}
+.sp-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:10;}
+.sp-title{font-size:16px;font-weight:700;color:#fff;flex:1;}
+.sp-progress{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);}
+.sp-close{padding:6px 14px;border-radius:4px;border:1px solid var(--border2);background:none;color:var(--mid);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;transition:all .2s;}
+.sp-close:hover{border-color:var(--orange);color:var(--orange);}
+.sp-body{max-width:800px;margin:0 auto;padding:40px 28px;}
+.sp-progress-bar{height:3px;background:var(--border);margin-bottom:40px;border-radius:2px;}
+.sp-progress-fill{height:100%;background:var(--orange);border-radius:2px;transition:width .4s ease;}
+
+.scene-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:24px;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.scene-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.scene-step{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--orange);background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.25);padding:2px 8px;border-radius:2px;}
+.scene-title{font-size:16px;font-weight:700;color:#fff;}
+.scene-body{padding:20px;}
+
+.scenario-context{background:var(--panel);border-radius:6px;padding:14px 16px;margin-bottom:16px;border-left:3px solid var(--orange);}
+.sc-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--orange);letter-spacing:2px;margin-bottom:6px;}
+.sc-text{font-size:13px;color:var(--mid);line-height:1.7;}
+
+.evidence-block{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:20px;}
+.evidence-item{background:var(--panel2);border:1px solid var(--border2);border-radius:6px;padding:12px;cursor:pointer;transition:all .15s;}
+.evidence-item:hover{border-color:var(--cyan);background:rgba(6,182,212,.04);}
+.evidence-item.flagged{border-color:var(--orange);background:rgba(255,107,53,.06);}
+.ei-icon{font-size:20px;margin-bottom:6px;}
+.ei-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.ei-val{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);}
+
+.question-block{margin-bottom:20px;}
+.q-text{font-size:14px;font-weight:600;color:#fff;margin-bottom:14px;line-height:1.5;}
+.choice-list{display:flex;flex-direction:column;gap:8px;}
+.choice{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:6px;border:1px solid var(--border);background:var(--panel);cursor:pointer;transition:all .15s;font-size:13px;color:var(--mid);line-height:1.5;}
+.choice:hover{border-color:var(--border2);background:var(--panel2);color:var(--text);}
+.choice.selected{border-color:var(--orange);background:rgba(255,107,53,.08);color:var(--text);}
+.choice.correct{border-color:var(--green)!important;background:rgba(16,185,129,.08)!important;color:var(--green)!important;}
+.choice.wrong{border-color:var(--red)!important;background:rgba(244,63,94,.08)!important;color:var(--red)!important;}
+.choice.disabled{pointer-events:none;}
+.choice-letter{font-family:'JetBrains Mono',monospace;font-size:10px;width:20px;height:20px;border:1px solid var(--border2);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.choice.selected .choice-letter{border-color:var(--orange);color:var(--orange);}
+.choice.correct .choice-letter{border-color:var(--green);color:var(--green);}
+.choice.wrong .choice-letter{border-color:var(--red);color:var(--red);}
+
+.result-feedback{background:var(--panel);border-radius:6px;padding:14px 16px;margin-top:14px;display:none;animation:fadeUp .3s ease;}
+.result-feedback.show{display:block;}
+.rf-correct{border-left:3px solid var(--green);}
+.rf-wrong{border-left:3px solid var(--red);}
+.rf-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;margin-bottom:6px;}
+.rf-text{font-size:13px;color:var(--mid);line-height:1.65;}
+
+.sp-btn{padding:10px 24px;border-radius:6px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.5px;transition:all .2s;border:none;}
+.sp-btn-primary{background:var(--orange);color:#000;}
+.sp-btn-primary:hover{background:var(--orange2);}
+.sp-btn-primary:disabled{opacity:.3;cursor:default;}
+.sp-btn-secondary{background:transparent;border:1px solid var(--border2);color:var(--mid);}
+.sp-btn-secondary:hover{border-color:var(--orange);color:var(--orange);}
+
+/* Debrief */
+.debrief-score{text-align:center;padding:32px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:24px;}
+.ds-circle{width:100px;height:100px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;border:3px solid;}
+.ds-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mid);letter-spacing:2px;margin-bottom:4px;}
+.ds-grade{font-size:28px;font-weight:800;margin-bottom:4px;}
+.debrief-breakdown{display:flex;flex-direction:column;gap:10px;}
+.db-item{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:6px;}
+.db-num{font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:2px;flex-shrink:0;}
+.db-q{font-size:12px;color:var(--mid);flex:1;line-height:1.5;}
+.db-result{font-family:'JetBrains Mono',monospace;font-size:10px;flex-shrink:0;}
+
+/* ══════════════════════════════
+   BEHAVIOR ANALYTICS
+══════════════════════════════ */
+.ba-employee-select{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+.emp-select-btn{padding:8px 16px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--mid);cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;display:flex;align-items:center;gap:8px;}
+.emp-select-btn:hover{border-color:var(--border2);}
+.emp-select-btn.active{border-color:var(--orange);color:var(--orange);background:rgba(255,107,53,.08);}
+.emp-dot-sel{width:8px;height:8px;border-radius:50%;}
+
+.profile-grid{display:grid;grid-template-columns:280px 1fr;gap:16px;}
+.profile-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;}
+.profile-avatar-large{width:56px;height:56px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;margin-bottom:14px;}
+.profile-name{font-size:18px;font-weight:700;color:#fff;margin-bottom:3px;}
+.profile-role{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);margin-bottom:16px;}
+.profile-risk-score{font-size:48px;font-weight:800;line-height:1;margin-bottom:6px;}
+.profile-risk-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+.profile-stats{margin-top:20px;display:flex;flex-direction:column;gap:10px;}
+.ps-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;}
+.ps-label{color:var(--dim);}
+.ps-val{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;}
+.ioc-list{margin-top:20px;}
+.ioc-header{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--orange);letter-spacing:3px;margin-bottom:10px;}
+.ioc-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--mid);line-height:1.4;}
+.ioc-dot{width:5px;height:5px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:4px;}
+
+.timeline-chart{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;}
+.tc-header{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mid);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+.activity-timeline{display:flex;flex-direction:column;gap:0;}
+.at-item{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);}
+.at-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);min-width:80px;padding-top:2px;}
+.at-line{width:1px;background:var(--border2);flex-shrink:0;position:relative;}
+.at-line::before{content:'';position:absolute;top:5px;left:-3px;width:7px;height:7px;border-radius:50%;border:2px solid;}
+.at-content{flex:1;}
+.at-event{font-size:12px;color:var(--text);line-height:1.4;margin-bottom:2px;}
+.at-detail{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);}
+.at-flag{font-family:'JetBrains Mono',monospace;font-size:9px;padding:1px 7px;border-radius:2px;border:1px solid;margin-left:auto;height:fit-content;flex-shrink:0;}
+
+/* ══════════════════════════════
+   INDICATORS LIBRARY
+══════════════════════════════ */
+.ioc-cats{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+.ioc-cat-btn{font-family:'JetBrains Mono',monospace;font-size:10px;padding:6px 14px;border-radius:3px;border:1px solid var(--border2);background:var(--surface);color:var(--dim);cursor:pointer;transition:all .15s;letter-spacing:.5px;}
+.ioc-cat-btn:hover{color:var(--mid);}
+.ioc-cat-btn.active{border-color:var(--orange);color:var(--orange);background:rgba(255,107,53,.08);}
+
+.ioc-table{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.ioc-table-hdr{display:grid;grid-template-columns:200px 1fr 100px 80px;padding:10px 16px;border-bottom:1px solid var(--border2);background:var(--panel);}
+.ioc-table-hdr span{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;}
+.ioc-table-row{display:grid;grid-template-columns:200px 1fr 100px 80px;padding:12px 16px;border-bottom:1px solid var(--border);transition:background .15s;align-items:center;}
+.ioc-table-row:last-child{border-bottom:none;}
+.ioc-table-row:hover{background:rgba(255,107,53,.03);}
+.ioc-name{font-size:13px;font-weight:600;color:var(--text);}
+.ioc-desc{font-size:12px;color:var(--mid);line-height:1.5;}
+.ioc-type{font-family:'JetBrains Mono',monospace;font-size:10px;}
+.ioc-sev{font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 8px;border-radius:2px;border:1px solid;text-align:center;}
+
+/* ══════════════════════════════
+   SCROLLBAR
+══════════════════════════════ */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--dim);}
+
+@media(max-width:768px){
+  .app{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .kpi-row{grid-template-columns:repeat(2,1fr);}
+  .profile-grid{grid-template-columns:1fr;}
+  .ioc-table-hdr,.ioc-table-row{grid-template-columns:1fr 1fr;gap:6px;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="brand-icon">S</div>
+    <div class="brand-name"><em>SENTI</em>NEL</div>
+  </div>
+  <div class="topbar-sep"></div>
+  <div class="topbar-status">
+    <div class="status-dot live"></div>
+    LIVE MONITORING · ORG: DIGITECH CORP
+  </div>
+  <div class="topbar-alerts">
+    <div class="alert-chip chip-crit">⬥ 3 CRITICAL</div>
+    <div class="alert-chip chip-warn">⬦ 7 WARNINGS</div>
+    <div class="alert-chip chip-ok">✓ 142 NORMAL</div>
+  </div>
+  <div class="topbar-time" id="clock">--:--:--</div>
+</div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="nav-section">// MONITORING</div>
+  <div class="nav-item active" onclick="showView('dashboard')"><span class="nav-icon">◉</span> Dashboard <span class="nav-badge">3</span></div>
+  <div class="nav-item" onclick="showView('analytics')"><span class="nav-icon">⬡</span> Behavior Analytics</div>
+
+  <div class="nav-section">// TRAINING</div>
+  <div class="nav-item" onclick="showView('simulations')"><span class="nav-icon">▷</span> Simulations</div>
+  <div class="nav-item" onclick="showView('indicators')"><span class="nav-icon">⚑</span> Indicators Library</div>
+
+  <div class="nav-section">// SYSTEM</div>
+  <div class="nav-item" onclick="showView('policy')"><span class="nav-icon">⊟</span> Policy Reference</div>
+
+  <div class="sidebar-footer">
+    <div class="sf-label">ANALYST SESSION</div>
+    <div class="sf-val">W. Conway · Sec+</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ══════════════════════════════
+     DASHBOARD
+══════════════════════════════ -->
+<div class="view active" id="view-dashboard">
+  <div class="view-header">
+    <div class="view-eyebrow">// REAL-TIME MONITORING</div>
+    <div class="view-title">Threat Dashboard</div>
+    <div class="view-sub">Live behavioral anomaly detection across 152 monitored users · Last updated <span id="last-update" style="color:var(--orange)">just now</span></div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="stat-card">
+      <div class="stat-label">Active Risk Subjects</div>
+      <div class="stat-val risk-crit">3</div>
+      <div class="stat-sub">↑ 2 from yesterday</div>
+      <div class="stat-bar"><div class="stat-fill" style="width:30%;background:var(--red)"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Anomalies (24h)</div>
+      <div class="stat-val risk-high">47</div>
+      <div class="stat-sub">↑ 12% above baseline</div>
+      <div class="stat-bar"><div class="stat-fill" style="width:62%;background:var(--orange)"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Data Exfil Attempts</div>
+      <div class="stat-val risk-med">9</div>
+      <div class="stat-sub">3 blocked by DLP</div>
+      <div class="stat-bar"><div class="stat-fill" style="width:45%;background:var(--yellow)"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Privilege Violations</div>
+      <div class="stat-val risk-low">2</div>
+      <div class="stat-sub">All contained</div>
+      <div class="stat-bar"><div class="stat-fill" style="width:18%;background:var(--green)"></div></div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:14px;">
+    <!-- Activity Feed -->
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-title">Live Activity Feed</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--orange);">● LIVE</span>
+      </div>
+      <div class="card-body" style="padding:0 18px;">
+        <div class="activity-feed" id="activity-feed"></div>
+      </div>
+    </div>
+
+    <!-- Top Risk Employees -->
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-title">High-Risk Subjects</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--mid);cursor:pointer;" onclick="showView('analytics')">VIEW ALL →</span>
+      </div>
+      <div class="card-body" style="padding:0 18px;">
+        <div id="risk-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weekly anomaly chart -->
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-title">Anomaly Volume — Last 7 Days</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);">BY CATEGORY</span>
+    </div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;">
+        <!-- day bars generated by JS -->
+        <div id="weekly-chart" style="grid-column:1/-1;display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;height:120px;"></div>
+      </div>
+      <div style="display:flex;gap:20px;margin-top:14px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);"><div style="width:10px;height:10px;border-radius:2px;background:var(--red)"></div>Exfiltration</div>
+        <div style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);"><div style="width:10px;height:10px;border-radius:2px;background:var(--orange)"></div>Access Abuse</div>
+        <div style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);"><div style="width:10px;height:10px;border-radius:2px;background:var(--yellow)"></div>Policy Violation</div>
+        <div style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);"><div style="width:10px;height:10px;border-radius:2px;background:var(--blue)"></div>Credential Anomaly</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     BEHAVIOR ANALYTICS
+══════════════════════════════ -->
+<div class="view" id="view-analytics">
+  <div class="view-header">
+    <div class="view-eyebrow">// BEHAVIORAL PROFILING</div>
+    <div class="view-title">Behavior Analytics</div>
+    <div class="view-sub">UEBA — User and Entity Behavior Analytics. Click a subject to view their risk profile.</div>
+  </div>
+
+  <div class="ba-employee-select" id="emp-selector"></div>
+  <div class="profile-grid">
+    <div id="profile-left"></div>
+    <div id="profile-right"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     SIMULATIONS
+══════════════════════════════ -->
+<div class="view" id="view-simulations">
+  <div class="view-header">
+    <div class="view-eyebrow">// THREAT SIMULATIONS</div>
+    <div class="view-title">Training Simulations</div>
+    <div class="view-sub">Work through real-world insider threat scenarios. Identify red flags, make decisions, and receive detailed debriefs.</div>
+  </div>
+  <div class="sim-grid" id="sim-grid"></div>
+</div>
+
+<!-- ══════════════════════════════
+     INDICATORS LIBRARY
+══════════════════════════════ -->
+<div class="view" id="view-indicators">
+  <div class="view-header">
+    <div class="view-eyebrow">// IOC REFERENCE</div>
+    <div class="view-title">Indicators of Compromise</div>
+    <div class="view-sub">Behavioral, technical, and contextual indicators used to detect insider threats. Filter by category.</div>
+  </div>
+  <div class="ioc-cats" id="ioc-cats"></div>
+  <div class="ioc-table">
+    <div class="ioc-table-hdr">
+      <span>INDICATOR</span><span>DESCRIPTION</span><span>TYPE</span><span>SEVERITY</span>
+    </div>
+    <div id="ioc-table-body"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     POLICY REFERENCE
+══════════════════════════════ -->
+<div class="view" id="view-policy">
+  <div class="view-header">
+    <div class="view-eyebrow">// POLICY & COMPLIANCE</div>
+    <div class="view-title">Policy Reference</div>
+    <div class="view-sub">Key insider threat policies, response procedures, and compliance frameworks.</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <div class="card" id="policy-list"></div>
+  </div>
+</div>
+
+</main><!-- /main -->
+</div><!-- /app -->
+
+<!-- ══════════════════════════════
+     SIMULATION PLAYER (OVERLAY)
+══════════════════════════════ -->
+<div id="sim-player">
+  <div class="sp-header">
+    <div class="brand-icon">S</div>
+    <div class="sp-title" id="sp-title">Simulation</div>
+    <div class="sp-progress" id="sp-step-label">Step 1 of 4</div>
+    <button class="sp-close" onclick="closeSimPlayer()">✕ EXIT</button>
+  </div>
+  <div class="sp-body">
+    <div class="sp-progress-bar"><div class="sp-progress-fill" id="sp-progress-fill"></div></div>
+    <div id="sp-content"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════
+
+const EMPLOYEES = [
+  {
+    id:1, name:'Marcus Webb', role:'Sr. Database Admin', initials:'MW', color:'#8b5cf6',
+    score:87, level:'CRITICAL',
+    dept:'IT Infrastructure', tenure:'6 yrs', access:'Tier 1 Privileged',
+    anomalies:23, dataAccess:'14.2 GB', offHours:18, failedLogins:0,
+    iocs:[
+      'Mass database exports outside business hours',
+      'Access to HR records outside normal scope',
+      'USB device connected 3x in past 2 weeks',
+      'Submitted resignation — 2 weeks notice active',
+      'Searched for competitor job postings on work device'
+    ],
+    timeline:[
+      {time:'02:14 AM', event:'Large SQL dump exported', detail:'customer_data.sql · 4.8 GB', flag:'CRITICAL', flagColor:'var(--red)', lineColor:'var(--red)'},
+      {time:'11:45 PM', event:'VPN access from new geo-location', detail:'IP: 192.168.x.x — Chicago IL (home is Dallas TX)', flag:'HIGH', flagColor:'var(--orange)', lineColor:'var(--orange)'},
+      {time:'06:30 PM', event:'USB device connected', detail:'Unregistered USB-C drive · 16GB', flag:'HIGH', flagColor:'var(--orange)', lineColor:'var(--orange)'},
+      {time:'03:15 PM', event:'Accessed HR payroll files', detail:'Outside authorized scope · 47 records viewed', flag:'MEDIUM', flagColor:'var(--yellow)', lineColor:'var(--yellow)'},
+      {time:'09:00 AM', event:'Normal login — work session', detail:'Standard workday access · within parameters', flag:'NORMAL', flagColor:'var(--green)', lineColor:'var(--green)'},
+    ]
+  },
+  {
+    id:2, name:'Sandra Osei', role:'Financial Analyst', initials:'SO', color:'#f43f5e',
+    score:72, level:'HIGH',
+    dept:'Finance', tenure:'3 yrs', access:'Tier 2 — Finance Systems',
+    anomalies:11, dataAccess:'2.1 GB', offHours:9, failedLogins:4,
+    iocs:[
+      'Multiple failed authentication attempts before success',
+      'Accessed archived contracts beyond current project scope',
+      'Large email with attachment to personal Gmail (DLP flagged)',
+      'Printed 140 pages of financial projections — no business purpose logged'
+    ],
+    timeline:[
+      {time:'07:45 PM', event:'Email to personal account flagged by DLP', detail:'Attachment: Q4_Projections_Final.xlsx · 2.1MB', flag:'HIGH', flagColor:'var(--orange)', lineColor:'var(--orange)'},
+      {time:'05:10 PM', event:'Large print job submitted', detail:'140 pages · Financial Projections 2024–2026', flag:'MEDIUM', flagColor:'var(--yellow)', lineColor:'var(--yellow)'},
+      {time:'02:30 PM', event:'Accessed archived M&A contracts', detail:'27 files viewed · outside current project assignment', flag:'MEDIUM', flagColor:'var(--yellow)', lineColor:'var(--yellow)'},
+      {time:'08:55 AM', event:'5 failed login attempts then success', detail:'Account temporarily locked before unlock', flag:'HIGH', flagColor:'var(--orange)', lineColor:'var(--orange)'},
+    ]
+  },
+  {
+    id:3, name:'Jason Tremblay', role:'DevOps Engineer', initials:'JT', color:'#fb923c',
+    score:61, level:'HIGH',
+    dept:'Engineering', tenure:'1.5 yrs', access:'Tier 2 — Cloud & CI/CD',
+    anomalies:8, dataAccess:'8.7 GB', offHours:14, failedLogins:1,
+    iocs:[
+      'Cloned private repos to personal GitHub account',
+      'Accessed production environment credentials outside change window',
+      'Disabled logging on 2 cloud instances for 3 hours'
+    ],
+    timeline:[
+      {time:'11:00 PM', event:'Disabled CloudTrail logging — us-east-1', detail:'2 EC2 instances · logging re-enabled 2:17 AM', flag:'CRITICAL', flagColor:'var(--red)', lineColor:'var(--red)'},
+      {time:'09:30 PM', event:'Private repo cloned to external account', detail:'3 repos · jtremblay-personal@github.com', flag:'HIGH', flagColor:'var(--orange)', lineColor:'var(--orange)'},
+      {time:'04:00 PM', event:'Production DB credentials accessed', detail:'Outside approved change window · no ticket', flag:'HIGH', flagColor:'var(--orange)', lineColor:'var(--orange)'},
+    ]
+  },
+  {
+    id:4, name:'Priya Nair', role:'HR Specialist', initials:'PN', color:'#10b981',
+    score:18, level:'LOW',
+    dept:'Human Resources', tenure:'4 yrs', access:'Tier 3 — HR Systems',
+    anomalies:1, dataAccess:'0.3 GB', offHours:1, failedLogins:0,
+    iocs:['Minor: Viewed terminated employee file (standard offboarding task)'],
+    timeline:[
+      {time:'02:00 PM', event:'Accessed terminated employee file', detail:'Part of standard offboarding checklist — approved', flag:'NORMAL', flagColor:'var(--green)', lineColor:'var(--green)'},
+    ]
+  },
+  {
+    id:5, name:'David Achebe', role:'Sales Manager', initials:'DA', color:'#3b82f6',
+    score:33, level:'MEDIUM',
+    dept:'Sales', tenure:'2 yrs', access:'Tier 3 — CRM',
+    anomalies:4, dataAccess:'1.1 GB', offHours:3, failedLogins:0,
+    iocs:[
+      'Exported full CRM contact list (3,200 records) — standard for role but volume elevated',
+      'Accessed competitor pricing files not related to current accounts'
+    ],
+    timeline:[
+      {time:'06:15 PM', event:'CRM full export — 3,200 contacts', detail:'Exceeds typical weekly export by 8x', flag:'MEDIUM', flagColor:'var(--yellow)', lineColor:'var(--yellow)'},
+      {time:'03:40 PM', event:'Accessed competitor analysis folder', detail:'Outside current account assignments', flag:'MEDIUM', flagColor:'var(--yellow)', lineColor:'var(--yellow)'},
+    ]
+  }
+];
+
+const FEED_EVENTS = [
+  {time:'just now', dot:'var(--red)', action:'Marcus Webb exported 4.8 GB database file', meta:'DB-PROD-01 · SQL dump · 02:14 AM', sev:'CRITICAL', sevColor:'rgba(244,63,94,.15)', sevBorder:'rgba(244,63,94,.4)', sevText:'var(--red)'},
+  {time:'4m ago',   dot:'var(--orange)', action:'DLP blocked Sandra Osei email with attachment', meta:'Q4_Projections.xlsx → personal Gmail', sev:'HIGH', sevColor:'rgba(251,146,60,.12)', sevBorder:'rgba(251,146,60,.35)', sevText:'var(--orange)'},
+  {time:'11m ago',  dot:'var(--red)', action:'Jason Tremblay disabled audit logging', meta:'AWS CloudTrail · us-east-1 · 3 hrs', sev:'CRITICAL', sevColor:'rgba(244,63,94,.15)', sevBorder:'rgba(244,63,94,.4)', sevText:'var(--red)'},
+  {time:'23m ago',  dot:'var(--yellow)', action:'David Achebe: abnormal CRM export volume', meta:'3,200 contacts exported · 8x baseline', sev:'MEDIUM', sevColor:'rgba(251,191,36,.12)', sevBorder:'rgba(251,191,36,.35)', sevText:'var(--yellow)'},
+  {time:'38m ago',  dot:'var(--orange)', action:'Marcus Webb: USB device connected', meta:'Unregistered device · DB workstation', sev:'HIGH', sevColor:'rgba(251,146,60,.12)', sevBorder:'rgba(251,146,60,.35)', sevText:'var(--orange)'},
+  {time:'1h ago',   dot:'var(--orange)', action:'Sandra Osei: 5 failed login attempts', meta:'Finance portal · account locked briefly', sev:'HIGH', sevColor:'rgba(251,146,60,.12)', sevBorder:'rgba(251,146,60,.35)', sevText:'var(--orange)'},
+  {time:'2h ago',   dot:'var(--green)', action:'Priya Nair: routine HR file access', meta:'Terminated employee offboarding · approved', sev:'NORMAL', sevColor:'rgba(16,185,129,.08)', sevBorder:'rgba(16,185,129,.3)', sevText:'var(--green)'},
+];
+
+const SIMULATIONS = [
+  {
+    id:0, title:'The Departing Admin', difficulty:'HARD', diffColor:'var(--red)',
+    banner:'linear-gradient(135deg,#1a0a0a,#2d1010)', icon:'👤',
+    desc:'A privileged IT administrator has given two weeks notice. Unusual after-hours database exports begin. Determine if this is malicious data theft or legitimate work — and what to do.',
+    steps:4, type:'Data Exfiltration', time:'~12 min', completed:false, score:null,
+    scenes:[
+      {
+        step:'SCENE 01', title:'Initial Alert',
+        context:'02:14 AM — SENTINEL flags an anomaly. Marcus Webb, Senior Database Administrator (currently in his 2-week notice period), has exported a 4.8 GB SQL file from the production customer database. This is his third late-night database export this week.',
+        evidence:[
+          {icon:'📊',title:'Export Size',val:'4.8 GB SQL dump'},
+          {icon:'🕐',title:'Timestamp',val:'02:14 AM (off-hours)'},
+          {icon:'📅',title:'Frequency',val:'3rd export this week'},
+          {icon:'📋',title:'Status',val:'2-week notice active'},
+          {icon:'💼',title:'Access Level',val:'Tier 1 — Privileged'},
+          {icon:'📁',title:'File Name',val:'customer_data_FULL.sql'},
+        ],
+        question:'What is your FIRST response to this alert?',
+        choices:[
+          {text:'Immediately lock Marcus\'s account and escalate to management and legal', isCorrect:false, feedback:'Locking immediately without investigation could be premature and legally risky. An admin exporting data isn\'t inherently malicious — it could be backup work. You need to gather more information before taking action.'},
+          {text:'Flag the alert, check whether this export matches any approved backup schedule or ticket, and monitor for further activity', isCorrect:true, feedback:'Correct. The first step is to verify context — is this export authorized? Check the change management system for approved tickets, and monitor for additional indicators before escalating. Premature lockout can be a legal and HR liability.'},
+          {text:'Email Marcus asking him to explain the export', isCorrect:false, feedback:'Contacting the subject directly at this stage would tip them off and potentially accelerate harmful behavior. Insider threat investigations require covert monitoring until sufficient evidence is gathered.'},
+          {text:'Delete the exported file from the server remotely', isCorrect:false, feedback:'Never destroy or tamper with potential evidence. This could violate forensic chain-of-custody and expose the organization to legal risk. Preserve, monitor, and escalate through proper channels.'},
+        ]
+      },
+      {
+        step:'SCENE 02', title:'Escalating Indicators',
+        context:'Checking the change management system reveals NO approved ticket for this export. Additionally, SENTINEL surfaces two more anomalies: a USB device was connected to Marcus\'s workstation 3 times this week, and he accessed HR compensation records outside his authorized scope.',
+        evidence:[
+          {icon:'🎫',title:'Change Ticket',val:'NONE FOUND'},
+          {icon:'💾',title:'USB Activity',val:'3x unregistered device'},
+          {icon:'📂',title:'HR Access',val:'47 comp records (out-of-scope)'},
+          {icon:'🌐',title:'VPN Login',val:'Chicago IL (home: Dallas TX)'},
+        ],
+        question:'Multiple red flags are confirmed. What is the correct escalation path?',
+        choices:[
+          {text:'Compile all evidence and brief the HR director privately — skip legal and IT management', isCorrect:false, feedback:'HR alone is not the right escalation path for a potential cybercrime. The proper team is HR + Legal + IT Security + executive management. HR cannot make forensic preservation orders or initiate legal holds independently.'},
+          {text:'Escalate to HR, Legal, and IT Security leadership simultaneously. Initiate a legal hold on Marcus\'s accounts, devices, and all associated logs. Do NOT lock access yet — continue covert monitoring.', isCorrect:true, feedback:'Correct. This is the textbook insider threat escalation: brief the full response team (HR + Legal + IT Security), initiate legal hold on all relevant data, but maintain covert access to continue monitoring. Locking too soon tips off the subject.'},
+          {text:'Immediately revoke all of Marcus\'s system access and confiscate his laptop', isCorrect:false, feedback:'Revoking access without a legal hold could destroy evidence. The laptop must be preserved using forensic imaging procedures, not simply confiscated. Legal authorization is required before taking these steps.'},
+          {text:'Wait until Marcus\'s notice period ends — the problem resolves itself', isCorrect:false, feedback:'The resignation creates urgency, not a reason to wait. An employee serving out their notice period is one of the highest-risk windows for data theft. Continued monitoring and escalation are critical during this period.'},
+        ]
+      },
+      {
+        step:'SCENE 03', title:'The Confrontation Decision',
+        context:'Legal and HR have been briefed. Legal advises they have enough evidence to confront Marcus. The decision must be made: terminate immediately and collect devices, or allow continued monitoring to identify if data has already been transmitted externally.',
+        evidence:[
+          {icon:'⚖️',title:'Legal Review',val:'Sufficient evidence'},
+          {icon:'📤',title:'External Transfer',val:'No confirmed exfil yet'},
+          {icon:'🔍',title:'DLP Status',val:'No outbound blocks triggered'},
+          {icon:'📅',title:'Remaining',val:'9 days of notice period'},
+        ],
+        question:'Legal says you have two options. Which approach is correct?',
+        choices:[
+          {text:'Continue monitoring for 24-48 hours to determine if data was already transmitted externally, then terminate with device seizure and forensic imaging', isCorrect:true, feedback:'Correct. Since no confirmed external exfiltration has been detected yet, 24-48 hours of additional monitoring can determine if the data was retained internally or sent out. Termination with forensic seizure is the appropriate endpoint — legal hold ensures evidence preservation throughout.'},
+          {text:'Offer Marcus a bonus to return all copied data voluntarily', isCorrect:false, feedback:'This approach is legally problematic and tactically unsound. It acknowledges wrongdoing without proper process, could be seen as coercive, and there\'s no guarantee that all copies would be returned. It also bypasses proper legal procedures.'},
+          {text:'Terminate today, escort Marcus out, but skip forensic imaging since he\'s already leaving', isCorrect:false, feedback:'Forensic imaging is NOT optional. Without it, you cannot prove what data was copied, whether it was transmitted, or build a legal case. Skipping forensics could make prosecution impossible and expose the company to liability.'},
+          {text:'Do nothing — the data might be for a legitimate reason you haven\'t discovered yet', isCorrect:false, feedback:'Multiple confirmed indicators (unauthorized exports, out-of-scope access, USB activity, no change ticket) make inaction negligent at this stage. The legal hold and escalation have already been initiated — this decision point requires action.'},
+        ]
+      },
+      {
+        step:'SCENE 04', title:'Post-Incident Response',
+        context:'Marcus is terminated. Forensic imaging reveals he copied 21 GB of customer data across 4 sessions. Investigation finds he was negotiating a role with a competitor. Legal is pursuing civil action. You must now harden the environment to prevent recurrence.',
+        evidence:[
+          {icon:'🔎',title:'Data Copied',val:'21 GB over 4 sessions'},
+          {icon:'🏢',title:'Destination',val:'Competitor negotiation confirmed'},
+          {icon:'⚖️',title:'Legal Action',val:'Civil suit — in progress'},
+          {icon:'📋',title:'DLP Gaps',val:'3 policy gaps identified'},
+        ],
+        question:'Which combination of controls would MOST effectively prevent a similar incident?',
+        choices:[
+          {text:'Simply fire the next person who exports large files', isCorrect:false, feedback:'This is reactive, not preventive. The goal of post-incident hardening is to prevent the conditions that enabled the incident from recurring — not just punish future violations after they occur.'},
+          {text:'Implement automatic account downgrade to read-only for employees in their notice period + mandatory DLP on all database exports + USB port disable policy for privileged users', isCorrect:true, feedback:'Excellent. This is a layered defense approach: (1) Reducing access for departing employees limits blast radius; (2) DLP on exports catches exfiltration before it leaves; (3) USB restrictions eliminate a key exfiltration vector. Together these address root causes.'},
+          {text:'Require all employees to sign a new NDA immediately', isCorrect:false, feedback:'Legal instruments alone don\'t prevent technical exfiltration. While updated NDAs and exit interview processes have value, they don\'t address the technical control gaps that enabled Marcus to copy 21 GB undetected.'},
+          {text:'Increase monitoring across all employees, regardless of risk tier', isCorrect:false, feedback:'While broader monitoring has value, undifferentiated surveillance of all employees creates noise, reduces analyst effectiveness, and raises significant privacy and morale concerns. Risk-tiered monitoring focused on high-risk indicators is more effective.'},
+        ]
+      }
+    ]
+  },
+  {
+    id:1, title:'The Disgruntled Analyst', difficulty:'MEDIUM', diffColor:'var(--orange)',
+    banner:'linear-gradient(135deg,#100a1a,#1a102d)', icon:'💢',
+    desc:'A finance analyst receives a poor performance review and is passed over for promotion. Unusual data printing and personal email forwarding are detected. Recognize the red flags and take appropriate action.',
+    steps:3, type:'Data Leakage', time:'~8 min', completed:false, score:null,
+    scenes:[
+      {
+        step:'SCENE 01', title:'Performance Trigger Event',
+        context:'Sandra Osei received a negative performance review 4 days ago and was told she will not receive an expected promotion. SENTINEL now flags two behaviors: she printed 140 pages of financial projections with no business purpose logged, and a DLP rule fired when she attempted to forward Q4_Projections.xlsx to her personal Gmail.',
+        evidence:[
+          {icon:'🖨️',title:'Print Volume',val:'140 pages · no purpose'},
+          {icon:'📧',title:'DLP Alert',val:'Email to personal Gmail blocked'},
+          {icon:'📊',title:'File Type',val:'Q4_Projections_Final.xlsx'},
+          {icon:'📅',title:'Trigger',val:'4 days after bad review'},
+          {icon:'🔑',title:'Failed Logins',val:'4 failed + 1 success today'},
+          {icon:'📁',title:'Access Scope',val:'Accessed archived M&A files'},
+        ],
+        question:'What does this pattern of behavior MOST likely indicate?',
+        choices:[
+          {text:'Sandra is working extra hard to prove herself after the bad review', isCorrect:false, feedback:'While possible in isolation, the combination of a blocked personal email exfiltration attempt, out-of-scope file access, and unusual printing following a negative review is a classic Disgruntled Employee pattern — not a performance improvement indicator.'},
+          {text:'This is a coincidence and does not warrant investigation', isCorrect:false, feedback:'No — the temporal correlation (4 days after negative review), combined with multiple simultaneous indicators (DLP trigger, scope violation, unusual printing), makes coincidence statistically unlikely. This pattern warrants investigation.'},
+          {text:'Sandra may be collecting confidential information following her negative review — classic disgruntled employee / pre-resignation exfiltration pattern', isCorrect:true, feedback:'Correct. This is a textbook pattern: triggering life event (negative review) → behavioral shift → multiple simultaneous exfiltration indicators. The DLP block suggests the email was likely an exfiltration attempt.'},
+          {text:'The DLP system malfunctioned — there is no real threat here', isCorrect:false, feedback:'Even if one indicator could be a false positive, four simultaneous anomalies (DLP trigger, printing, scope access, failed logins) do not all malfunction at once. Multiple independent signals reinforce each other.'},
+        ]
+      },
+      {
+        step:'SCENE 02', title:'Determining Intent',
+        context:'IT Security has confirmed the DLP block was legitimate. The email contained formulas referencing client projections for the next 3 fiscal years. You need to determine if Sandra retained a copy before the block.',
+        evidence:[
+          {icon:'💾',title:'Local Copy',val:'File cached on workstation'},
+          {icon:'☁️',title:'Cloud Sync',val:'OneDrive sync — unknown status'},
+          {icon:'🖨️',title:'Print Log',val:'140 pages confirmed printed'},
+          {icon:'📱',title:'Mobile',val:'Work MDM on personal phone'},
+        ],
+        question:'How should you determine if Sandra retained a copy of the sensitive file?',
+        choices:[
+          {text:'Ask Sandra directly if she still has a copy of the file', isCorrect:false, feedback:'Asking the subject directly at this stage would compromise the investigation. It tips off the subject, may cause destruction of evidence, and should never be the first step. Forensic investigation should precede any confrontation.'},
+          {text:'Conduct forensic analysis of Sandra\'s workstation cache, OneDrive sync logs, and MDM device logs to determine all file access and retention paths', isCorrect:true, feedback:'Correct. Forensic analysis of all digital channels (local cache, cloud sync, mobile MDM) is the proper method to determine retention. This preserves evidence and doesn\'t alert the subject.'},
+          {text:'Simply reissue the DLP policy and consider the matter closed', isCorrect:false, feedback:'The DLP block only stopped the email exfiltration — the file may still exist locally, on cloud storage, or as printouts. Closing the matter here leaves a serious gap in the investigation.'},
+          {text:'Delete the cached local file remotely to prevent further risk', isCorrect:false, feedback:'Deleting the file destroys forensic evidence and may violate legal hold requirements if one has been initiated. Never tamper with potential evidence during an active investigation.'},
+        ]
+      },
+      {
+        step:'SCENE 03', title:'Response and Remediation',
+        context:'Forensic review confirms Sandra has a printed copy of the projections and a copy on her personal OneDrive (synced before the DLP policy was updated). HR and Legal are now involved. Sandra is still employed.',
+        evidence:[
+          {icon:'🖨️',title:'Printed Copy',val:'Confirmed — at home'},
+          {icon:'☁️',title:'OneDrive Copy',val:'Confirmed — personal account'},
+          {icon:'⚖️',title:'Legal Status',val:'Under review'},
+          {icon:'👔',title:'Employment',val:'Active — no action yet'},
+        ],
+        question:'What is the appropriate response sequence?',
+        choices:[
+          {text:'Issue Sandra a warning memo and update the DLP policy', isCorrect:false, feedback:'A warning memo is insufficient given confirmed exfiltration to a personal account and home. This rises above a policy violation to potential intellectual property theft — it requires HR, Legal, and leadership involvement with a formal corrective action process.'},
+          {text:'Legal sends Sandra a formal letter demanding return of all copied materials; HR initiates disciplinary process; IT revokes cloud sync permissions; DLP policy updated for this file category', isCorrect:true, feedback:'Correct. This is the appropriate multi-pronged response: legal demand for return of materials, HR disciplinary action, technical remediation (revoke sync permissions), and policy hardening (DLP update). All four components are necessary.'},
+          {text:'Immediately terminate Sandra and inform all staff about what happened', isCorrect:false, feedback:'Informing all staff about an active investigation violates confidentiality, could expose the company to liability, and could trigger retaliation. Employment decisions must follow HR and legal protocols — public announcements are never appropriate.'},
+          {text:'Monitor Sandra for another 30 days before taking any action', isCorrect:false, feedback:'With confirmed exfiltration to a personal account, additional delay without action is negligent. The data has already left the organization. Prompt legal and HR action is required to maximize recovery chances and limit further damage.'},
+        ]
+      }
+    ]
+  },
+  {
+    id:2, title:'The Credential Harvester', difficulty:'HARD', diffColor:'var(--red)',
+    banner:'linear-gradient(135deg,#0a1019,#0f1f30)', icon:'🔑',
+    desc:'A DevOps engineer begins accessing production credentials outside approved change windows and disables cloud audit logging. Determine if this is an inside job or a compromised account.',
+    steps:3, type:'Privilege Abuse', time:'~10 min', completed:false, score:null,
+    scenes:[
+      {
+        step:'SCENE 01', title:'Logging Disabled',
+        context:'SENTINEL alerts that Jason Tremblay disabled AWS CloudTrail logging on two production EC2 instances between 11:00 PM – 2:17 AM. No change ticket exists. This is the first time logging has been disabled outside a documented DR test in 18 months.',
+        evidence:[
+          {icon:'☁️',title:'CloudTrail',val:'Disabled 11PM – 2:17AM'},
+          {icon:'🎫',title:'Change Ticket',val:'NONE'},
+          {icon:'🔐',title:'Credentials',val:'Jason\'s valid MFA confirmed'},
+          {icon:'🌐',title:'IP Address',val:'Matches home IP geolocation'},
+          {icon:'⏱️',title:'Duration',val:'3 hrs 17 min'},
+          {icon:'📝',title:'Prior Incidents',val:'0 in 18 months'},
+        ],
+        question:'The most critical question to answer first in this scenario is:',
+        choices:[
+          {text:'Was the login using Jason\'s actual credentials, or was his account compromised?', isCorrect:true, feedback:'Correct. The pivotal distinction is: is this an insider threat (Jason acting maliciously) or an account takeover (attacker using stolen credentials)? This determines the entire response path. MFA confirmation and geolocation match Jason\'s home, which suggests the account is legitimate — but this must be definitively confirmed before proceeding.'},
+          {text:'Why did Jason disable logging — he probably had a good reason', isCorrect:false, feedback:'While intent matters, assuming a benign reason is dangerous when logging was disabled with no change ticket during off-hours. The first priority is verification of the account and the action — not assumption of innocence without evidence.'},
+          {text:'Immediately terminate Jason\'s employment', isCorrect:false, feedback:'Employment termination without investigation would be both legally and procedurally incorrect. You need to determine if this was Jason or an attacker using his credentials before taking any personnel action.'},
+          {text:'Re-enable logging and move on — no damage has been done', isCorrect:false, feedback:'Re-enabling logging doesn\'t address what happened DURING the 3-hour window when logging was disabled. That gap could hide credential harvesting, data modification, backdoor installation, or lateral movement. The gap must be investigated.'},
+        ]
+      },
+      {
+        step:'SCENE 02', title:'The 3-Hour Window',
+        context:'Account forensics confirm the login was Jason\'s legitimate credentials — MFA, device fingerprint, and typing biometrics all match. During the 3-hour log gap, additional analysis (from network flow data that persisted independently of CloudTrail) shows Jason accessed production database credentials and cloned 3 private repositories to a personal GitHub account.',
+        evidence:[
+          {icon:'✅',title:'Identity',val:'Confirmed: Jason Tremblay'},
+          {icon:'🔑',title:'Prod Creds',val:'DB credentials accessed'},
+          {icon:'💻',title:'GitHub Clone',val:'3 private repos → personal account'},
+          {icon:'📊',title:'Network Flow',val:'Evidence preserved independently'},
+          {icon:'🏠',title:'Location',val:'Home IP confirmed'},
+          {icon:'📱',title:'MFA Device',val:'Jason\'s registered phone'},
+        ],
+        question:'This is now confirmed as an insider threat. What is the MOST important immediate technical action?',
+        choices:[
+          {text:'Rotate ALL production credentials accessed during the window immediately', isCorrect:true, feedback:'Correct and critical. Any credential accessed during an unmonitored window must be treated as compromised and rotated immediately — even if you believe they haven\'t been used yet. Credential rotation is the single most important immediate technical control to limit blast radius.'},
+          {text:'Archive the GitHub repositories he cloned before doing anything else', isCorrect:false, feedback:'While preserving evidence is important, rotating compromised production credentials takes absolute precedence. Live credentials can be used at any moment — intellectual property that\'s already been cloned cannot be "un-cloned" regardless of your timing.'},
+          {text:'Send Jason a Slack message asking him to explain his actions', isCorrect:false, feedback:'Never alert the subject during an active insider threat investigation. Direct contact tips off the threat actor, may trigger further harmful actions, and must never precede formal escalation through HR and Legal.'},
+          {text:'Wait for the next business day to brief management', isCorrect:false, feedback:'Active credential theft is a live security incident. Waiting until the next business day to brief management while compromised production credentials remain in use is not acceptable. This requires immediate escalation regardless of the time.'},
+        ]
+      },
+      {
+        step:'SCENE 03', title:'Containment and Lessons Learned',
+        context:'Credentials have been rotated. Jason is suspended pending investigation. Legal is reviewing the GitHub repository cloning for IP theft. You must now address the root vulnerability that allowed this — the ability to disable audit logging.',
+        evidence:[
+          {icon:'🔄',title:'Creds',val:'Rotated — 18 total'},
+          {icon:'⏸️',title:'Employment',val:'Suspended — pending'},
+          {icon:'⚖️',title:'IP Theft',val:'Legal review — in progress'},
+          {icon:'🔓',title:'Root Cause',val:'Logging control not protected'},
+        ],
+        question:'Which technical control would MOST directly prevent this attack vector from being used again?',
+        choices:[
+          {text:'Add Jason to a monitoring watchlist for future roles', isCorrect:false, feedback:'Monitoring a terminated/suspended employee who no longer has access doesn\'t address the root technical vulnerability. The goal is to prevent ANY user — including future employees — from disabling audit logs.'},
+          {text:'Implement SCPs (Service Control Policies) in AWS that prevent disabling of CloudTrail by any IAM identity — requiring a separate break-glass account with dual-person integrity to modify logging', isCorrect:true, feedback:'Correct. AWS SCPs can enforce that logging cannot be disabled by standard IAM identities — even administrators. Break-glass accounts with dual-person integrity (requiring two authorized people) ensure no single actor can disable monitoring. This is the correct architectural control.'},
+          {text:'Require all engineers to sign an acceptable use policy', isCorrect:false, feedback:'Policy agreements are important but don\'t prevent technical actions. A determined insider can sign a policy and still disable logging. Technical controls must enforce what policy cannot.'},
+          {text:'Move all infrastructure to a different cloud provider', isCorrect:false, feedback:'Cloud provider change doesn\'t address the root cause — any cloud platform can have its logging disabled if IAM permissions allow it. The solution is proper permission scoping and protective controls, not provider migration.'},
+        ]
+      }
+    ]
+  },
+  {
+    id:3, title:'The Unwitting Accomplice', difficulty:'EASY', diffColor:'var(--green)',
+    banner:'linear-gradient(135deg,#0a190a,#102010)', icon:'🎭',
+    desc:'An employee unknowingly facilitates an insider threat by sharing credentials with a coworker. Learn to identify social engineering within the organization and understand why security basics matter.',
+    steps:3, type:'Social Engineering', time:'~7 min', completed:false, score:null,
+    scenes:[
+      {
+        step:'SCENE 01', title:'Shared Credentials Detected',
+        context:'SENTINEL flags that Priya Nair\'s credentials were used to access the HRIS system from two different IP addresses simultaneously — her workstation (Austin, TX) and a VPN connection (Chicago, IL). Priya is currently logged in and working normally at her desk.',
+        evidence:[
+          {icon:'🔑',title:'Session 1',val:'Austin TX — Priya\'s PC'},
+          {icon:'🌐',title:'Session 2',val:'Chicago IL — VPN login'},
+          {icon:'⏱️',title:'Overlap',val:'Both active simultaneously'},
+          {icon:'👤',title:'Priya Status',val:'Normal — at her desk'},
+          {icon:'📋',title:'Activity',val:'Session 2: accessing HR reports'},
+          {icon:'🔐',title:'2FA',val:'One-time code used — not re-prompted'},
+        ],
+        question:'What does simultaneous login from two geographically separate locations MOST likely indicate?',
+        choices:[
+          {text:'Priya shared her password with a colleague who needed quick access to a report', isCorrect:true, feedback:'Correct. Simultaneous logins from geographically separate locations is the most common technical signature of credential sharing. This is frequently done with benign intent ("I just need to grab one file") but represents a serious security violation — especially for HR systems containing sensitive personal data.'},
+          {text:'Priya\'s account has been taken over by an external attacker', isCorrect:false, feedback:'While account takeover is always possible, the fact that Priya is actively logged in at her desk simultaneously makes credential sharing the more probable explanation. An external attacker would typically use a different time window to avoid detection.'},
+          {text:'There is a technical error in the authentication system', isCorrect:false, feedback:'While system errors can cause logging anomalies, simultaneous active sessions from geographically separate locations performing real HRIS queries is not consistent with a logging error — it indicates real active sessions.'},
+          {text:'Priya is using a VPN herself to appear to be in two locations', isCorrect:false, feedback:'If Priya were using a VPN, both sessions would originate from either her real IP or the VPN endpoint — not from two different locations simultaneously. The dual-session pattern points to credential sharing.'},
+        ]
+      },
+      {
+        step:'SCENE 02', title:'Identifying the Sharer',
+        context:'IT Security talks with Priya. She confirms she shared her password with a colleague, Kevin Marsh (IT Support), who said he needed access "urgently" to pull an HR report for a time-sensitive compliance request and "his own access wasn\'t working." Kevin is not authorized to access HRIS.',
+        evidence:[
+          {icon:'👨‍💻',title:'Kevin Marsh',val:'IT Support — not HRIS authorized'},
+          {icon:'💬',title:'Kevin\'s Claim',val:'"Urgent compliance report"'},
+          {icon:'📋',title:'HRIS Access',val:'Kevin: no authorized access'},
+          {icon:'📊',title:'Kevin\'s Activity',val:'Pulled 140 employee salary records'},
+          {icon:'🔍',title:'Ticket Check',val:'No compliance request on file'},
+          {icon:'🚩',title:'Context',val:'Kevin in salary renegotiation'},
+        ],
+        question:'What type of insider threat does Kevin\'s behavior represent?',
+        choices:[
+          {text:'Unintentional insider — Kevin didn\'t know he was doing anything wrong', isCorrect:false, feedback:'Kevin\'s behavior was deliberate. He fabricated a reason to access HR data, used social engineering to obtain Priya\'s credentials, and accessed salary records he is not authorized to view — all while in a personal salary negotiation. This is intentional, not accidental.'},
+          {text:'Malicious insider using social engineering — Kevin deliberately manipulated a colleague to gain unauthorized access to salary data during salary negotiations', isCorrect:true, feedback:'Correct. Kevin displayed all elements of malicious insider behavior: a self-serving motive (salary data during his own negotiation), social engineering (fabricated urgency to manipulate Priya), and unauthorized data access. This is a textbook case.'},
+          {text:'Third-party / external threat actor — Kevin\'s account was compromised', isCorrect:false, feedback:'Kevin is an employee acting intentionally using social engineering on a colleague. This is not an external or account-compromise scenario — Kevin himself is the threat actor.'},
+          {text:'A policy violation, but not an insider threat', isCorrect:false, feedback:'Intentional unauthorized access to confidential data for personal benefit meets the definition of an insider threat. The fact that Kevin used social engineering rather than direct technical exploitation doesn\'t reduce the severity.'},
+        ]
+      },
+      {
+        step:'SCENE 03', title:'Corrective Actions',
+        context:'HR and Security have confirmed the unauthorized access. Kevin accessed salary data for 140 employees during his personal compensation negotiation. Priya cooperated fully and is not considered malicious — but she did violate the credential sharing policy.',
+        evidence:[
+          {icon:'📊',title:'Exposed Data',val:'140 employee salaries'},
+          {icon:'💼',title:'Kevin\'s Motive',val:'Personal salary negotiation'},
+          {icon:'✅',title:'Priya\'s Intent',val:'Non-malicious — cooperative'},
+          {icon:'📜',title:'Policy',val:'Credential sharing prohibited'},
+        ],
+        question:'What is the appropriate corrective action for BOTH Priya and Kevin?',
+        choices:[
+          {text:'Only address Kevin — Priya was just trying to help', isCorrect:false, feedback:'Both parties must receive corrective action. Priya violated the credential sharing policy, which is a fireable offense at many organizations regardless of intent. Not addressing Priya\'s violation undermines the policy\'s deterrent effect for all employees.'},
+          {text:'Kevin: termination and potential legal action for unauthorized data access. Priya: formal written warning, mandatory security awareness retraining, and documentation in personnel file', isCorrect:true, feedback:'Correct. The responses are proportionate to each person\'s role. Kevin acted with intent and accessed confidential data for personal gain — termination and legal review are appropriate. Priya made a poor judgment call without malicious intent — formal discipline and retraining are appropriate without termination.'},
+          {text:'Give both employees a verbal warning and move on', isCorrect:false, feedback:'A verbal warning is insufficient for either party. Kevin committed intentional unauthorized data access. Priya violated a written security policy. Both require documented corrective action to create a record and deter future behavior.'},
+          {text:'Terminate both Priya and Kevin immediately', isCorrect:false, feedback:'While Kevin\'s termination is warranted, immediately terminating Priya — who acted non-maliciously and cooperated with the investigation — would be disproportionate and could expose the organization to a wrongful termination claim.'},
+        ]
+      }
+    ]
+  },
+  {
+    id:4, title:'The Shadow IT Operator', difficulty:'MEDIUM', diffColor:'var(--orange)',
+    banner:'linear-gradient(135deg,#0a0a18,#181028)', icon:'👁️',
+    desc:'A sales manager begins using unauthorized cloud storage and communication tools, bypassing approved corporate systems. Data is flowing through unmonitored channels — determine the risk level and respond.',
+    steps:3, type:'Policy Evasion', time:'~8 min', completed:false, score:null,
+    scenes:[
+      {
+        step:'SCENE 01', title:'Unauthorized App Detection',
+        context:'DLP alerts that David Achebe has uploaded 1.1 GB of files to a personal Dropbox account from his work computer. SIEM logs show he installed an unauthorized messaging app (Telegram) and has been communicating with external contacts for 3 weeks without going through corporate email or Slack.',
+        evidence:[
+          {icon:'☁️',title:'Dropbox Upload',val:'1.1 GB to personal account'},
+          {icon:'📱',title:'Shadow App',val:'Telegram — installed 3 wks ago'},
+          {icon:'💬',title:'Communications',val:'External — unmonitored channel'},
+          {icon:'📊',title:'CRM Export',val:'3,200 contacts (8x baseline)'},
+          {icon:'🏢',title:'Context',val:'Known to be exploring new role'},
+          {icon:'📅',title:'Timeline',val:'Pattern begins 4 weeks ago'},
+        ],
+        question:'What is "Shadow IT" and why does it create a security risk even when the intent isn\'t malicious?',
+        choices:[
+          {text:'Shadow IT only matters if the employee is definitely stealing data — intent is everything', isCorrect:false, feedback:'This is incorrect. Shadow IT creates security risk regardless of intent because: (1) Data in unauthorized apps is outside DLP coverage, (2) The organization cannot perform eDiscovery on Telegram, (3) Dropbox has no corporate security controls, (4) Even a non-malicious employee creates liability through ungoverned data exposure.'},
+          {text:'Shadow IT refers to unauthorized apps and services that bypass corporate security controls — even non-malicious use creates governance gaps where data is unmonitored, unencrypted, and outside legal hold capability', isCorrect:true, feedback:'Correct. Shadow IT risk is fundamentally about governance — not just intent. Corporate data in personal Dropbox cannot be recovered in litigation, monitored for exfiltration, or controlled through DLP policy. The security risk exists independent of whether David is malicious.'},
+          {text:'Shadow IT is fine if the employee is just more comfortable with those tools', isCorrect:false, feedback:'Employee comfort doesn\'t mitigate the security, legal, and compliance risks of unauthorized data storage and communication. Corporate data stored in personal accounts loses protection under data security policies and litigation hold procedures.'},
+          {text:'This is an IT problem, not a security problem', isCorrect:false, feedback:'Shadow IT is explicitly a security and compliance problem. It creates unmonitored data flows, breaks DLP coverage, creates eDiscovery gaps in litigation, and can violate regulatory requirements (HIPAA, GDPR, PCI-DSS) if regulated data is involved.'},
+        ]
+      },
+      {
+        step:'SCENE 02', title:'Assessing Intent',
+        context:'Digital forensics confirms the Dropbox files include customer contact lists and proposal templates. David\'s Telegram messages (retrieved via MDM on his work phone) show conversations with two contacts at a competitor. The content discusses "bringing over accounts" and "timing the move."',
+        evidence:[
+          {icon:'📋',title:'Dropbox Files',val:'Customer lists + proposals'},
+          {icon:'💬',title:'Telegram Content',val:'"bringing accounts over"'},
+          {icon:'🏢',title:'Recipients',val:'2 contacts at competitor'},
+          {icon:'⚖️',title:'Trade Secret',val:'Customer list = trade secret'},
+          {icon:'📱',title:'MDM Recovery',val:'Messages recovered via policy'},
+          {icon:'🎯',title:'Intent',val:'Pre-planned role transition'},
+        ],
+        question:'David\'s Telegram messages reveal planning to take customer accounts to a competitor. What legal doctrine is MOST relevant here?',
+        choices:[
+          {text:'At-will employment — David can leave and take customers anytime', isCorrect:false, feedback:'At-will employment governs termination rights — it does not permit theft of trade secrets. Customer lists developed through company resources are legally considered trade secrets in most jurisdictions, regardless of at-will employment status.'},
+          {text:'The Defend Trade Secrets Act (DTSA) — customer lists constitute trade secrets, and copying them to exfiltrate to a competitor constitutes trade secret misappropriation', isCorrect:true, feedback:'Correct. Customer lists, especially those including contact history, preferences, and deal information developed through corporate resources, are legally protected trade secrets under the DTSA. Copying and taking them to a competitor constitutes actionable misappropriation — not just a policy violation.'},
+          {text:'This is only a civil matter — no criminal laws are involved', isCorrect:false, feedback:'The Defend Trade Secrets Act allows both civil and criminal prosecution for trade secret theft. Additionally, depending on how the data was accessed, the Computer Fraud and Abuse Act (CFAA) may also apply.'},
+          {text:'David hasn\'t actually sent data to the competitor yet, so no law has been broken', isCorrect:false, feedback:'Under the DTSA, the act of misappropriation includes acquisition, disclosure, AND USE of trade secrets. Copying customer data to personal storage while discussing "bringing over accounts" in communications with competitors constitutes misappropriation even before the move is complete.'},
+        ]
+      },
+      {
+        step:'SCENE 03', title:'Evidence Preservation and Response',
+        context:'Legal confirms trade secret misappropriation. David still has 2 weeks remaining in his current role. All evidence must be preserved and legal proceedings prepared while ensuring David cannot exfiltrate additional data.',
+        evidence:[
+          {icon:'⚖️',title:'Legal Finding',val:'Trade secret misappropriation'},
+          {icon:'📅',title:'Remaining',val:'2 weeks in role'},
+          {icon:'🔒',title:'DLP',val:'Can be tightened immediately'},
+          {icon:'💼',title:'Options',val:'Termination vs. garden leave'},
+        ],
+        question:'What is "garden leave" and why might Legal prefer it over immediate termination in this scenario?',
+        choices:[
+          {text:'Garden leave is a legal term meaning termination with no severance', isCorrect:false, feedback:'This is incorrect. Garden leave means an employee remains on payroll but is required to stay home (hence "in the garden") without access to systems, clients, or colleagues. Severance is separate.'},
+          {text:'Garden leave means David continues receiving full pay but is immediately suspended from all systems and client contact — he remains an employee but cannot work. This allows the company to preserve non-compete/non-solicitation obligations without the legal risk of constructive dismissal', isCorrect:true, feedback:'Correct. Garden leave is legally strategic: (1) David remains an employee, so non-compete clauses stay active; (2) He cannot access additional data or contact clients during the notice period; (3) Termination with cause would trigger different legal proceedings. For trade secret cases, garden leave preserves the company\'s strongest legal position.'},
+          {text:'Garden leave means monitoring David without taking any action', isCorrect:false, feedback:'Garden leave is an active employment status change — not passive monitoring. The employee is notified, access is revoked immediately, and they are paid to stay home. It is a formal HR and legal action, not covert surveillance.'},
+          {text:'Immediate termination for cause is always preferable to garden leave', isCorrect:false, feedback:'Not always. Immediate termination for cause can trigger disputes about the validity of the cause, especially before all evidence is fully documented. Garden leave keeps the employee contractually bound to non-compete obligations while limiting access — often the safer legal strategy in IP cases.'},
+        ]
+      }
+    ]
+  }
+];
+
+const IOC_DATA = [
+  // Technical
+  {name:'Mass Data Export',desc:'Unusually large database or file system exports, especially outside business hours or without a change management ticket.',type:'Technical',sev:'CRITICAL',cat:'Technical'},
+  {name:'Audit Log Tampering',desc:'Disabling, clearing, or modifying audit and monitoring logs. Often the first action taken by sophisticated insiders to conceal activity.',type:'Technical',sev:'CRITICAL',cat:'Technical'},
+  {name:'Unauthorized USB Devices',desc:'Connection of unregistered removable media to corporate devices. Common exfiltration vector for privileged users.',type:'Technical',sev:'HIGH',cat:'Technical'},
+  {name:'After-Hours System Access',desc:'Accessing sensitive systems outside normal business hours without an approved business justification or change ticket.',type:'Technical',sev:'HIGH',cat:'Technical'},
+  {name:'Concurrent Sessions from Separate Locations',desc:'Simultaneous logins from geographically separate IP addresses — often indicates credential sharing or account compromise.',type:'Technical',sev:'HIGH',cat:'Technical'},
+  {name:'Shadow IT / Unauthorized Apps',desc:'Installation or use of unapproved applications (Dropbox, Telegram, etc.) that bypass corporate DLP and monitoring.',type:'Technical',sev:'MEDIUM',cat:'Technical'},
+  {name:'DLP Policy Trigger',desc:'Data Loss Prevention system blocks or alerts on file transfers to personal email, personal cloud storage, or external parties.',type:'Technical',sev:'HIGH',cat:'Technical'},
+  {name:'Excessive Print Volume',desc:'Printing significantly more pages than typical job function requires — common precursor to physical exfiltration.',type:'Technical',sev:'MEDIUM',cat:'Technical'},
+  // Behavioral
+  {name:'Triggering Life Event',desc:'Recent negative performance review, passed-over promotion, termination notice, divorce, or financial distress. Correlates with elevated risk window.',type:'Behavioral',sev:'MEDIUM',cat:'Behavioral'},
+  {name:'Resignation / Notice Period',desc:'Employees serving notice periods have reduced organizational loyalty and increased motivation to collect data. Highest-risk window for data exfiltration.',type:'Behavioral',sev:'HIGH',cat:'Behavioral'},
+  {name:'Unusual Interest in Other Departments',desc:'Accessing data, files, or systems outside an employee\'s normal work scope without a documented business reason.',type:'Behavioral',sev:'MEDIUM',cat:'Behavioral'},
+  {name:'Expressed Grievances',desc:'Verbal or written expressions of dissatisfaction, resentment toward management, or threats — especially combined with technical indicators.',type:'Behavioral',sev:'MEDIUM',cat:'Behavioral'},
+  {name:'Sudden Behavior Change',desc:'Noticeable shift in demeanor, work habits, or collegiality — especially following a negative life event.',type:'Behavioral',sev:'LOW',cat:'Behavioral'},
+  {name:'Competitor Research on Work Devices',desc:'Browsing competitor job postings, researching competitors, or contacting competitor employees using work systems.',type:'Behavioral',sev:'HIGH',cat:'Behavioral'},
+  // Contextual
+  {name:'Financial Distress Indicators',desc:'Garnishment orders, unusual loan requests through benefits, or discovered financial hardship — increases susceptibility to recruitment or self-motivated theft.',type:'Contextual',sev:'MEDIUM',cat:'Contextual'},
+  {name:'Failed Background / Clearance',desc:'Employee fails a security clearance review or background re-check — may indicate concealed history.',type:'Contextual',sev:'HIGH',cat:'Contextual'},
+  {name:'Conflicts with Colleagues / Management',desc:'Documented interpersonal conflicts, HR complaints, or disciplinary history combined with access to sensitive systems.',type:'Contextual',sev:'LOW',cat:'Contextual'},
+  {name:'Pre-Announcement Resignation',desc:'Signs of departure planning (cleaning out desk, reducing personal items, forwarding contacts) before formal notice is given.',type:'Contextual',sev:'MEDIUM',cat:'Contextual'},
+  // Access
+  {name:'Privilege Creep',desc:'Accumulation of system permissions beyond current role requirements — often from role changes without access revocation.',type:'Access',sev:'MEDIUM',cat:'Access'},
+  {name:'Service Account Misuse',desc:'Using shared or service accounts (which lack individual attribution) to perform sensitive actions — deliberately obscuring identity.',type:'Access',sev:'HIGH',cat:'Access'},
+  {name:'Accessing Terminated Employee Records',desc:'Accessing files or accounts of recently terminated employees, which may contain system credentials or sensitive exit information.',type:'Access',sev:'MEDIUM',cat:'Access'},
+  {name:'Credential Sharing',desc:'Sharing login credentials with unauthorized colleagues — either knowingly or after being socially engineered.',type:'Access',sev:'HIGH',cat:'Access'},
+];
+
+const POLICIES = [
+  {title:'Data Handling & Classification Policy',icon:'📋', content:'Defines four tiers of data sensitivity: Public, Internal, Confidential, and Restricted. Employees must apply correct classification labels and use only approved storage and transmission methods for each tier. Violation of data handling procedures for Confidential or Restricted data requires immediate IT Security notification.'},
+  {title:'Acceptable Use Policy (AUP)',icon:'💻', content:'Corporate devices and systems may only be used for legitimate business purposes. Installation of unauthorized software, personal cloud storage use for work data, and credential sharing are strictly prohibited. All activity on corporate systems is subject to monitoring.'},
+  {title:'Privileged Access Management (PAM) Policy',icon:'🔑', content:'Privileged accounts (Tier 1 and Tier 2) require: Just-in-time access provisioning, dual-person authorization for production changes, mandatory change tickets with management approval, and enhanced session recording. Privileged accounts may not be used for routine daily tasks.'},
+  {title:'Departing Employee Protocol',icon:'🚪', content:'Employees in notice periods are subject to enhanced monitoring. IT Security must be notified of all resignations within 24 hours. System access is reviewed and scoped to essential functions only. All corporate data must be returned or certified deleted within 48 hours of last day. Forensic imaging may be conducted on corporate devices.'},
+  {title:'Insider Threat Response Procedures',icon:'⚑', content:'Upon detection of potential insider threat indicators: (1) Do not alert the subject. (2) Initiate legal hold on all associated accounts, devices, and logs. (3) Brief HR, Legal, and IT Security leadership simultaneously. (4) Continue covert monitoring until sufficient evidence is gathered. (5) Coordinate termination with Legal and HR — never unilateral IT action.'},
+  {title:'Incident Reporting & Non-Retaliation',icon:'🔔', content:'All employees are encouraged to report suspicious behavior through the anonymous ethics hotline or directly to IT Security. Retaliation against individuals who make good-faith reports is prohibited and subject to disciplinary action. IT Security maintains strict confidentiality of reporter identity.'},
+];
+
+// ══════════════════════════════════════════════
+// DASHBOARD RENDERING
+// ══════════════════════════════════════════════
+function renderDashboard() {
+  // Activity feed
+  const feed = document.getElementById('activity-feed');
+  FEED_EVENTS.forEach((e,i) => {
+    const item = document.createElement('div');
+    item.className = 'feed-item';
+    item.style.animationDelay = `${i * 60}ms`;
+    item.innerHTML = `
+      <div class="feed-time">${e.time}</div>
+      <div class="feed-dot" style="background:${e.dot};box-shadow:0 0 6px ${e.dot}"></div>
+      <div class="feed-content">
+        <div class="feed-action">${e.action}</div>
+        <div class="feed-meta">${e.meta}</div>
+      </div>
+      <div class="feed-severity" style="color:${e.sevText};border-color:${e.sevBorder};background:${e.sevColor}">${e.sev}</div>`;
+    feed.appendChild(item);
+  });
+
+  // Risk list
+  const riskList = document.getElementById('risk-list');
+  [...EMPLOYEES].sort((a,b) => b.score - a.score).slice(0,5).forEach((emp,i) => {
+    const colors = {CRITICAL:'var(--risk-crit)',HIGH:'var(--risk-high)',MEDIUM:'var(--risk-med)',LOW:'var(--risk-low)'};
+    const c = colors[emp.level];
+    const pct = emp.score;
+    const row = document.createElement('div');
+    row.className = 'emp-row';
+    row.style.animationDelay = `${i*80}ms`;
+    row.onclick = () => { showView('analytics'); selectEmployee(emp.id); };
+    row.innerHTML = `
+      <div class="emp-avatar" style="background:${emp.color}22;color:${emp.color}">${emp.initials}</div>
+      <div class="emp-info">
+        <div class="emp-name">${emp.name}</div>
+        <div class="emp-role">${emp.role}</div>
+      </div>
+      <div class="emp-score">
+        <div class="risk-score" style="color:${c}">${emp.score}</div>
+        <div class="risk-label" style="color:${c}">${emp.level}</div>
+        <div class="risk-bar-wrap"><div class="risk-bar-fill" style="width:${pct}%;background:${c}"></div></div>
+      </div>`;
+    riskList.appendChild(row);
+  });
+
+  // Weekly chart
+  const chart = document.getElementById('weekly-chart');
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const chartData = [
+    {exfil:2,access:8,policy:5,cred:3},
+    {exfil:1,access:5,policy:7,cred:2},
+    {exfil:4,access:12,policy:9,cred:6},
+    {exfil:3,access:7,policy:4,cred:2},
+    {exfil:6,access:15,policy:11,cred:8},
+    {exfil:1,access:3,policy:2,cred:1},
+    {exfil:2,access:4,policy:3,cred:2},
+  ];
+  const maxVal = Math.max(...chartData.map(d => d.exfil+d.access+d.policy+d.cred));
+  chartData.forEach((d,i) => {
+    const total = d.exfil + d.access + d.policy + d.cred;
+    const col = document.createElement('div');
+    col.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end;';
+    const barWrap = document.createElement('div');
+    barWrap.style.cssText = `display:flex;flex-direction:column-reverse;gap:1px;width:100%;height:${Math.round((total/maxVal)*100)}%;transition:height .6s ease;`;
+    const cats = [
+      {h:Math.round((d.exfil/total)*100), c:'var(--red)'},
+      {h:Math.round((d.access/total)*100), c:'var(--orange)'},
+      {h:Math.round((d.policy/total)*100), c:'var(--yellow)'},
+      {h:Math.round((d.cred/total)*100),   c:'var(--blue)'},
+    ];
+    cats.forEach(cat => {
+      const seg = document.createElement('div');
+      seg.style.cssText = `height:${cat.h}%;background:${cat.c};min-height:3px;border-radius:2px 2px 0 0;`;
+      barWrap.appendChild(seg);
+    });
+    const label = document.createElement('div');
+    label.style.cssText = 'font-family:"JetBrains Mono",monospace;font-size:9px;color:var(--dim);text-align:center;';
+    label.textContent = days[i];
+    col.appendChild(barWrap);
+    col.appendChild(label);
+    chart.appendChild(col);
+  });
+}
+
+// ══════════════════════════════════════════════
+// BEHAVIOR ANALYTICS
+// ══════════════════════════════════════════════
+let selectedEmpId = 1;
+
+function renderAnalytics() {
+  const sel = document.getElementById('emp-selector');
+  sel.innerHTML = '';
+  EMPLOYEES.forEach(emp => {
+    const btn = document.createElement('button');
+    btn.className = 'emp-select-btn' + (emp.id === selectedEmpId ? ' active' : '');
+    const colors = {CRITICAL:'var(--risk-crit)',HIGH:'var(--risk-high)',MEDIUM:'var(--risk-med)',LOW:'var(--risk-low)'};
+    btn.innerHTML = `<div class="emp-dot-sel" style="background:${colors[emp.level]}"></div>${emp.name}`;
+    btn.onclick = () => selectEmployee(emp.id);
+    sel.appendChild(btn);
+  });
+  renderProfile();
+}
+
+function selectEmployee(id) {
+  selectedEmpId = id;
+  document.querySelectorAll('.emp-select-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', EMPLOYEES[i].id === id);
+  });
+  renderProfile();
+}
+
+function renderProfile() {
+  const emp = EMPLOYEES.find(e => e.id === selectedEmpId);
+  const colors = {CRITICAL:'var(--risk-crit)',HIGH:'var(--risk-high)',MEDIUM:'var(--risk-med)',LOW:'var(--risk-low)'};
+  const c = colors[emp.level];
+
+  document.getElementById('profile-left').innerHTML = `
+    <div class="profile-card">
+      <div class="profile-avatar-large" style="background:${emp.color}22;color:${emp.color}">${emp.initials}</div>
+      <div class="profile-name">${emp.name}</div>
+      <div class="profile-role">${emp.role} · ${emp.dept}</div>
+      <div class="profile-risk-score" style="color:${c}">${emp.score}</div>
+      <div class="profile-risk-label" style="color:${c}">// RISK SCORE · ${emp.level}</div>
+      <div class="profile-stats">
+        <div class="ps-row"><span class="ps-label">Tenure</span><span class="ps-val" style="color:var(--text)">${emp.tenure}</span></div>
+        <div class="ps-row"><span class="ps-label">Access Tier</span><span class="ps-val" style="color:var(--text)">${emp.access}</span></div>
+        <div class="ps-row"><span class="ps-label">Anomalies (30d)</span><span class="ps-val" style="color:${c}">${emp.anomalies}</span></div>
+        <div class="ps-row"><span class="ps-label">Data Accessed</span><span class="ps-val" style="color:var(--mid)">${emp.dataAccess}</span></div>
+        <div class="ps-row"><span class="ps-label">Off-Hours Logins</span><span class="ps-val" style="color:var(--mid)">${emp.offHours}</span></div>
+        <div class="ps-row"><span class="ps-label">Failed Logins</span><span class="ps-val" style="color:var(--mid)">${emp.failedLogins}</span></div>
+      </div>
+      <div class="ioc-list">
+        <div class="ioc-header">⚑ ACTIVE INDICATORS (${emp.iocs.length})</div>
+        ${emp.iocs.map(ioc => `<div class="ioc-item"><div class="ioc-dot"></div>${ioc}</div>`).join('')}
+      </div>
+    </div>`;
+
+  const timelineHtml = emp.timeline.map(t => `
+    <div class="at-item">
+      <div class="at-time">${t.time}</div>
+      <div class="at-line" style="background:${t.lineColor}33;"><div style="position:absolute;top:5px;left:-3px;width:7px;height:7px;border-radius:50%;border:2px solid ${t.lineColor};background:var(--bg);"></div></div>
+      <div class="at-content">
+        <div class="at-event">${t.event}</div>
+        <div class="at-detail">${t.detail}</div>
+      </div>
+      <div class="at-flag" style="color:${t.flagColor};border-color:${t.flagColor}55;background:${t.flagColor}11">${t.flag}</div>
+    </div>`).join('');
+
+  document.getElementById('profile-right').innerHTML = `
+    <div class="timeline-chart">
+      <div class="tc-header">RECENT ACTIVITY LOG — ${emp.name.toUpperCase()}</div>
+      <div class="activity-timeline">${timelineHtml}</div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════
+// SIMULATIONS
+// ══════════════════════════════════════════════
+function renderSimulations() {
+  const grid = document.getElementById('sim-grid');
+  grid.innerHTML = '';
+  SIMULATIONS.forEach(sim => {
+    const card = document.createElement('div');
+    card.className = 'sim-card';
+    const btnClass = sim.completed ? 'sim-btn sim-btn-done' : 'sim-btn sim-btn-start';
+    const btnText  = sim.completed ? `✓ COMPLETED · ${sim.score}/${sim.scenes.length}` : 'START SIMULATION →';
+    card.innerHTML = `
+      <div class="sim-banner" style="background:${sim.banner}">
+        <div class="sim-banner-icon">${sim.icon}</div>
+        <div class="sim-difficulty" style="color:${sim.diffColor};border-color:${sim.diffColor}55;background:${sim.diffColor}15">${sim.difficulty}</div>
+      </div>
+      <div class="sim-info">
+        <div class="sim-title">${sim.title}</div>
+        <div class="sim-desc">${sim.desc}</div>
+        <div class="sim-meta">
+          <div class="sim-tag">⬡ ${sim.type}</div>
+          <div class="sim-tag">◷ ${sim.time}</div>
+          <div class="sim-tag">⊟ ${sim.steps} scenes</div>
+        </div>
+        <button class="${btnClass}" onclick="startSim(${sim.id})">${btnText}</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+// ── Simulation Player ──
+let currentSim = null;
+let currentScene = 0;
+let simAnswers = [];
+let simCorrect = 0;
+
+function startSim(simId) {
+  currentSim = SIMULATIONS[simId];
+  currentScene = 0;
+  simAnswers = [];
+  simCorrect = 0;
+  document.getElementById('sim-player').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  document.getElementById('sp-title').textContent = currentSim.title;
+  renderScene();
+}
+
+function closeSimPlayer() {
+  document.getElementById('sim-player').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function renderScene() {
+  const scene = currentSim.scenes[currentScene];
+  const total = currentSim.scenes.length;
+  const pct = Math.round((currentScene / total) * 100);
+  document.getElementById('sp-step-label').textContent = `Scene ${currentScene + 1} of ${total}`;
+  document.getElementById('sp-progress-fill').style.width = pct + '%';
+
+  const letters = ['A','B','C','D'];
+  const evidenceHtml = scene.evidence.map(e => `
+    <div class="evidence-item">
+      <div class="ei-icon">${e.icon}</div>
+      <div class="ei-title">${e.title}</div>
+      <div class="ei-val">${e.val}</div>
+    </div>`).join('');
+
+  const choicesHtml = scene.choices.map((c,i) => `
+    <div class="choice" id="choice-${i}" onclick="selectChoice(${i})">
+      <div class="choice-letter">${letters[i]}</div>
+      <div>${c.text}</div>
+    </div>`).join('');
+
+  document.getElementById('sp-content').innerHTML = `
+    <div class="scene-box">
+      <div class="scene-header">
+        <span class="scene-step">${scene.step}</span>
+        <span class="scene-title">${scene.title}</span>
+      </div>
+      <div class="scene-body">
+        <div class="scenario-context">
+          <div class="sc-label">// SCENARIO BRIEF</div>
+          <div class="sc-text">${scene.context}</div>
+        </div>
+        <div class="evidence-block">${evidenceHtml}</div>
+        <div class="question-block">
+          <div class="q-text">${scene.question}</div>
+          <div class="choice-list" id="choice-list">${choicesHtml}</div>
+          <div class="result-feedback" id="result-feedback"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:8px;">
+          <button class="sp-btn sp-btn-primary" id="check-btn" onclick="checkSimAnswer()" disabled>Submit Answer</button>
+          <button class="sp-btn sp-btn-secondary" id="next-btn" onclick="nextScene()" style="display:none">
+            ${currentScene + 1 < currentSim.scenes.length ? 'Next Scene →' : 'View Debrief →'}
+          </button>
+        </div>
+      </div>
+    </div>`;
+}
+
+let selectedChoiceIdx = -1;
+
+function selectChoice(idx) {
+  if (document.getElementById(`choice-${idx}`).classList.contains('disabled')) return;
+  selectedChoiceIdx = idx;
+  document.querySelectorAll('.choice').forEach((c,i) => {
+    c.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('check-btn').disabled = false;
+}
+
+function checkSimAnswer() {
+  const scene = currentSim.scenes[currentScene];
+  const correct = scene.choices[selectedChoiceIdx].isCorrect;
+  const fb = document.getElementById('result-feedback');
+
+  document.querySelectorAll('.choice').forEach((c,i) => {
+    c.classList.add('disabled');
+    if (scene.choices[i].isCorrect) c.classList.add('correct');
+    else if (i === selectedChoiceIdx && !correct) c.classList.add('wrong');
+  });
+
+  fb.className = `result-feedback show ${correct ? 'rf-correct' : 'rf-wrong'}`;
+  fb.innerHTML = `
+    <div class="rf-label" style="color:${correct ? 'var(--green)' : 'var(--red)'}">${correct ? '✓ CORRECT' : '✗ INCORRECT'}</div>
+    <div class="rf-text">${scene.choices[selectedChoiceIdx].feedback}</div>`;
+
+  if (correct) simCorrect++;
+  simAnswers.push({q: scene.question, correct, selectedIdx: selectedChoiceIdx});
+  document.getElementById('check-btn').style.display = 'none';
+  document.getElementById('next-btn').style.display = 'inline-block';
+  selectedChoiceIdx = -1;
+}
+
+function nextScene() {
+  currentScene++;
+  if (currentScene >= currentSim.scenes.length) {
+    showDebrief();
+  } else {
+    renderScene();
+    document.getElementById('sim-player').scrollTop = 0;
+  }
+}
+
+function showDebrief() {
+  currentSim.completed = true;
+  currentSim.score = simCorrect;
+  const total = currentSim.scenes.length;
+  const pct = Math.round((simCorrect / total) * 100);
+  document.getElementById('sp-progress-fill').style.width = '100%';
+  document.getElementById('sp-step-label').textContent = 'COMPLETED';
+
+  let grade, gradeColor;
+  if (pct === 100)       { grade = 'EXPERT'; gradeColor = 'var(--green)'; }
+  else if (pct >= 75)    { grade = 'PROFICIENT'; gradeColor = 'var(--cyan)'; }
+  else if (pct >= 50)    { grade = 'DEVELOPING'; gradeColor = 'var(--yellow)'; }
+  else                   { grade = 'NEEDS REVIEW'; gradeColor = 'var(--red)'; }
+
+  const breakdownHtml = simAnswers.map((a,i) => `
+    <div class="db-item">
+      <span class="db-num" style="color:${a.correct?'var(--green)':'var(--red)'};background:${a.correct?'rgba(16,185,129,.1)':'rgba(244,63,94,.1)'};border-color:${a.correct?'rgba(16,185,129,.3)':'rgba(244,63,94,.3)'}">Q${i+1}</span>
+      <div class="db-q">${currentSim.scenes[i].question}</div>
+      <div class="db-result" style="color:${a.correct?'var(--green)':'var(--red)'}">${a.correct?'✓ CORRECT':'✗ WRONG'}</div>
+    </div>`).join('');
+
+  document.getElementById('sp-content').innerHTML = `
+    <div class="debrief-score">
+      <div class="ds-circle" style="color:${gradeColor};border-color:${gradeColor};background:${gradeColor}15">${simCorrect}/${total}</div>
+      <div class="ds-label">SIMULATION COMPLETE</div>
+      <div class="ds-grade" style="color:${gradeColor}">${grade}</div>
+      <div style="font-size:13px;color:var(--mid);margin-top:6px;">You answered ${simCorrect} of ${total} questions correctly (${pct}%)</div>
+    </div>
+    <div class="debrief-breakdown">${breakdownHtml}</div>
+    <div style="display:flex;gap:10px;margin-top:24px;">
+      <button class="sp-btn sp-btn-primary" onclick="startSim(${currentSim.id})">Retry →</button>
+      <button class="sp-btn sp-btn-secondary" onclick="closeSimPlayer();renderSimulations()">Back to Simulations</button>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════
+// INDICATORS LIBRARY
+// ══════════════════════════════════════════════
+let activeIocCat = 'All';
+
+function renderIndicators() {
+  const cats = ['All', ...new Set(IOC_DATA.map(i => i.cat))];
+  const catEl = document.getElementById('ioc-cats');
+  catEl.innerHTML = '';
+  cats.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'ioc-cat-btn' + (cat === activeIocCat ? ' active' : '');
+    btn.textContent = cat === 'All' ? `All (${IOC_DATA.length})` : `${cat} (${IOC_DATA.filter(i=>i.cat===cat).length})`;
+    btn.onclick = () => { activeIocCat = cat; renderIndicators(); };
+    catEl.appendChild(btn);
+  });
+
+  const sevColors = {CRITICAL:'var(--risk-crit)',HIGH:'var(--risk-high)',MEDIUM:'var(--risk-med)',LOW:'var(--risk-low)'};
+  const typeColors = {Technical:'var(--cyan)',Behavioral:'var(--purple)',Contextual:'var(--yellow)',Access:'var(--orange)'};
+  const filtered = activeIocCat === 'All' ? IOC_DATA : IOC_DATA.filter(i => i.cat === activeIocCat);
+
+  document.getElementById('ioc-table-body').innerHTML = filtered.map(ioc => `
+    <div class="ioc-table-row">
+      <div class="ioc-name">${ioc.name}</div>
+      <div class="ioc-desc">${ioc.desc}</div>
+      <div class="ioc-type" style="color:${typeColors[ioc.type]}">${ioc.type}</div>
+      <div><span class="ioc-sev" style="color:${sevColors[ioc.sev]};border-color:${sevColors[ioc.sev]}44;background:${sevColors[ioc.sev]}11">${ioc.sev}</span></div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════
+// POLICY
+// ══════════════════════════════════════════════
+function renderPolicy() {
+  document.getElementById('policy-list').innerHTML = `<div class="card-body">` +
+    POLICIES.map(p => `
+      <div style="padding:16px 0;border-bottom:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <span style="font-size:18px">${p.icon}</span>
+          <span style="font-size:14px;font-weight:700;color:#fff;">${p.title}</span>
+        </div>
+        <div style="font-size:13px;color:var(--mid);line-height:1.7;padding-left:28px;">${p.content}</div>
+      </div>`).join('') + `</div>`;
+}
+
+// ══════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(`view-${id}`).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes(`'${id}'`)) n.classList.add('active');
+  });
+  if (id === 'analytics') renderAnalytics();
+  if (id === 'simulations') renderSimulations();
+  if (id === 'indicators') renderIndicators();
+  if (id === 'policy') renderPolicy();
+}
+
+// ── CLOCK ──
+function updateClock() {
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-US',{hour12:false});
+  document.getElementById('last-update').textContent = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ── INIT ──
+renderDashboard();
+</script>
+</body>
+</html>

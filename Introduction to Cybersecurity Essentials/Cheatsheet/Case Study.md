@@ -1,8 +1,4 @@
-<p float="left">
-    <img src="../Cheatsheet/Yahoo.png" width="300" />
-    <img src="../Cheatsheet/Equifax.png" width="300" />
-    <img src="../Cheatsheet/Experian.png" width="300" />
-</p>
+![alt text](<Major Cybersecurity Breaches.png>)
 
 # Case Study: Major Cybersecurity Breaches
 
