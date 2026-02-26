@@ -467,6 +467,8 @@ In this hands-on lab, you have:
 | Created complementary blocking rule for KMS                         | ✓        |
 | Enabled and verified rule functionality                             | ✓        |
 
+<video controls src="Windows Firewall with Advanced Security.mp4" title="Windows Firewall with Advanced Security"></video>
+
 ### Key Takeaways
 
 - **Network profiles matter** – Apply different security rules based on network trust level

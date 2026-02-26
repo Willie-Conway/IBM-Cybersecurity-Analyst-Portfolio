@@ -160,6 +160,14 @@ This exercise guides you through configuring key privacy settings and understand
 
 ---
 
+<video controls src="Managing Browser Security and Privacy Settings.mp4" title="Title"></video>
+
+### Key Takeaways
+
+- **Safe Browsing** is enabled by default and helps protect against malicious websites.
+- **Incognito Mode** does not hide activity from your ISP or employer, but it does prevent your browsing history from being saved on your device.
+- **Third-party cookies** can be blocked to enhance privacy, but this may affect some website functionality.
+
 ## Practice Exercises
 
 ### Problem 1: Does Incognito browsing mode in a browser record browsing history?
