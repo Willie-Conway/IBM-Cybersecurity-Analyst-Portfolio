@@ -1,0 +1,2266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DECEIVER — Social Engineering Training Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:    #f5f0e8;
+  --paper2:   #ede8dc;
+  --paper3:   #e4ddd0;
+  --ink:      #1a1410;
+  --ink2:     #2d2520;
+  --ink3:     #3d3530;
+  --red:      #c0392b;
+  --red2:     #e74c3c;
+  --red-dim:  #8b2020;
+  --stamp:    #a63015;
+  --gold:     #8b6914;
+  --gold2:    #c9a227;
+  --rust:     #7c3a1e;
+  --blue-ink: #1a3a5c;
+  --green-ink:#1a4a2e;
+  --purple:   #4a1a6e;
+  --border:   #c8b99a;
+  --border2:  #b8a88a;
+  --shadow:   rgba(26,20,16,0.15);
+  --mid:      #6b5a48;
+  --dim:      #9c8a78;
+  --highlight:#fff3cd;
+  --alert:    #fee8e6;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: #2c2420;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(120,80,40,0.15), transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(80,40,20,0.1), transparent 50%);
+  font-family: 'Courier Prime', monospace;
+  min-height: 100vh;
+  color: var(--ink);
+}
+
+/* ── PAPER TEXTURE OVERLAY ── */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23paper)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+/* ── APP SHELL ── */
+.app { position:relative; z-index:1; display:flex; flex-direction:column; min-height:100vh; }
+
+/* ── HEADER ── */
+.header {
+  background: var(--ink);
+  border-bottom: 4px solid var(--red);
+  padding: 0;
+  position: sticky; top:0; z-index:50;
+}
+
+.header-tape {
+  background: var(--red);
+  height: 4px;
+}
+
+.header-inner {
+  display:flex; align-items:center; gap:20px;
+  padding: 10px 28px; height: 60px;
+}
+
+.brand {
+  display:flex; align-items:center; gap:14px;
+}
+.brand-classification {
+  font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:4px;
+  color: var(--red2); text-transform:uppercase;
+  border:1px solid var(--red2); padding:2px 8px; border-radius:1px;
+  animation: classFlash 3s ease infinite;
+}
+@keyframes classFlash { 0%,100%{opacity:1;} 85%{opacity:1;} 90%{opacity:.3;} 95%{opacity:1;} }
+.brand-name {
+  font-family:'Oswald',sans-serif; font-size:24px; font-weight:700;
+  color: var(--paper); letter-spacing:6px; line-height:1;
+}
+.brand-sub {
+  font-size:9px; color: var(--dim); letter-spacing:3px; font-family:'Courier Prime',monospace;
+  margin-top:1px;
+}
+
+.header-divider { width:1px; height:30px; background: #3d3530; flex-shrink:0; }
+
+.header-status {
+  font-family:'Courier Prime',monospace; font-size:10px; color: var(--dim); letter-spacing:1px;
+}
+.status-live { color: var(--red2); animation: classFlash 2s step-end infinite; }
+
+.header-right { margin-left:auto; display:flex; gap:10px; align-items:center; }
+.h-badge {
+  font-family:'Courier Prime',monospace; font-size:10px;
+  padding:3px 10px; border:1px solid;
+}
+.hb-red { color:var(--red2); border-color:rgba(231,76,60,.4); background:rgba(231,76,60,.08); }
+.hb-gold { color:var(--gold2); border-color:rgba(201,162,39,.35); background:rgba(201,162,39,.06); }
+
+/* ── NAV ── */
+.nav {
+  background: var(--ink2);
+  border-bottom: 2px solid var(--border);
+  display:flex; padding:0 28px;
+  overflow-x:auto; scrollbar-width:none;
+}
+.nav::-webkit-scrollbar { display:none; }
+.nav-btn {
+  font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:2px;
+  padding:10px 18px; color: var(--dim); cursor:pointer;
+  border:none; background:none; text-transform:uppercase;
+  border-bottom:3px solid transparent; transition:all .2s; white-space:nowrap;
+  display:flex; align-items:center; gap:7px;
+}
+.nav-btn:hover { color: var(--paper2); }
+.nav-btn.active {
+  color: var(--gold2); border-bottom-color: var(--gold2);
+  background:rgba(201,162,39,.05);
+}
+
+/* ── MAIN ── */
+.main { flex:1; overflow-y:auto; }
+.view { display:none; padding: 32px 28px 80px; max-width:1200px; margin:0 auto; }
+.view.active { display:block; }
+
+/* ── SECTION HEADERS ── */
+.sec-eyebrow {
+  font-family:'Courier Prime',monospace; font-size:10px; color: var(--red);
+  letter-spacing:4px; text-transform:uppercase; margin-bottom:6px;
+  display:flex; align-items:center; gap:10px;
+}
+.sec-eyebrow::before { content:'[CLASSIFIED]'; opacity:.5; }
+.sec-title {
+  font-family:'Oswald',sans-serif; font-size:clamp(22px,3vw,36px); font-weight:700;
+  color: var(--ink); letter-spacing:1px; line-height:1.1; margin-bottom:8px;
+}
+.sec-desc {
+  font-size:13px; color: var(--mid); line-height:1.75; margin-bottom:28px;
+  max-width:700px; font-style:italic;
+}
+.sec-rule { height:2px; background: linear-gradient(90deg,var(--red),var(--border2),transparent); margin-bottom:28px; }
+
+/* ── DOSSIER CARDS ── */
+.dossier-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px;
+}
+
+.dossier-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius:2px;
+  cursor:pointer;
+  transition:all .2s;
+  position:relative;
+  overflow:hidden;
+  box-shadow: 3px 3px 12px var(--shadow), inset 0 1px 0 rgba(255,255,255,0.6);
+}
+.dossier-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:4px;
+}
+.dossier-card:hover {
+  transform:translateY(-4px) rotate(0.3deg);
+  box-shadow: 6px 8px 24px var(--shadow);
+}
+
+.dc-header {
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid var(--border);
+  display:flex; align-items:flex-start; gap:12px;
+}
+.dc-number {
+  font-family:'Oswald',sans-serif; font-size:28px; font-weight:700;
+  color: var(--border2); line-height:1; min-width:36px;
+}
+.dc-meta { flex:1; }
+.dc-category {
+  font-family:'Courier Prime',monospace; font-size:9px; letter-spacing:3px;
+  text-transform:uppercase; margin-bottom:4px;
+}
+.dc-name {
+  font-family:'Oswald',sans-serif; font-size:18px; font-weight:600;
+  color: var(--ink); line-height:1.2;
+}
+.dc-threat-badge {
+  font-family:'Oswald',sans-serif; font-size:11px; font-weight:600;
+  letter-spacing:2px; padding:3px 8px; border:2px solid;
+  text-transform:uppercase; flex-shrink:0; align-self:flex-start;
+}
+
+.dc-body { padding: 14px 18px; }
+.dc-desc { font-size:12px; color: var(--ink3); line-height:1.7; margin-bottom:12px; }
+.dc-tactics {
+  display:flex; flex-wrap:wrap; gap:5px; margin-bottom:12px;
+}
+.dc-tactic {
+  font-family:'Courier Prime',monospace; font-size:9px; letter-spacing:1px;
+  padding:2px 8px; background:var(--paper3); border:1px solid var(--border2);
+  color: var(--mid);
+}
+
+.dc-footer {
+  padding: 10px 18px;
+  border-top: 1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  background: var(--paper2);
+}
+.dc-btn {
+  font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:2px;
+  padding:5px 14px; border:2px solid; cursor:pointer;
+  transition:all .2s; background:none; text-transform:uppercase;
+}
+
+/* attack type color themes */
+.at-phishing   { --ac:#c0392b; }
+.at-vishing    { --ac:#7c3a1e; }
+.at-smishing   { --ac:#4a1a6e; }
+.at-pretexting { --ac:#1a3a5c; }
+.at-baiting    { --ac:#1a4a2e; }
+.at-tailgating { --ac:#5c4a1a; }
+.at-quid-pro   { --ac:#4a2c1a; }
+.at-watering   { --ac:#1a3a3a; }
+
+.dossier-card[class*='at-']::before { background: var(--ac); }
+.dossier-card[class*='at-'] .dc-category { color: var(--ac); }
+.dossier-card[class*='at-'] .dc-number { color: color-mix(in srgb,var(--ac) 40%,var(--border2)); }
+.dossier-card[class*='at-'] .dc-threat-badge { color:var(--ac); border-color:var(--ac); }
+.dossier-card[class*='at-'] .dc-btn { color:var(--ac); border-color:var(--ac); }
+.dossier-card[class*='at-'] .dc-btn:hover { background:color-mix(in srgb,var(--ac) 10%,transparent); }
+
+/* ══════════════════════════════
+   SIMULATION PLAYER
+══════════════════════════════ */
+.sim-layout { display:grid; grid-template-columns:340px 1fr; gap:20px; }
+
+.sim-mission-list { display:flex; flex-direction:column; gap:8px; }
+.sim-mission-item {
+  background:var(--paper); border:1px solid var(--border); padding:12px 14px;
+  cursor:pointer; transition:all .15s; border-radius:2px;
+  display:flex; align-items:center; gap:12px;
+  box-shadow: 2px 2px 6px var(--shadow);
+}
+.sim-mission-item:hover { border-color:var(--border2); }
+.sim-mission-item.active { border-color:var(--red); background:var(--alert); }
+.sim-mission-item.completed { border-color:var(--green-ink); background:#e8f5e9; }
+.smi-num {
+  font-family:'Oswald',sans-serif; font-size:18px; font-weight:700;
+  color:var(--dim); min-width:28px;
+}
+.sim-mission-item.active .smi-num { color:var(--red); }
+.sim-mission-item.completed .smi-num { color:var(--green-ink); }
+.smi-info { flex:1; }
+.smi-type {
+  font-family:'Courier Prime',monospace; font-size:9px; letter-spacing:2px;
+  color:var(--dim); text-transform:uppercase; margin-bottom:2px;
+}
+.smi-title { font-family:'Oswald',sans-serif; font-size:13px; color:var(--ink); }
+.smi-status {
+  font-family:'Courier Prime',monospace; font-size:10px; flex-shrink:0;
+}
+.status-new { color:var(--dim); }
+.status-active { color:var(--red); }
+.status-pass { color:var(--green-ink); }
+.status-fail { color:var(--red); }
+
+/* simulation display area */
+.sim-display { display:flex; flex-direction:column; gap:14px; }
+.sim-intro-box {
+  background:var(--paper); border:2px solid var(--red); padding:20px 24px;
+  border-radius:2px; box-shadow:3px 3px 12px var(--shadow);
+}
+.si-label {
+  font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:3px;
+  color:var(--red); margin-bottom:8px; text-transform:uppercase;
+}
+.si-title { font-family:'Oswald',sans-serif; font-size:20px; color:var(--ink); margin-bottom:8px; }
+.si-desc { font-size:13px; color:var(--mid); line-height:1.7; font-style:italic; }
+
+/* email client sim */
+.email-client {
+  background: #f0f0f0; border:1px solid #ccc; border-radius:4px;
+  overflow:hidden; box-shadow:3px 3px 16px var(--shadow);
+}
+.email-chrome {
+  background: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
+  border-bottom:1px solid #bbb; padding:8px 12px;
+  display:flex; align-items:center; gap:8px;
+}
+.email-chrome-dots { display:flex; gap:4px; }
+.email-chrome-dot { width:11px; height:11px; border-radius:50%; }
+.email-chrome-bar {
+  flex:1; background:#fff; border:1px solid #ccc; border-radius:10px;
+  padding:3px 12px; font-size:11px; color:#888; font-family:'Courier Prime',monospace;
+}
+.email-body { background:#fff; }
+.email-toolbar {
+  background:#f5f5f5; border-bottom:1px solid #ddd; padding:8px 16px;
+  display:flex; gap:8px;
+}
+.email-toolbar-btn {
+  font-size:11px; color:#666; padding:3px 10px; background:#fff;
+  border:1px solid #ccc; border-radius:3px; cursor:default;
+  font-family:'Courier Prime',monospace;
+}
+.email-header {
+  padding:16px 20px; border-bottom:1px solid #eee;
+}
+.email-from {
+  font-size:13px; color:#222; margin-bottom:4px; font-family:'Courier Prime',monospace;
+}
+.email-to, .email-subject-line {
+  font-size:12px; color:#666; margin-bottom:2px; font-family:'Courier Prime',monospace;
+}
+.email-subject-line { font-weight:700; color:#222; font-size:14px; margin-top:6px; }
+.email-content {
+  padding:20px; font-size:13px; line-height:1.8; color:#333;
+  font-family:'Courier Prime',monospace; min-height:220px;
+}
+.email-link {
+  color:#1a73e8; text-decoration:underline; cursor:pointer;
+  border-bottom:1px solid transparent;
+}
+.email-link.suspicious { color:#c0392b; }
+.email-attachment {
+  background:#f0f7ff; border:1px solid #ccd; border-radius:4px;
+  padding:10px 14px; margin:10px 0; display:flex; align-items:center; gap:10px;
+  font-size:12px; color:#555; width:fit-content; cursor:pointer;
+  font-family:'Courier Prime',monospace;
+}
+
+/* phone/SMS UI */
+.phone-ui {
+  background:#1c1c1e; border-radius:20px; padding:24px 16px;
+  max-width:320px; margin:0 auto; box-shadow:0 12px 40px rgba(0,0,0,0.4);
+}
+.phone-notch { width:80px; height:8px; background:#000; border-radius:4px; margin:0 auto 16px; }
+.phone-time { text-align:center; color:#fff; font-size:20px; margin-bottom:4px; }
+.phone-date { text-align:center; color:#aaa; font-size:11px; margin-bottom:16px; font-family:'Courier Prime',monospace; }
+.sms-bubble-wrap { background:#2c2c2e; border-radius:12px; padding:12px; margin-bottom:12px; }
+.sms-sender { font-size:11px; color:#aaa; margin-bottom:6px; font-family:'Courier Prime',monospace; }
+.sms-bubble {
+  background:#3a3a3c; border-radius:10px 10px 10px 2px;
+  padding:10px 14px; font-size:13px; color:#fff; line-height:1.65;
+  font-family:'Courier Prime',monospace;
+}
+.sms-link { color:#2997ff; text-decoration:underline; }
+.sms-time { font-size:10px; color:#666; margin-top:4px; font-family:'Courier Prime',monospace; }
+
+/* voicemail */
+.voicemail-ui {
+  background:var(--paper); border:2px solid var(--border); border-radius:4px;
+  padding:20px; box-shadow:3px 3px 12px var(--shadow);
+}
+.vm-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border); }
+.vm-icon { font-size:28px; }
+.vm-caller { font-family:'Oswald',sans-serif; font-size:16px; color:var(--ink); }
+.vm-meta { font-family:'Courier Prime',monospace; font-size:11px; color:var(--dim); }
+.vm-transcript {
+  background:var(--paper3); border-left:4px solid var(--border2);
+  padding:14px 16px; font-size:13px; color:var(--ink3); line-height:1.75;
+  font-style:italic; margin-bottom:14px;
+  font-family:'Courier Prime',monospace;
+}
+.vm-transcript em { font-style:normal; color:var(--red); font-weight:700; }
+
+/* decision box */
+.decision-box {
+  background:var(--paper); border:2px solid var(--ink); padding:18px 20px;
+  border-radius:2px; box-shadow:3px 3px 12px var(--shadow);
+}
+.db-label {
+  font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:3px;
+  color:var(--red); margin-bottom:10px; text-transform:uppercase;
+  display:flex; align-items:center; gap:8px;
+}
+.db-label::before { content:'▶'; font-size:8px; }
+.db-question { font-size:13px; color:var(--ink); margin-bottom:14px; line-height:1.6; font-weight:700; }
+.decision-options { display:flex; flex-direction:column; gap:8px; }
+.d-option {
+  display:flex; align-items:flex-start; gap:12px;
+  padding:11px 14px; border:2px solid var(--border); border-radius:2px;
+  cursor:pointer; transition:all .15s; background:var(--paper2);
+  font-size:12px; color:var(--ink3); line-height:1.55;
+  font-family:'Courier Prime',monospace;
+}
+.d-option:hover { border-color:var(--border2); background:var(--paper); }
+.d-option.selected { border-color:var(--red); background:var(--alert); color:var(--ink); }
+.d-option.correct { border-color:var(--green-ink)!important; background:#e8f5e9!important; color:var(--green-ink)!important; }
+.d-option.wrong { border-color:var(--red)!important; background:var(--alert)!important; color:var(--red)!important; }
+.d-option.disabled { pointer-events:none; }
+.d-key {
+  font-family:'Oswald',sans-serif; font-size:11px; font-weight:600;
+  width:22px; height:22px; border:2px solid var(--border2); border-radius:2px;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px;
+}
+.d-option.selected .d-key { border-color:var(--red); color:var(--red); }
+.d-option.correct .d-key { border-color:var(--green-ink); color:var(--green-ink); }
+.d-option.wrong .d-key { border-color:var(--red); color:var(--red); }
+
+.sim-feedback {
+  border-radius:2px; padding:14px 16px; display:none;
+  font-size:12px; line-height:1.7; border-left:4px solid; font-family:'Courier Prime',monospace;
+}
+.sim-feedback.show { display:block; }
+.sim-feedback.ok { background:#e8f5e9; border-color:var(--green-ink); color:var(--green-ink); }
+.sim-feedback.err { background:var(--alert); border-color:var(--red); color:var(--red); }
+.sfb-label { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:2px; margin-bottom:5px; }
+
+.sim-btn {
+  font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:2px;
+  padding:9px 20px; border:2px solid; cursor:pointer;
+  transition:all .2s; background:none; text-transform:uppercase; border-radius:1px;
+}
+.sb-primary { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.sb-primary:hover { background:var(--ink2); }
+.sb-outline { color:var(--mid); border-color:var(--border); }
+.sb-outline:hover { border-color:var(--ink2); color:var(--ink); }
+
+/* sim score */
+.sim-score-strip {
+  background:var(--paper); border:1px solid var(--border); padding:12px 18px;
+  display:flex; align-items:center; gap:16px; margin-bottom:16px;
+  box-shadow:2px 2px 8px var(--shadow); border-radius:2px;
+}
+.ss-val { font-family:'Oswald',sans-serif; font-size:24px; font-weight:700; color:var(--red); }
+.ss-label { font-family:'Courier Prime',monospace; font-size:10px; color:var(--dim); letter-spacing:2px; }
+.ss-bar-wrap { flex:1; height:6px; background:var(--border); border-radius:0; overflow:hidden; }
+.ss-bar { height:100%; background:var(--red); transition:width .5s; }
+
+/* ══════════════════════════════
+   RED FLAG DETECTOR
+══════════════════════════════ */
+.rfd-layout { display:grid; grid-template-columns:1fr 300px; gap:20px; }
+
+.annotated-email {
+  background:var(--paper); border:1px solid var(--border);
+  box-shadow:3px 3px 16px var(--shadow); border-radius:2px; overflow:hidden;
+}
+
+.flag-span {
+  background: rgba(255,220,150,0.5);
+  border-bottom: 2px solid var(--gold2);
+  cursor:pointer; transition:all .15s; position:relative;
+}
+.flag-span:hover { background: rgba(255,200,100,0.7); }
+.flag-span.found {
+  background: rgba(192,57,43,0.12);
+  border-bottom-color: var(--red);
+  text-decoration:none;
+}
+.flag-span.found::after {
+  content: '⚑'; font-size:10px; color:var(--red);
+  position:relative; top:-2px; margin-left:2px;
+}
+
+.flag-panel { }
+.flag-panel-title {
+  font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:2px;
+  color:var(--red); text-transform:uppercase; margin-bottom:12px;
+  padding-bottom:8px; border-bottom:1px solid var(--border);
+}
+.flag-counter {
+  font-family:'Oswald',sans-serif; font-size:32px; font-weight:700; color:var(--ink);
+  line-height:1; margin-bottom:4px;
+}
+.flag-counter-label { font-family:'Courier Prime',monospace; font-size:10px; color:var(--dim); margin-bottom:16px; }
+.flag-list { display:flex; flex-direction:column; gap:8px; }
+.flag-item {
+  background:var(--paper2); border:1px solid var(--border);
+  padding:10px 12px; border-radius:2px; font-size:11px; color:var(--dim);
+  font-family:'Courier Prime',monospace; line-height:1.5; transition:all .2s;
+}
+.flag-item.found { background:#fee8e6; border-color:var(--red); color:var(--red); }
+.flag-item-num { font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:2px; margin-bottom:3px; }
+.flag-instructions {
+  background:var(--highlight); border:1px solid var(--gold2);
+  padding:12px 14px; border-radius:2px; font-size:12px; color:var(--gold);
+  font-family:'Courier Prime',monospace; margin-bottom:16px; line-height:1.6;
+}
+
+/* rfd selector */
+.rfd-select-row { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.rfd-sel-btn {
+  font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:1px;
+  padding:5px 14px; border:1px solid var(--border); background:var(--paper);
+  color:var(--mid); cursor:pointer; transition:all .15s; border-radius:2px;
+}
+.rfd-sel-btn:hover { border-color:var(--border2); color:var(--ink); }
+.rfd-sel-btn.active { border-color:var(--red); color:var(--red); background:var(--alert); }
+
+/* ══════════════════════════════
+   PSYCHOLOGY LAB
+══════════════════════════════ */
+.psych-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px;
+}
+.psych-card {
+  background:var(--paper); border:1px solid var(--border); border-radius:2px;
+  overflow:hidden; box-shadow:3px 3px 12px var(--shadow);
+  transition:all .2s;
+}
+.psych-card:hover { transform:translateY(-3px); box-shadow:5px 6px 20px var(--shadow); }
+.pc-banner {
+  padding:20px; position:relative; overflow:hidden;
+}
+.pc-banner-num {
+  font-family:'Oswald',sans-serif; font-size:60px; font-weight:700;
+  position:absolute; right:16px; top:10px; opacity:.08; color:var(--ink); line-height:1;
+}
+.pc-icon { font-size:28px; margin-bottom:8px; }
+.pc-principle {
+  font-family:'Oswald',sans-serif; font-size:18px; font-weight:600; color:var(--ink);
+  margin-bottom:4px;
+}
+.pc-tagline { font-size:11px; color:var(--mid); font-style:italic; }
+.pc-body { padding:0 20px 20px; }
+.pc-divider { height:2px; margin:0 -20px 16px; }
+.pc-definition { font-size:12px; color:var(--ink3); line-height:1.7; margin-bottom:12px; }
+.pc-examples { }
+.pc-ex-title { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:2px; color:var(--red); margin-bottom:8px; }
+.pc-example {
+  display:flex; gap:8px; margin-bottom:6px; font-size:11px; color:var(--mid);
+  font-family:'Courier Prime',monospace; line-height:1.5;
+}
+.pc-ex-dot { width:4px; height:4px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+.pc-defense {
+  background:var(--paper3); border:1px solid var(--border); border-radius:2px;
+  padding:8px 12px; margin-top:12px; font-size:11px; color:var(--ink3);
+  font-family:'Courier Prime',monospace; line-height:1.5;
+}
+.pc-defense-label { font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:2px; color:var(--green-ink); margin-bottom:3px; }
+
+/* ══════════════════════════════
+   DEFENSE PLAYBOOK
+══════════════════════════════ */
+.playbook-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+.pb-card {
+  background:var(--paper); border:1px solid var(--border); border-radius:2px;
+  box-shadow:3px 3px 12px var(--shadow); overflow:hidden;
+}
+.pb-header {
+  padding:14px 18px; border-bottom:2px solid var(--border);
+  display:flex; align-items:center; gap:12px; background:var(--paper2);
+}
+.pb-icon { font-size:20px; }
+.pb-title { font-family:'Oswald',sans-serif; font-size:16px; color:var(--ink); }
+.pb-body { padding:16px 18px; }
+
+.protocol-steps { display:flex; flex-direction:column; gap:10px; }
+.ps-step {
+  display:flex; gap:12px; padding:10px 12px;
+  background:var(--paper2); border-radius:2px; border-left:3px solid var(--border2);
+}
+.ps-num {
+  font-family:'Oswald',sans-serif; font-size:13px; font-weight:600;
+  color:var(--red); min-width:20px; flex-shrink:0;
+}
+.ps-content { }
+.ps-action { font-size:12px; font-weight:700; color:var(--ink); margin-bottom:2px; }
+.ps-detail { font-size:11px; color:var(--mid); line-height:1.5; font-family:'Courier Prime',monospace; }
+
+.verification-matrix { }
+.vm-row {
+  display:grid; grid-template-columns:120px 1fr; gap:0;
+  border-bottom:1px solid var(--border);
+}
+.vm-row:last-child { border-bottom:none; }
+.vm-scenario {
+  padding:10px 12px; background:var(--paper3);
+  font-size:11px; font-weight:700; color:var(--ink); border-right:1px solid var(--border);
+  font-family:'Courier Prime',monospace;
+}
+.vm-action {
+  padding:10px 12px; font-size:11px; color:var(--mid);
+  font-family:'Courier Prime',monospace; line-height:1.5;
+}
+
+.red-flags-list { display:flex; flex-direction:column; gap:6px; }
+.rfl-item {
+  display:flex; gap:10px; padding:8px 12px;
+  background:var(--alert); border:1px solid rgba(192,57,43,.2); border-radius:2px;
+  font-size:11px; color:var(--red); font-family:'Courier Prime',monospace; line-height:1.5;
+}
+.rfl-icon { flex-shrink:0; font-size:12px; }
+
+/* ══════════════════════════════
+   KNOWLEDGE QUIZ
+══════════════════════════════ */
+.quiz-wrap { max-width:780px; }
+.quiz-prog-wrap {
+  background:var(--paper); border:1px solid var(--border); border-radius:2px;
+  padding:12px 16px; margin-bottom:20px; display:flex; align-items:center; gap:14px;
+  box-shadow:2px 2px 6px var(--shadow);
+}
+.qpw-bar { flex:1; height:5px; background:var(--border); overflow:hidden; border-radius:1px; }
+.qpw-fill { height:100%; background:var(--red); transition:width .4s; }
+.qpw-text { font-family:'Courier Prime',monospace; font-size:10px; color:var(--dim); white-space:nowrap; }
+.qpw-score { font-family:'Oswald',sans-serif; font-size:14px; font-weight:600; color:var(--red); white-space:nowrap; }
+
+.q-card {
+  background:var(--paper); border:1px solid var(--border); border-radius:2px;
+  margin-bottom:12px; overflow:hidden; box-shadow:2px 2px 8px var(--shadow);
+  animation:qIn .3s ease;
+}
+@keyframes qIn { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
+.q-card.qc-correct { border-color:var(--green-ink); }
+.q-card.qc-wrong   { border-color:var(--red); }
+.q-header { padding:14px 18px 12px; display:flex; gap:12px; align-items:flex-start; background:var(--paper2); border-bottom:1px solid var(--border); }
+.q-badge {
+  font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:1px;
+  background:var(--red); color:var(--paper); padding:2px 8px; flex-shrink:0; margin-top:2px;
+}
+.q-text { font-size:13px; color:var(--ink); line-height:1.6; font-weight:700; }
+.q-options { padding:12px 18px; display:flex; flex-direction:column; gap:7px; }
+.q-opt {
+  display:flex; align-items:flex-start; gap:10px; padding:10px 13px;
+  border:1px solid var(--border); cursor:pointer; transition:all .15s;
+  background:var(--paper3); font-size:12px; color:var(--ink3); line-height:1.55;
+  font-family:'Courier Prime',monospace; border-radius:2px;
+}
+.q-opt:hover { border-color:var(--border2); background:var(--paper2); }
+.q-opt.qo-sel  { border-color:var(--red); background:var(--alert); color:var(--ink); }
+.q-opt.qo-corr { border-color:var(--green-ink)!important; background:#e8f5e9!important; color:var(--green-ink)!important; }
+.q-opt.qo-wrng { border-color:var(--red)!important; background:var(--alert)!important; color:var(--red)!important; }
+.q-opt.qo-dis  { pointer-events:none; }
+.q-letter {
+  font-family:'Oswald',sans-serif; font-size:11px; width:20px; height:20px;
+  border:1px solid var(--border2); display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; margin-top:1px;
+}
+.q-opt.qo-sel .q-letter  { border-color:var(--red); color:var(--red); }
+.q-opt.qo-corr .q-letter { border-color:var(--green-ink); color:var(--green-ink); }
+.q-opt.qo-wrng .q-letter { border-color:var(--red); color:var(--red); }
+.q-footer { padding:8px 18px 14px; display:flex; align-items:flex-start; gap:12px; }
+.q-submit {
+  font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:2px;
+  padding:7px 18px; background:var(--ink); color:var(--paper); border:none;
+  cursor:pointer; transition:all .2s; text-transform:uppercase;
+}
+.q-submit:hover { background:var(--ink2); }
+.q-submit:disabled { opacity:.3; cursor:default; }
+.q-explain { font-family:'Courier Prime',monospace; font-size:11px; display:none; line-height:1.6; }
+.q-explain.show { display:block; }
+.q-explain.ok  { color:var(--green-ink); }
+.q-explain.err { color:var(--red); }
+
+/* ── MODALS / OVERLAYS ── */
+#dossier-overlay {
+  display:none; position:fixed; inset:0; z-index:100;
+  background:rgba(26,20,16,0.92); overflow-y:auto; backdrop-filter:blur(3px);
+}
+.dossier-modal {
+  max-width:880px; margin:40px auto; background:var(--paper);
+  border:2px solid var(--border2); box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  position:relative;
+}
+.dossier-modal-tape {
+  height:6px; background:var(--red);
+}
+.dossier-modal-header {
+  padding:20px 28px; border-bottom:2px solid var(--border);
+  display:flex; align-items:flex-start; gap:16px; background:var(--paper2);
+}
+.dm-stamp {
+  font-family:'Oswald',sans-serif; font-size:32px; font-weight:700;
+  color:var(--red); border:4px solid var(--red); padding:4px 10px;
+  transform:rotate(-8deg); opacity:.7; flex-shrink:0; line-height:1;
+  letter-spacing:2px; margin-top:4px;
+}
+.dm-title-block { flex:1; }
+.dm-category { font-family:'Courier Prime',monospace; font-size:10px; color:var(--mid); letter-spacing:3px; margin-bottom:4px; }
+.dm-name { font-family:'Oswald',sans-serif; font-size:28px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+.dm-tagline { font-size:13px; color:var(--mid); font-style:italic; line-height:1.6; }
+.dm-close {
+  font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:2px;
+  padding:7px 16px; border:2px solid var(--border2); background:none;
+  color:var(--mid); cursor:pointer; transition:all .2s; text-transform:uppercase;
+}
+.dm-close:hover { border-color:var(--red); color:var(--red); }
+
+.dossier-modal-body { padding:28px; }
+.dossier-section { margin-bottom:24px; }
+.ds-heading {
+  font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:3px; color:var(--red);
+  text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:10px;
+}
+.ds-heading::after { content:''; flex:1; height:1px; background:var(--border2); }
+
+.ds-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.ds-col { }
+
+.ds-list { display:flex; flex-direction:column; gap:7px; }
+.ds-item {
+  display:flex; gap:10px; font-size:12px; color:var(--ink3); line-height:1.55;
+  font-family:'Courier Prime',monospace; padding:6px 10px; background:var(--paper2); border-radius:1px;
+}
+.ds-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; margin-top:5px; background:var(--red); }
+
+.real-cases { }
+.rc-item {
+  border-bottom:1px solid var(--border); padding:12px 0;
+  display:grid; grid-template-columns:120px 1fr 80px;
+  gap:12px; align-items:start; font-size:12px;
+}
+.rc-item:last-child { border-bottom:none; }
+.rc-name { font-family:'Oswald',sans-serif; font-size:13px; color:var(--ink); font-weight:500; }
+.rc-desc { color:var(--mid); line-height:1.5; font-family:'Courier Prime',monospace; }
+.rc-loss { font-family:'Oswald',sans-serif; color:var(--red); font-weight:600; }
+
+/* ── UTILITIES ── */
+.flex-row { display:flex; align-items:center; gap:12px; }
+.mt12 { margin-top:12px; }
+.mt20 { margin-top:20px; }
+.mb12 { margin-bottom:12px; }
+.mb20 { margin-bottom:20px; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--paper2); }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+/* watermark */
+.classified-watermark {
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-30deg);
+  font-family:'Oswald',sans-serif; font-size:100px; font-weight:900; color:var(--red);
+  opacity:.02; z-index:0; pointer-events:none; letter-spacing:10px; white-space:nowrap;
+}
+
+@media(max-width:900px){
+  .sim-layout { grid-template-columns:1fr; }
+  .rfd-layout { grid-template-columns:1fr; }
+  .playbook-grid { grid-template-columns:1fr; }
+  .ds-grid { grid-template-columns:1fr; }
+  .rc-item { grid-template-columns:1fr; gap:4px; }
+  .sim-layout .sim-mission-list { display:grid; grid-template-columns:repeat(2,1fr); }
+}
+@media(max-width:600px){
+  .dossier-grid { grid-template-columns:1fr; }
+  .psych-grid { grid-template-columns:1fr; }
+  .sim-layout .sim-mission-list { grid-template-columns:1fr; }
+  .view { padding:20px 16px 60px; }
+}
+</style>
+</head>
+<body>
+<div class="classified-watermark">SENSITIVE</div>
+
+<!-- ══════════════════════════════ HEADER ══════════════════════════════ -->
+<header class="header">
+  <div class="header-tape"></div>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-classification">TRAINING MATERIAL</div>
+      <div>
+        <div class="brand-name">DECEIVER</div>
+        <div class="brand-sub">SOCIAL ENGINEERING AWARENESS PLATFORM</div>
+      </div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-status">
+      <span class="status-live">● LIVE</span> TRAINING SESSION · UNIT: SECURITY AWARENESS
+    </div>
+    <div class="header-right">
+      <div class="h-badge hb-red">8 ATTACK VECTORS</div>
+      <div class="h-badge hb-gold">SIMULATED · SAFE</div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════ NAV ══════════════════════════════ -->
+<nav class="nav">
+  <button class="nav-btn active" onclick="showView('dossiers')">① Attack Dossiers</button>
+  <button class="nav-btn" onclick="showView('simulations')">② Live Simulations</button>
+  <button class="nav-btn" onclick="showView('redflags')">③ Red Flag Detector</button>
+  <button class="nav-btn" onclick="showView('psychology')">④ Psychology Lab</button>
+  <button class="nav-btn" onclick="showView('playbook')">⑤ Defense Playbook</button>
+  <button class="nav-btn" onclick="showView('quiz')">⑥ Knowledge Quiz</button>
+</nav>
+
+<!-- ══════════════════════════════ MAIN ══════════════════════════════ -->
+<div class="main">
+
+<!-- ═══ ATTACK DOSSIERS ═══ -->
+<div class="view active" id="view-dossiers">
+  <div class="sec-eyebrow">ATTACK VECTOR CATALOG</div>
+  <div class="sec-title">Attack Dossiers</div>
+  <div class="sec-desc">Classified intelligence files on 8 social engineering attack vectors. Click any dossier to open the full tactical breakdown — how attackers plan it, execute it, and how to stop it.</div>
+  <div class="sec-rule"></div>
+  <div class="dossier-grid" id="dossier-grid"></div>
+</div>
+
+<!-- ═══ LIVE SIMULATIONS ═══ -->
+<div class="view" id="view-simulations">
+  <div class="sec-eyebrow">OPERATIONAL EXERCISES</div>
+  <div class="sec-title">Live Simulations</div>
+  <div class="sec-desc">You are the target. Review each attack in real-time — phishing emails, SMS messages, phone calls, and in-person scenarios — and make the right call under pressure.</div>
+  <div class="sec-rule"></div>
+
+  <div class="sim-score-strip">
+    <div>
+      <div class="ss-val" id="sim-score-val">0/6</div>
+      <div class="ss-label">CORRECT DECISIONS</div>
+    </div>
+    <div class="ss-bar-wrap"><div class="ss-bar" id="sim-score-bar" style="width:0%"></div></div>
+    <div style="margin-left:auto;display:flex;gap:8px;">
+      <button class="sim-btn sb-outline" onclick="resetSims()">↺ RESET</button>
+    </div>
+  </div>
+
+  <div class="sim-layout">
+    <div>
+      <div class="sim-mission-list" id="sim-mission-list"></div>
+    </div>
+    <div class="sim-display" id="sim-display">
+      <div style="background:var(--paper);border:1px solid var(--border);padding:40px;text-align:center;box-shadow:3px 3px 12px var(--shadow);">
+        <div style="font-size:32px;margin-bottom:12px;">📁</div>
+        <div style="font-family:'Oswald',sans-serif;font-size:18px;color:var(--mid);">Select a scenario from the list</div>
+        <div style="font-size:12px;color:var(--dim);margin-top:6px;font-family:'Courier Prime',monospace;">Choose any case file to begin the simulation</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RED FLAG DETECTOR ═══ -->
+<div class="view" id="view-redflags">
+  <div class="sec-eyebrow">ANALYST TRAINING EXERCISE</div>
+  <div class="sec-title">Red Flag Detector</div>
+  <div class="sec-desc">Examine the attack samples below and click every suspicious element you can identify. Train your eye to spot manipulation tactics in real messages.</div>
+  <div class="sec-rule"></div>
+
+  <div class="rfd-select-row" id="rfd-tabs"></div>
+  <div class="rfd-layout">
+    <div>
+      <div class="flag-instructions">
+        🔍 <strong>Instructions:</strong> Click on any highlighted text that you believe is a red flag or manipulation tactic. Each discovery unlocks an explanation of why it's suspicious.
+      </div>
+      <div id="rfd-content"></div>
+    </div>
+    <div class="flag-panel">
+      <div class="flag-panel-title">// RED FLAGS FOUND</div>
+      <div class="flag-counter" id="rfd-counter">0</div>
+      <div class="flag-counter-label" id="rfd-counter-label">of 0 found</div>
+      <div class="flag-list" id="rfd-flag-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PSYCHOLOGY LAB ═══ -->
+<div class="view" id="view-psychology">
+  <div class="sec-eyebrow">ATTACKER PLAYBOOK · PSYCHOLOGICAL OPERATIONS</div>
+  <div class="sec-title">Psychology of Manipulation</div>
+  <div class="sec-desc">Social engineers exploit fundamental human psychological principles identified by Dr. Robert Cialdini. Understanding these triggers is the first step to resisting them.</div>
+  <div class="sec-rule"></div>
+  <div class="psych-grid" id="psych-grid"></div>
+</div>
+
+<!-- ═══ DEFENSE PLAYBOOK ═══ -->
+<div class="view" id="view-playbook">
+  <div class="sec-eyebrow">DEFENSIVE PROCEDURES</div>
+  <div class="sec-title">Defense Playbook</div>
+  <div class="sec-desc">Verified response protocols, verification frameworks, and behavioral red flags. Print-ready reference for security-conscious professionals.</div>
+  <div class="sec-rule"></div>
+  <div id="playbook-content"></div>
+</div>
+
+<!-- ═══ KNOWLEDGE QUIZ ═══ -->
+<div class="view" id="view-quiz">
+  <div class="sec-eyebrow">KNOWLEDGE ASSESSMENT · 12 QUESTIONS</div>
+  <div class="sec-title">Knowledge Quiz</div>
+  <div class="sec-desc">Test your understanding of social engineering tactics, psychological triggers, and defensive protocols.</div>
+  <div class="sec-rule"></div>
+  <div class="quiz-wrap">
+    <div class="quiz-prog-wrap">
+      <div class="qpw-bar"><div class="qpw-fill" id="qpw-fill" style="width:0%"></div></div>
+      <div class="qpw-text" id="qpw-text">0 of 12 answered</div>
+      <div class="qpw-score" id="qpw-score">0/12</div>
+    </div>
+    <div id="quiz-container"></div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- ══════════════════════════════ DOSSIER MODAL ══════════════════════════════ -->
+<div id="dossier-overlay" onclick="if(event.target===this)closeDossier()">
+  <div class="dossier-modal" id="dossier-modal-body"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════════════════
+
+const ATTACKS = [
+  {
+    id:'phishing', num:'01', name:'Phishing', css:'at-phishing', ac:'#c0392b',
+    category:'Email-Based Attack', threat:'CRITICAL',
+    tagline:'Deceptive emails mimicking legitimate organizations to steal credentials, install malware, or transfer funds.',
+    desc:'Phishing is the #1 initial access vector for cyberattacks worldwide. Attackers craft emails that appear to come from trusted sources — banks, IT departments, executives — to trick recipients into clicking malicious links, opening infected attachments, or revealing sensitive information.',
+    tactics:['Urgency','Authority','Impersonation','Fear','Deception'],
+    simCount:4,
+    howItWorks:[
+      {title:'Reconnaissance', desc:'Attacker researches the target organization via LinkedIn, company website, and social media to personalize the lure.'},
+      {title:'Lure Crafting', desc:'Email is designed using real logos, fonts, and language from the impersonated organization. Sent from a spoofed or look-alike domain.'},
+      {title:'Urgency Creation', desc:'Message creates time pressure: "Your account will be suspended in 24 hours," "URGENT: Action required immediately."'},
+      {title:'Action Harvesting', desc:'Victim clicks a link to a spoofed login page (credential harvest) or opens an attachment (malware delivery).'},
+      {title:'Exploitation', desc:'Stolen credentials used to access accounts. Malware deployed to establish persistence and lateral movement.'},
+    ],
+    redFlags:[
+      'Sender address doesn\'t match the organization (support@payp4l-secure.com)',
+      'Urgent or threatening subject line',
+      'Generic greeting ("Dear Customer") instead of your name',
+      'Requests for sensitive information via email',
+      'Hover over links — URL doesn\'t match legitimate domain',
+      'Poor grammar or unusual phrasing',
+      'Unexpected attachment from unknown or semi-known sender',
+    ],
+    realCases:[
+      {name:'Google & Facebook BEC',year:'2013-15',desc:'Lithuanian man sent fake invoices impersonating Quanta Computer, stealing $121M',loss:'$121M stolen'},
+      {name:'Twitter 2020 Hack',year:'2020',desc:'Spear-phishing Twitter employees to gain admin access; hijacked Obama, Gates, Musk accounts',loss:'$120K Bitcoin'},
+      {name:'RSA SecurID Breach',year:'2011',desc:'Phishing email with Excel attachment "2011 Recruitment Plan.xls" gave attackers SecurID seed data',loss:'$66M+ remediation'},
+      {name:'Sony Pictures',year:'2014',desc:'Spear-phishing executives led to massive data exfiltration and destructive malware deployment',loss:'$100M+ damage'},
+    ],
+    defenses:[
+      'Email authentication (SPF, DKIM, DMARC) on your domain',
+      'Email filtering with sandboxing for all attachments',
+      'Multi-Factor Authentication on all accounts',
+      'Security awareness training with phishing simulations',
+      'Verify unexpected requests via a different channel (phone call)',
+      'Never click links in emails — navigate to websites directly',
+    ]
+  },
+  {
+    id:'vishing', num:'02', name:'Vishing', css:'at-vishing', ac:'#7c3a1e',
+    category:'Voice-Based Attack', threat:'HIGH',
+    tagline:'Voice phishing over phone calls — attackers impersonate tech support, government agencies, or banks to extract sensitive information.',
+    desc:'Vishing (voice phishing) uses telephone calls to manipulate victims. Attackers impersonate trusted entities — IRS agents, bank fraud departments, IT helpdesk — using Caller ID spoofing and carefully crafted scripts to extract credentials, payment information, or remote access.',
+    tactics:['Authority','Fear','Urgency','Caller ID Spoofing','Technical Jargon'],
+    howItWorks:[
+      {title:'Targeting', desc:'Attacker identifies target via data broker sites, LinkedIn, or previous breach data. Learns name, role, company.'},
+      {title:'Spoofing Setup', desc:'Caller ID is spoofed to show a legitimate number (IRS, Microsoft, Target Bank\'s actual support number).'},
+      {title:'Script Execution', desc:'Caller uses a prepared script with specific authority language and fear triggers.'},
+      {title:'Escalation', desc:'If victim resists, caller escalates threats ("We\'ve already filed the warrant") or transfers to a "supervisor."'},
+      {title:'Extraction', desc:'Victim provides credentials, SSN, payment, or installs remote access software thinking they\'re being "helped."'},
+    ],
+    redFlags:[
+      'Unexpected call about an urgent problem you didn\'t initiate',
+      'Caller requests remote access to your computer',
+      'Pressure to act immediately — "if you hang up the arrest warrant will be issued"',
+      'Requests for gift card payments or wire transfers',
+      'Caller claims to be from IRS, Social Security, or law enforcement',
+      'Request for your password or full SSN over the phone',
+      'Caller asking you not to tell anyone about the call',
+    ],
+    realCases:[
+      {name:'Robinhood Breach',year:'2021',desc:'Attacker vished a customer service rep, gaining access to millions of accounts via social engineering alone',loss:'7M accounts exposed'},
+      {name:'MGM Resorts Hack',year:'2023',desc:'Attackers called MGM IT helpdesk impersonating an employee found on LinkedIn, reset credentials leading to $100M attack',loss:'$100M disruption'},
+      {name:'IRS Impersonation Ring',year:'2016',desc:'India-based call center operation collected $36M from thousands of Americans using IRS impersonation scripts',loss:'$36M stolen'},
+      {name:'UK CEO Fraud',year:'2019',desc:'Criminals used AI voice synthesis to impersonate a CEO on a phone call, ordering a $243K wire transfer',loss:'$243K stolen'},
+    ],
+    defenses:[
+      'Never accept unsolicited calls as legitimate — hang up and call back on a verified number',
+      'Your bank will NEVER ask for your password or PIN over the phone',
+      'Government agencies communicate by mail first — never cold call with arrest threats',
+      'Never install remote access software for an unsolicited caller',
+      'Verify caller identity by calling the official number from the organization\'s website',
+      'Create a verbal safe word with elderly family members to verify identity in urgent calls',
+    ]
+  },
+  {
+    id:'smishing', num:'03', name:'Smishing', css:'at-smishing', ac:'#4a1a6e',
+    category:'SMS-Based Attack', threat:'HIGH',
+    tagline:'SMS phishing — malicious text messages impersonating delivery services, banks, or government agencies with fake links.',
+    desc:'Smishing uses SMS text messages to deliver phishing attacks. The casual nature of texting and the prevalence of legitimate text alerts from real services make smishing highly effective. Mobile browsers also hide full URLs, making it harder to spot fake domains.',
+    tactics:['Familiarity','Urgency','Trusted Brand Impersonation','URL Obfuscation'],
+    howItWorks:[
+      {title:'Number Spoofing', desc:'Attacker uses SMS spoofing services to send from numbers appearing to be banks, FedEx, USPS, or government agencies.'},
+      {title:'Context Harvesting', desc:'Messages reference real-feeling events: "Your package could not be delivered," "Suspicious activity on your account."'},
+      {title:'Short URL Trap', desc:'Link uses URL shortener or typosquatted domain that\'s impossible to verify on a small screen.'},
+      {title:'Mobile Phishing Page', desc:'Victim lands on a mobile-optimized fake page that looks pixel-perfect. Credentials or payment info is harvested.'},
+    ],
+    redFlags:[
+      'Text from an unknown number about a package or account issue you didn\'t initiate',
+      'Link uses a URL shortener (bit.ly) or unfamiliar domain',
+      'Message asks you to "verify" account information via a link',
+      'Urgent language: "Reply STOP or your account will close within 24 hours"',
+      'Grammar or spelling errors in an official-looking message',
+      'Message asks for payment via link — legitimate services have apps or websites',
+      'Number looks like a regular cell number, not a business shortcode',
+    ],
+    realCases:[
+      {name:'Flubot Banking Smish',year:'2021',desc:'Fake DHL delivery SMS spread Android banking malware to millions across Europe',loss:'Millions infected'},
+      {name:'USPS Smishing Campaign',year:'2023',desc:'Massive smishing campaign impersonating USPS with fake package alerts; stole payment data at scale',loss:'Thousands of victims'},
+      {name:'COVID Vaccine Smishing',year:'2021',desc:'Texts claiming to offer vaccination appointments harvested health information and payment data',loss:'Widespread identity theft'},
+      {name:'Bank Account Smishing',year:'2022',desc:'Wells Fargo impersonation texts tricked customers into providing credentials and 2FA codes',loss:'Multiple six-figure losses'},
+    ],
+    defenses:[
+      'Never click links in unsolicited text messages',
+      'Go directly to the organization\'s official app or website instead',
+      'Report suspected smishing to 7726 (SPAM) — your carrier investigates',
+      'Enable spam filtering on your mobile device and carrier plan',
+      'Legitimate package carriers never require payment via a text link',
+      'Don\'t reply STOP to suspected spam — it confirms your number is active',
+    ]
+  },
+  {
+    id:'pretexting', num:'04', name:'Pretexting', css:'at-pretexting', ac:'#1a3a5c',
+    category:'Identity Deception', threat:'CRITICAL',
+    tagline:'Fabricating a believable backstory to manipulate victims into providing information or access they wouldn\'t otherwise grant.',
+    desc:'Pretexting is the creation of a fabricated scenario ("pretext") to extract information or access. The attacker assumes a false identity — IT technician, auditor, new employee, vendor — and uses detailed research to make the deception convincing enough that the target volunteers sensitive information.',
+    tactics:['Identity Fabrication','Trust Building','Research-Based Credibility','Authority Impersonation'],
+    howItWorks:[
+      {title:'Research Phase', desc:'Attacker studies the organization deeply: employee names, org structure, current projects, vendors, jargon. LinkedIn, company website, press releases.'},
+      {title:'Pretext Development', desc:'A detailed false identity is constructed: fake credentials, a plausible role (IT auditor, new manager, vendor rep), and a believable story.'},
+      {title:'Contact Initiation', desc:'Attacker makes contact referencing real employees, projects, or events to establish immediate credibility.'},
+      {title:'Information Extraction', desc:'The pretext creates a natural reason for the target to provide information — it seems reasonable in context.'},
+    ],
+    redFlags:[
+      'Caller/emailer references real employees or projects but you\'ve never heard of them',
+      'Request for information that\'s "needed urgently" before a deadline',
+      'Scenario that "just happens" to require sensitive access or information',
+      'New vendor, contractor, or employee who needs unusual access immediately',
+      'Cannot verify the person through official channels when you try',
+      'Emotional manipulation: guilt ("I\'ll lose my job"), flattery, or excessive helpfulness',
+    ],
+    realCases:[
+      {name:'HP/Autonomy Pretexting',year:'2012',desc:'HP\'s investigation firm posed as journalists to obtain phone records of board members',loss:'$14.5M fine to HP'},
+      {name:'Kevin Mitnick (historic)',year:'1990s',desc:'World\'s most famous pretexting: impersonated employees, vendors, and executives to gain access to major corporations',loss:'Classified systems breached'},
+      {name:'Verizon Employee Breach',year:'2007',desc:'Pretexters obtained call records of millions by posing as customers; exposed major telecom vulnerability',loss:'Widespread privacy violation'},
+      {name:'Frank Abagnale Jr.',year:'1960s',desc:'Impersonated pilot, doctor, and lawyer for years — the archetype of real-world pretexting at scale',loss:'$2.5M+ in fraud'},
+    ],
+    defenses:[
+      'Verify identity through official channels before providing any information',
+      'Implement strict need-to-know policies — challenge unusual requests regardless of seniority',
+      'Train staff to not let helpfulness override security verification',
+      'Establish clear procedures for what information can be shared by phone vs. in person',
+      'Be suspicious of overly detailed backstories — detail can be a manipulation tool',
+      'When in doubt, escalate to your security team — never feel pressured to comply',
+    ]
+  },
+  {
+    id:'baiting', num:'05', name:'Baiting', css:'at-baiting', ac:'#1a4a2e',
+    category:'Physical/Digital Lure', threat:'MEDIUM',
+    tagline:'Leaving infected USB drives or offering enticing free content to lure victims into compromising their own systems.',
+    desc:'Baiting exploits human curiosity and greed by offering something enticing — a free USB drive, a download of paid software, or an intriguing unlabeled disc. The "bait" delivers malware upon use. Physical USB baiting is particularly effective because people feel compelled to find out what\'s on a found drive.',
+    tactics:['Curiosity','Greed','Opportunity Exploitation','Physical Deception'],
+    howItWorks:[
+      {title:'Bait Preparation', desc:'USB drives loaded with auto-executing malware are prepared. Labels like "Salary Information Q4" or "Confidential" maximize pickup rates.'},
+      {title:'Bait Placement', desc:'Drives are left in targeted locations: parking lots, bathrooms, conference rooms, coffee shops near target office.'},
+      {title:'Victim Self-Compromise', desc:'Curious employee finds and plugs in the drive to see what\'s on it. Malware executes automatically.'},
+      {title:'Payload Delivery', desc:'Malware establishes backdoor, steals credentials, or creates persistent access for attacker.'},
+    ],
+    redFlags:[
+      'Found USB drive, disc, or cable in a parking lot or public space',
+      'Free "giveaway" USB drives from strangers at conferences',
+      'Promising download links for paid software, games, or adult content',
+      'Unsolicited mail with a USB drive — increasingly used in targeted attacks',
+      'Drive automatically launches a program when plugged in',
+      'File names designed to provoke curiosity: "Employee Salaries," "Merger Plan," "Personal Photos"',
+    ],
+    realCases:[
+      {name:'Pentagon USB Drop',year:'2008',desc:'Infected flash drives left in parking lot of DoD facility led to Operation Buckshot Yankee — worst US military network breach',loss:'Classified network breach'},
+      {name:'Stuxnet Delivery',year:'2010',desc:'Stuxnet was delivered to air-gapped Iranian nuclear facility via baited USB drives given to unwitting contractors',loss:'1,000+ centrifuges destroyed'},
+      {name:'University USB Study',year:'2016',desc:'Researchers dropped 297 USB drives on UI Urbana campus — 48% were plugged in and files opened within hours',loss:'Research demonstrated: 98% pickup rate'},
+      {name:'Water Utility Attack',year:'2022',desc:'Unsolicited USB drive mailed to water treatment facility labeled "COVID-19 relief information" contained destructive malware',loss:'Infrastructure attack thwarted'},
+    ],
+    defenses:[
+      'Never plug in found USB drives — not even to "check" if it\'s important',
+      'Disable USB autorun/autoplay on all corporate endpoints',
+      'Use USB port blockers or software to whitelist only approved drives',
+      'Report found USB drives to IT Security immediately without plugging in',
+      'Only download software from verified official sources',
+      'Use a write-protected "burner" system if drive contents must be reviewed',
+    ]
+  },
+  {
+    id:'tailgating', num:'06', name:'Tailgating', css:'at-tailgating', ac:'#5c4a1a',
+    category:'Physical Intrusion', threat:'HIGH',
+    tagline:'Physically following an authorized person through a secure door without using one\'s own credentials — exploiting social courtesy.',
+    desc:'Tailgating (also called piggybacking) exploits human politeness and social norms to gain unauthorized physical access. People naturally hold doors open for others, especially when hands are full. A single moment of courtesy can grant an attacker access to a secure facility, server room, or sensitive area.',
+    tactics:['Social Politeness','Role Playing','Distraction','Urgency','Impersonation'],
+    howItWorks:[
+      {title:'Target Assessment', desc:'Attacker observes entry points, identifies busy times, and notes what credentials look like (badge color, lanyard type).'},
+      {title:'Cover Identity', desc:'Attacker dresses appropriately: delivery uniform, IT contractor vest, business attire. May carry boxes or equipment.'},
+      {title:'Approach', desc:'Times approach to coincide with an authorized person reaching the door. Creates the appearance of belonging.'},
+      {title:'Courtesy Exploitation', desc:'Victim holds door open. Social pressure prevents challenging someone who "looks like they belong."'},
+      {title:'Access Achieved', desc:'Attacker now inside perimeter. May then access server rooms, plant USB devices, photograph documents, or gather intelligence.'},
+    ],
+    redFlags:[
+      'Person following close behind you at a secure entry point',
+      'Someone carrying boxes or equipment asking you to hold the door',
+      'Visitor without an escort in a restricted area',
+      'Person you don\'t recognize in a secured zone without a visible badge',
+      'Unfamiliar "IT technician" or "maintenance worker" in server room or restricted area',
+      'Person claiming their badge "isn\'t working" and asking to just slip in with you',
+    ],
+    realCases:[
+      {name:'Bank Physical Pen Test',year:'2019',desc:'Security firm Coalfire consultants arrested after being hired to physically penetrate Iowa courthouse to test security',loss:'Security gaps confirmed'},
+      {name:'Medical Records Center',year:'2020',desc:'Social engineer tailgated into hospital records facility, photographed patient records for identity theft ring',loss:'Thousands of patient records'},
+      {name:'Data Center Breach',year:'2015',desc:'Attacker posed as HVAC technician, tailgated into Tier III data center, installed physical keylogger on admin terminal',loss:'Network fully compromised'},
+      {name:'DEF CON Physical SE',year:'2023',desc:'Annual village competition: contestants physically social-engineered their way into office buildings posing as various roles',loss:'All targets successfully breached'},
+    ],
+    defenses:[
+      'Never hold secured doors for people you don\'t recognize — even if they look inconvenienced',
+      'Politely but firmly challenge unescorted visitors: "Can I see your badge?"',
+      'Report suspicious individuals in restricted areas immediately',
+      'Implement anti-tailgating controls: mantraps, turnstiles, security cameras at all entry points',
+      'Train all staff that challenging strangers is expected and supported — not rude',
+      'Escort policies: all visitors must be met and accompanied by an authorized employee',
+    ]
+  },
+  {
+    id:'quid-pro', num:'07', name:'Quid Pro Quo', css:'at-quid-pro', ac:'#4a2c1a',
+    category:'Service Exchange Attack', threat:'MEDIUM',
+    tagline:'Offering a service or benefit in exchange for information — fake IT support calls offering to fix a problem that doesn\'t exist.',
+    desc:'Quid pro quo attacks offer a service in exchange for information or access. The most common form is fake IT support: an attacker calls employees offering to help with a problem, then guides victims through steps that install malware or reveal credentials under the guise of "assistance."',
+    tactics:['Reciprocity','Helpfulness Exploitation','False Authority','Technical Trust'],
+    howItWorks:[
+      {title:'Mass Contact', desc:'Attacker makes large numbers of calls claiming to be IT helpdesk checking on a "known issue" with the network or software.'},
+      {title:'Problem Creation', desc:'Attacker convinces victim they have a problem they didn\'t know about — and offers to fix it.'},
+      {title:'Assistance Trap', desc:'During "fix," victim is asked to disable antivirus, install remote access tool, or provide credentials.'},
+      {title:'Access Gained', desc:'Remote access software gives attacker full control. Credentials harvested. Malware installed.'},
+    ],
+    redFlags:[
+      'Unsolicited offer to help with a problem you didn\'t know you had',
+      'Request to install software or disable security tools as part of "help"',
+      'IT staff asking for your password — legitimate IT never needs your password',
+      'Free service or reward offered in exchange for "a moment of your time"',
+      'Sense that you owe the caller something for their time or effort',
+      'Unable to verify the person is actually from IT when you try',
+    ],
+    realCases:[
+      {name:'Fake Microsoft Support',year:'2020',desc:'$1.5B lost globally to fake Microsoft/Windows support scam calls offering to fix "viruses" on victims\' PCs',loss:'$1.5B+/year industry'},
+      {name:'University Credential Harvest',year:'2019',desc:'Attackers called students offering free Netflix for "network testing participation" — harvested credentials for account resale',loss:'Thousands of accounts'},
+      {name:'Corporate IT Impersonation',year:'2022',desc:'Attackers called financial firm employees offering to "fix" a VPN issue; guided users to install AnyDesk; drained accounts',loss:'$4M financial fraud'},
+    ],
+    defenses:[
+      'Legitimate IT will never ask for your password — ever',
+      'Never install remote access software for unsolicited callers',
+      'Verify IT requests through your official helpdesk ticket system before complying',
+      'Question why "help" requires disabling security tools — that\'s always a red flag',
+      'Call back your internal IT helpdesk on their official number to verify any call',
+    ]
+  },
+  {
+    id:'watering', num:'08', name:'Watering Hole', css:'at-watering', ac:'#1a3a3a',
+    category:'Web-Based Targeted Attack', threat:'CRITICAL',
+    tagline:'Infecting websites frequented by a target group — waiting for victims to come to the attacker rather than seeking them out.',
+    desc:'In a watering hole attack, the attacker identifies websites frequented by their target group and compromises those sites with malware. When targets visit the (now-infected) legitimate website, malware is delivered automatically — no suspicious email or click required. Named after predators waiting at watering holes for prey.',
+    tactics:['Target Profiling','Supply Chain Trust','Zero-Day Exploitation','Passive Waiting'],
+    howItWorks:[
+      {title:'Target Profiling', desc:'Attacker identifies the target group (industry sector, company, government agency) and studies what sites they visit — trade associations, industry news, professional forums.'},
+      {title:'Site Compromise', desc:'The frequently visited site is compromised via SQL injection, XSS, or a CMS vulnerability. A malicious iframe or script is injected.'},
+      {title:'Drive-By Delivery', desc:'When a target visits the site, the malicious script silently delivers an exploit kit targeting known browser/plugin vulnerabilities.'},
+      {title:'Silent Compromise', desc:'Target\'s machine is compromised without any click or action. They simply visited a website they trust.'},
+    ],
+    redFlags:[
+      'This attack is nearly invisible to the end user — it\'s a technical/organizational defense challenge',
+      'Browser or security software warnings when visiting a known, trusted site',
+      'Unusual network traffic or processes after visiting an industry website',
+      'Security vendors reporting compromise of industry sites you visit',
+      'Any unfamiliar process execution after routine web browsing',
+    ],
+    realCases:[
+      {name:'Polish Financial Regulator',year:'2017',desc:'KNF website (Polish financial regulator) compromised; all visitors from banking IP ranges received banking malware',loss:'Multiple Polish banks breached'},
+      {name:'iOS Zero-Day (Project Zero)',year:'2019',desc:'Google Project Zero discovered 14 vulnerabilities used to compromise iPhones via watering hole attacks on Uyghur community sites',loss:'Extensive surveillance of community'},
+      {name:'US Dept of Labor',year:'2013',desc:'Department of Labor website injected with exploit kit targeting visitors from defense/energy contractor IP ranges',loss:'Government contractor networks breached'},
+      {name:'Forbes.com Compromise',year:'2015',desc:'Forbes "Thought of the Day" widget replaced with malware targeting US defense and financial sector visitors',loss:'Nation-state espionage'},
+    ],
+    defenses:[
+      'Keep browsers, plugins, and OS fully patched — drive-by downloads exploit known vulnerabilities',
+      'Use browser isolation technology for accessing external/industry websites',
+      'Disable Flash and Java browser plugins — primary exploit kit targets',
+      'Outbound web proxy with content inspection and threat intelligence feeds',
+      'Endpoint security with exploit prevention and behavioral detection',
+    ]
+  }
+];
+
+// ── Simulations ──
+const SIMULATIONS = [
+  {
+    id:0, type:'PHISHING EMAIL', title:'CEO Wire Transfer Request',
+    intro:'You receive the following email at 4:47 PM on a Friday. Your CFO is out of office. Read carefully.',
+    medium:'email',
+    content:{
+      from:'Michael Chen <m.chen@digitech-corp.net>',
+      fromDisplay:'CEO — DigiTech Corporation',
+      to:'Sarah Williams <s.williams@digitech.com>',
+      subject:'URGENT: Wire Transfer Required Today',
+      body:`Sarah,
+
+I'm in a client meeting in Singapore and need your immediate help. We're closing an acquisition and need a wire transfer processed before end of business today to avoid losing the deal.
+
+Amount: $87,500
+Beneficiary: Harmon Global Holdings
+IBAN: GB29NWBK60161331926819
+Reference: DGTCH-ACQ-2024
+
+Please process this as soon as possible and send confirmation to this email. Do NOT discuss with anyone in the office as this is confidential until formally announced.
+
+I know this is unusual but the timing is critical. I'll explain everything when I'm back Monday.
+
+Best,
+Michael Chen
+CEO, DigiTech Corporation
++1 (415) 555-0192`
+    },
+    question:'What should you do with this email?',
+    correct:2,
+    choices:[
+      'Process the wire transfer immediately — it\'s from the CEO and time is critical',
+      'Reply to the email asking for more details about the acquisition',
+      'Do not process. Verify by calling the CEO\'s known cell number. Flag to IT Security.',
+      'Forward to the CFO even though they\'re out of office'
+    ],
+    feedback:'Correct. This is a Business Email Compromise (BEC) attack — one of the most costly forms of phishing. Key red flags: (1) From a look-alike domain (digitech-corp.net vs digitech.com), (2) Urgency + secrecy combination, (3) Friday afternoon timing, (4) CFO conveniently absent, (5) Request to not tell anyone. Always verify wire transfer requests by calling the requester on a known number — never reply to the email.'
+  },
+  {
+    id:1, type:'VISHING CALL', title:'IT Helpdesk Password Reset',
+    intro:'You receive a phone call. The following is a transcript of the voicemail left when you didn\'t answer.',
+    medium:'voicemail',
+    content:{
+      caller:'IT Help Desk',
+      number:'(512) 555-0847 (Internal IT)',
+      time:'2:15 PM Today',
+      transcript:`"Hi, this is Jake from the IT Security team. We've detected some <em>unusual login activity</em> on your account from an IP in Eastern Europe. We need to <em>reset your credentials immediately</em> to prevent any further unauthorized access.
+
+I've already opened ticket number IT-29471 for this. Please call me back right away at extension 4471 — we need to get this resolved <em>before 5 PM today</em> or we'll have to lock your account completely until morning.
+
+Again, this is urgent. Call back at <em>extension 4471</em>. Thank you."`
+    },
+    question:'You call the number back at extension 4471. The "IT tech" answers and asks for your current password so he can force-reset it. What do you do?',
+    correct:3,
+    choices:[
+      'Give him your password — he\'s IT and already has a ticket number',
+      'Give him only your username and let him reset it from his end',
+      'Ask him to email you through the official IT ticketing system first',
+      'Hang up. Call your official IT helpdesk number from the company directory. Never provide your password.'
+    ],
+    feedback:'Correct. Legitimate IT staff will NEVER ask for your password. The ticket number (IT-29471) and specific details are used to create false credibility — attackers research these details in advance. Red flags: (1) Unsolicited call about a security issue, (2) Pressure to call back a specific number (not your official IT line), (3) 5 PM deadline creates urgency, (4) Any request for your password from anyone. Call your IT helpdesk on the number YOU find in the company directory.'
+  },
+  {
+    id:2, type:'SMISHING', title:'Bank Account Alert',
+    intro:'You receive the following text message on your personal phone at 9:23 AM.',
+    medium:'sms',
+    content:{
+      sender:'+1 (888) 555-0134',
+      displayName:'FIRST NATIONAL BANK',
+      time:'9:23 AM',
+      message:'FNB ALERT: Unusual activity detected on your account ending 4729. Your account has been temporarily restricted. Verify your identity now to restore access: https://fnb-secure-verify.co/id-check — Respond STOP to opt out.'
+    },
+    question:'You do bank with First National Bank. Your account does end in ...4729. What do you do?',
+    correct:1,
+    choices:[
+      'Click the link — your account is restricted and you need to fix it quickly',
+      'Don\'t click the link. Open your bank\'s official app or call the number on the back of your card.',
+      'Reply STOP to opt out of the alerts',
+      'Forward it to a friend to ask if it looks real'
+    ],
+    feedback:'Correct. Even when the details seem accurate (the last 4 digits of your card), smishing attacks use information from data breaches to personalize messages. The URL (fnb-secure-verify.co) is NOT First National Bank\'s domain. Red flags: (1) Unsolicited text with a link, (2) Non-official domain (fnb-secure-verify.co), (3) Urgency about account restriction, (4) Generic message — banks use your full name. Go directly to your bank\'s app or call the number on your card. Replying STOP confirms your number is active.'
+  },
+  {
+    id:3, type:'PRETEXTING', title:'The New Employee Audit',
+    intro:'You receive the following email, followed by a phone call from someone claiming to be from corporate compliance.',
+    medium:'email',
+    content:{
+      from:'Jennifer Park <j.park@digitech.com>',
+      fromDisplay:'Corporate Compliance — DigiTech',
+      to:'Your Team',
+      subject:'Q4 Compliance Audit — Access Verification Required',
+      body:`Team,
+
+As part of our Q4 compliance audit (required under our SOX obligations), the compliance team needs to verify active user accounts across all systems.
+
+Please reply with the following for each team member by COB Friday:
+— Full name and employee ID
+— Active system access roles (list all systems with access level)
+— Any shared service accounts your team uses
+— Direct manager name and contact
+
+This information is required for our external auditor review. If you have questions, please reach out to me directly at j.park@digitech.com.
+
+Best,
+Jennifer Park
+Corporate Compliance`
+    },
+    question:'You don\'t know Jennifer Park, but compliance audits are real. The email came from an internal @digitech.com address. What do you do?',
+    correct:3,
+    choices:[
+      'Reply with all the requested information — it\'s a legitimate compliance requirement',
+      'Reply asking a few questions but still provide partial information',
+      'Ignore it — it\'s probably spam',
+      'Don\'t reply. Call your manager and IT Security. Verify Jennifer Park exists via HR directory before providing any access information.'
+    ],
+    feedback:'Correct. This is pretexting — fabricating a legitimate-sounding scenario (compliance audit) to extract a data dump of user accounts and access privileges. The internal email address doesn\'t guarantee legitimacy — attackers compromise email accounts or use look-alike addresses. Red flags: (1) Requesting a list of all system access and shared accounts, (2) Unknown person you can\'t verify, (3) Data that would enable privilege escalation if obtained, (4) Deadline pressure. Verify through HR directory, call your manager, and report to IT Security.'
+  },
+  {
+    id:4, type:'BAITING', title:'The Parking Lot USB',
+    intro:'It\'s Monday morning. You find a USB drive in the company parking lot labeled "2024 Salary Review — All Staff." You pick it up.',
+    medium:'email',
+    content:{
+      from:'Scenario',
+      fromDisplay:'Physical Security Incident',
+      to:'You',
+      subject:'You found a USB drive labeled "2024 Salary Review — All Staff"',
+      body:`You found a USB drive in the company parking lot this morning. It has a professional-looking label:
+
+    ┌─────────────────────────────────┐
+    │                                 │
+    │  2024 SALARY REVIEW — ALL STAFF │
+    │         CONFIDENTIAL            │
+    │                                 │
+    │  DigiTech HR · Q4 Review Data   │
+    │                                 │
+    └─────────────────────────────────┘
+
+You're curious — you and your colleagues have been waiting on the annual salary review announcement. You're now at your desk with the drive in your hand.
+
+Your computer has a USB port available.`
+    },
+    question:'What do you do with the USB drive?',
+    correct:3,
+    choices:[
+      'Plug it in to see if it\'s really the salary data — you can always delete it if it\'s not',
+      'Ask a colleague to plug it in on their computer first',
+      'Plug it into a spare laptop that\'s not connected to the network',
+      'Do not plug it in anywhere. Bring it to IT Security immediately.'
+    ],
+    feedback:'Correct. This is a classic USB baiting attack. The label "2024 Salary Review — All Staff" is specifically designed to exploit curiosity — almost everyone will want to see it. Red flags: (1) Found physical media in a parking lot, (2) Label designed to create irresistible curiosity, (3) Any found USB drive is a potential weapon. Using a colleague\'s computer or a spare laptop still compromises those devices — the malware doesn\'t care. Only IT Security with proper forensic equipment can safely examine found drives.'
+  },
+  {
+    id:5, type:'VISHING/QUID PRO QUO', title:'The IT Support Call',
+    intro:'Your computer has been running slowly this week. You receive a call from "IT Support."',
+    medium:'voicemail',
+    content:{
+      caller:'IT Support',
+      number:'Internal Extension: 5500',
+      time:'10:45 AM Today',
+      transcript:`"Hi, this is Alex from IT operations. We've been monitoring network performance and we've noticed your machine — workstation DGTCH-SW-0041 — is showing some performance degradation possibly related to a recent Windows update we pushed.
+
+I can remote in right now and fix it for you — should only take about 5 minutes and you'll probably notice the difference immediately. I just need you to go to our remote support portal at support-digitech.helpdesk.net and enter access code DT-2024-SW.
+
+This is a proactive support call — we're trying to get ahead of the issue before it gets worse. Can I proceed with the remote session?"`
+    },
+    question:'Alex sounds knowledgeable — he knows your workstation name. He\'s offering to FIX your problem. What do you do?',
+    correct:2,
+    choices:[
+      'Go to the URL and enter the access code — he knows your computer name so he must be legit',
+      'Ask him to call back later when you have time for the remote session',
+      'Thank him but decline. Hang up and call your official IT helpdesk to verify if a support ticket exists for your workstation.',
+      'Ask him to send the request through your email first so you have a record'
+    ],
+    feedback:'Correct. This is a quid pro quo attack — offering to fix a real problem (your slow computer) in exchange for remote access. The workstation name creates false credibility (easily found in directory or breach data). Red flags: (1) Unsolicited offer to help, (2) The URL "support-digitech.helpdesk.net" is NOT digitech.com, (3) "Access code" entry on an unofficial site = malware download, (4) IT wouldn\'t cold-call and ask you to navigate to an external site. Call your internal IT helpdesk on the number you find in your company directory — not the number the caller provides.'
+  }
+];
+
+// ── Red Flag Detector ──
+const RFD_SAMPLES = [
+  {
+    id:'bec', label:'BEC Email', title:'SUSPICIOUS_EMAIL_001.eml',
+    type:'email',
+    flags:[
+      {id:0, text:'m.cheng@digitech-corp.net', explanation:'DOMAIN SPOOFING: The sender\'s domain is "digitech-corp.net" — NOT "digitech.com". The extra "-corp" makes it look official but it\'s a fake look-alike domain registered by the attacker.'},
+      {id:1, text:'URGENT: Action Required — Account Verification', explanation:'URGENCY TRIGGER: Subject lines with "URGENT" or "Required" are designed to bypass rational thinking by triggering an immediate response reaction. Urgency is the #1 phishing tactic.'},
+      {id:2, text:'Dear Valued Customer', explanation:'GENERIC GREETING: Legitimate organizations that hold your account always address you by your name. "Valued Customer" means the email is a mass blast — the sender doesn\'t actually know you.'},
+      {id:3, text:'your account has been compromised and will be permanently deleted', explanation:'FEAR TACTIC: Threatening permanent account deletion creates panic. Attackers use fear to override rational decision-making. Legitimate companies give you ample notice and options.'},
+      {id:4, text:'Verify Now', explanation:'SUSPICIOUS LINK: "Verify Now" buttons are the primary credential-harvesting mechanism. Hover over the link — it would show a spoofed domain. Never click verification links in emails; go directly to the company\'s website.'},
+      {id:5, text:'within 24 hours or your account will be permanently suspended', explanation:'ARTIFICIAL DEADLINE: The 24-hour countdown is a pressure tactic designed to prevent you from pausing to think critically or verify the email\'s legitimacy with the company.'},
+    ],
+    emailData:{
+      from:'Chase Online Security <m.cheng@digitech-corp.net>',
+      to:'customer@email.com',
+      subject:'URGENT: Action Required — Account Verification',
+      body:`Dear Valued Customer,
+
+We have detected unusual activity on your account. Your Chase Bank account has been compromised and will be permanently deleted unless you verify your identity immediately.
+
+Please click the button below to confirm your account details:
+
+[ Verify Now ]
+
+You must complete verification within 24 hours or your account will be permanently suspended. If you believe you received this message in error, please disregard.
+
+Chase Bank Security Team`
+    }
+  },
+  {
+    id:'smish', label:'Smishing SMS', title:'SMISHING_SAMPLE_002.txt',
+    type:'sms',
+    flags:[
+      {id:0, text:'+1 (213) 847-2918', explanation:'SUSPICIOUS SENDER: Legitimate bank alerts come from 5-digit shortcodes (like 72221), not from regular cell phone numbers. A 10-digit number sending a bank alert is a strong indicator of smishing.'},
+      {id:1, text:'BANK-OF-AMERICA-VERIFY.info', explanation:'FAKE DOMAIN: The legitimate Bank of America website is bankofamerica.com. The domain "BANK-OF-AMERICA-VERIFY.info" is a typosquatted look-alike registered to steal credentials. The .info TLD is a red flag.'},
+      {id:2, text:'IMMEDIATELY', explanation:'URGENCY TRIGGER: All-caps "IMMEDIATELY" is a psychological pressure tactic. Urgency forces impulsive action and prevents critical thinking about whether the message is legitimate.'},
+      {id:3, text:'Reply YES to confirm', explanation:'ENGAGEMENT TRAP: Replying "YES" confirms your number is active, leading to more scam attempts. It may also enroll you in premium SMS services. Never reply to suspected smishing messages.'},
+      {id:4, text:'your card ending in 4821', explanation:'FALSE PERSONALIZATION: This number could be from a data breach, guessed (many people have accounts), or randomly accurate. It creates false legitimacy — do not assume an entity is legitimate just because they know your card\'s last 4 digits.'},
+    ],
+    smsData:{
+      sender:'+1 (213) 847-2918',
+      name:'Bank of America',
+      time:'11:42 AM',
+      message:`BOA FRAUD ALERT: We detected suspicious activity on your card ending in 4821. Your account has been temporarily locked.
+
+Verify your identity IMMEDIATELY to restore access:
+BANK-OF-AMERICA-VERIFY.info
+
+Reply YES to confirm you received this alert or your card will remain locked for 72 hours.`
+    }
+  }
+];
+
+// ── Psychology Principles ──
+const PSYCH = [
+  {
+    num:'01', icon:'👑', principle:'Authority',
+    bg:'#fff3cd', accentColor:'#8b6914',
+    tagline:'We obey those we perceive as having power or expertise',
+    definition:'Humans are conditioned from childhood to comply with authority figures. Attackers impersonate executives, IT administrators, government agents, police, or auditors. The higher the perceived authority, the less we question requests.',
+    examples:[
+      '"This is the IRS calling about back taxes owed — failure to respond may result in arrest."',
+      '"As your CEO, I need this wire transfer processed before end of business today."',
+      '"I\'m from Corporate IT Security — your account has been flagged and I need your credentials."',
+    ],
+    defense:'Always verify the identity of authority figures through an independent channel. Legitimate authority doesn\'t evaporate when you pause to verify.'
+  },
+  {
+    num:'02', icon:'⏰', principle:'Urgency',
+    bg:'#fee8e6', accentColor:'#c0392b',
+    tagline:'Time pressure bypasses rational decision-making',
+    definition:'When we perceive a ticking clock, our brain shifts from System 2 (analytical) to System 1 (automatic) thinking. Attackers deliberately create time pressure — deadlines, threats, limited availability — to prevent victims from pausing to verify.',
+    examples:[
+      '"Your account will be deleted in 24 hours if you don\'t verify immediately."',
+      '"The acquisition closes today — I need this wire now or we lose the deal."',
+      '"We need to fix your account before 5 PM or we\'ll have to lock it all weekend."',
+    ],
+    defense:'Real urgency is almost never so urgent it prevents a 5-minute verification step. When someone pressures you NOT to verify, that\'s the biggest red flag of all.'
+  },
+  {
+    num:'03', icon:'🤝', principle:'Social Proof',
+    bg:'#e8f5e9', accentColor:'#1a4a2e',
+    tagline:'We look to others\' behavior to determine what\'s correct',
+    definition:'People conform to what they perceive as the norm or what others are doing. Attackers fabricate social proof ("other employees have already done this"), create a sense of belonging, or exploit herd behavior.',
+    examples:[
+      '"All other managers on your floor have already completed this security verification."',
+      '"Everyone is clicking on this — you don\'t want to miss out."',
+      '"Your colleague Sarah gave us her credentials — she said it\'s for the company audit."',
+    ],
+    defense:'Your security decisions should never be based on what others allegedly did. Verify policies directly with your security team — never based on social comparison.'
+  },
+  {
+    num:'04', icon:'❤️', principle:'Liking',
+    bg:'#fce4ec', accentColor:'#7c2340',
+    tagline:'We comply more readily with people we like or who seem similar to us',
+    definition:'We naturally comply with requests from people we find likeable, attractive, or similar to ourselves. Attackers build rapport, find common ground, compliment targets, and create a sense of friendship before making requests.',
+    examples:[
+      '"I went to Michigan too! Go Blue! — Hey, quick favor while I have you..."',
+      '"I know you\'re the one who can help me with this — you\'re always so helpful."',
+      '"We have a mutual friend, John from Accounting — he said you\'d be the right person to talk to."',
+    ],
+    defense:'Notice when someone builds excessive rapport before making a request. Warmth and likeability don\'t change whether a request is appropriate. Apply the same verification standards to pleasant callers.'
+  },
+  {
+    num:'05', icon:'🎁', principle:'Reciprocity',
+    bg:'#e3f2fd', accentColor:'#1a3a5c',
+    tagline:'When someone gives us something, we feel obligated to give back',
+    definition:'The reciprocity principle is one of the most powerful in human psychology. When someone does something for us — even something we didn\'t ask for — we feel compelled to return the favor. Attackers offer small gifts, help, or information to create this obligation.',
+    examples:[
+      '"Let me fix your computer problem right now — just give me remote access."',
+      '"I spent 20 minutes explaining this — the least you can do is confirm your employee ID."',
+      '"We\'ve been offering this free security scan — all we need is your network credentials."',
+    ],
+    defense:'Unsolicited gifts or help are not obligations. You don\'t owe anyone your credentials or access because they were helpful. Separate the "gift" from the request.'
+  },
+  {
+    num:'06', icon:'💎', principle:'Scarcity',
+    bg:'#f3e5f5', accentColor:'#4a1a6e',
+    tagline:'We want more of what\'s available in limited quantities',
+    definition:'Fear of missing out (FOMO) is a powerful motivator. When something is rare or its availability is limited, we assign greater value to it and act more impulsively to obtain it. Attackers use limited time offers, exclusive access, and threatened losses.',
+    examples:[
+      '"This offer expires at midnight — click now to claim your prize before it\'s gone."',
+      '"Only 2 spots left in the early access program — give me your information to hold your spot."',
+      '"If you don\'t verify in the next hour, your account will be permanently deleted."',
+    ],
+    defense:'Ask yourself: if this offer were actually legitimate, would a 10-minute verification delay really make it disappear? Scarcity is almost always manufactured to prevent careful thinking.'
+  }
+];
+
+// ── Defense Playbook ──
+const PLAYBOOK = {
+  verification:[
+    {scenario:'Urgent request from executive',action:'Call the executive\'s known cell number — not a number provided in the request. Verify before acting.'},
+    {scenario:'IT requests your credentials',action:'Legitimate IT never needs your password. Refuse. Report to your security team immediately.'},
+    {scenario:'Wire transfer request by email',action:'Every wire transfer request must be verified by phone to a known number. No exceptions.'},
+    {scenario:'Unknown caller from "help desk"',action:'Get their name and ticket number. Call your official IT helpdesk number to verify.'},
+    {scenario:'Vendor needs system access',action:'Verify via your contract/vendor management team. Issue access through official provisioning only.'},
+    {scenario:'Government agent demands action',action:'Real government agencies send written notices. Request their badge number and call the agency\'s official number.'},
+  ],
+  protocols:[
+    {action:'PAUSE before acting', detail:'Urgency is the attacker\'s biggest weapon. Pause = power. A 5-minute pause to verify is always justified.'},
+    {action:'VERIFY via a different channel', detail:'Always verify through a channel you initiate. Look up the number yourself. Go to the website directly.'},
+    {action:'REPORT even if you\'re unsure', detail:'Report suspicious contacts to IT Security even if you\'re not certain. False alarms are far better than missed attacks.'},
+    {action:'REFUSE requests for passwords', detail:'No legitimate person — IT, executive, or external — has a valid reason to ask for your password.'},
+    {action:'CHALLENGE without guilt', detail:'Challenging a stranger\'s identity or an unusual request is not rude — it\'s your professional responsibility.'},
+    {action:'DOCUMENT what happened', detail:'If you suspect a social engineering attempt, note the time, number, name given, and what was asked. Report immediately.'},
+  ],
+  redFlags:[
+    {icon:'⚡',text:'Any request for urgency that prevents verification — "there\'s no time to double-check"'},
+    {icon:'🔐',text:'Request for your password, PIN, MFA code, or security questions by anyone'},
+    {icon:'🔇',text:'Request for secrecy — "don\'t tell anyone about this conversation or request"'},
+    {icon:'💳',text:'Any payment request via gift cards, wire transfer, cryptocurrency, or Zelle'},
+    {icon:'💻',text:'Request to install remote access software (AnyDesk, TeamViewer) for an unsolicited caller'},
+    {icon:'📞',text:'Caller provides a call-back number instead of having you look it up independently'},
+    {icon:'😰',text:'Threats of immediate negative consequences: arrest, account deletion, legal action'},
+    {icon:'🎁',text:'Unsolicited help followed by a request — a "gift" that creates an obligation to comply'},
+    {icon:'📎',text:'Unexpected attachment or link in an email — even from known contacts if context is unusual'},
+    {icon:'🏦',text:'Any financial transaction request that bypasses your normal authorization process'},
+  ]
+};
+
+// ── Quiz ──
+const QUIZ = [
+  {
+    q:'What is the key characteristic that defines a social engineering attack compared to a technical cyberattack?',
+    opts:['Social engineering always uses malware as the primary tool','Social engineering exploits human psychology and trust rather than technical vulnerabilities','Social engineering only works in person or by phone','Social engineering requires advanced technical skills from the attacker'],
+    correct:1,
+    explain:'Social engineering targets human psychology — trust, authority, urgency, fear, and reciprocity — rather than exploiting software or hardware vulnerabilities. A social engineer can breach a highly secure technical environment without touching a single technical system by simply manipulating the people who have access.'
+  },
+  {
+    q:'An employee receives a call from "IT Security" saying their account is compromised and they need to provide their password to "verify identity and reset it." What should they do?',
+    opts:['Provide the password — IT Security needs it to fix the account','Provide only the username, not the password','Refuse. Legitimate IT staff never need your password — hang up and call your IT helpdesk directly.','Ask the caller to email them the password reset link instead'],
+    correct:2,
+    explain:'Legitimate IT staff never need your password — they can reset it without it. This is always a social engineering attack (quid pro quo / vishing). The correct response is to refuse, hang up, and call your IT helpdesk on the official number you look up yourself — not the number provided by the caller.'
+  },
+  {
+    q:'What is "pretexting" in the context of social engineering?',
+    opts:['Sending text messages with malicious links','Creating a fabricated scenario and false identity to manipulate someone into providing information','Pretending to be a customer to get a refund','Leaving infected USB drives in public places'],
+    correct:1,
+    explain:'Pretexting is the creation of a fabricated backstory — a "pretext" — that gives an attacker a plausible reason to request sensitive information. The attacker might pose as a new employee, an auditor, a vendor, or a compliance officer. The pretext is designed to make the request seem natural and reasonable.'
+  },
+  {
+    q:'Which of the following is the STRONGEST indicator that an email may be a phishing attempt?',
+    opts:['The email has a logo and professional formatting','The sender\'s domain is slightly different from the legitimate organization\'s domain','The email was received during business hours','The email mentions your account or order number'],
+    correct:1,
+    explain:'A lookalike domain (e.g., paypa1.com vs paypal.com, digitech-corp.net vs digitech.com) is one of the most reliable phishing indicators. Logos and professional formatting are easily copied. Legitimate organizations will always communicate from their actual, consistent domain — never from a variation.'
+  },
+  {
+    q:'The six psychological principles of influence most exploited by social engineers were identified by which researcher?',
+    opts:['Kevin Mitnick','Bruce Schneier','Robert Cialdini','Frank Abagnale'],
+    correct:2,
+    explain:'Dr. Robert Cialdini, a professor of psychology, identified six principles of influence in his landmark 1984 book "Influence: The Psychology of Persuasion": Reciprocity, Commitment/Consistency, Social Proof, Authority, Liking, and Scarcity. Social engineers deliberately weaponize these principles to manipulate targets.'
+  },
+  {
+    q:'An attacker leaves USB drives labeled "Confidential — Employee Salary Review" in a company parking lot. This is an example of which attack type?',
+    opts:['Tailgating','Pretexting','Baiting','Quid Pro Quo'],
+    correct:2,
+    explain:'Baiting exploits curiosity (and sometimes greed) by offering something enticing — in this case, access to supposedly confidential salary information. The label is specifically chosen to be irresistible. When plugged in, the drive delivers malware. The Pentagon and even the Stuxnet attack used this exact technique.'
+  },
+  {
+    q:'What is Business Email Compromise (BEC) and why is it so financially damaging?',
+    opts:['BEC uses malware to compromise business email servers','BEC uses spoofed or compromised executive email accounts to request fraudulent wire transfers, exploiting trust in authority','BEC floods email servers with spam to cause outages','BEC involves employees accidentally forwarding confidential emails'],
+    correct:1,
+    explain:'Business Email Compromise (BEC) is one of the most costly cybercrimes globally — the FBI estimates billions in losses annually. Attackers impersonate executives, CFOs, or vendors to request wire transfers or redirect payments. It\'s so effective because it exploits authority + urgency, the requests appear to come from legitimate email addresses, and victims feel pressure not to question their CEO.'
+  },
+  {
+    q:'You hold the door open for someone who follows you through a secured entry, saying "I forgot my badge today." This is an example of the attacker exploiting which vulnerability?',
+    opts:['Technical vulnerability in the door access system','Social courtesy — our reluctance to be confrontational or rude to others','Poor surveillance camera placement','Weak password policies'],
+    correct:1,
+    explain:'Tailgating exploits social politeness — humans are conditioned to hold doors open and not challenge people who appear to belong. The attacker exploits your reluctance to be confrontational. Organizations must train employees that challenging people without badges is required behavior — not rudeness — and implement physical controls like mantraps.'
+  },
+  {
+    q:'Why is a "watering hole" attack particularly difficult for individuals to defend against?',
+    opts:['It always bypasses firewalls completely','The victim doesn\'t take any suspicious action — they simply visit a legitimate website they regularly use, which has been secretly compromised','It only targets C-suite executives','It requires a specific operating system to work'],
+    correct:1,
+    explain:'Watering hole attacks compromise websites the target group already trusts and regularly visits. Unlike phishing, there\'s no suspicious email to avoid, no link to not click — just visiting a regular, legitimate website delivers the malware. Defense relies on keeping software/browsers patched, using browser isolation, and having endpoint security with exploit prevention.'
+  },
+  {
+    q:'When verifying an unexpected request from a known colleague, what is the safest verification method?',
+    opts:['Reply to their email asking for confirmation','Check if their LinkedIn profile matches the request','Call them on a phone number you look up independently — not the number provided in the request','Ask another colleague if they\'ve heard about the request'],
+    correct:2,
+    explain:'The safest verification is always via an independent channel YOU initiate. Looking up their known phone number (from your contacts or company directory) and calling it bypasses email compromise and Caller ID spoofing. The crucial detail: use a number you find yourself, NOT the number provided in the suspicious communication — that number may connect you directly to the attacker.'
+  },
+  {
+    q:'An attacker calls a helpdesk claiming to be a C-suite executive who urgently needs their account unlocked and cannot wait for normal procedures. The helpdesk complies without verification because of the pressure. Which psychological principle was exploited?',
+    opts:['Scarcity — the executive implied limited time','Authority — high-status person combined with urgency overwhelmed proper procedure','Reciprocity — the executive promised a reward','Social Proof — the executive said others had already complied'],
+    correct:1,
+    explain:'Authority combined with urgency is one of the most potent social engineering combinations. The perception of high status (C-suite) creates pressure to comply without questioning, while urgency prevents the helpdesk from pausing to follow verification procedures. MGM Resorts lost over $100M in 2023 through exactly this attack vector — a phone call to the IT helpdesk impersonating an executive.'
+  },
+  {
+    q:'Which of the following behaviors is the MOST effective daily habit for preventing social engineering attacks?',
+    opts:['Having a strong password that you change every month','Always verifying unexpected requests via an independent channel before acting, regardless of urgency or the requester\'s apparent status','Using antivirus software on all devices','Never using public Wi-Fi'],
+    correct:1,
+    explain:'The single most effective defense against all social engineering is independent verification. Before acting on any unexpected request — especially those involving credentials, money, access, or sensitive information — verify via a channel you initiate. This one behavior defeats phishing, vishing, pretexting, and BEC. Technical tools matter, but human verification behavior is the last line of defense.'
+  }
+];
+
+// ══════════════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════════════
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    if (b.getAttribute('onclick')?.includes("'" + id + "'")) b.classList.add('active');
+  });
+  if (id === 'simulations')  initSims();
+  if (id === 'redflags')     initRfd();
+  if (id === 'psychology')   initPsych();
+  if (id === 'playbook')     initPlaybook();
+  if (id === 'quiz')         initQuiz();
+}
+
+// ══════════════════════════════════════════════════════════
+// DOSSIER GRID
+// ══════════════════════════════════════════════════════════
+function renderDossiers() {
+  const grid = document.getElementById('dossier-grid');
+  ATTACKS.forEach((a, i) => {
+    const card = document.createElement('div');
+    card.className = `dossier-card ${a.css}`;
+    card.style.animationDelay = `${i * 60}ms`;
+    const tColor = a.threat === 'CRITICAL' ? '#c0392b' : a.threat === 'HIGH' ? '#7c3a1e' : '#5c4a1a';
+    card.innerHTML = `
+      <div class="dc-header">
+        <div class="dc-number">${a.num}</div>
+        <div class="dc-meta">
+          <div class="dc-category" style="color:${a.ac}">${a.category}</div>
+          <div class="dc-name">${a.name}</div>
+        </div>
+        <div class="dc-threat-badge" style="color:${tColor};border-color:${tColor}">${a.threat}</div>
+      </div>
+      <div class="dc-body">
+        <div class="dc-desc">${a.desc.substring(0,160)}...</div>
+        <div class="dc-tactics">${a.tactics.map(t => `<span class="dc-tactic">${t}</span>`).join('')}</div>
+      </div>
+      <div class="dc-footer">
+        <span style="font-family:'Courier Prime',monospace;font-size:10px;color:var(--dim)">${a.realCases.length} real-world cases</span>
+        <button class="dc-btn" onclick="openDossier('${a.id}')">VIEW FILE →</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// DOSSIER MODAL
+// ══════════════════════════════════════════════════════════
+function openDossier(id) {
+  const a = ATTACKS.find(x => x.id === id);
+  const tColor = a.threat === 'CRITICAL' ? '#c0392b' : a.threat === 'HIGH' ? '#7c3a1e' : '#5c4a1a';
+
+  const lifecycleHtml = a.howItWorks.map((s,i) => `
+    <div class="ps-step" style="border-left-color:${a.ac}">
+      <div class="ps-num" style="color:${a.ac}">${String(i+1).padStart(2,'0')}</div>
+      <div>
+        <div class="ps-action">${s.title}</div>
+        <div class="ps-detail">${s.desc}</div>
+      </div>
+    </div>`).join('');
+
+  const rfHtml = a.redFlags.map(rf => `
+    <div class="ds-item"><div class="ds-dot"></div>${rf}</div>`).join('');
+
+  const defHtml = a.defenses.map(d => `
+    <div class="ds-item"><div class="ds-dot" style="background:var(--green-ink)"></div>${d}</div>`).join('');
+
+  const casesHtml = a.realCases.map(c => `
+    <div class="rc-item">
+      <div><div class="rc-name">${c.name}</div><div style="font-size:11px;color:var(--dim);font-family:'Courier Prime',monospace;">${c.year}</div></div>
+      <div class="rc-desc">${c.desc}</div>
+      <div class="rc-loss">${c.loss}</div>
+    </div>`).join('');
+
+  document.getElementById('dossier-modal-body').innerHTML = `
+    <div class="dossier-modal-tape" style="background:${a.ac}"></div>
+    <div class="dossier-modal-header">
+      <div class="dm-stamp" style="color:${tColor};border-color:${tColor}">${a.threat}</div>
+      <div class="dm-title-block">
+        <div class="dm-category" style="color:${a.ac}">${a.category} // CASE FILE ${a.num}</div>
+        <div class="dm-name">${a.name}</div>
+        <div class="dm-tagline">${a.tagline}</div>
+      </div>
+      <button class="dm-close" onclick="closeDossier()">✕ CLOSE</button>
+    </div>
+    <div class="dossier-modal-body">
+      <div class="dossier-section">
+        <div class="ds-heading">ATTACK METHODOLOGY</div>
+        <div class="protocol-steps">${lifecycleHtml}</div>
+      </div>
+      <div class="dossier-section">
+        <div class="ds-heading">INTELLIGENCE SUMMARY</div>
+        <div class="ds-grid">
+          <div class="ds-col">
+            <div style="font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:2px;color:var(--red);margin-bottom:8px;">RED FLAGS — IDENTIFICATION</div>
+            <div class="ds-list">${rfHtml}</div>
+          </div>
+          <div class="ds-col">
+            <div style="font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:2px;color:var(--green-ink);margin-bottom:8px;">COUNTERMEASURES — DEFENSE</div>
+            <div class="ds-list">${defHtml}</div>
+          </div>
+        </div>
+      </div>
+      <div class="dossier-section">
+        <div class="ds-heading">REAL-WORLD CASE FILES</div>
+        <div class="real-cases">${casesHtml}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('dossier-overlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDossier() {
+  document.getElementById('dossier-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// ══════════════════════════════════════════════════════════
+// SIMULATIONS
+// ══════════════════════════════════════════════════════════
+let simScores = new Array(SIMULATIONS.length).fill(null);
+let simInit = false;
+
+function initSims() {
+  if (simInit) return;
+  simInit = true;
+  renderSimMissions();
+}
+
+function renderSimMissions() {
+  const list = document.getElementById('sim-mission-list');
+  list.innerHTML = '';
+  SIMULATIONS.forEach((sim, i) => {
+    const item = document.createElement('div');
+    item.className = 'sim-mission-item' + (simScores[i] !== null ? (simScores[i] ? ' completed' : '') : '');
+    item.id = `sim-mission-${i}`;
+    const statusClass = simScores[i] === null ? 'status-new' : simScores[i] ? 'status-pass' : 'status-fail';
+    const statusText  = simScores[i] === null ? '○ NEW' : simScores[i] ? '✓ PASSED' : '✗ FAILED';
+    item.innerHTML = `
+      <div class="smi-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="smi-info">
+        <div class="smi-type">${sim.type}</div>
+        <div class="smi-title">${sim.title}</div>
+      </div>
+      <div class="smi-status ${statusClass}">${statusText}</div>`;
+    item.onclick = () => loadSim(i);
+    list.appendChild(item);
+  });
+  updateSimScore();
+}
+
+function loadSim(idx) {
+  document.querySelectorAll('.sim-mission-item').forEach(el => el.classList.remove('active'));
+  document.getElementById(`sim-mission-${idx}`).classList.add('active');
+  const sim = SIMULATIONS[idx];
+  const display = document.getElementById('sim-display');
+  display.innerHTML = '';
+
+  // Intro box
+  const intro = document.createElement('div');
+  intro.className = 'sim-intro-box';
+  intro.innerHTML = `
+    <div class="si-label">// ${sim.type} · SCENARIO ${String(idx+1).padStart(2,'0')}</div>
+    <div class="si-title">${sim.title}</div>
+    <div class="si-desc">${sim.intro}</div>`;
+  display.appendChild(intro);
+
+  // Medium
+  const medBox = document.createElement('div');
+  if (sim.medium === 'email') {
+    const c = sim.content;
+    medBox.innerHTML = `
+      <div class="email-client">
+        <div class="email-chrome">
+          <div class="email-chrome-dots">
+            <div class="email-chrome-dot" style="background:#ff5f57"></div>
+            <div class="email-chrome-dot" style="background:#febc2e"></div>
+            <div class="email-chrome-dot" style="background:#28c840"></div>
+          </div>
+          <div class="email-chrome-bar">https://mail.digitech.com</div>
+        </div>
+        <div class="email-body">
+          <div class="email-toolbar">
+            <div class="email-toolbar-btn">↩ Reply</div>
+            <div class="email-toolbar-btn">→ Forward</div>
+            <div class="email-toolbar-btn">🗑 Delete</div>
+          </div>
+          <div class="email-header">
+            <div class="email-from"><strong>From:</strong> ${c.fromDisplay} &lt;${c.from}&gt;</div>
+            <div class="email-to"><strong>To:</strong> ${c.to}</div>
+            <div class="email-subject-line"><strong>Subject:</strong> ${c.subject}</div>
+          </div>
+          <div class="email-content">${(c.body || '').replace(/\n/g,'<br>')}</div>
+        </div>
+      </div>`;
+  } else if (sim.medium === 'voicemail') {
+    const c = sim.content;
+    medBox.innerHTML = `
+      <div class="voicemail-ui">
+        <div class="vm-header">
+          <div class="vm-icon">📞</div>
+          <div>
+            <div class="vm-caller">${c.caller}</div>
+            <div class="vm-meta">${c.number} · ${c.time}</div>
+          </div>
+          <div style="margin-left:auto;font-family:'Courier Prime',monospace;font-size:11px;color:var(--mid);background:var(--paper3);padding:4px 10px;border:1px solid var(--border);">▶ VOICEMAIL</div>
+        </div>
+        <div style="font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:2px;color:var(--mid);margin-bottom:8px;">// TRANSCRIPT</div>
+        <div class="vm-transcript">${c.transcript}</div>
+      </div>`;
+  } else if (sim.medium === 'sms') {
+    const c = sim.content;
+    medBox.innerHTML = `
+      <div class="phone-ui">
+        <div class="phone-notch"></div>
+        <div class="phone-time">10:23</div>
+        <div class="phone-date">Today · ${c.time}</div>
+        <div class="sms-bubble-wrap">
+          <div class="sms-sender">${c.displayName || c.sender} · ${c.sender}</div>
+          <div class="sms-bubble">${(c.message || '').replace(/\n/g,'<br>')}</div>
+          <div class="sms-time">${c.time} · iMessage</div>
+        </div>
+      </div>`;
+  }
+  display.appendChild(medBox);
+
+  // Decision
+  const letters = ['A','B','C','D'];
+  const decBox = document.createElement('div');
+  decBox.className = 'decision-box';
+  decBox.innerHTML = `
+    <div class="db-label">YOUR DECISION</div>
+    <div class="db-question">${sim.question}</div>
+    <div class="decision-options" id="dec-opts-${idx}">
+      ${sim.choices.map((ch,ci) => `
+        <div class="d-option" id="dopt-${idx}-${ci}" onclick="selectDOpt(${idx},${ci})">
+          <span class="d-key">${letters[ci]}</span>${ch}
+        </div>`).join('')}
+    </div>
+    <div class="sim-feedback" id="sim-fb-${idx}"></div>
+    <div style="margin-top:12px;display:flex;gap:8px;">
+      <button class="sim-btn sb-primary" id="sim-submit-${idx}" onclick="checkSimDecision(${idx})" disabled>SUBMIT DECISION</button>
+      <button class="sim-btn sb-outline" id="sim-next-${idx}" onclick="loadSim(${(idx+1)%SIMULATIONS.length})" style="display:none">NEXT SCENARIO →</button>
+    </div>`;
+  display.appendChild(decBox);
+}
+
+let simSelectedOpts = {};
+function selectDOpt(simIdx, optIdx) {
+  if (document.getElementById(`dopt-${simIdx}-${optIdx}`)?.classList.contains('disabled')) return;
+  simSelectedOpts[simIdx] = optIdx;
+  document.querySelectorAll(`[id^="dopt-${simIdx}-"]`).forEach((el,i) => el.classList.toggle('selected', i === optIdx));
+  const btn = document.getElementById(`sim-submit-${simIdx}`);
+  if (btn) btn.disabled = false;
+}
+
+function checkSimDecision(simIdx) {
+  const sim = SIMULATIONS[simIdx];
+  const sel = simSelectedOpts[simIdx];
+  if (sel === undefined) return;
+  const correct = sel === sim.correct;
+  simScores[simIdx] = correct;
+
+  document.querySelectorAll(`[id^="dopt-${simIdx}-"]`).forEach((el,i) => {
+    el.classList.add('disabled');
+    if (i === sim.correct) el.classList.add('correct');
+    else if (i === sel && !correct) el.classList.add('wrong');
+  });
+
+  const fb = document.getElementById(`sim-fb-${simIdx}`);
+  fb.className = `sim-feedback show ${correct ? 'ok' : 'err'}`;
+  fb.innerHTML = `<div class="sfb-label">${correct ? '✓ CORRECT DECISION' : '✗ INCORRECT — COMPROMISED'}</div>${sim.feedback}`;
+
+  document.getElementById(`sim-submit-${simIdx}`).style.display = 'none';
+  document.getElementById(`sim-next-${simIdx}`).style.display = 'inline-block';
+
+  renderSimMissions();
+}
+
+function updateSimScore() {
+  const correct = simScores.filter(s => s === true).length;
+  const attempted = simScores.filter(s => s !== null).length;
+  document.getElementById('sim-score-val').textContent = `${correct}/${SIMULATIONS.length}`;
+  document.getElementById('sim-score-bar').style.width = `${(correct/SIMULATIONS.length)*100}%`;
+}
+
+function resetSims() {
+  simScores = new Array(SIMULATIONS.length).fill(null);
+  simSelectedOpts = {};
+  renderSimMissions();
+  document.getElementById('sim-display').innerHTML = `<div style="background:var(--paper);border:1px solid var(--border);padding:40px;text-align:center;box-shadow:3px 3px 12px var(--shadow);"><div style="font-size:32px;margin-bottom:12px;">📁</div><div style="font-family:'Oswald',sans-serif;font-size:18px;color:var(--mid);">Select a scenario from the list</div><div style="font-size:12px;color:var(--dim);margin-top:6px;font-family:'Courier Prime',monospace;">Choose any case file to begin the simulation</div></div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+// RED FLAG DETECTOR
+// ══════════════════════════════════════════════════════════
+let rfdActive = 'bec', rfdFound = {};
+
+function initRfd() {
+  renderRfdTabs();
+  loadRfdSample('bec');
+}
+
+function renderRfdTabs() {
+  const tabs = document.getElementById('rfd-tabs');
+  tabs.innerHTML = '';
+  RFD_SAMPLES.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'rfd-sel-btn' + (s.id === rfdActive ? ' active' : '');
+    btn.textContent = s.label;
+    btn.onclick = () => loadRfdSample(s.id);
+    tabs.appendChild(btn);
+  });
+}
+
+function loadRfdSample(id) {
+  rfdActive = id;
+  if (!rfdFound[id]) rfdFound[id] = new Set();
+  renderRfdTabs();
+
+  const sample = RFD_SAMPLES.find(s => s.id === id);
+  const content = document.getElementById('rfd-content');
+  const total = sample.flags.length;
+  const found = rfdFound[id].size;
+
+  document.getElementById('rfd-counter').textContent = found;
+  document.getElementById('rfd-counter-label').textContent = `of ${total} found`;
+
+  // Build flag list
+  const flagList = document.getElementById('rfd-flag-list');
+  flagList.innerHTML = '';
+  sample.flags.forEach((f,i) => {
+    const item = document.createElement('div');
+    item.className = 'flag-item' + (rfdFound[id].has(f.id) ? ' found' : '');
+    item.id = `flag-item-${id}-${f.id}`;
+    item.innerHTML = `<div class="flag-item-num">FLAG ${String(i+1).padStart(2,'0')} ${rfdFound[id].has(f.id) ? '⚑' : '○'}</div>${rfdFound[id].has(f.id) ? f.explanation : 'Not yet identified...'}`;
+    flagList.appendChild(item);
+  });
+
+  // Render content
+  if (sample.type === 'email') {
+    const e = sample.emailData;
+    let body = e.body;
+    let subject = e.subject;
+    
+    // Wrap flags in spans
+    sample.flags.forEach(f => {
+      if (f.id === 1) {
+        subject = subject.replace(f.text, `<span class="flag-span${rfdFound[id].has(f.id) ? ' found' : ''}" onclick="findFlag('${id}',${f.id},this)">${f.text}</span>`);
+      } else {
+        body = body.replace(f.text, `<span class="flag-span${rfdFound[id].has(f.id) ? ' found' : ''}" onclick="findFlag('${id}',${f.id},this)">${f.text}</span>`);
+      }
+    });
+
+    content.innerHTML = `
+      <div class="annotated-email">
+        <div class="email-chrome" style="background:linear-gradient(to bottom,#e8e8e8,#d8d8d8);border-bottom:1px solid #bbb;padding:8px 12px;display:flex;align-items:center;gap:8px;">
+          <div style="display:flex;gap:4px;"><div style="width:11px;height:11px;border-radius:50%;background:#ff5f57"></div><div style="width:11px;height:11px;border-radius:50%;background:#febc2e"></div><div style="width:11px;height:11px;border-radius:50%;background:#28c840"></div></div>
+          <div style="flex:1;background:#fff;border:1px solid #ccc;border-radius:10px;padding:3px 12px;font-size:11px;color:#888;font-family:'Courier Prime',monospace;">${sample.title}</div>
+        </div>
+        <div style="background:#fff;">
+          <div style="padding:14px 18px;border-bottom:1px solid #eee;">
+            <div style="font-size:12px;color:#333;font-family:'Courier Prime',monospace;margin-bottom:3px;"><strong>From:</strong> ${e.from}</div>
+            <div style="font-size:12px;color:#666;font-family:'Courier Prime',monospace;margin-bottom:3px;"><strong>To:</strong> ${e.to}</div>
+            <div style="font-size:13px;color:#222;font-family:'Courier Prime',monospace;font-weight:700;"><strong>Subject:</strong> ${subject}</div>
+          </div>
+          <div style="padding:18px;font-size:13px;line-height:1.8;color:#333;font-family:'Courier Prime',monospace;">
+            ${body}
+          </div>
+        </div>
+      </div>`;
+  } else if (sample.type === 'sms') {
+    const s = sample.smsData;
+    let msg = s.message;
+    let sender = s.sender;
+    let name = s.name;
+    
+    sample.flags.forEach(f => {
+      if (f.id === 0) {
+        sender = sender.replace(f.text, `<span class="flag-span${rfdFound[id].has(f.id) ? ' found' : ''}" onclick="findFlag('${id}',${f.id},this)">${f.text}</span>`);
+        name = name.replace(f.text, `<span class="flag-span${rfdFound[id].has(f.id) ? ' found' : ''}" onclick="findFlag('${id}',${f.id},this)">${f.text}</span>`);
+      } else {
+        msg = msg.replace(f.text, `<span class="flag-span${rfdFound[id].has(f.id) ? ' found' : ''}" onclick="findFlag('${id}',${f.id},this)">${f.text}</span>`);
+      }
+    });
+
+    content.innerHTML = `
+      <div class="phone-ui" style="max-width:100%;margin:0;">
+        <div class="phone-notch"></div>
+        <div class="phone-time">10:23</div>
+        <div class="phone-date">Today · ${s.time}</div>
+        <div class="sms-bubble-wrap">
+          <div class="sms-sender">${name} · ${sender}</div>
+          <div class="sms-bubble">${msg}</div>
+          <div class="sms-time">${s.time} · SMS</div>
+        </div>
+      </div>`;
+  }
+}
+
+function findFlag(sampleId, flagId, element) {
+  const foundSet = rfdFound[sampleId] || new Set();
+  if (foundSet.has(flagId)) return;
+  
+  foundSet.add(flagId);
+  rfdFound[sampleId] = foundSet;
+  
+  const sample = RFD_SAMPLES.find(s => s.id === sampleId);
+  const flag = sample.flags.find(f => f.id === flagId);
+  
+  element.classList.add('found');
+  
+  // Update counter
+  const total = sample.flags.length;
+  const found = foundSet.size;
+  document.getElementById('rfd-counter').textContent = found;
+  document.getElementById('rfd-counter-label').textContent = `of ${total} found`;
+  
+  // Update flag list item
+  const flagItem = document.getElementById(`flag-item-${sampleId}-${flagId}`);
+  if (flagItem) {
+    flagItem.classList.add('found');
+    flagItem.innerHTML = `<div class="flag-item-num">FLAG ${String(flagId+1).padStart(2,'0')} ⚑</div>${flag.explanation}`;
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// PSYCHOLOGY LAB
+// ══════════════════════════════════════════════════════════
+function initPsych() {
+  const grid = document.getElementById('psych-grid');
+  grid.innerHTML = '';
+  PSYCH.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'psych-card';
+    card.innerHTML = `
+      <div class="pc-banner" style="background:${p.bg}">
+        <div class="pc-banner-num">${p.num}</div>
+        <div class="pc-icon">${p.icon}</div>
+        <div class="pc-principle" style="color:${p.accentColor}">${p.principle}</div>
+        <div class="pc-tagline">${p.tagline}</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-divider" style="background:${p.accentColor}"></div>
+        <div class="pc-definition">${p.definition}</div>
+        <div class="pc-examples">
+          <div class="pc-ex-title">ATTACKER SCRIPTS</div>
+          ${p.examples.map(ex => `
+            <div class="pc-example">
+              <div class="pc-ex-dot" style="background:${p.accentColor}"></div>
+              <span>${ex}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="pc-defense">
+          <div class="pc-defense-label">DEFENSE STRATEGY</div>
+          ${p.defense}
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// DEFENSE PLAYBOOK
+// ══════════════════════════════════════════════════════════
+function initPlaybook() {
+  const container = document.getElementById('playbook-content');
+  container.innerHTML = `
+    <div class="playbook-grid">
+      <div class="pb-card">
+        <div class="pb-header">
+          <span class="pb-icon">🔍</span>
+          <span class="pb-title">VERIFICATION MATRIX</span>
+        </div>
+        <div class="pb-body">
+          <div class="verification-matrix">
+            ${PLAYBOOK.verification.map(v => `
+              <div class="vm-row">
+                <div class="vm-scenario">${v.scenario}</div>
+                <div class="vm-action">${v.action}</div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="pb-card">
+        <div class="pb-header">
+          <span class="pb-icon">⚡</span>
+          <span class="pb-title">CRITICAL PROTOCOLS</span>
+        </div>
+        <div class="pb-body">
+          <div class="protocol-steps">
+            ${PLAYBOOK.protocols.map(p => `
+              <div class="ps-step" style="border-left-color:var(--red)">
+                <div class="ps-num">▶</div>
+                <div>
+                  <div class="ps-action">${p.action}</div>
+                  <div class="ps-detail">${p.detail}</div>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pb-card" style="margin-top:16px;">
+      <div class="pb-header">
+        <span class="pb-icon">🚩</span>
+        <span class="pb-title">10 RED FLAGS — ALWAYS SUSPECT</span>
+      </div>
+      <div class="pb-body">
+        <div class="red-flags-list">
+          ${PLAYBOOK.redFlags.map(r => `
+            <div class="rfl-item">
+              <span class="rfl-icon">${r.icon}</span>
+              <span>${r.text}</span>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+// KNOWLEDGE QUIZ
+// ══════════════════════════════════════════════════════════
+let quizAnswers = new Array(QUIZ.length).fill(null);
+let quizSubmitted = new Array(QUIZ.length).fill(false);
+let quizScore = 0;
+
+function initQuiz() {
+  renderQuiz();
+  updateQuizProgress();
+}
+
+function renderQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  QUIZ.forEach((q, idx) => {
+    const qCard = document.createElement('div');
+    qCard.className = 'q-card';
+    qCard.id = `q-card-${idx}`;
+    
+    let optionsHtml = '';
+    q.opts.forEach((opt, optIdx) => {
+      const letter = String.fromCharCode(65 + optIdx);
+      const selectedClass = quizAnswers[idx] === optIdx ? ' qo-sel' : '';
+      const submitted = quizSubmitted[idx];
+      
+      let extraClass = '';
+      if (submitted) {
+        if (optIdx === q.correct) extraClass = ' qo-corr';
+        else if (quizAnswers[idx] === optIdx && quizAnswers[idx] !== q.correct) extraClass = ' qo-wrng';
+        if (quizAnswers[idx] !== null) extraClass += ' qo-dis';
+      }
+      
+      optionsHtml += `
+        <div class="q-opt${selectedClass}${extraClass}" onclick="selectQuizAnswer(${idx}, ${optIdx})" id="q-opt-${idx}-${optIdx}">
+          <span class="q-letter">${letter}</span>${opt}
+        </div>`;
+    });
+    
+    qCard.innerHTML = `
+      <div class="q-header">
+        <span class="q-badge">Q${idx+1}</span>
+        <span class="q-text">${q.q}</span>
+      </div>
+      <div class="q-options" id="q-options-${idx}">${optionsHtml}</div>
+      <div class="q-footer">
+        <button class="q-submit" id="q-submit-${idx}" onclick="submitQuizAnswer(${idx})" ${quizSubmitted[idx] ? 'disabled' : ''}>SUBMIT</button>
+        <div class="q-explain" id="q-explain-${idx}">${quizSubmitted[idx] ? q.explain : ''}</div>
+      </div>`;
+    
+    container.appendChild(qCard);
+    
+    if (quizSubmitted[idx]) {
+      document.getElementById(`q-explain-${idx}`).classList.add('show', quizAnswers[idx] === q.correct ? 'ok' : 'err');
+    }
+  });
+}
+
+function selectQuizAnswer(qIdx, optIdx) {
+  if (quizSubmitted[qIdx]) return;
+  
+  quizAnswers[qIdx] = optIdx;
+  
+  // Clear all selected classes
+  document.querySelectorAll(`#q-options-${qIdx} .q-opt`).forEach(el => {
+    el.classList.remove('qo-sel');
+  });
+  
+  // Add selected class to chosen option
+  document.getElementById(`q-opt-${qIdx}-${optIdx}`).classList.add('qo-sel');
+}
+
+function submitQuizAnswer(qIdx) {
+  const answer = quizAnswers[qIdx];
+  if (answer === null || answer === undefined) return;
+  
+  const q = QUIZ[qIdx];
+  const correct = answer === q.correct;
+  
+  quizSubmitted[qIdx] = true;
+  if (correct) quizScore++;
+  
+  // Update styling
+  document.querySelectorAll(`#q-options-${qIdx} .q-opt`).forEach((el, i) => {
+    el.classList.add('qo-dis');
+    if (i === q.correct) el.classList.add('qo-corr');
+    else if (i === answer && !correct) el.classList.add('qo-wrng');
+  });
+  
+  // Update card border
+  const card = document.getElementById(`q-card-${qIdx}`);
+  card.classList.add(correct ? 'qc-correct' : 'qc-wrong');
+  
+  // Show explanation
+  const explain = document.getElementById(`q-explain-${qIdx}`);
+  explain.textContent = q.explain;
+  explain.classList.add('show', correct ? 'ok' : 'err');
+  
+  // Disable submit button
+  document.getElementById(`q-submit-${qIdx}`).disabled = true;
+  
+  updateQuizProgress();
+}
+
+function updateQuizProgress() {
+  const answered = quizSubmitted.filter(v => v).length;
+  const percent = (answered / QUIZ.length) * 100;
+  
+  document.getElementById('qpw-fill').style.width = `${percent}%`;
+  document.getElementById('qpw-text').textContent = `${answered} of ${QUIZ.length} answered`;
+  document.getElementById('qpw-score').textContent = `${quizScore}/${QUIZ.length}`;
+}
+
+// ══════════════════════════════════════════════════════════
+// INITIALIZATION
+// ══════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  renderDossiers();
+  initPsych();
+  initPlaybook();
+  initQuiz();
+  
+  // Pre-load first simulation mission list
+  renderSimMissions();
+  
+  // Initialize RFD with default sample
+  initRfd();
+  
+  // Set up click handlers for closing modal with escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDossier();
+  });
+});
+</script>
+</body>
+</html>

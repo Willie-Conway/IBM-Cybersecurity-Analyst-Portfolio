@@ -1,7 +1,6 @@
 
 
-![alt text](<Cybersecurity Technical Skills.png>)
-
+![alt text](<Cybersecurity Technical Skills (2).png>)
 
 # Cybersecurity Technical Skills: Core Competencies for Security Professionals
 

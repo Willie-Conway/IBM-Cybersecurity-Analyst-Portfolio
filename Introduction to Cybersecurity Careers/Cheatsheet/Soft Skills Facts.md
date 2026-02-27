@@ -1,6 +1,5 @@
 
-![alt text](<Soft Skills.png>)
-
+![alt text](<Soft Skills for Cybersecurity.png>)
 
 # Soft Skills for Cybersecurity Professionals
 

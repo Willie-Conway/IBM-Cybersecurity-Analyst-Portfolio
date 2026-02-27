@@ -1,6 +1,6 @@
 
 
-![alt text](<Cybersecurity Certifications.png>)
+![alt text](<Cybersecurity Certifications (2).png>)
 
 
 # Cybersecurity Certifications: Value and Impact

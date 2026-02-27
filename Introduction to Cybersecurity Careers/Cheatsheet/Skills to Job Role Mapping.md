@@ -1,6 +1,5 @@
 
-![alt text](<Job Role Mapping.png>)
-
+![alt text](<Job Role Mapping (2).png>)
 
 # Skills to Job Role Mapping
 

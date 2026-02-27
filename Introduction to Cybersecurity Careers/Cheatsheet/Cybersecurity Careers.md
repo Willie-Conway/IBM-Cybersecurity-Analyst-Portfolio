@@ -1,5 +1,5 @@
 
-![alt text](Careers.png)
+![alt text](<Guide to Cybersecurity Careers.png>)
 
 # Comprehensive Guide to Cybersecurity Careers
 
