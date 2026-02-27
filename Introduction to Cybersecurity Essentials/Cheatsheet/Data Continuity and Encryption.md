@@ -1,6 +1,5 @@
 
-![alt text](<Data Continuity and Encryption.png>)
-
+![alt text](<Data Continuity and Encryption (3).png>)
 
 # Reading: Data Continuity and Encryption
 

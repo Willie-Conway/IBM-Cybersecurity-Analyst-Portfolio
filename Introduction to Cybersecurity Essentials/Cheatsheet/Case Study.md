@@ -1,4 +1,4 @@
-![alt text](<Major Cybersecurity Breaches.png>)
+![alt text](<Major Cybersecurity Breaches (2).png>)
 
 # Case Study: Major Cybersecurity Breaches
 
@@ -7,7 +7,7 @@
 This case study examines five significant cybersecurity breaches that occurred between 2013 and 2021. Each incident illustrates different attack vectors, vulnerabilities, and consequences that organizations face in an increasingly dangerous digital landscape. Understanding these real-world examples provides valuable insights into the importance of robust security measures, employee training, and incident response planning.
 
 ---
-
+![alt text](Yahoo.png)
 ## Yahoo – Phishing Attack (2013-2014)
 
 ### Incident Summary
@@ -62,7 +62,7 @@ Between 2013 and 2014, Yahoo was targeted by unknown state-sponsored actors. A *
 | **Security Questions Are Vulnerable**        | Compromised security questions can enable account takeovers                 |
 
 ---
-
+![alt text](Equifax.png)
 ## Equifax – Web Application Vulnerability (2017)
 
 ### Incident Summary
@@ -114,7 +114,7 @@ In 2017, Equifax was targeted by unknown attackers. The breach occurred after th
 | **Web Applications Are High-Risk Targets**      | Internet-facing applications are primary attack vectors               |
 
 ---
-
+![alt text](Experian.png)
 ## Court Ventures (Experian) – Social Engineering (Date Unknown)
 
 ### Incident Summary
@@ -150,7 +150,7 @@ The perpetrator was eventually sentenced to **13 years in prison**, but not befo
 | **Background Checks Are Essential**     | Employees and contractors with data access require thorough vetting |
 
 ---
-
+![alt text](<T- mobile.png>)
 ## T-Mobile – Brute Force Attack (2021)
 
 ### Incident Summary

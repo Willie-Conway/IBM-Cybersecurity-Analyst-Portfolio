@@ -1,5 +1,4 @@
-
-![alt text](<Data Breach Case Studies(1).png>)
+![alt text](<Data Breach Case Studies (3).png>)
 
 # Data Breach Case Studies
 

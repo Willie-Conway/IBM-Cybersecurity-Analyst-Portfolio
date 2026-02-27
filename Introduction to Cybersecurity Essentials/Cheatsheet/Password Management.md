@@ -1,6 +1,6 @@
 
 
-![alt text](<Password Management.png>)
+![alt text](<Password Management (2).png>)
 
 # Reading: Password Management
 

@@ -1,6 +1,4 @@
-
-![alt text](<Physical Security for Computing Devices.png>)
-
+![alt text](<Physical Security for Computing Devices (2).png>)
 # Physical Security for Computing Devices
 
 **Estimated time:** 5 minutes
