@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIPHER — Cybersecurity Glossary</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fira+Code:wght@300;400;500;600&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0c0f14;
+  --bg2:       #101419;
+  --surface:   #141820;
+  --panel:     #181d28;
+  --panel2:    #1d2332;
+  --border:    #232b3d;
+  --border2:   #2d3850;
+  --teal:      #00d4c8;
+  --teal2:     #00f5e8;
+  --teal-dim:  rgba(0,212,200,0.12);
+  --teal-glow: rgba(0,212,200,0.06);
+  --gold:      #f5c842;
+  --gold2:     #ffd860;
+  --coral:     #ff6b6b;
+  --lavender:  #9b8fd4;
+  --sage:      #6bcf9e;
+  --sky:       #5bc4f5;
+  --peach:     #ffaa7a;
+  --rose:      #f06292;
+  --white:     #e8edf5;
+  --mid:       #7a8aaa;
+  --dim:       #3d4d6a;
+  --shadow:    rgba(0,0,0,0.5);
+
+  /* category colors */
+  --cat1: #ff6b6b;
+  --cat2: #ffaa7a;
+  --cat3: #5bc4f5;
+  --cat4: #9b8fd4;
+  --cat5: #f5c842;
+  --cat6: #6bcf9e;
+  --cat7: #00d4c8;
+  --cat8: #f06292;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── SUBTLE GRID ── */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,212,200,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,200,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ── RADIAL GLOW ── */
+body::after {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse at 15% 20%, rgba(0,212,200,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 80%, rgba(155,143,212,0.05) 0%, transparent 50%);
+}
+
+/* ── APP SHELL ── */
+.app { position:relative; z-index:1; display:flex; flex-direction:column; min-height:100vh; }
+
+/* ══════════════════════════════
+   HEADER
+══════════════════════════════ */
+.header {
+  background: rgba(12,15,20,0.98);
+  border-bottom: 1px solid var(--border2);
+  position: sticky; top:0; z-index:50;
+  backdrop-filter: blur(12px);
+}
+.header-accent {
+  height: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--lavender), var(--gold));
+}
+.header-inner {
+  max-width: 1400px; margin: 0 auto;
+  padding: 0 32px; height: 62px;
+  display:flex; align-items:center; gap:20px;
+}
+
+.brand { display:flex; align-items:center; gap:14px; }
+.brand-emblem {
+  width: 38px; height: 38px;
+  background: var(--teal-dim);
+  border: 1px solid var(--teal);
+  border-radius: 6px;
+  display:flex; align-items:center; justify-content:center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px; color: var(--teal);
+  font-style: italic;
+  box-shadow: 0 0 16px rgba(0,212,200,0.25);
+  animation: emblemGlow 4s ease infinite;
+}
+@keyframes emblemGlow {
+  0%,100%{box-shadow:0 0 16px rgba(0,212,200,0.25);}
+  50%{box-shadow:0 0 28px rgba(0,212,200,0.45);}
+}
+.brand-wordmark {
+  font-family: 'Fira Code', monospace;
+  font-size: 20px; font-weight: 600; color: var(--teal);
+  letter-spacing: 6px; line-height: 1;
+  text-shadow: 0 0 20px rgba(0,212,200,0.4);
+}
+.brand-tagline {
+  font-family: 'Barlow', sans-serif;
+  font-size: 10px; color: var(--dim); letter-spacing: 2.5px;
+  text-transform: uppercase; margin-top: 2px;
+}
+
+.header-sep { width:1px; height:32px; background:var(--border2); flex-shrink:0; }
+
+.header-stats {
+  display:flex; gap:20px;
+}
+.hs-item {
+  display:flex; flex-direction:column; align-items:center;
+}
+.hs-val {
+  font-family: 'Fira Code', monospace; font-size: 16px; font-weight: 600;
+  color: var(--teal); line-height: 1;
+}
+.hs-lbl {
+  font-size: 9px; color: var(--dim); letter-spacing: 1.5px;
+  text-transform: uppercase; margin-top: 2px;
+}
+
+.header-search {
+  margin-left: auto;
+  display:flex; align-items:center; gap:0;
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 6px; overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+}
+.header-search:focus-within {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0,212,200,0.1);
+}
+.search-icon {
+  padding: 0 12px; color: var(--dim); font-size: 14px; flex-shrink:0;
+}
+#search-input {
+  background: none; border: none; outline: none;
+  color: var(--white); font-family: 'Barlow', sans-serif; font-size: 13px;
+  padding: 9px 0; width: 220px;
+  caret-color: var(--teal);
+}
+#search-input::placeholder { color: var(--dim); }
+.search-clear {
+  padding: 0 12px; color: var(--dim); font-size: 12px; cursor:pointer;
+  display:none; transition: color .15s; background:none; border:none;
+}
+.search-clear:hover { color: var(--white); }
+
+/* ══════════════════════════════
+   LAYOUT
+══════════════════════════════ */
+.layout {
+  max-width: 1400px; margin: 0 auto; padding: 28px 32px 80px;
+  display: grid; grid-template-columns: 260px 1fr;
+  gap: 24px; align-items: start;
+}
+
+/* ══════════════════════════════
+   SIDEBAR
+══════════════════════════════ */
+.sidebar {
+  position: sticky; top: 88px;
+  display:flex; flex-direction:column; gap:12px;
+}
+
+.sidebar-section { }
+.sidebar-label {
+  font-family: 'Fira Code', monospace; font-size: 9px;
+  color: var(--dim); letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border);
+}
+
+/* alphabet strip */
+.alpha-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
+}
+.alpha-btn {
+  font-family: 'Fira Code', monospace; font-size: 11px; font-weight: 500;
+  padding: 5px 2px; text-align: center; border-radius: 3px;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--dim); cursor: pointer; transition: all .15s;
+}
+.alpha-btn:hover { border-color: var(--teal); color: var(--teal); }
+.alpha-btn.active {
+  background: var(--teal-dim); border-color: var(--teal);
+  color: var(--teal); box-shadow: 0 0 6px rgba(0,212,200,0.2);
+}
+.alpha-btn.empty { opacity: .3; cursor: default; pointer-events: none; }
+
+/* category filter */
+.cat-list { display:flex; flex-direction:column; gap:5px; }
+.cat-btn {
+  display:flex; align-items:center; gap:10px; padding: 8px 12px;
+  border-radius: 5px; border: 1px solid var(--border);
+  background: var(--surface); cursor:pointer; transition: all .15s;
+  font-family: 'Barlow', sans-serif; font-size: 12px; color: var(--mid);
+}
+.cat-btn:hover { border-color: var(--border2); color: var(--white); }
+.cat-btn.active { border-color: var(--border2); background: var(--panel); color: var(--white); }
+.cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink:0; }
+.cat-count {
+  margin-left: auto; font-family: 'Fira Code', monospace; font-size: 10px;
+  color: var(--dim); background: var(--bg2); padding: 1px 7px; border-radius: 8px;
+}
+.cat-btn.active .cat-count { color: var(--mid); }
+
+/* sort */
+.sort-group { display:flex; gap:4px; }
+.sort-btn {
+  flex:1; font-family: 'Fira Code', monospace; font-size: 10px; letter-spacing: 1px;
+  padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px;
+  background: var(--surface); color: var(--dim); cursor:pointer; transition: all .15s;
+  text-align: center;
+}
+.sort-btn:hover { color: var(--mid); border-color: var(--border2); }
+.sort-btn.active { color: var(--teal); border-color: var(--teal); background: var(--teal-dim); }
+
+/* stats mini-dashboard */
+.stats-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 14px;
+}
+.sc-title {
+  font-family: 'Fira Code', monospace; font-size: 9px; color: var(--dim);
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
+}
+.sc-bar-row { margin-bottom: 7px; }
+.scb-header { display:flex; justify-content:space-between; margin-bottom:3px; }
+.scb-label { font-size: 10px; color: var(--mid); }
+.scb-count { font-family: 'Fira Code', monospace; font-size: 10px; }
+.scb-track { height: 3px; background: var(--border); border-radius: 2px; overflow:hidden; }
+.scb-fill { height: 100%; border-radius: 2px; transition: width .6s ease; }
+
+/* ══════════════════════════════
+   MAIN CONTENT
+══════════════════════════════ */
+.content { }
+
+/* result meta bar */
+.result-meta {
+  display:flex; align-items:center; gap:12px; margin-bottom:18px;
+}
+.rm-count {
+  font-family: 'Fira Code', monospace; font-size: 12px; color: var(--mid);
+}
+.rm-count span { color: var(--teal); font-weight: 600; }
+.rm-clear {
+  font-family: 'Fira Code', monospace; font-size: 10px; letter-spacing: 1px;
+  padding: 4px 12px; border: 1px solid var(--border2); border-radius: 3px;
+  background: none; color: var(--mid); cursor: pointer; transition: all .15s;
+}
+.rm-clear:hover { border-color: var(--teal); color: var(--teal); }
+
+/* alphabet section header */
+.alpha-section { margin-bottom: 24px; }
+.alpha-section-header {
+  display:flex; align-items:center; gap:14px; margin-bottom:12px;
+}
+.ash-letter {
+  font-family: 'DM Serif Display', serif; font-size: 40px; font-style: italic;
+  color: var(--teal); line-height: 1; text-shadow: 0 0 24px rgba(0,212,200,0.3);
+  min-width: 40px;
+}
+.ash-line { flex:1; height: 1px; background: linear-gradient(90deg, var(--border2), transparent); }
+.ash-count { font-family: 'Fira Code', monospace; font-size: 10px; color: var(--dim); }
+
+/* glossary grid */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 10px;
+}
+
+/* term card */
+.term-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  overflow: hidden; transition: all .2s; cursor: pointer;
+  position: relative;
+}
+.term-card:hover {
+  border-color: var(--border2);
+  box-shadow: 0 4px 20px rgba(0,0,0,.35);
+  transform: translateY(-2px);
+}
+.term-card.expanded { border-color: var(--border2); }
+.tc-accent { height: 3px; }
+.tc-body { padding: 14px 16px; }
+.tc-header { display:flex; align-items:flex-start; gap:10px; }
+.tc-abbrev {
+  font-family: 'Fira Code', monospace; font-size: 9px; letter-spacing: 1px;
+  color: var(--dim); flex-shrink:0; margin-top: 3px; min-width: 28px;
+}
+.tc-name {
+  font-family: 'Barlow', sans-serif; font-size: 14px; font-weight: 600;
+  color: var(--white); line-height: 1.3; flex:1;
+}
+.tc-cat-badge {
+  font-family: 'Fira Code', monospace; font-size: 8px; letter-spacing: 1px;
+  padding: 2px 7px; border-radius: 3px; border: 1px solid; flex-shrink:0;
+  text-transform: uppercase; align-self: flex-start;
+}
+.tc-chevron {
+  color: var(--dim); font-size: 10px; flex-shrink:0; margin-top:3px;
+  transition: transform .2s;
+}
+.term-card.expanded .tc-chevron { transform: rotate(180deg); }
+.tc-preview {
+  font-size: 12px; color: var(--mid); line-height: 1.6;
+  margin-top: 8px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.tc-expanded { display:none; padding: 0 16px 14px; }
+.term-card.expanded .tc-expanded { display:block; }
+.tc-full-def {
+  font-size: 13px; color: var(--mid); line-height: 1.75;
+  padding: 12px 14px; background: var(--bg2); border-radius: 4px;
+  border-left: 3px solid;
+}
+.tc-tags { display:flex; gap:5px; flex-wrap:wrap; margin-top:10px; }
+.tc-tag {
+  font-family: 'Fira Code', monospace; font-size: 9px; letter-spacing: .5px;
+  padding: 2px 8px; background: var(--panel); border: 1px solid var(--border2);
+  border-radius: 3px; color: var(--dim);
+}
+
+/* no results */
+.no-results {
+  text-align: center; padding: 60px 20px;
+  display:none;
+}
+.no-results.show { display:block; }
+.nr-icon { font-size: 36px; margin-bottom:12px; opacity:.4; }
+.nr-text { font-family: 'DM Serif Display', serif; font-size: 22px; font-style:italic; color: var(--mid); }
+.nr-sub { font-size: 13px; color: var(--dim); margin-top:6px; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+@media(max-width:1024px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+  .alpha-grid { grid-template-columns: repeat(13, 1fr); }
+  .glossary-grid { grid-template-columns: 1fr 1fr; }
+}
+@media(max-width:640px) {
+  .layout { padding: 16px; }
+  .glossary-grid { grid-template-columns: 1fr; }
+  .header-stats { display:none; }
+  #search-input { width: 160px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header class="header">
+  <div class="header-accent"></div>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-emblem">C</div>
+      <div>
+        <div class="brand-wordmark">CIPHER</div>
+        <div class="brand-tagline">Cybersecurity Reference Glossary</div>
+      </div>
+    </div>
+    <div class="header-sep"></div>
+    <div class="header-stats">
+      <div class="hs-item"><div class="hs-val" id="hs-total">—</div><div class="hs-lbl">Terms</div></div>
+      <div class="hs-item"><div class="hs-val">8</div><div class="hs-lbl">Categories</div></div>
+      <div class="hs-item"><div class="hs-val" id="hs-visible">—</div><div class="hs-lbl">Visible</div></div>
+    </div>
+    <div class="header-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Search terms, definitions..." oninput="handleSearch()">
+      <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ LAYOUT ═══════════ -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">// A–Z Jump</div>
+      <div class="alpha-grid" id="alpha-grid"></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">// Filter by Category</div>
+      <div class="cat-list" id="cat-list"></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">// Sort Order</div>
+      <div class="sort-group">
+        <button class="sort-btn active" id="sort-az" onclick="setSort('az')">A→Z</button>
+        <button class="sort-btn" id="sort-za" onclick="setSort('za')">Z→A</button>
+        <button class="sort-btn" id="sort-cat" onclick="setSort('cat')">CAT</button>
+      </div>
+    </div>
+
+    <div class="stats-card sidebar-section">
+      <div class="sc-title">// Terms by Category</div>
+      <div id="sc-bars"></div>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="content">
+    <div class="result-meta">
+      <div class="rm-count" id="result-count"></div>
+      <button class="rm-clear" id="rm-clear-btn" onclick="clearAllFilters()" style="display:none">CLEAR FILTERS</button>
+    </div>
+    <div id="glossary-root"></div>
+    <div class="no-results" id="no-results">
+      <div class="nr-icon">🔒</div>
+      <div class="nr-text">No terms found</div>
+      <div class="nr-sub">Try a different search or clear your filters</div>
+    </div>
+  </main>
+
+</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// CATEGORIES
+// ══════════════════════════════════════════════════════════
+const CATEGORIES = [
+  { id:'threats',   label:'Threat Actors & Attacks',    color:'var(--cat1)', icon:'⚔️' },
+  { id:'malware',   label:'Malware & Malicious Code',   color:'var(--cat2)', icon:'🦠' },
+  { id:'network',   label:'Network Security',           color:'var(--cat3)', icon:'🌐' },
+  { id:'access',    label:'Access Control & Auth',      color:'var(--cat4)', icon:'🔑' },
+  { id:'controls',  label:'Security Controls',          color:'var(--cat5)', icon:'🛡️' },
+  { id:'orgs',      label:'Organizations & Policy',     color:'var(--cat6)', icon:'🏛️' },
+  { id:'tools',     label:'Tools & Technologies',       color:'var(--cat7)', icon:'🔧' },
+  { id:'concepts',  label:'Concepts & Principles',      color:'var(--cat8)', icon:'💡' },
+];
+
+// ══════════════════════════════════════════════════════════
+// GLOSSARY DATA — All 4 documents merged + new terms
+// ══════════════════════════════════════════════════════════
+const TERMS = [
+  // ── ORGANIZATIONS & POLICY ──
+  { term:'Advanced Research Projects Agency Network (ARPANET)', abbr:'ARPANET', def:'The first wide-area, packet-switched network with distributed control and one of the first computer networks to implement the TCP/IP protocol suite.', cat:'orgs', tags:['history','networking','government'] },
+  { term:'Cybersecurity and Infrastructure Security Agency (CISA)', abbr:'CISA', def:'A United States agency responsible for cybersecurity and infrastructure protection across all levels of government.', cat:'orgs', tags:['government','US','agency'] },
+  { term:'Department of Homeland Security (DHS)', abbr:'DHS', def:'A department to safeguard the nation from physical and cyber threats.', cat:'orgs', tags:['government','US','national security'] },
+  { term:'Foreign Intelligence Surveillance Court (FISC)', abbr:'FISC', def:'A foreign intelligence surveillance court that entertains applications made by the United States Government for approval of electronic surveillance, physical search, and certain other forms of investigative actions for foreign intelligence purposes.', cat:'orgs', tags:['government','surveillance','legal'] },
+  { term:'General Data Protection Regulation (GDPR)', abbr:'GDPR', def:'A regulation that lists the rights of the data subject, meaning the rights of the individuals whose personal data is being processed.', cat:'orgs', tags:['regulation','privacy','EU','compliance'] },
+  { term:'International Monetary Fund (IMF)', abbr:'IMF', def:'A policy body that promotes financial stability and monetary cooperation, with a growing role in cybersecurity policy for global financial systems.', cat:'orgs', tags:['international','finance','policy'] },
+  { term:'National Cyber Security Division (NCSD)', abbr:'NCSD', def:'A division of the Office of Cyber Security and Communications, within the United States Department of Homeland Security\'s Cybersecurity and Infrastructure Security Agency.', cat:'orgs', tags:['government','US','DHS'] },
+  { term:'National Security Agency (NSA)', abbr:'NSA', def:'An agency that prevents and eradicates threats to U.S. national security systems with a focus on the Defense Industrial Base and the improvement of weapons\' security.', cat:'orgs', tags:['government','intelligence','surveillance'] },
+  { term:'National Security Decision Directives 145 (NSDD 145)', abbr:'NSDD 145', def:'A directive that gave the NSA control over all government computer systems containing "sensitive but unclassified" information.', cat:'orgs', tags:['policy','NSA','government','history'] },
+  { term:'National Telecommunications and Information Systems Security Committee (NTISSC)', abbr:'NTISSC', def:'A committee that provides a forum for the discussion of policy issues, sets national policy, and promulgates direction, operational procedures, and guidance for the security of national security systems.', cat:'orgs', tags:['policy','government','telecommunications'] },
+  { term:'USA Freedom Act', abbr:'', def:'An act enacted in 2015 that limited the scope of surveillance by intelligence agencies, restricting bulk data collection programs previously authorized under the PATRIOT Act.', cat:'orgs', tags:['legislation','surveillance','privacy','2015'] },
+  { term:'USA PATRIOT Act', abbr:'', def:'An act uniting and strengthening America by providing appropriate tools required to intercept and obstruct terrorism, granting expanded surveillance authorities to law enforcement agencies.', cat:'orgs', tags:['legislation','surveillance','terrorism'] },
+  { term:'X-Force', abbr:'', def:'A global team from IBM comprising ethical hackers, incident responders, researchers, and analysts that provides threat intelligence and security services.', cat:'orgs', tags:['IBM','threat intelligence','red team'] },
+
+  // ── CONCEPTS & PRINCIPLES ──
+  { term:'Bring-Your-Own-Device (BYOD)', abbr:'BYOD', def:'A business policy that permits employees to use personal devices for work-related tasks, creating security challenges around data separation, endpoint security, and MDM enforcement.', cat:'concepts', tags:['policy','mobile','enterprise'] },
+  { term:'CIA Triad', abbr:'', def:'A fundamental concept in cybersecurity that represents three core principles: confidentiality (protecting data from unauthorized access), integrity (ensuring data accuracy and trustworthiness), and availability (guaranteeing authorized users can access data when needed).', cat:'concepts', tags:['framework','fundamentals','security model'] },
+  { term:'Critical Thinking', abbr:'', def:'A capability of objectively analyzing information and forming reasoned judgments, essential for cybersecurity professionals evaluating threats, vulnerabilities, and incidents.', cat:'concepts', tags:['skill','analysis','reasoning'] },
+  { term:'Critical Thinking Model', abbr:'', def:'A model comprising five elements: characteristics of thought, technical skills, interpersonal skills, theoretical and experimental knowledge, and intellectual abilities — applied in security analysis contexts.', cat:'concepts', tags:['model','framework','analysis'] },
+  { term:'Defense in Depth', abbr:'', def:'A comprehensive approach to cybersecurity that involves implementing multiple layers of security controls and measures across an organization\'s IT infrastructure to protect against a range of threats and vulnerabilities. No single point of failure can compromise the whole system.', cat:'concepts', tags:['strategy','layered security','framework'] },
+  { term:'Hallucination', abbr:'', def:'Incorrect or fabricated information generated by generative AI and chatbots — a critical concern when AI is used in security contexts such as threat analysis or code review.', cat:'concepts', tags:['AI','GenAI','accuracy','risk'] },
+  { term:'Retrieval Augmented Generation (RAG)', abbr:'RAG', def:'A strategy that helps AI systems become more accurate by grounding responses in retrieved external data before generating output, reducing hallucination in security applications.', cat:'concepts', tags:['AI','LLM','accuracy'] },
+  { term:'Software Development Life Cycle (SDLC)', abbr:'SDLC', def:'A sequence of stages outlining the software development process from beginning to end: planning, requirements analysis, design, programming, testing, deployment, and maintenance — with security integrated at each phase.', cat:'concepts', tags:['development','process','security by design'] },
+  { term:'Single Point of Failure', abbr:'SPOF', def:'A single component within a more extensive IT infrastructure which, on failure, can cause the entire system to malfunction or become unavailable — a key consideration in resilience planning.', cat:'concepts', tags:['resilience','availability','architecture'] },
+  { term:'War Operation Plan Response (WOPR)', abbr:'WOPR', def:'A war game program designed to continuously run military simulations and learn over time — an early example of autonomous AI decision-making and its security implications.', cat:'concepts', tags:['AI','simulation','history','gaming'] },
+
+  // ── THREAT ACTORS & ATTACKS ──
+  { term:'Advanced Persistent Threat (APT)', abbr:'APT', def:'A sophisticated cyberattack wherein attackers move laterally within the network, undetected, elevating privileges until they can access critical data or take control of system functions. APTs are typically state-sponsored or well-funded groups.', cat:'threats', tags:['nation-state','targeted','espionage'] },
+  { term:'Dumpster Diving', abbr:'', def:'An attack that involves searching through an individual\'s or company\'s discarded items for valuable data — physical security documents, hardware, or media containing sensitive information.', cat:'threats', tags:['physical','social engineering','OSINT'] },
+  { term:'General Phishing', abbr:'', def:'A phishing attack where attackers send emails to a mass group and see who responds — a broad, low-effort high-volume approach relying on volume to find susceptible victims.', cat:'threats', tags:['phishing','email','social engineering'] },
+  { term:'Hacktivist', abbr:'', def:'A threat actor who is motivated by political or social agendas — using hacking techniques to promote or protest political positions, typically targeting governments, corporations, or institutions.', cat:'threats', tags:['threat actor','motivation','political'] },
+  { term:'Hoax', abbr:'', def:'An attack involving the distribution of false alarms or misinformation to deceive, create panic, or manipulate individuals — often used to distract security teams or cause reputational damage.', cat:'threats', tags:['disinformation','social engineering','deception'] },
+  { term:'Impersonation', abbr:'', def:'An attack where the attacker adopts a false identity to deceive individuals or organizations into granting access to restricted areas or divulging sensitive information.', cat:'threats', tags:['social engineering','identity fraud','access'] },
+  { term:'Insider Attack', abbr:'', def:'An attack attributed to people who have authorized access to an organization\'s resources, personnel, systems, and network — including malicious, negligent, and oblivious insiders.', cat:'threats', tags:['insider threat','authorized access','privileged'] },
+  { term:'Malicious Insider', abbr:'', def:'A knowledgeable actor within an entity who exploits their access to inflict damage, steal data, or disrupt operations — typically motivated by financial gain, revenge, or ideology.', cat:'threats', tags:['insider threat','intentional','data theft'] },
+  { term:'Negligent Insider', abbr:'', def:'An individual who ignores security protocols or bypasses policies for the sake of convenience, due to overconfidence in their knowledge, or sheer disregard for laws — unintentionally creating vulnerabilities.', cat:'threats', tags:['insider threat','policy violation','careless'] },
+  { term:'Oblivious Insider', abbr:'', def:'An unsuspecting employee who, due to lack of awareness or understanding, unintentionally engages in an action that exposes the organization to risk — typically victimized by social engineering.', cat:'threats', tags:['insider threat','awareness','unintentional'] },
+  { term:'Professional Insider', abbr:'', def:'An individual who has been recruited into an espionage organization and uses their legitimate organizational access to conduct intelligence operations on behalf of an external party.', cat:'threats', tags:['insider threat','espionage','nation-state'] },
+  { term:'SEO Poisoning', abbr:'', def:'An attack where the attacker puts up a fake website that tricks the search engine into listing it high in search results, leading users to malicious content when searching for legitimate resources.', cat:'threats', tags:['web attack','search engine','deception'] },
+  { term:'Shoulder Surfing', abbr:'', def:'An attack involving the direct observation of a person\'s private information by peering over their shoulder — commonly targeting password entry, PINs, or other sensitive screen data in public spaces.', cat:'threats', tags:['physical','social engineering','observation'] },
+  { term:'Smishing', abbr:'', def:'A phishing attack conducted via SMS text messages — attackers send fraudulent texts impersonating banks, delivery services, or authorities to steal credentials or install malware.', cat:'threats', tags:['phishing','SMS','mobile'] },
+  { term:'Social Engineering', abbr:'', def:'An attack methodology that exploits human psychology rather than technical vulnerabilities — manipulating people into divulging information or taking actions that compromise security.', cat:'threats', tags:['psychological manipulation','human factor','non-technical'] },
+  { term:'Spear Phishing', abbr:'', def:'A more targeted version of phishing where attackers tailor their approach to a specific individual or organization. It involves personalized emails that appear credible enough to deceive the target into sharing confidential information.', cat:'threats', tags:['phishing','targeted','personalized','email'] },
+  { term:'Tailgating', abbr:'', def:'A physical security breach that occurs when an attacker exploits a moment when a controlled entry point is opened by an authorized individual, following them through without using their own credentials.', cat:'threats', tags:['physical','unauthorized access','social engineering'] },
+  { term:'Vishing', abbr:'', def:'Voice phishing — an attack where an attacker uses phone calls instead of emails to scam individuals into revealing sensitive information or performing unauthorized actions.', cat:'threats', tags:['phishing','voice','phone','social engineering'] },
+  { term:'Watering Hole Attack', abbr:'', def:'An attack where cybercriminals identify and compromise websites that are popular with their intended victims, delivering malware to targeted users when they visit trusted sites.', cat:'threats', tags:['web attack','targeted','drive-by download'] },
+  { term:'Whaling', abbr:'', def:'A form of spear phishing that specifically targets high-profile individuals like CEOs or CFOs — the "big fish" in an organization — with highly personalized and convincing attacks.', cat:'threats', tags:['phishing','executive','BEC','targeted'] },
+  { term:'Deep Fakes', abbr:'', def:'A technology that simulates voice, image, and likeness of an individual using AI — increasingly weaponized for social engineering attacks, disinformation campaigns, and business email compromise (BEC).', cat:'threats', tags:['AI','disinformation','identity fraud','emerging threat'] },
+  { term:'Man-in-the-Middle Attack', abbr:'MitM', def:'A type of cybersecurity attack that involves intercepting communication between two systems, modifying the packets, and then forwarding them without detection by the authentic communicator or recipient.', cat:'threats', tags:['network attack','interception','eavesdropping'] },
+  { term:'Cross-Site Scripting (XSS) Attack', abbr:'XSS', def:'A security breach where attackers embed harmful scripts into web pages that are usually considered safe — when other users view the page, the malicious script executes in their browser context.', cat:'threats', tags:['web attack','injection','browser','OWASP'] },
+  { term:'Distributed Denial-of-Service (DDoS)', abbr:'DDoS', def:'A malicious attempt to interrupt the routine functioning of a server, service, or network by flooding it with traffic from multiple sources simultaneously, exhausting resources.', cat:'threats', tags:['availability','botnet','network attack'] },
+  { term:'DNS Falsification', abbr:'', def:'A cyberattack where attackers corrupt or alter DNS records in a DNS resolver\'s cache to redirect users to malicious websites or servers — also known as DNS cache poisoning.', cat:'threats', tags:['DNS','network attack','redirection'] },
+  { term:'Injection Attack', abbr:'', def:'A type of cybersecurity attack that involves a hacker injecting malicious code into a query, web application, or system, triggering remote commands that manipulate data or modify a database.', cat:'threats', tags:['OWASP','code injection','web attack'] },
+  { term:'IP Spoofing', abbr:'', def:'A technique that involves manipulating packet headers to alter the source address, concealing the sender\'s actual origin, or pretending to be another trusted host on the network.', cat:'threats', tags:['network attack','deception','identity'] },
+  { term:'Malvertising', abbr:'', def:'A malicious advertisement that contains hidden code to deliver malware to users\' devices — exploiting legitimate ad networks to distribute malicious content to unsuspecting visitors.', cat:'threats', tags:['malware delivery','advertising','drive-by download'] },
+  { term:'Phishing', abbr:'', def:'A fraudulent attempt to obtain sensitive information by masquerading as a trustworthy entity through electronic communication — the most common initial access vector for cyberattacks.', cat:'threats', tags:['social engineering','email','credential theft'] },
+  { term:'Server XSS Attack', abbr:'', def:'A type of XSS attack (stored/reflected) that occurs when user-supplied data is incorporated into the server\'s HTTP response without proper sanitization, executing malicious scripts in victims\' browsers.', cat:'threats', tags:['XSS','web attack','server-side'] },
+  { term:'Smurf Attack', abbr:'', def:'A type of distributed denial-of-service (DDoS) attack that relies on ICMP echo requests broadcast to a network, with spoofed source addresses causing replies to flood the victim — exploits older network device vulnerabilities.', cat:'threats', tags:['DDoS','ICMP','network attack'] },
+  { term:'SQL Injection', abbr:'SQLi', def:'A type of cybersecurity attack where hackers inject malicious SQL code into database queries, manipulating them to execute unauthorized commands, extract sensitive data, or gain unauthorized system access.', cat:'threats', tags:['database','OWASP','injection','web attack'] },
+  { term:'SYN-ACK Attack', abbr:'', def:'A type of DDoS attack (SYN flood) where attackers inundate the target server with a large volume of SYN packets with spoofed source IP addresses, exhausting TCP connection state tables.', cat:'threats', tags:['DDoS','TCP','network attack'] },
+  { term:'Active Sniffing', abbr:'', def:'A technique used in network security to actively intercept and examine data packets traveling across a network — involves injecting traffic (ARP spoofing) to capture data on switched networks.', cat:'threats', tags:['network','eavesdropping','ARP'] },
+
+  // ── MALWARE & MALICIOUS CODE ──
+  { term:'Adware', abbr:'', def:'A malicious software that displays unwanted advertisements on a user\'s device — often bundled with free software and may collect browsing data. Can serve as a delivery vehicle for more serious threats.', cat:'malware', tags:['PUA','advertising','browser'] },
+  { term:'Bot', abbr:'', def:'An automated software that performs malicious tasks over the internet. Bot malware works alongside other infected computers to create a botnet controlled by a command-and-control server.', cat:'malware', tags:['botnet','automation','C2'] },
+  { term:'Botnet', abbr:'', def:'A collection of interconnected computers centrally controlled by one or more attackers. Each compromised computer runs a bot program to perform malicious tasks on behalf of the attackers — used for DDoS, spam, credential stuffing.', cat:'malware', tags:['C2','bot','DDoS','spam'] },
+  { term:'Fileless Malware', abbr:'', def:'A form of malicious software that operates within computer memory without leaving any traces on the file system — making traditional signature-based detection ineffective. Lives in RAM and legitimate processes.', cat:'malware', tags:['evasion','memory','detection bypass'] },
+  { term:'Keylogger', abbr:'', def:'A malware that records keystrokes on a computer to capture sensitive information such as passwords, credit card numbers, and personal communications — transmitted silently to the attacker.', cat:'malware', tags:['credential theft','surveillance','spyware'] },
+  { term:'Logic Bomb', abbr:'', def:'A malicious code that remains dormant until triggered by a specific event or condition — such as a date, a user action, or the absence of a specific file. Often planted by insiders.', cat:'malware', tags:['insider threat','time-triggered','destructive'] },
+  { term:'Malware', abbr:'', def:'A malicious software specifically created with the intent to disrupt or gain unauthorized access to a system or network — an umbrella term covering viruses, worms, trojans, ransomware, spyware, and more.', cat:'malware', tags:['umbrella term','malicious','software'] },
+  { term:'Ransomware', abbr:'', def:'A malware that encrypts files on a victim\'s system and demands a ransom for their release — modern ransomware uses double extortion (steal then encrypt) and targets both individuals and enterprises.', cat:'malware', tags:['encryption','extortion','financial','critical'] },
+  { term:'Rootkit', abbr:'', def:'A stealthy malware designed to gain unauthorized access and control over a computer system — operates at kernel or firmware level, hiding its presence from the OS, antivirus tools, and administrators.', cat:'malware', tags:['stealth','kernel','persistence','evasion'] },
+  { term:'Spyware', abbr:'', def:'A malicious software that covertly collects user information and internet behavior without their consent, often for advertising purposes or credential theft — includes keyloggers, screen capturers, and browser hijackers.', cat:'malware', tags:['surveillance','privacy','credential theft'] },
+  { term:'Trojan', abbr:'', def:'A type of malware that disguises itself as legitimate software, deceiving users into executing malicious code that can lead to data theft, system harm, or backdoor installation.', cat:'malware', tags:['deception','backdoor','social engineering'] },
+  { term:'Virus', abbr:'', def:'A malicious software that attaches itself to clean files and spreads through a computer system, corrupting data and hindering performance — requires user action (opening infected file) to propagate.', cat:'malware', tags:['self-replicating','file infector','destructive'] },
+  { term:'Worm', abbr:'', def:'A type of malicious software that spreads autonomously across networks, proliferating its destructive payload without requiring human facilitation — exploits network vulnerabilities to self-propagate.', cat:'malware', tags:['self-propagating','network','autonomous'] },
+
+  // ── NETWORK SECURITY ──
+  { term:'Address Resolution Protocol (ARP)', abbr:'ARP', def:'A networking protocol used to map an IP address to a physical MAC address within a local network — a common target for ARP spoofing attacks that enable man-in-the-middle attacks on local networks.', cat:'network', tags:['protocol','LAN','layer 2'] },
+  { term:'Domain Name System (DNS)', abbr:'DNS', def:'The phonebook of the internet — translates domain names to IP addresses so browsers can load internet resources. A frequent target for poisoning and hijacking attacks.', cat:'network', tags:['protocol','name resolution','infrastructure'] },
+  { term:'Egress Filtering', abbr:'', def:'A technique used to protect your network from IP spoofing. Egress filtering scrutinizes outgoing IP packets, verifying they possess authentic source headers to deter internal spoofing campaigns.', cat:'network', tags:['firewall','packet filtering','outbound'] },
+  { term:'Firewalls', abbr:'', def:'A hardware or software barrier that filters out and prevents unauthorized or malicious data traffic from entering or leaving a network — the first line of perimeter defense.', cat:'network', tags:['perimeter','filtering','packet inspection'] },
+  { term:'HTTP', abbr:'HTTP', def:'A foundational application protocol that facilitates communication between web browsers and web servers — HTTP (unencrypted) is increasingly replaced by HTTPS which adds TLS encryption.', cat:'network', tags:['protocol','web','application layer'] },
+  { term:'Ingress Filtering', abbr:'', def:'A type of packet filtering that establishes a critical network security measure where traffic is inspected and managed at the point of entry to the network, blocking unauthorized or potentially harmful data packets.', cat:'network', tags:['firewall','inbound','packet filtering'] },
+  { term:'Intrusion Detection and Prevention System (IDPS)', abbr:'IDPS', def:'A security solution situated beyond the firewall that scrutinizes incoming network traffic to identify and manage potential security threats — detection alerts while prevention actively blocks threats.', cat:'network', tags:['detection','prevention','monitoring'] },
+  { term:'Intrusion Detection System (IDS)', abbr:'IDS', def:'A security mechanism that identifies unusual activities and alerts security administrators or system operators for further analysis — passive monitoring without active intervention.', cat:'network', tags:['monitoring','alert','detection'] },
+  { term:'IP Packet', abbr:'', def:'A fundamental unit of data exchanged over the internet or any IP-based network — contains source/destination addresses and payload, subject to inspection by firewalls and IDS/IPS.', cat:'network', tags:['protocol','networking','data unit'] },
+  { term:'Network Access Control (NAC)', abbr:'NAC', def:'A gatekeeper for network security that manages user authentication and authorization to control network entry and activities — can enforce policy compliance before granting access.', cat:'network', tags:['access control','endpoint','compliance'] },
+  { term:'Network Interface Card (NIC)', abbr:'NIC', def:'A network adapter that pays attention only to traffic addressed to it. In promiscuous mode, it captures all network traffic regardless of destination — enabling packet sniffing.', cat:'network', tags:['hardware','promiscuous mode','sniffing'] },
+  { term:'Network Mapper (Nmap)', abbr:'Nmap', def:'A network mapping tool that enables administrators to identify devices operating on their systems, discover open ports, detect OS versions, and identify security risks — also used in reconnaissance by attackers.', cat:'network', tags:['scanning','reconnaissance','port scanning'] },
+  { term:'Network Mapping', abbr:'', def:'The process of understanding and visualizing a network\'s physical and logical connections, discovering network devices and understanding their interactions — essential for security baseline and vulnerability management.', cat:'network', tags:['inventory','topology','discovery'] },
+  { term:'Network Security', abbr:'', def:'A protective measure that safeguards networking infrastructure from unauthorized access, exploitation, or theft — encompasses hardware, software, and policy controls protecting network integrity, confidentiality, and availability.', cat:'network', tags:['protection','infrastructure','CIA triad'] },
+  { term:'Network Segmentation', abbr:'', def:'A tactic that partitions a network into multiple smaller segments or subnetworks — limits lateral movement after breach, contains incidents, and enforces least privilege between network zones.', cat:'network', tags:['isolation','lateral movement','architecture'] },
+  { term:'Packet Sniffing', abbr:'', def:'A technique that involves using software to capture and analyze data packets as they move through a network — used legitimately for troubleshooting and maliciously for credential theft and eavesdropping.', cat:'network', tags:['capture','eavesdropping','traffic analysis'] },
+  { term:'Passive Sniffing', abbr:'', def:'A technique used to capture and analyze network traffic without actively sending any packets — only works on shared/hub-based networks or when the NIC is in promiscuous mode on a port mirror.', cat:'network', tags:['monitoring','passive','hub'] },
+  { term:'Secure Sockets Layer (SSL)', abbr:'SSL', def:'A cryptographic protocol (now deprecated, superseded by TLS) used to secure communications over the internet, ensuring data transmitted between web browsers and servers remains encrypted and confidential.', cat:'network', tags:['encryption','HTTPS','deprecated','TLS'] },
+  { term:'Transmission Control Protocol (TCP)', abbr:'TCP', def:'A fundamental protocol of internet communications providing reliable, ordered, and error-checked delivery of data between applications — uses three-way handshake (SYN, SYN-ACK, ACK) for connection establishment.', cat:'network', tags:['protocol','reliable','connection-oriented'] },
+  { term:'Transport Layer Security (TLS)', abbr:'TLS', def:'A cryptographic protocol that succeeds SSL, securing communication over computer networks by ensuring privacy, data integrity, and authentication between two communicating applications.', cat:'network', tags:['encryption','HTTPS','protocol','security'] },
+  { term:'User Datagram Protocol (UDP)', abbr:'UDP', def:'A connectionless protocol used for transmitting data over network connections — faster than TCP but without delivery guarantees; used for DNS, VoIP, streaming, and gaming.', cat:'network', tags:['protocol','connectionless','fast'] },
+  { term:'Virtual Private Network (VPN)', abbr:'VPN', def:'A technology that encrypts internet traffic and obscures IP address and geographical location by rerouting connections through a secured server — used for privacy, secure remote access, and bypassing restrictions.', cat:'network', tags:['encryption','privacy','remote access','tunneling'] },
+  { term:'Three-Way Handshake', abbr:'', def:'A process used in setting up TCP connections between two network devices. Involves three stages: synchronize (SYN), synchronize-acknowledge (SYN-ACK), and acknowledge (ACK) — exploited in SYN flood attacks.', cat:'network', tags:['TCP','connection','protocol'] },
+
+  // ── ACCESS CONTROL & AUTHENTICATION ──
+  { term:'Access Control', abbr:'', def:'A security feature that restricts and regulates who can view or use resources in a computing system — fundamental security principle implementing need-to-know and least privilege.', cat:'access', tags:['principle','authorization','fundamental'] },
+  { term:'Access Management', abbr:'', def:'A framework of processes and technologies to control and monitor users\' access to information and technology resources throughout the entire identity lifecycle.', cat:'access', tags:['IAM','lifecycle','governance'] },
+  { term:'Active Directory (AD)', abbr:'AD', def:'A directory service by Microsoft for Windows domain networks — a central repository for managing and securing network resources, implementing RBAC, authentication, and group policy.', cat:'access', tags:['Microsoft','Windows','directory','enterprise'] },
+  { term:'Attribute-Based Access Control (ABAC)', abbr:'ABAC', def:'An access control approach that manages access rights using attributes pertaining to the user, resource, action, and environmental context — more granular than RBAC.', cat:'access', tags:['access control','flexible','context-aware'] },
+  { term:'Authentication', abbr:'', def:'The process of confirming the identity of a user, device, or system attempting to access a network or resource — the "who are you?" verification step before authorization.', cat:'access', tags:['identity','verification','IAM'] },
+  { term:'Authorization', abbr:'', def:'The process of granting or denying rights to access resources and perform actions within a system or network — the "what can you do?" step after authentication.', cat:'access', tags:['permissions','IAM','rights'] },
+  { term:'Behavioral Biometrics', abbr:'', def:'An innovative approach to authentication using user behavior patterns like typing rhythm, mouse movements, and gait to continuously authenticate users without disrupting workflow.', cat:'access', tags:['biometrics','continuous authentication','UEBA'] },
+  { term:'Biometric Authentication', abbr:'', def:'A method of confirming identity based on unique physical or behavioral traits — fingerprints, iris patterns, facial contours, voice recognition — providing strong authentication that cannot be shared or forgotten.', cat:'access', tags:['authentication','physical','identity'] },
+  { term:'Certificate', abbr:'', def:'A digitally signed document that verifies identity and can be stored on devices or physical tokens for secure communication and authentication — issued by Certificate Authorities (CAs) as part of PKI.', cat:'access', tags:['PKI','digital identity','X.509'] },
+  { term:'Challenge Handshake Authentication Protocol (CHAP)', abbr:'CHAP', def:'A secure, cryptographic authentication protocol that verifies the identity of a user through a three-way handshake process — more secure than PAP as passwords are never transmitted in cleartext.', cat:'access', tags:['protocol','authentication','PPP'] },
+  { term:'Discretionary Access Control (DAC)', abbr:'DAC', def:'A security model where resource owners can distribute rights and permissions for objects they own — the familiar model used on personal computers where file owners control access permissions.', cat:'access', tags:['access control','owner','flexible'] },
+  { term:'Extensible Authentication Protocol (EAP)', abbr:'EAP', def:'A widely used authentication protocol offering various authentication methods for wireless networks — often used to secure Wi-Fi hotspots and VPNs with enterprise-grade authentication.', cat:'access', tags:['wireless','authentication','protocol','802.1X'] },
+  { term:'Fast Identity Online (FIDO)', abbr:'FIDO', def:'The first open authentication standard developed by the FIDO alliance to overcome limitations of passwords — uses public key cryptography, eliminating password transmission and reducing phishing susceptibility.', cat:'access', tags:['passwordless','standard','authentication','WebAuthn'] },
+  { term:'Geolocation and Time-Based Restrictions', abbr:'', def:'Security protocols that restrict access based on the user\'s location or the time of the access attempt — detecting anomalous logins from unexpected geographies or outside business hours.', cat:'access', tags:['conditional access','risk-based','context-aware'] },
+  { term:'Hard Disk Encryption', abbr:'', def:'A security technique that encrypts data stored on laptops and portable devices — especially useful in the event of theft or loss, rendering data unreadable without the decryption key.', cat:'access', tags:['encryption','data protection','endpoint'] },
+  { term:'Hashed Password', abbr:'', def:'A one-way transformation of passwords using cryptographic hash functions (SHA-256, bcrypt, Argon2) — essential for securing password storage so that plaintext passwords are never stored.', cat:'access', tags:['password','cryptography','storage'] },
+  { term:'Identity and Access Management (IAM)', abbr:'IAM', def:'A set of policies, technologies, and processes used to manage digital identities and regulate resource access — encompasses administration, authentication, authorization, and audit (the 4As).', cat:'access', tags:['governance','identity','enterprise','lifecycle'] },
+  { term:'Kerberos', abbr:'', def:'An open-source authentication protocol developed by MIT using strong encryption to protect credentials exchanged between client and server — the primary authentication mechanism in Microsoft Windows Active Directory.', cat:'access', tags:['authentication','protocol','Windows','MIT'] },
+  { term:'Key Distribution Center (KDC)', abbr:'KDC', def:'A trusted third-party server that verifies user identities in the Kerberos protocol — issues ticket-granting tickets (TGTs) and service tickets to authenticated users.', cat:'access', tags:['Kerberos','authentication','server','trust'] },
+  { term:'Lightweight Directory Access Protocol (LDAP)', abbr:'LDAP', def:'A software application providing access to a centralized directory database using the LDAP protocol — stores and organizes directory information in a hierarchical tree structure for identity and access management.', cat:'access', tags:['directory','protocol','IAM','Active Directory'] },
+  { term:'Mandatory Access Control (MAC)', abbr:'MAC', def:'A security mechanism that enforces access regulations as determined by an administrator — users cannot alter permissions or modify security protocols. Commonly used in government and military environments.', cat:'access', tags:['access control','government','strict','non-discretionary'] },
+  { term:'Message-Digest Algorithm 5 (MD5) Challenge', abbr:'MD5', def:'An authentication method using MD5 cryptographic hash functions in networking protocols, particularly older PPP versions — now considered cryptographically weak and replaced by stronger algorithms.', cat:'access', tags:['hash','cryptography','legacy','deprecated'] },
+  { term:'Multifactor Authentication (MFA)', abbr:'MFA', def:'A security process requiring additional verification factors — one-time passwords (OTPs), biometrics, or hardware tokens — along with credentials to enhance security and resist phishing attacks.', cat:'access', tags:['authentication','security','best practice','required'] },
+  { term:'Passkey', abbr:'', def:'A FIDO2-based secret code stored on device hardware — replaces passwords with cryptographic key pairs, providing phishing-resistant authentication that cannot be stolen or guessed.', cat:'access', tags:['passwordless','FIDO2','modern auth'] },
+  { term:'Password Manager', abbr:'', def:'A software application that securely stores and manages passwords and other sensitive authentication data — enables use of unique, complex passwords for every service without memorization burden.', cat:'access', tags:['credential management','security tool','best practice'] },
+  { term:'Pretty Good Privacy (PGP)', abbr:'PGP', def:'A data encryption system used for securing emails, files, and other forms of digital communication — uses a combination of symmetric and asymmetric cryptography for confidentiality and authentication.', cat:'access', tags:['encryption','email','cryptography','OpenPGP'] },
+  { term:'Public Key Infrastructure (PKI)', abbr:'PKI', def:'A collection of hardware, software, policies, and processes used to manage and secure digital certificates and public-private key pairs — the trust framework underlying HTTPS and digital signatures.', cat:'access', tags:['certificates','cryptography','trust','infrastructure'] },
+  { term:'Remote Authentication Dial-In User Service (RADIUS)', abbr:'RADIUS', def:'A client-server protocol for remote user authentication and authorization — commonly used in enterprise networks, wireless infrastructure, and VPNs for centralized authentication management.', cat:'access', tags:['authentication','protocol','network access','enterprise'] },
+  { term:'Role-Based Access Control (RBAC)', abbr:'RBAC', def:'A widely implemented access control model that assigns system permissions to users based on their organizational role — simplifies administration and implements least privilege through role assignments.', cat:'access', tags:['access control','enterprise','least privilege'] },
+  { term:'Rule-Based Access Control (RuBAC)', abbr:'RuBAC', def:'An access control model applying specific rules or access control lists (ACLs) to different objects or resources — the most common example is firewall rules that permit or deny traffic based on conditions.', cat:'access', tags:['ACL','firewall','rules','access control'] },
+  { term:'Secure Shell (SSH) Key', abbr:'SSH', def:'A cryptographic key pair that serves as an alternative to traditional passwords for remote server authentication — the private key never leaves the user\'s system while the public key is placed on the target server.', cat:'access', tags:['cryptography','remote access','authentication','Linux'] },
+  { term:'Single Sign-On (SSO)', abbr:'SSO', def:'An authentication process allowing users to access multiple applications with a single set of login credentials — reduces password fatigue while enabling centralized authentication policy enforcement.', cat:'access', tags:['authentication','convenience','federation','enterprise'] },
+  { term:'Single Sign-On (SSO) Manager', abbr:'', def:'A special software designed for logging in with a single complex master password that authenticates to all other managed systems — centralizing credential management with enhanced security.', cat:'access', tags:['SSO','password management','enterprise'] },
+  { term:'Single-Factor Authentication (SFA)', abbr:'SFA', def:'A security method requiring users to provide only a single form of verification — such as a username and password — considered insufficient for high-value resources given modern credential theft techniques.', cat:'access', tags:['authentication','weak','legacy','password'] },
+  { term:'Smartcard', abbr:'', def:'A pocket-sized card equipped with a microprocessor chip that securely stores credentials and performs cryptographic operations — adding a hardware "something you have" factor to authentication.', cat:'access', tags:['hardware token','cryptography','authentication','physical'] },
+  { term:'Token Card', abbr:'', def:'A physical device that generates one-time passwords (OTPs) for use in two-factor authentication systems — can connect via USB or Bluetooth to present certificates or OTP values.', cat:'access', tags:['OTP','hardware','MFA','physical'] },
+  { term:'Two-Factor Authentication (2FA)', abbr:'2FA', def:'An identity confirmation method requiring users to provide two forms of authentication — typically combining something you know (password) with something you have (OTP) or something you are (biometric).', cat:'access', tags:['MFA','authentication','security','recommended'] },
+
+  // ── SECURITY CONTROLS ──
+  { term:'Administrative Controls', abbr:'', def:'A category of security controls that establishes guidelines and methodologies to ensure employees and stakeholders adhere to proper security protocols — includes policies, procedures, training, and background checks.', cat:'controls', tags:['policy','governance','framework'] },
+  { term:'Antivirus Software', abbr:'AV', def:'A critical tool for system security serving as the first line of defense against viruses and malware — uses signature-based detection, heuristics, and behavioral analysis to identify and quarantine threats.', cat:'controls', tags:['endpoint','detection','malware','defense'] },
+  { term:'Backup', abbr:'', def:'The task of creating copies of data from a system so it can be restored in case of data loss due to hardware failure, data corruption, or a cyberattack — following the 3-2-1 rule is best practice.', cat:'controls', tags:['resilience','recovery','data protection','ransomware defense'] },
+  { term:'Chain of Custody', abbr:'', def:'A documented trail that provides a clear record of who accessed evidence, when it was accessed, and what actions were taken — essential for maintaining admissibility of digital evidence in legal proceedings.', cat:'controls', tags:['forensics','legal','evidence','documentation'] },
+  { term:'Containment', abbr:'', def:'A set of actions taken to limit the damage caused by an incident — may involve isolating affected systems, taking them offline, blocking network connections, or revoking compromised credentials.', cat:'controls', tags:['incident response','isolation','damage limitation'] },
+  { term:'Corrective Controls', abbr:'', def:'A category of security controls implemented to address the consequences of a security violation — incorporate strategies to mitigate incident impacts and prevent recurrence through patching, process improvement, and system hardening.', cat:'controls', tags:['incident response','remediation','reactive'] },
+  { term:'Detective Controls', abbr:'', def:'A category of security controls that identify and alert to improper or unauthorized actions occurring within an organization — includes SIEM, IDS, log monitoring, and file integrity monitoring.', cat:'controls', tags:['monitoring','alerting','awareness'] },
+  { term:'Deterrent Controls', abbr:'', def:'A category of security controls that discourages deviations from security procedures and decreases the likelihood of intentional attacks — includes warning banners, security cameras, and visible security personnel.', cat:'controls', tags:['prevention','discouragement','visible security'] },
+  { term:'Digital Forensics', abbr:'', def:'A branch of forensic science providing tools and techniques to collect and analyze digital evidence — aids in understanding the nature of security incidents, supporting legal proceedings, and improving future defenses.', cat:'controls', tags:['forensics','evidence','investigation','post-incident'] },
+  { term:'Encryption', abbr:'', def:'The process of converting information into code using cryptographic algorithms, rendering the original content unreadable to those without the decryption key — protects data at rest and in transit.', cat:'controls', tags:['cryptography','data protection','confidentiality'] },
+  { term:'Endpoint Security', abbr:'', def:'The practice of securing endpoints — computers, mobile devices, and servers — within a network from cyberattacks. Endpoints serve as potential entry points and must be protected with AV, EDR, patching, and access controls.', cat:'controls', tags:['endpoint','EDR','AV','device security'] },
+  { term:'Error Handling', abbr:'', def:'The process of responding to and managing errors that arise during application operation — improper error handling can expose stack traces, system information, and vulnerability details to attackers.', cat:'controls', tags:['application security','SDLC','development'] },
+  { term:'Full-Disk Encryption', abbr:'FDE', def:'A security technique that encrypts every file and piece of data on the drive — renders entire disk contents inaccessible without the password or decryption key, protecting devices if lost or stolen.', cat:'controls', tags:['encryption','device security','data protection'] },
+  { term:'Hardcoded Credentials', abbr:'', def:'Sensitive information such as usernames, passwords, or API keys embedded directly into source code — a critical vulnerability that exposes credentials to anyone with code access and cannot be rotated without code changes.', cat:'controls', tags:['vulnerability','development','credential management','OWASP'] },
+  { term:'Incident Response', abbr:'IR', def:'A structured approach that promptly addresses and manages security incidents, breaches, or cyberattacks — follows established phases: Preparation, Identification, Containment, Eradication, Recovery, and Lessons Learned (PICERL).', cat:'controls', tags:['process','incident management','NIST','lifecycle'] },
+  { term:'Input Validation', abbr:'', def:'A programming technique ensuring data entered into an application is correct, safe, and in the expected format before processing — prevents injection attacks by rejecting unexpected or malicious input.', cat:'controls', tags:['application security','injection prevention','SDLC'] },
+  { term:'Mobile Device Management (MDM)', abbr:'MDM', def:'A proven methodology and toolset providing a workforce with mobile productivity tools while keeping corporate data secure — enforces encryption, remote wipe, and application policy on BYOD and corporate devices.', cat:'controls', tags:['mobile','BYOD','enterprise','endpoint'] },
+  { term:'Patch', abbr:'', def:'Security updates to software that fix vulnerabilities, bugs, or enhance functionality — one of the most effective controls for preventing exploitation of known vulnerabilities.', cat:'controls', tags:['vulnerability management','updates','prevention'] },
+  { term:'Patching', abbr:'', def:'The process of updating software and systems with small pieces of code (patches or updates) that fix vulnerabilities, bugs, or enhance functionality — regular patching is foundational to vulnerability management.', cat:'controls', tags:['vulnerability management','maintenance','update'] },
+  { term:'Penetration Testing', abbr:'pentest', def:'A robust defense strategy where security specialists simulate cyberattacks to find vulnerabilities before malicious actors do — provides realistic assessment of security posture and validates defense effectiveness.', cat:'controls', tags:['offensive security','assessment','ethical hacking','red team'] },
+  { term:'Physical Controls', abbr:'', def:'A category of security controls that secures and protects tangible assets — company hardware, infrastructure, and environment through barriers, access systems, surveillance, and environmental controls.', cat:'controls', tags:['physical security','hardware','facilities'] },
+  { term:'Preventive Controls', abbr:'', def:'A category of security controls that aims to stop security incidents before they occur — includes firewalls, access controls, encryption, patch management, and security awareness training.', cat:'controls', tags:['proactive','prevention','baseline security'] },
+  { term:'Secure Logging', abbr:'', def:'The practice of recording events to track user and system activities, making it easier to understand software operation and identify unusual or unauthorized activities — logs must be protected from tampering.', cat:'controls', tags:['monitoring','forensics','audit trail','SIEM'] },
+  { term:'Technical Controls', abbr:'', def:'A category of security controls that protect information confidentiality, integrity, and availability through technology — detect and respond to security incidents, mitigating vulnerabilities and enforcing access restrictions.', cat:'controls', tags:['technology','automation','enforcement'] },
+  { term:'Vulnerability Management', abbr:'', def:'The process of identifying, evaluating, prioritizing, mitigating, and monitoring security vulnerabilities in computer systems, networks, and software applications — a continuous security process not a one-time exercise.', cat:'controls', tags:['risk','patching','assessment','continuous'] },
+
+  // ── TOOLS & TECHNOLOGIES ──
+  { term:'Dynamic Application Security Testing (DAST)', abbr:'DAST', def:'A type of security testing that executes code during evaluation and probes all user-facing interfaces with varied inputs to find runtime vulnerabilities — simulates an external attacker with no source code access.', cat:'tools', tags:['testing','application security','runtime','black-box'] },
+  { term:'Interactive Application Security Testing (IAST)', abbr:'IAST', def:'A type of application security testing combining static and dynamic testing principles — examines application code in real-time while testers interact with the live application, providing precise vulnerability location.', cat:'tools', tags:['testing','application security','hybrid','instrumentation'] },
+  { term:'Multifactor Authentication (MFA) System', abbr:'MFA', def:'An account security measure requiring multiple verification forms before granting access — combines two or more factors: knowledge (password), possession (token), inherence (biometric), or location.', cat:'tools', tags:['authentication','security','technology'] },
+  { term:'Nessus', abbr:'', def:'A proprietary vulnerability scanner known for its extensive plugin library and robust detection algorithms — offers continuous updates, incorporates the latest vulnerabilities, and provides regulatory compliance checks.', cat:'tools', tags:['vulnerability scanning','assessment','Tenable','enterprise'] },
+  { term:'OpenVAS', abbr:'', def:'A free, open-source vulnerability assessment tool providing a solid scanning solution for those who prefer a community-driven approach — full-featured alternative to commercial scanners.', cat:'tools', tags:['vulnerability scanning','open source','assessment','free'] },
+  { term:'Quad9', abbr:'', def:'A free capability to change the DNS in browser settings to 9.9.9.9 with a threat intelligence blacklist that prevents visiting known malicious websites — provides DNS-based malware protection.', cat:'tools', tags:['DNS','protection','free','privacy'] },
+  { term:'Security Information and Event Management (SIEM)', abbr:'SIEM', def:'A protective measure integral to network security — aggregates and analyzes log and event data from servers, endpoints, and network devices to correlate events and detect security incidents across the enterprise.', cat:'tools', tags:['monitoring','logging','correlation','enterprise security'] },
+  { term:'Security Orchestration, Automation and Response (SOAR)', abbr:'SOAR', def:'An automation solution empowering security teams to manage alerts efficiently by integrating various security tools and automating workflows and incident response actions — reduces mean time to respond (MTTR).', cat:'tools', tags:['automation','incident response','orchestration','efficiency'] },
+  { term:'Spam Filter', abbr:'', def:'A critical tool that shields email inboxes from deceptive tactics — uses heuristics, machine learning, reputation lists, and authentication checks (SPF, DKIM, DMARC) to block spam and phishing emails.', cat:'tools', tags:['email security','phishing defense','filtering'] },
+  { term:'Static Application Security Testing (SAST)', abbr:'SAST', def:'A type of application security testing that inspects source code without executing the program — identifies vulnerabilities in code during development, enabling early remediation before deployment.', cat:'tools', tags:['testing','application security','code review','white-box'] },
+  { term:'Wireshark', abbr:'', def:'A network protocol analyzer that captures and interactively displays detailed network traffic patterns — helps identify potential bottlenecks, anomalies, suspicious traffic, and protocol misconfigurations.', cat:'tools', tags:['packet analysis','forensics','troubleshooting','open source'] },
+  { term:'Document Object Model (DOM)', abbr:'DOM', def:'An object-based interface developed by W3C that creates an XML/HTML document as a tree-like structure in memory — DOM-based XSS attacks manipulate this structure to execute malicious scripts in the browser.', cat:'tools', tags:['browser','web','XSS','JavaScript'] },
+
+  // ── Physical / Additional ──
+  { term:'Drone Detection System', abbr:'', def:'A security technology used to identify unauthorized or suspicious drone activity around a facility\'s airspace — can detect, track, and in some cases neutralize drones posing security or surveillance threats.', cat:'controls', tags:['physical security','surveillance','counter-UAS','facility'] },
+  { term:'Electrostatic Discharge (ESD) Protection', abbr:'ESD', def:'A set of measures — grounding, anti-static mats, wristbands, ESD-safe workstations — taken to prevent damage to electronic components from electrostatic discharge during handling or maintenance.', cat:'controls', tags:['physical','hardware protection','data center'] },
+  { term:'Fence', abbr:'', def:'A physical barrier that limits unauthorized access to sensitive areas — the first layer of perimeter security, combined with surveillance and access control systems for layered physical defense.', cat:'controls', tags:['physical security','perimeter','deterrent'] },
+  { term:'Industrial Camouflage', abbr:'', def:'Techniques and materials used to strategically conceal critical infrastructure like data centers to diminish visibility and vulnerability to physical attacks — reducing the attack surface through obscurity.', cat:'controls', tags:['physical security','data center','obscurity'] },
+  { term:'Intelligent Perimeter Security System', abbr:'', def:'An advanced surveillance system using AI and machine learning algorithms to monitor and analyze activity around a facility\'s perimeter — differentiates between harmless entities and potential threats, providing real-time alerts.', cat:'tools', tags:['AI','physical security','surveillance','perimeter'] },
+  { term:'Mantrap Door', abbr:'', def:'A physical security system that controls access into sensitive areas by allowing only one individual to pass through at a time — prevents tailgating and enforces individual authentication before entry.', cat:'controls', tags:['physical security','access control','tailgating prevention'] },
+  { term:'Robotic Security Guard', abbr:'', def:'A robot designed to patrol and monitor facilities using advanced sensors and cameras to detect potential intruders or suspicious activity in real-time — augments human security personnel coverage.', cat:'tools', tags:['physical security','robotics','AI','surveillance'] },
+  { term:'Vandalism', abbr:'', def:'Deliberate destruction of physical infrastructure that risks data loss or system unavailability — a physical security threat addressed by perimeter controls, surveillance, and redundant systems.', cat:'threats', tags:['physical','destruction','availability'] },
+  { term:'Artificial Intelligence (AI) Security Systems', abbr:'AI Security', def:'Cybersecurity solutions that use AI techniques to analyze data from physical security sensors and detect anomalies and potential threats in real-time — can learn and adapt to new threats over time.', cat:'tools', tags:['AI','ML','detection','adaptive security'] },
+  { term:'File Access Controls', abbr:'', def:'An example of discretionary access controls where administrators delegate authority allowing users to dictate access permissions to resources — Linux and Windows use read, write, and execute permissions.', cat:'access', tags:['DAC','permissions','file system','OS'] },
+  { term:'System Security', abbr:'', def:'Measures implemented to protect computer systems and their information from unauthorized access, damage, or theft — encompasses hardening, patching, access control, monitoring, and incident response.', cat:'controls', tags:['protection','hardening','system administration'] },
+  { term:'System-Level Firewalls', abbr:'', def:'Software firewalls that run on individual computers or servers — inspect incoming and outgoing network packets against predefined rulesets at the host level, providing endpoint-specific protection.', cat:'network', tags:['firewall','host-based','endpoint','protection'] },
+  { term:'National Institute of Standards and Technology (NIST)', abbr:'NIST', def:'A physical science laboratory, part of the US Department of Commerce, renowned for establishing industry standards — publishes the NIST Cybersecurity Framework, SP 800 series, and encryption standards like AES.', cat:'orgs', tags:['standards','government','framework','NIST CSF'] },
+];
+
+// ══════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════
+let activeFilter = 'all';
+let activeAlpha  = 'all';
+let activeSort   = 'az';
+let searchQuery  = '';
+
+// ══════════════════════════════════════════════════════════
+// BUILD & RENDER
+// ══════════════════════════════════════════════════════════
+function getFiltered() {
+  let result = [...TERMS];
+  if (activeFilter !== 'all') result = result.filter(t => t.cat === activeFilter);
+  if (activeAlpha !== 'all') result = result.filter(t => t.term[0].toUpperCase() === activeAlpha);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    result = result.filter(t =>
+      t.term.toLowerCase().includes(q) ||
+      t.def.toLowerCase().includes(q) ||
+      (t.abbr && t.abbr.toLowerCase().includes(q)) ||
+      (t.tags && t.tags.some(tag => tag.includes(q)))
+    );
+  }
+  if (activeSort === 'az')  result.sort((a,b) => a.term.localeCompare(b.term));
+  if (activeSort === 'za')  result.sort((a,b) => b.term.localeCompare(a.term));
+  if (activeSort === 'cat') result.sort((a,b) => a.cat.localeCompare(b.cat) || a.term.localeCompare(b.term));
+  return result;
+}
+
+function getCatColor(catId) {
+  const cat = CATEGORIES.find(c => c.id === catId);
+  return cat ? cat.color : 'var(--teal)';
+}
+
+function renderGlossary() {
+  const filtered = getFiltered();
+  const root = document.getElementById('glossary-root');
+  const noResults = document.getElementById('no-results');
+  const countEl = document.getElementById('result-count');
+  const clearBtn = document.getElementById('rm-clear-btn');
+  const visibleEl = document.getElementById('hs-visible');
+
+  visibleEl.textContent = filtered.length;
+  countEl.innerHTML = `Showing <span>${filtered.length}</span> of ${TERMS.length} terms`;
+  clearBtn.style.display = (activeFilter !== 'all' || activeAlpha !== 'all' || searchQuery) ? 'inline-block' : 'none';
+
+  if (filtered.length === 0) {
+    root.innerHTML = '';
+    noResults.classList.add('show');
+    return;
+  }
+  noResults.classList.remove('show');
+
+  if (activeSort === 'az' || activeSort === 'za') {
+    // Group by first letter
+    const groups = {};
+    filtered.forEach(t => {
+      const letter = t.term[0].toUpperCase();
+      if (!groups[letter]) groups[letter] = [];
+      groups[letter].push(t);
+    });
+    const sortedLetters = Object.keys(groups).sort(activeSort === 'za' ? (a,b) => b.localeCompare(a) : undefined);
+
+    root.innerHTML = sortedLetters.map(letter => `
+      <div class="alpha-section" id="section-${letter}">
+        <div class="alpha-section-header">
+          <div class="ash-letter">${letter}</div>
+          <div class="ash-line"></div>
+          <div class="ash-count">${groups[letter].length} term${groups[letter].length !== 1 ? 's' : ''}</div>
+        </div>
+        <div class="glossary-grid">
+          ${groups[letter].map(t => renderTermCard(t)).join('')}
+        </div>
+      </div>`).join('');
+  } else {
+    // Group by category
+    const groups = {};
+    filtered.forEach(t => {
+      if (!groups[t.cat]) groups[t.cat] = [];
+      groups[t.cat].push(t);
+    });
+    root.innerHTML = Object.keys(groups).map(catId => {
+      const cat = CATEGORIES.find(c => c.id === catId);
+      return `
+        <div class="alpha-section">
+          <div class="alpha-section-header">
+            <div class="ash-letter" style="font-size:24px;min-width:32px">${cat ? cat.icon : '📋'}</div>
+            <div style="font-family:'Barlow',sans-serif;font-size:18px;font-weight:600;color:${getCatColor(catId)}">${cat ? cat.label : catId}</div>
+            <div class="ash-line"></div>
+            <div class="ash-count">${groups[catId].length} terms</div>
+          </div>
+          <div class="glossary-grid">${groups[catId].map(t => renderTermCard(t)).join('')}</div>
+        </div>`;
+    }).join('');
+  }
+}
+
+function renderTermCard(t) {
+  const color = getCatColor(t.cat);
+  const cat = CATEGORIES.find(c => c.id === t.cat);
+  const preview = t.def.substring(0, 100) + (t.def.length > 100 ? '...' : '');
+  const tags = t.tags ? t.tags.map(tag => `<span class="tc-tag">${tag}</span>`).join('') : '';
+  const abbr = t.abbr ? `<span class="tc-abbrev">${t.abbr}</span>` : '<span class="tc-abbrev"></span>';
+  return `
+    <div class="term-card" id="card-${slugify(t.term)}" onclick="toggleCard(this)">
+      <div class="tc-accent" style="background:linear-gradient(90deg,${color},transparent)"></div>
+      <div class="tc-body">
+        <div class="tc-header">
+          ${abbr}
+          <div class="tc-name">${t.term}</div>
+          <div class="tc-cat-badge" style="color:${color};border-color:color-mix(in srgb,${color} 35%,transparent);background:color-mix(in srgb,${color} 8%,transparent)">${cat ? cat.icon : ''}</div>
+          <div class="tc-chevron">▼</div>
+        </div>
+        <div class="tc-preview">${preview}</div>
+      </div>
+      <div class="tc-expanded">
+        <div class="tc-full-def" style="border-color:color-mix(in srgb,${color} 50%,transparent)">${t.def}</div>
+        <div class="tc-tags">${tags}</div>
+      </div>
+    </div>`;
+}
+
+function toggleCard(el) {
+  el.classList.toggle('expanded');
+}
+
+function slugify(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+// ══════════════════════════════════════════════════════════
+// SIDEBAR COMPONENTS
+// ══════════════════════════════════════════════════════════
+function renderAlphaGrid() {
+  const grid = document.getElementById('alpha-grid');
+  const usedLetters = new Set(TERMS.map(t => t.term[0].toUpperCase()));
+  const all = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  grid.innerHTML = `<button class="alpha-btn ${activeAlpha === 'all' ? 'active' : ''}" onclick="setAlpha('all')">All</button>` +
+    all.map(l => `<button class="alpha-btn ${!usedLetters.has(l) ? 'empty' : ''} ${activeAlpha === l ? 'active' : ''}" onclick="setAlpha('${l}')">${l}</button>`).join('');
+}
+
+function renderCatList() {
+  const catList = document.getElementById('cat-list');
+  const counts = {};
+  TERMS.forEach(t => { counts[t.cat] = (counts[t.cat] || 0) + 1; });
+  catList.innerHTML = `
+    <div class="cat-btn ${activeFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">
+      <div class="cat-dot" style="background:var(--teal)"></div>
+      All Categories
+      <span class="cat-count">${TERMS.length}</span>
+    </div>` +
+    CATEGORIES.map(cat => `
+      <div class="cat-btn ${activeFilter === cat.id ? 'active' : ''}" onclick="setFilter('${cat.id}')">
+        <div class="cat-dot" style="background:${cat.color}"></div>
+        ${cat.label}
+        <span class="cat-count">${counts[cat.id] || 0}</span>
+      </div>`).join('');
+}
+
+function renderStatsBars() {
+  const barsEl = document.getElementById('sc-bars');
+  const counts = {};
+  TERMS.forEach(t => { counts[t.cat] = (counts[t.cat] || 0) + 1; });
+  const max = Math.max(...Object.values(counts));
+  barsEl.innerHTML = CATEGORIES.map(cat => `
+    <div class="sc-bar-row">
+      <div class="scb-header">
+        <span class="scb-label">${cat.icon} ${cat.label.split(' ').slice(0,2).join(' ')}</span>
+        <span class="scb-count" style="color:${cat.color}">${counts[cat.id] || 0}</span>
+      </div>
+      <div class="scb-track">
+        <div class="scb-fill" style="width:${((counts[cat.id] || 0) / max) * 100}%;background:${cat.color}"></div>
+      </div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════
+// CONTROLS
+// ══════════════════════════════════════════════════════════
+function setFilter(id) {
+  activeFilter = id;
+  activeAlpha = 'all';
+  renderCatList();
+  renderAlphaGrid();
+  renderGlossary();
+}
+
+function setAlpha(letter) {
+  activeAlpha = letter;
+  renderAlphaGrid();
+  renderGlossary();
+  if (letter !== 'all') {
+    const el = document.getElementById(`section-${letter}`);
+    if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+}
+
+function setSort(mode) {
+  activeSort = mode;
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`sort-${mode}`).classList.add('active');
+  renderGlossary();
+}
+
+function handleSearch() {
+  const input = document.getElementById('search-input');
+  searchQuery = input.value.trim();
+  document.getElementById('search-clear').style.display = searchQuery ? 'block' : 'none';
+  activeAlpha = 'all';
+  renderAlphaGrid();
+  renderGlossary();
+}
+
+function clearSearch() {
+  document.getElementById('search-input').value = '';
+  searchQuery = '';
+  document.getElementById('search-clear').style.display = 'none';
+  renderAlphaGrid();
+  renderGlossary();
+}
+
+function clearAllFilters() {
+  activeFilter = 'all';
+  activeAlpha = 'all';
+  searchQuery = '';
+  activeSort = 'az';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-clear').style.display = 'none';
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sort-az').classList.add('active');
+  renderAlphaGrid();
+  renderCatList();
+  renderGlossary();
+}
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+document.getElementById('hs-total').textContent = TERMS.length;
+renderAlphaGrid();
+renderCatList();
+renderStatsBars();
+renderGlossary();
+</script>
+</body>
+</html>
