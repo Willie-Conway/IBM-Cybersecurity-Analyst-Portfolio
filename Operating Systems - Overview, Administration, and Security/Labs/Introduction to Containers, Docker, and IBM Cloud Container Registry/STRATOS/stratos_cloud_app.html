@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STRATOS — Cloud & Virtualization Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky: #f0f6ff;
+  --sky2: #e4efff;
+  --white: #ffffff;
+  --cloud: #f7faff;
+  --azure: #1565c0;
+  --azure2: #1e7ee8;
+  --azure3: #5ba3f5;
+  --azure-lo: rgba(21,101,192,.08);
+  --azure-lo2: rgba(21,101,192,.15);
+  --cyan: #0097a7;
+  --cyan2: #00bcd4;
+  --teal: #00897b;
+  --amber: #f57c00;
+  --amber2: #ffb74d;
+  --red: #c62828;
+  --red2: #ef5350;
+  --green: #2e7d32;
+  --green2: #4caf50;
+  --ink: #0d1b2e;
+  --ink2: #1a2d45;
+  --slate: #334e68;
+  --mid: #6b84a0;
+  --dim: #9db0c8;
+  --border: #d4e3f7;
+  --border2: #b8d0ef;
+  --shadow: rgba(13,27,46,.1);
+  --shadow2: rgba(13,27,46,.18);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--sky);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Animated sky background */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 10% 20%, rgba(91,163,245,.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%, rgba(0,151,167,.1) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 50%, rgba(240,246,255,1) 0%, rgba(228,239,255,.8) 100%);
+}
+
+/* Floating cloud particles */
+.cloud-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.cp {
+  position: absolute; border-radius: 50%;
+  background: rgba(255,255,255,.6);
+  filter: blur(20px);
+  animation: drift linear infinite;
+}
+@keyframes drift {
+  from { transform: translateX(-100px) translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  to { transform: translateX(calc(100vw + 100px)) translateY(-30px) scale(1.1); opacity: 0; }
+}
+
+.app { position: relative; z-index: 1; display: flex; flex-direction: column; min-height: 100vh; }
+
+/* ── HEADER ── */
+.hdr-bar { height: 3px; background: linear-gradient(90deg, var(--azure), var(--cyan2), var(--teal)); }
+.hdr {
+  background: rgba(255,255,255,.85);
+  border-bottom: 1px solid var(--border2);
+  backdrop-filter: blur(20px);
+  position: sticky; top: 0; z-index: 50;
+}
+.hdr-in {
+  max-width: 1400px; margin: 0 auto; padding: 0 28px;
+  height: 60px; display: flex; align-items: center; gap: 20px;
+}
+.logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.logo-icon {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--azure), var(--cyan2));
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(21,101,192,.3);
+  animation: iconFloat 4s ease-in-out infinite;
+}
+@keyframes iconFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-3px);} }
+.logo-icon svg { width: 20px; height: 20px; fill: white; }
+.logo-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); letter-spacing: .5px; }
+.logo-ver { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--dim); letter-spacing: 2px; margin-top: 1px; }
+.hdr-pills { display: flex; gap: 6px; margin-left: 20px; }
+.hpill {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px;
+  padding: 4px 11px; border-radius: 20px;
+  border: 1px solid var(--border2); color: var(--mid); background: var(--cloud);
+  display: flex; align-items: center; gap: 5px;
+}
+.hdot { width: 5px; height: 5px; border-radius: 50%; }
+.hdot-live { background: var(--green2); box-shadow: 0 0 5px var(--green2); animation: pulse 1.5s ease infinite; }
+@keyframes pulse { 0%,100%{opacity:1;}50%{opacity:.3;} }
+.hdr-r { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.course-chip {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px;
+  padding: 5px 13px; border-radius: 20px;
+  background: var(--azure-lo); border: 1px solid var(--border2); color: var(--azure);
+}
+
+/* ── NAV ── */
+.nav {
+  background: rgba(255,255,255,.7); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px); display: flex; padding: 0 28px; overflow-x: auto; scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nb {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px;
+  padding: 0 18px; height: 44px; color: var(--dim); cursor: pointer; border: none; background: none;
+  text-transform: uppercase; white-space: nowrap; border-bottom: 2px solid transparent;
+  transition: all .2s; display: flex; align-items: center; gap: 7px;
+}
+.nb:hover { color: var(--slate); }
+.nb.on { color: var(--azure); border-bottom-color: var(--azure); background: var(--azure-lo); }
+
+/* ── MAIN ── */
+.main { flex: 1; }
+.view { display: none; padding: 32px 28px 80px; max-width: 1400px; margin: 0 auto; }
+.view.on { display: block; }
+
+/* View header */
+.vh { margin-bottom: 28px; }
+.vh-tag {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--azure); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+}
+.vh-tag::before { content: ''; display: block; width: 16px; height: 2px; background: var(--azure); border-radius: 1px; }
+.vh-title { font-family: 'DM Serif Display', serif; font-size: clamp(22px,3vw,34px); color: var(--ink); margin-bottom: 6px; line-height: 1.2; }
+.vh-sub { font-size: 14px; color: var(--slate); line-height: 1.65; max-width: 680px; }
+
+/* Cards */
+.card {
+  background: rgba(255,255,255,.8); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; backdrop-filter: blur(10px);
+  box-shadow: 0 2px 16px var(--shadow); transition: all .2s;
+}
+.card:hover { box-shadow: 0 4px 24px var(--shadow2); border-color: var(--border2); }
+.ch {
+  padding: 11px 18px; background: rgba(240,246,255,.8); border-bottom: 1px solid var(--border);
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--mid); display: flex; align-items: center; justify-content: space-between;
+}
+.cb { padding: 18px; }
+
+/* Grid */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.mb16 { margin-bottom: 16px; } .mb24 { margin-bottom: 24px; } .mb32 { margin-bottom: 32px; }
+
+/* Buttons */
+.btn {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px;
+  padding: 10px 20px; border-radius: 8px; border: 1px solid; cursor: pointer;
+  text-transform: uppercase; transition: all .2s; display: inline-flex; align-items: center; gap: 7px;
+}
+.btn-p { background: var(--azure); border-color: var(--azure); color: #fff; }
+.btn-p:hover { background: var(--azure2); box-shadow: 0 4px 16px rgba(21,101,192,.35); transform: translateY(-1px); }
+.btn-g { background: transparent; border-color: var(--border2); color: var(--mid); }
+.btn-g:hover { border-color: var(--azure); color: var(--azure); }
+.btn-c { background: var(--cyan); border-color: var(--cyan); color: #fff; }
+.btn-c:hover { background: var(--cyan2); }
+.btn-red { background: rgba(198,40,40,.08); border-color: rgba(198,40,40,.3); color: var(--red); }
+.btn-red:hover { background: rgba(198,40,40,.15); }
+.btn-ok { background: rgba(46,125,50,.08); border-color: rgba(46,125,50,.3); color: var(--green); }
+
+/* Badges */
+.bdg {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px;
+  padding: 2px 10px; border-radius: 20px; border: 1px solid; display: inline-flex; align-items: center; gap: 4px;
+}
+.bdg-b { color: var(--azure); border-color: rgba(21,101,192,.3); background: var(--azure-lo); }
+.bdg-g { color: var(--green); border-color: rgba(46,125,50,.3); background: rgba(46,125,50,.07); }
+.bdg-r { color: var(--red); border-color: rgba(198,40,40,.3); background: rgba(198,40,40,.07); }
+.bdg-a { color: var(--amber); border-color: rgba(245,124,0,.3); background: rgba(245,124,0,.07); }
+.bdg-c { color: var(--cyan); border-color: rgba(0,151,167,.3); background: rgba(0,151,167,.07); }
+
+/* Progress */
+.pt { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.pf { height: 100%; border-radius: 3px; transition: width .5s ease; }
+
+/* ══ MODULE 1: COMPARE ══ */
+.compare-wrap { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; align-items: start; }
+.compare-col {
+  background: rgba(255,255,255,.85); border: 1px solid var(--border); border-radius: 14px;
+  padding: 24px; backdrop-filter: blur(10px); box-shadow: 0 4px 20px var(--shadow);
+  animation: fadeUp .4s ease forwards;
+}
+.compare-col.virt { border-top: 3px solid var(--azure); }
+.compare-col.cloud { border-top: 3px solid var(--cyan); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);} }
+.cc-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 14px; }
+.cc-title { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 6px; }
+.cc-def { font-size: 13px; color: var(--slate); line-height: 1.65; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.feat-row {
+  display: flex; align-items: flex-start; gap: 10px; padding: 10px 0;
+  border-bottom: 1px solid var(--border); transition: background .15s;
+}
+.feat-row:last-child { border-bottom: none; }
+.feat-row:hover { background: var(--azure-lo); margin: 0 -12px; padding: 10px 12px; border-radius: 6px; }
+.feat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.feat-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: var(--dim); margin-bottom: 3px; }
+.feat-val { font-size: 13px; color: var(--ink2); line-height: 1.4; }
+.vs-center { display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 80px; gap: 12px; }
+.vs-orb {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--azure), var(--cyan));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-family: 'DM Serif Display', serif; font-size: 14px;
+  box-shadow: 0 4px 16px rgba(21,101,192,.3);
+  animation: iconFloat 3s ease-in-out infinite;
+}
+.vs-line { width: 2px; height: 30px; background: linear-gradient(var(--azure), var(--cyan)); border-radius: 1px; }
+.active-feat { background: var(--azure-lo); margin: 0 -12px; padding: 10px 12px !important; border-radius: 6px; }
+
+/* Feature highlight button bar */
+.feat-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.fb {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px;
+  padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border2);
+  background: var(--cloud); color: var(--mid); cursor: pointer; transition: all .2s;
+}
+.fb.on { background: var(--azure); border-color: var(--azure); color: white; }
+.fb:hover:not(.on) { border-color: var(--azure); color: var(--azure); }
+
+/* ══ MODULE 2: VM BUILDER ══ */
+.server-chassis {
+  background: var(--ink); border-radius: 14px; padding: 24px;
+  box-shadow: 0 8px 40px rgba(13,27,46,.25); position: relative; overflow: hidden;
+}
+.server-chassis::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg,rgba(255,255,255,.01) 0px,rgba(255,255,255,.01) 1px,transparent 1px,transparent 20px);
+  pointer-events: none;
+}
+.server-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,.3); margin-bottom: 16px; }
+.resource-bar-wrap { margin-bottom: 14px; }
+.rb-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.rb-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: rgba(255,255,255,.5); }
+.rb-val { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: rgba(255,255,255,.8); }
+.rb-track { height: 8px; background: rgba(255,255,255,.1); border-radius: 4px; overflow: hidden; }
+.rb-fill { height: 100%; border-radius: 4px; transition: width .4s ease; }
+.vm-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(180px,1fr)); gap: 10px; margin-top: 16px; }
+.vm-card {
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px; padding: 14px; cursor: pointer; transition: all .2s; position: relative;
+}
+.vm-card:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.2); transform: translateY(-2px); }
+.vm-card.selected { border-color: var(--azure3); background: rgba(91,163,245,.12); }
+.vm-card.running { border-color: rgba(76,175,80,.4); }
+.vm-icon { font-size: 20px; margin-bottom: 8px; }
+.vm-name { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: rgba(255,255,255,.8); margin-bottom: 4px; letter-spacing: 1px; }
+.vm-status { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: rgba(255,255,255,.35); }
+.vm-resources { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: rgba(255,255,255,.4); margin-top: 6px; line-height: 1.8; }
+.vm-status-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+.add-vm-btn {
+  background: rgba(255,255,255,.04); border: 1px dashed rgba(255,255,255,.15);
+  border-radius: 10px; padding: 14px; cursor: pointer; transition: all .2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: rgba(255,255,255,.3);
+  letter-spacing: 1px;
+}
+.add-vm-btn:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.25); color: rgba(255,255,255,.6); }
+.vm-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.vm-ctrl-btn {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px;
+  padding: 7px 14px; border-radius: 6px; border: 1px solid; cursor: pointer; transition: all .2s;
+  text-transform: uppercase; display: inline-flex; align-items: center; gap: 5px;
+}
+
+/* ══ MODULE 3: CLOUD SCALER ══ */
+.cloud-services-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap: 12px; margin-bottom: 20px; }
+.svc-card {
+  background: rgba(255,255,255,.85); border: 1px solid var(--border); border-radius: 12px;
+  padding: 16px; transition: all .2s; cursor: pointer;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+.svc-card.active { border-color: var(--azure2); box-shadow: 0 0 0 2px rgba(21,101,192,.15), 0 4px 16px var(--shadow); }
+.svc-icon { font-size: 26px; margin-bottom: 10px; }
+.svc-name { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--ink); margin-bottom: 4px; }
+.svc-type { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--dim); letter-spacing: 1px; margin-bottom: 12px; }
+.qty-ctrl { display: flex; align-items: center; gap: 10px; }
+.qty-btn {
+  width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border2);
+  background: var(--cloud); color: var(--azure); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all .2s;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.qty-btn:hover { background: var(--azure); color: white; border-color: var(--azure); }
+.qty-val { font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: var(--ink); min-width: 28px; text-align: center; }
+.svc-cost { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--mid); margin-top: 8px; }
+.cost-meter {
+  background: linear-gradient(135deg, var(--ink), var(--ink2));
+  border-radius: 14px; padding: 20px 24px; color: white;
+  box-shadow: 0 6px 28px rgba(13,27,46,.2);
+}
+.cost-total { font-family: 'DM Serif Display', serif; font-size: 40px; color: white; }
+.cost-period { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: rgba(255,255,255,.4); margin-top: 2px; }
+.cost-breakdown { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.1); }
+.cost-line { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: rgba(255,255,255,.5); padding: 4px 0; }
+.cost-line span:last-child { color: rgba(255,255,255,.85); }
+.scale-type-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; padding: 3px 10px; border-radius: 20px; margin-top: 10px; display: inline-block; }
+
+/* ══ MODULE 4: DECISION ADVISOR ══ */
+.scenario-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); gap: 12px; margin-bottom: 24px; }
+.sc-card {
+  background: rgba(255,255,255,.8); border: 1px solid var(--border); border-radius: 12px;
+  padding: 18px; cursor: pointer; transition: all .2s;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+.sc-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px var(--shadow2); border-color: var(--border2); }
+.sc-card.picked { border-color: var(--azure); box-shadow: 0 0 0 2px rgba(21,101,192,.2); }
+.sc-emoji { font-size: 28px; margin-bottom: 10px; }
+.sc-name { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--ink); margin-bottom: 5px; }
+.sc-desc { font-size: 12px; color: var(--mid); line-height: 1.5; }
+.rec-panel {
+  background: rgba(255,255,255,.9); border: 2px solid var(--border2); border-radius: 14px;
+  padding: 24px; display: none; animation: fadeUp .3s ease;
+}
+.rec-panel.show { display: block; }
+.rec-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.rec-badge { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+.rec-tech { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); margin-bottom: 3px; }
+.rec-confidence { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--green); }
+.rec-reasoning { font-size: 14px; color: var(--slate); line-height: 1.7; margin-bottom: 16px; }
+.rec-pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.rpc { background: var(--sky); border-radius: 8px; padding: 12px; }
+.rpc-title { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: var(--dim); margin-bottom: 8px; }
+.rpc-item { font-size: 12px; color: var(--slate); padding: 3px 0; padding-left: 14px; position: relative; line-height: 1.4; }
+.rpc-item::before { content: ''; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; }
+.rpc-pros .rpc-item::before { background: var(--green2); }
+.rpc-cons .rpc-item::before { background: var(--red2); }
+
+/* ══ MODULE 5: QUIZ ══ */
+.quiz-wrap { max-width: 720px; margin: 0 auto; }
+.quiz-progress { display: flex; gap: 6px; margin-bottom: 24px; }
+.qp-dot { flex: 1; height: 4px; border-radius: 2px; background: var(--border); transition: background .3s; }
+.qp-dot.done { background: var(--green2); }
+.qp-dot.active { background: var(--azure); }
+.q-card {
+  background: rgba(255,255,255,.9); border: 1px solid var(--border); border-radius: 14px;
+  padding: 28px; box-shadow: 0 4px 20px var(--shadow); animation: fadeUp .3s ease;
+}
+.q-num { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--dim); margin-bottom: 10px; }
+.q-text { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); margin-bottom: 22px; line-height: 1.4; }
+.q-opts { display: flex; flex-direction: column; gap: 10px; }
+.qopt {
+  background: var(--cloud); border: 1px solid var(--border2); border-radius: 10px;
+  padding: 14px 18px; cursor: pointer; transition: all .2s; font-size: 14px; color: var(--slate);
+  display: flex; align-items: center; gap: 12px;
+}
+.qopt:hover:not(.answered) { border-color: var(--azure); background: var(--azure-lo); color: var(--azure); }
+.qopt.correct { border-color: var(--green2); background: rgba(76,175,80,.08); color: var(--green); }
+.qopt.wrong { border-color: var(--red2); background: rgba(239,83,80,.08); color: var(--red); }
+.qopt-idx { width: 28px; height: 28px; border-radius: 8px; background: var(--border); color: var(--mid); display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+.q-feedback { margin-top: 16px; padding: 14px; border-radius: 10px; font-size: 13px; line-height: 1.6; display: none; animation: fadeUp .2s ease; }
+.q-feedback.show { display: block; }
+.quiz-score {
+  background: linear-gradient(135deg, var(--ink), var(--ink2)); color: white;
+  border-radius: 14px; padding: 36px; text-align: center; animation: fadeUp .4s ease; display: none;
+}
+.quiz-score.show { display: block; }
+.score-num { font-family: 'DM Serif Display', serif; font-size: 72px; color: white; margin-bottom: 6px; }
+.score-lbl { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: rgba(255,255,255,.4); letter-spacing: 2px; }
+.score-msg { font-size: 16px; color: rgba(255,255,255,.7); margin-top: 12px; line-height: 1.6; }
+
+/* Animations */
+@keyframes fadeUp { from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);} }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--sky); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+@media(max-width:900px){
+  .compare-wrap{grid-template-columns:1fr;}
+  .vs-center{display:none;}
+  .g2,.g3,.g4,.rec-pros-cons{grid-template-columns:1fr;}
+  .view{padding:20px 16px 60px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Cloud BG particles -->
+<div class="cloud-bg" id="cbg"></div>
+
+<div class="app">
+<div class="hdr-bar"></div>
+<header class="hdr"><div class="hdr-in">
+  <div class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg></div>
+    <div><div class="logo-name">STRATOS</div><div class="logo-ver">Cloud & Virtualization Simulator</div></div>
+  </div>
+  <div class="hdr-pills">
+    <div class="hpill"><div class="hdot hdot-live"></div>Interactive</div>
+    <div class="hpill">IBM IT Fundamentals</div>
+  </div>
+  <div class="hdr-r"><div class="course-chip">Virtualization & Cloud Computing</div></div>
+</div></header>
+
+<nav class="nav">
+  <button class="nb on" onclick="sv('cmp')">01 Compare</button>
+  <button class="nb" onclick="sv('vm')">02 VM Builder</button>
+  <button class="nb" onclick="sv('scl')">03 Cloud Scaler</button>
+  <button class="nb" onclick="sv('dec')">04 Decision Advisor</button>
+  <button class="nb" onclick="sv('qz')">05 Quiz</button>
+</nav>
+
+<div class="main">
+
+<!-- ══════════ M1: COMPARE ══════════ -->
+<div class="view on" id="v-cmp">
+<div class="vh">
+  <div class="vh-tag">Module 01 — Concepts</div>
+  <div class="vh-title">Virtualization vs. Cloud Computing</div>
+  <div class="vh-sub">Explore the key differences between these two foundational technologies. Click any feature category to highlight it across both columns.</div>
+</div>
+<div class="feat-btns mb24">
+  <button class="fb on" onclick="hilite('all',this)">All Features</button>
+  <button class="fb" onclick="hilite('def',this)">Definition</button>
+  <button class="fb" onclick="hilite('hw',this)">Hardware</button>
+  <button class="fb" onclick="hilite('scope',this)">Scope</button>
+  <button class="fb" onclick="hilite('access',this)">Access</button>
+  <button class="fb" onclick="hilite('control',this)">Control</button>
+  <button class="fb" onclick="hilite('use',this)">Use Cases</button>
+</div>
+<div class="compare-wrap">
+  <!-- Virtualization -->
+  <div class="compare-col virt" id="col-virt">
+    <div class="cc-icon" style="background:linear-gradient(135deg,rgba(21,101,192,.12),rgba(21,101,192,.06))">🖥️</div>
+    <div class="cc-title" style="color:var(--azure)">Virtualization</div>
+    <div class="cc-def">Creates multiple <em>virtual</em> instances or environments from a single physical hardware system. Focused on maximizing efficiency of existing physical resources.</div>
+    <div data-feat="def" class="feat-row"><div class="feat-dot" style="background:var(--azure)"></div><div><div class="feat-label">Definition</div><div class="feat-val">Divides a single physical server into multiple isolated virtual machines (VMs)</div></div></div>
+    <div data-feat="hw" class="feat-row"><div class="feat-dot" style="background:var(--azure)"></div><div><div class="feat-label">Hardware Dependency</div><div class="feat-val">Highly dependent on physical hardware — requires on-premises servers</div></div></div>
+    <div data-feat="scope" class="feat-row"><div class="feat-dot" style="background:var(--azure)"></div><div><div class="feat-label">Scope</div><div class="feat-val">Primarily focused on server or client virtualization</div></div></div>
+    <div data-feat="purpose" class="feat-row"><div class="feat-dot" style="background:var(--azure)"></div><div><div class="feat-label">Purpose</div><div class="feat-val">Maximize use of computing resources by dividing a single server into multiple VMs</div></div></div>
+    <div data-feat="access" class="feat-row"><div class="feat-dot" style="background:var(--azure)"></div><div><div class="feat-label">Access</div><div class="feat-val">Accessed through local networks or directly on the host — no internet required</div></div></div>
+    <div data-feat="control" class="feat-row"><div class="feat-dot" style="background:var(--azure)"></div><div><div class="feat-label">Control</div><div class="feat-val">More control and customization over the virtualized environment</div></div></div>
+    <div data-feat="use" class="feat-row"><div class="feat-dot" style="background:var(--azure)"></div><div><div class="feat-label">Use Cases</div><div class="feat-val">Server consolidation, running multiple OS environments, testing and development</div></div></div>
+  </div>
+
+  <!-- VS center -->
+  <div class="vs-center">
+    <div class="vs-line"></div>
+    <div class="vs-orb">vs</div>
+    <div class="vs-line"></div>
+  </div>
+
+  <!-- Cloud -->
+  <div class="compare-col cloud" id="col-cloud" style="animation-delay:.15s">
+    <div class="cc-icon" style="background:linear-gradient(135deg,rgba(0,151,167,.12),rgba(0,151,167,.06))">☁️</div>
+    <div class="cc-title" style="color:var(--cyan)">Cloud Computing</div>
+    <div class="cc-def">On-demand access to computing resources — servers, storage, databases, networking, and software — over the internet, available on pay-per-use pricing.</div>
+    <div data-feat="def" class="feat-row"><div class="feat-dot" style="background:var(--cyan)"></div><div><div class="feat-label">Definition</div><div class="feat-val">A service delivering computing resources (servers, storage, networking, software) over the internet</div></div></div>
+    <div data-feat="hw" class="feat-row"><div class="feat-dot" style="background:var(--cyan)"></div><div><div class="feat-label">Hardware Dependency</div><div class="feat-val">Minimal hardware dependency — the cloud provider manages physical infrastructure</div></div></div>
+    <div data-feat="scope" class="feat-row"><div class="feat-dot" style="background:var(--cyan)"></div><div><div class="feat-label">Scope</div><div class="feat-val">Broad — storage, processing, networking, AI, databases, and application services</div></div></div>
+    <div data-feat="purpose" class="feat-row"><div class="feat-dot" style="background:var(--cyan)"></div><div><div class="feat-label">Purpose</div><div class="feat-val">Provide scalable computing resources on demand via pay-per-use pricing</div></div></div>
+    <div data-feat="access" class="feat-row"><div class="feat-dot" style="background:var(--cyan)"></div><div><div class="feat-label">Access</div><div class="feat-val">Accessed through the internet from anywhere — enables mobility and remote usage</div></div></div>
+    <div data-feat="control" class="feat-row"><div class="feat-dot" style="background:var(--cyan)"></div><div><div class="feat-label">Control</div><div class="feat-val">Less infrastructure control — the service provider manages the underlying hardware</div></div></div>
+    <div data-feat="use" class="feat-row"><div class="feat-dot" style="background:var(--cyan)"></div><div><div class="feat-label">Use Cases</div><div class="feat-val">Web hosting, extensive data analysis, cloud-based apps, global scalability</div></div></div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:24px">
+  <div class="ch">Key Insight</div>
+  <div class="cb">
+    <div style="display:flex;gap:16px;align-items:flex-start;">
+      <div style="font-size:28px;flex-shrink:0">💡</div>
+      <div>
+        <div style="font-family:'DM Serif Display',serif;font-size:17px;color:var(--ink);margin-bottom:6px">Virtualization is the foundation of cloud computing</div>
+        <div style="font-size:14px;color:var(--slate);line-height:1.7">Cloud providers use virtualization internally to slice physical servers into virtual machines and serve multiple customers. Virtualization enables cloud computing's elasticity — but the two terms describe different layers: <strong>virtualization</strong> is the technology, while <strong>cloud computing</strong> is the service model built on top of it.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════ M2: VM BUILDER ══════════ -->
+<div class="view" id="v-vm">
+<div class="vh">
+  <div class="vh-tag">Module 02 — Virtualization</div>
+  <div class="vh-title">Virtual Machine Builder</div>
+  <div class="vh-sub">Simulate how a single physical server is divided into multiple virtual machines. Add VMs, allocate resources, and see how virtualization maximizes hardware utilization.</div>
+</div>
+<div class="g2 mb24">
+  <div>
+    <div class="server-chassis">
+      <div class="server-label">⬛ PHYSICAL SERVER — MODEL: TS-4090 PRO</div>
+      <div class="resource-bar-wrap">
+        <div class="rb-hdr"><span class="rb-label">CPU CORES</span><span class="rb-val" id="cpu-val">0 / 32 allocated</span></div>
+        <div class="rb-track"><div class="rb-fill" id="cpu-bar" style="width:0%;background:linear-gradient(90deg,#1e7ee8,#00bcd4)"></div></div>
+      </div>
+      <div class="resource-bar-wrap">
+        <div class="rb-hdr"><span class="rb-label">RAM (GB)</span><span class="rb-val" id="ram-val">0 / 128 GB allocated</span></div>
+        <div class="rb-track"><div class="rb-fill" id="ram-bar" style="width:0%;background:linear-gradient(90deg,#9b6bfa,#5ba3f5)"></div></div>
+      </div>
+      <div class="resource-bar-wrap">
+        <div class="rb-hdr"><span class="rb-label">STORAGE (TB)</span><span class="rb-val" id="disk-val">0 / 10 TB allocated</span></div>
+        <div class="rb-track"><div class="rb-fill" id="disk-bar" style="width:0%;background:linear-gradient(90deg,#00897b,#4caf50)"></div></div>
+      </div>
+      <div class="vm-grid" id="vm-grid"></div>
+    </div>
+  </div>
+  <div>
+    <div class="card mb16">
+      <div class="ch">VM Controls</div>
+      <div class="cb">
+        <div class="vm-controls">
+          <button class="vm-ctrl-btn" style="border-color:rgba(76,175,80,.4);color:#2e7d32;background:rgba(76,175,80,.08)" onclick="addVM()">+ Add VM</button>
+          <button class="vm-ctrl-btn" style="border-color:rgba(21,101,192,.4);color:var(--azure);background:var(--azure-lo)" onclick="startVM()">▶ Start Selected</button>
+          <button class="vm-ctrl-btn" style="border-color:rgba(245,124,0,.4);color:var(--amber);background:rgba(245,124,0,.08)" onclick="stopVM()">⏸ Stop Selected</button>
+          <button class="vm-ctrl-btn" style="border-color:rgba(198,40,40,.3);color:var(--red);background:rgba(198,40,40,.07)" onclick="deleteVM()">✕ Delete</button>
+        </div>
+        <div id="vm-detail" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mid);background:var(--sky2);border-radius:8px;padding:12px;line-height:2;">
+          // Select a VM to see its configuration
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch">Virtualization Benefits</div>
+      <div class="cb" style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--sky);border-radius:8px;">
+          <span style="font-size:18px">⚡</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--ink)">Server Consolidation</div><div style="font-size:12px;color:var(--mid)">Run multiple workloads on one physical machine</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--sky);border-radius:8px;">
+          <span style="font-size:18px">🔒</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--ink)">Isolation</div><div style="font-size:12px;color:var(--mid)">Each VM runs independently — one crash doesn't affect others</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--sky);border-radius:8px;">
+          <span style="font-size:18px">📸</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--ink)">Snapshots & Recovery</div><div style="font-size:12px;color:var(--mid)">Save VM states and roll back on failure</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--sky);border-radius:8px;">
+          <span style="font-size:18px">🖥️</span>
+          <div><div style="font-size:13px;font-weight:600;color:var(--ink)">OS Flexibility</div><div style="font-size:12px;color:var(--mid)">Run Windows, Linux, and macOS on the same hardware</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════ M3: CLOUD SCALER ══════════ -->
+<div class="view" id="v-scl">
+<div class="vh">
+  <div class="vh-tag">Module 03 — Cloud Computing</div>
+  <div class="vh-title">Cloud Resource Scaler</div>
+  <div class="vh-sub">Simulate spinning up cloud services on-demand. Add or remove instances of each service and see how costs scale with your usage — the pay-per-use model in action.</div>
+</div>
+<div class="g2">
+<div>
+  <div class="cloud-services-grid" id="svc-grid"></div>
+</div>
+<div>
+  <div class="cost-meter mb16">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.35);margin-bottom:10px">MONTHLY ESTIMATE</div>
+    <div class="cost-total">$<span id="cost-total">0</span></div>
+    <div class="cost-period">per month · pay-per-use pricing</div>
+    <div class="cost-breakdown" id="cost-breakdown"></div>
+    <div id="scale-badge" class="scale-type-badge" style="background:rgba(76,175,80,.2);color:#4caf50;border:1px solid rgba(76,175,80,.3)">● No services active</div>
+  </div>
+  <div class="card mb16">
+    <div class="ch">Cloud Advantages</div>
+    <div class="cb" style="font-size:13px;color:var(--slate);line-height:1.8;display:flex;flex-direction:column;gap:8px;">
+      <div>✓ <strong>Scalability</strong> — instantly add or remove resources as demand changes</div>
+      <div>✓ <strong>No upfront CapEx</strong> — pay only for what you use, when you use it</div>
+      <div>✓ <strong>Global reach</strong> — deploy in multiple regions with a few clicks</div>
+      <div>✓ <strong>Managed infrastructure</strong> — provider handles hardware maintenance</div>
+      <div>✓ <strong>High availability</strong> — built-in redundancy across data centers</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Scaling Type</div>
+    <div class="cb">
+      <div style="display:flex;gap:10px;margin-bottom:10px;">
+        <div style="flex:1;background:var(--azure-lo);border:1px solid var(--border2);border-radius:8px;padding:12px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--azure);letter-spacing:1px;margin-bottom:4px">HORIZONTAL ↔</div>
+          <div style="font-size:12px;color:var(--slate)">Add more instances of the same service (more web servers)</div>
+        </div>
+        <div style="flex:1;background:rgba(0,151,167,.07);border:1px solid rgba(0,151,167,.2);border-radius:8px;padding:12px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--cyan);letter-spacing:1px;margin-bottom:4px">VERTICAL ↕</div>
+          <div style="font-size:12px;color:var(--slate)">Increase power of existing instances (larger database)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══════════ M4: DECISION ADVISOR ══════════ -->
+<div class="view" id="v-dec">
+<div class="vh">
+  <div class="vh-tag">Module 04 — Applied Learning</div>
+  <div class="vh-title">Technology Decision Advisor</div>
+  <div class="vh-sub">Choose a business scenario and get an AI-powered recommendation: Virtualization, Cloud Computing, or a hybrid approach — with full reasoning.</div>
+</div>
+<div class="scenario-grid" id="sc-grid"></div>
+<div class="rec-panel" id="rec-panel"></div>
+</div>
+
+<!-- ══════════ M5: QUIZ ══════════ -->
+<div class="view" id="v-qz">
+<div class="vh">
+  <div class="vh-tag">Module 05 — Knowledge Check</div>
+  <div class="vh-title">Quiz: Virtualization & Cloud</div>
+  <div class="vh-sub">Test your understanding of the core concepts from this reading with 8 questions. Instant feedback on every answer.</div>
+</div>
+<div class="quiz-wrap">
+  <div class="quiz-progress" id="qprog"></div>
+  <div id="q-container"></div>
+  <div class="quiz-score" id="qscore"></div>
+</div>
+</div>
+
+</div></div><!-- /main /app -->
+
+<script>
+// ══ NAV ══
+function sv(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('v-'+id).classList.add('on');
+  document.querySelectorAll('.nb').forEach(b=>{if(b.getAttribute('onclick')?.includes("'"+id+"'"))b.classList.add('on');});
+}
+
+// ══ CLOUD BG PARTICLES ══
+(function(){
+  const cbg=document.getElementById('cbg');
+  for(let i=0;i<6;i++){
+    const d=document.createElement('div');d.className='cp';
+    const sz=120+Math.random()*160;
+    d.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*80}%;animation-duration:${30+Math.random()*40}s;animation-delay:-${Math.random()*40}s;opacity:${.3+Math.random()*.4}`;
+    cbg.appendChild(d);
+  }
+})();
+
+// ══ M1: FEATURE HIGHLIGHT ══
+function hilite(feat,btn){
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.feat-row').forEach(r=>{
+    if(feat==='all'||r.dataset.feat===feat){r.classList.add('active-feat');r.style.background='rgba(21,101,192,.06)';r.style.margin='0 -12px';r.style.padding='10px 12px';r.style.borderRadius='6px';}
+    else{r.classList.remove('active-feat');r.style.background='';r.style.margin='';r.style.padding='';r.style.borderRadius='';}
+  });
+}
+
+// ══ M2: VM BUILDER ══
+const VM_TYPES=[
+  {nm:'Web Server',ico:'🌐',cpu:4,ram:8,disk:.5,col:'#1565c0'},
+  {nm:'Database',ico:'🗄️',cpu:8,ram:32,disk:2,col:'#6a1b9a'},
+  {nm:'Dev/Test',ico:'🧪',cpu:2,ram:4,disk:.25,col:'#2e7d32'},
+  {nm:'Analytics',ico:'📊',cpu:16,ram:64,disk:3,col:'#e65100'},
+  {nm:'Mail Server',ico:'📧',cpu:2,ram:8,disk:1,col:'#00838f'},
+  {nm:'Backup',ico:'💾',cpu:1,ram:2,disk:4,col:'#4527a0'},
+];
+const PHYS={cpu:32,ram:128,disk:10};
+let vms=[],selVM=null,vmIdCtr=0;
+
+function addVM(){
+  const avCpu=PHYS.cpu-vms.reduce((s,v)=>s+v.cpu,0);
+  const avRam=PHYS.ram-vms.reduce((s,v)=>s+v.ram,0);
+  if(avCpu<1||avRam<2){alert('Not enough physical resources! This demonstrates a key limitation of virtualization — the hypervisor can only allocate real hardware resources.');return;}
+  const t=VM_TYPES[Math.floor(Math.random()*VM_TYPES.length)];
+  if(vms.reduce((s,v)=>s+v.cpu,0)+t.cpu>PHYS.cpu||vms.reduce((s,v)=>s+v.ram,0)+t.ram>PHYS.ram){
+    alert('Insufficient resources for '+t.nm+'. Try a smaller VM type.');return;
+  }
+  const id='vm-'+(++vmIdCtr);
+  vms.push({id,nm:t.nm,ico:t.ico,cpu:t.cpu,ram:t.ram,disk:t.disk,col:t.col,state:'stopped',os:['Ubuntu 22.04','Windows Server 2022','CentOS 9','Debian 12'][Math.floor(Math.random()*4)]});
+  renderVMs();updResources();
+}
+function renderVMs(){
+  const g=document.getElementById('vm-grid');g.innerHTML='';
+  vms.forEach(vm=>{
+    const d=document.createElement('div');d.className='vm-card'+(vm.id===selVM?' selected':'')+(vm.state==='running'?' running':'');
+    const sc=vm.state==='running'?'#4caf50':vm.state==='stopped'?'#9db0c8':'#f57c00';
+    d.innerHTML=`<div class="vm-icon">${vm.ico}</div><div class="vm-name">${vm.nm}</div><div class="vm-status"><span class="vm-status-dot" style="background:${sc}"></span>${vm.state.toUpperCase()}</div><div class="vm-resources">CPU: ${vm.cpu} cores<br>RAM: ${vm.ram} GB<br>Disk: ${vm.disk} TB</div>`;
+    d.addEventListener('click',()=>{selVM=vm.id;renderVMs();showVMDetail(vm);});
+    g.appendChild(d);
+  });
+  const add=document.createElement('div');add.className='add-vm-btn';add.innerHTML='+ New VM';add.onclick=addVM;
+  g.appendChild(add);
+}
+function updResources(){
+  const cpu=vms.reduce((s,v)=>s+v.cpu,0);
+  const ram=vms.reduce((s,v)=>s+v.ram,0);
+  const disk=vms.reduce((s,v)=>s+v.disk,0);
+  document.getElementById('cpu-val').textContent=`${cpu} / ${PHYS.cpu} allocated`;
+  document.getElementById('ram-val').textContent=`${ram} / ${PHYS.ram} GB allocated`;
+  document.getElementById('disk-val').textContent=`${disk.toFixed(2)} / ${PHYS.disk} TB allocated`;
+  const cpuW=Math.min(100,cpu/PHYS.cpu*100);
+  const ramW=Math.min(100,ram/PHYS.ram*100);
+  const diskW=Math.min(100,disk/PHYS.disk*100);
+  document.getElementById('cpu-bar').style.width=cpuW+'%';
+  document.getElementById('ram-bar').style.width=ramW+'%';
+  document.getElementById('disk-bar').style.width=diskW+'%';
+  if(cpuW>85)document.getElementById('cpu-bar').style.background='linear-gradient(90deg,#e53935,#ff7043)';
+}
+function showVMDetail(vm){
+  document.getElementById('vm-detail').innerHTML=`<span style="color:rgba(21,101,192,.7)">// VM Configuration</span><br>ID: <span style="color:var(--ink)">${vm.id}</span><br>Name: <span style="color:var(--ink)">${vm.nm}</span><br>OS: <span style="color:var(--ink)">${vm.os}</span><br>CPU: <span style="color:var(--ink)">${vm.cpu} vCPUs</span><br>RAM: <span style="color:var(--ink)">${vm.ram} GB</span><br>Disk: <span style="color:var(--ink)">${vm.disk} TB</span><br>State: <span style="color:${vm.state==='running'?'#2e7d32':'var(--amber)'}">${vm.state.toUpperCase()}</span>`;
+}
+function startVM(){const vm=vms.find(v=>v.id===selVM);if(vm){vm.state='running';renderVMs();if(selVM)showVMDetail(vm);}}
+function stopVM(){const vm=vms.find(v=>v.id===selVM);if(vm){vm.state='stopped';renderVMs();if(selVM)showVMDetail(vm);}}
+function deleteVM(){vms=vms.filter(v=>v.id!==selVM);selVM=null;renderVMs();updResources();document.getElementById('vm-detail').textContent='// Select a VM to see its configuration';}
+
+// ══ M3: CLOUD SCALER ══
+const SVCS=[
+  {id:'ec2',nm:'Compute Instances',ico:'⚡',type:'IaaS',unit:'instance',unitCost:50,qty:0,desc:'Virtual servers in the cloud'},
+  {id:'rds',nm:'Managed Database',ico:'🗄️',type:'PaaS',unit:'instance',unitCost:120,qty:0,desc:'Fully managed SQL/NoSQL databases'},
+  {id:'s3',nm:'Object Storage',ico:'📦',type:'IaaS',unit:'TB',unitCost:25,qty:0,desc:'Scalable file and data storage'},
+  {id:'cdn',nm:'Content Delivery',ico:'🌍',type:'SaaS',unit:'TB bandwidth',unitCost:15,qty:0,desc:'Global content distribution network'},
+  {id:'ml',nm:'AI/ML Processing',ico:'🤖',type:'PaaS',unit:'GPU hour',unitCost:200,qty:0,desc:'Machine learning model training'},
+  {id:'func',nm:'Serverless Functions',ico:'⚡',type:'PaaS',unit:'M requests',unitCost:5,qty:0,desc:'Event-driven code execution'},
+];
+let svcState={};SVCS.forEach(s=>{svcState[s.id]=0;});
+
+function renderSvcs(){
+  const g=document.getElementById('svc-grid');g.innerHTML='';
+  SVCS.forEach(s=>{
+    const qty=svcState[s.id];
+    const d=document.createElement('div');d.className='svc-card'+(qty>0?' active':'');
+    d.innerHTML=`<div class="svc-icon">${s.ico}</div><div class="svc-name">${s.nm}</div><div class="svc-type"><span class="bdg bdg-b">${s.type}</span></div><div style="font-size:12px;color:var(--mid);margin-bottom:10px">${s.desc}</div><div class="qty-ctrl"><button class="qty-btn" onclick="adjQty('${s.id}',-1)">−</button><div class="qty-val">${qty}</div><button class="qty-btn" onclick="adjQty('${s.id}',1)">+</button></div><div class="svc-cost">$${s.unitCost}/mo per ${s.unit} · ${qty>0?'Total: $'+(qty*s.unitCost)+'/mo':'Inactive'}</div>`;
+    g.appendChild(d);
+  });
+  updCost();
+}
+function adjQty(id,delta){
+  svcState[id]=Math.max(0,svcState[id]+delta);
+  renderSvcs();
+}
+function updCost(){
+  let total=0;const lines=[];
+  SVCS.forEach(s=>{
+    const qty=svcState[s.id];if(qty>0){const c=qty*s.unitCost;total+=c;lines.push({nm:s.nm,qty,c});}
+  });
+  document.getElementById('cost-total').textContent=total.toLocaleString();
+  const bd=document.getElementById('cost-breakdown');bd.innerHTML='';
+  lines.forEach(l=>{
+    bd.innerHTML+=`<div class="cost-line"><span>${l.nm} (×${l.qty})</span><span>$${l.c.toLocaleString()}/mo</span></div>`;
+  });
+  const badge=document.getElementById('scale-badge');
+  if(total===0){badge.textContent='● No services active';badge.style.background='rgba(76,175,80,.15)';badge.style.color='#4caf50';badge.style.borderColor='rgba(76,175,80,.3)';}
+  else if(total<500){badge.textContent='● Small Scale — Startup';badge.style.background='rgba(21,101,192,.12)';badge.style.color='var(--azure)';badge.style.borderColor='rgba(21,101,192,.25)';}
+  else if(total<2000){badge.textContent='● Mid Scale — SMB';badge.style.background='rgba(245,124,0,.12)';badge.style.color='var(--amber)';badge.style.borderColor='rgba(245,124,0,.25)';}
+  else{badge.textContent='● Enterprise Scale';badge.style.background='rgba(198,40,40,.1)';badge.style.color='var(--red)';badge.style.borderColor='rgba(198,40,40,.25)';}
+}
+
+// ══ M4: DECISION ADVISOR ══
+const SCENARIOS=[
+  {id:'startup',ico:'🚀',nm:'Startup Web App',desc:'A new company needs to launch a web app quickly with minimal upfront investment',
+   rec:'cloud',why:'Cloud computing is ideal for startups — zero upfront hardware costs, instant scaling, and pay-per-use pricing means you only spend when you grow.',
+   pros:['No capital expenditure','Deploy globally in minutes','Auto-scale during traffic spikes'],
+   cons:['Monthly recurring costs','Limited infrastructure control','Vendor dependency']},
+  {id:'bank',ico:'🏦',nm:'Financial Institution',desc:'A large bank needs to run regulated workloads with strict data sovereignty requirements',
+   rec:'virt',why:'Virtualization on-premises gives financial institutions the hardware control and data sovereignty they need to meet strict compliance regulations (PCI-DSS, SOX).',
+   pros:['Full data control','No internet exposure','Meets compliance requirements'],
+   cons:['High upfront hardware cost','Requires IT expertise','Limited geographic flexibility']},
+  {id:'ml',ico:'🤖',nm:'ML Training Pipeline',desc:'A research team needs massive computing power for model training, but only occasionally',
+   rec:'cloud',why:'Cloud is perfect for bursty, high-intensity workloads. Pay for GPU clusters only during training runs — no need to own expensive hardware that sits idle.',
+   pros:['Access to specialized GPUs','Pay only during training','No hardware maintenance'],
+   cons:['Data transfer costs','Internet required','Less predictable billing']},
+  {id:'hospital',ico:'🏥',nm:'Hospital Records System',desc:'A hospital needs to run patient management software securely within their network',
+   rec:'virt',why:'Healthcare data requires strict HIPAA compliance and local network isolation. Virtualization keeps patient data on-site while maximizing server efficiency.',
+   pros:['Data stays on-premises','Meets HIPAA requirements','Full network control'],
+   cons:['Requires dedicated IT staff','Higher maintenance overhead','Limited off-site access']},
+  {id:'ecommerce',ico:'🛒',nm:'E-commerce Platform',desc:'An online retailer experiences massive traffic spikes during seasonal sales',
+   rec:'cloud',why:'Cloud\'s elastic scaling was built for this scenario. Automatically scale from 10 to 10,000 servers during Black Friday, then scale back down — you only pay for what you use.',
+   pros:['Handles any traffic spike','Global CDN delivery','No over-provisioning needed'],
+   cons:['Higher costs during peak','Requires cloud architecture expertise','Monthly costs add up']},
+  {id:'devtest',ico:'🧪',nm:'Development & Testing',desc:'A software team needs isolated environments to test different OS configurations',
+   rec:'virt',why:'Virtualization excels here — developers can spin up isolated VMs with different OS versions, take snapshots, and roll back instantly without needing internet or cloud accounts.',
+   pros:['Isolated test environments','Works offline','Instant snapshots & rollback'],
+   cons:['Limited by local hardware','Less collaborative than cloud','Requires hypervisor setup']},
+];
+
+function renderScenarios(){
+  const g=document.getElementById('sc-grid');g.innerHTML='';
+  SCENARIOS.forEach(s=>{
+    const d=document.createElement('div');d.className='sc-card';d.id='sc-'+s.id;
+    d.innerHTML=`<div class="sc-emoji">${s.ico}</div><div class="sc-name">${s.nm}</div><div class="sc-desc">${s.desc}</div>`;
+    d.addEventListener('click',()=>showRec(s));
+    g.appendChild(d);
+  });
+}
+function showRec(s){
+  document.querySelectorAll('.sc-card').forEach(c=>c.classList.remove('picked'));
+  document.getElementById('sc-'+s.id).classList.add('picked');
+  const isCloud=s.rec==='cloud';
+  const col=isCloud?'var(--cyan)':'var(--azure)';
+  const bg=isCloud?'rgba(0,151,167,.1)':'rgba(21,101,192,.1)';
+  const ico=isCloud?'☁️':'🖥️';
+  const tech=isCloud?'Cloud Computing':'Virtualization';
+  const panel=document.getElementById('rec-panel');
+  panel.innerHTML=`
+    <div class="rec-header">
+      <div class="rec-badge" style="background:${bg}">${ico}</div>
+      <div>
+        <div class="rec-tech">${tech} Recommended</div>
+        <div class="rec-confidence" style="color:${col}">● High Confidence Match for this scenario</div>
+      </div>
+      <span class="bdg ${isCloud?'bdg-c':'bdg-b'}" style="margin-left:auto">${isCloud?'CLOUD':'ON-PREM'}</span>
+    </div>
+    <div class="rec-reasoning">${s.why}</div>
+    <div class="rec-pros-cons">
+      <div class="rpc rpc-pros"><div class="rpc-title">ADVANTAGES FOR THIS CASE</div>${s.pros.map(p=>`<div class="rpc-item">${p}</div>`).join('')}</div>
+      <div class="rpc rpc-cons"><div class="rpc-title">TRADEOFFS TO CONSIDER</div>${s.cons.map(c=>`<div class="rpc-item">${c}</div>`).join('')}</div>
+    </div>`;
+  panel.className='rec-panel show';
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ══ M5: QUIZ ══
+const QS=[
+  {q:'What is the primary purpose of virtualization?',opts:['To deliver software over the internet','To maximize use of computing resources by dividing a single server into VMs','To provide pay-per-use cloud services','To replace all physical hardware with virtual hardware'],ans:1,exp:'Virtualization maximizes the efficiency of physical resources by dividing a single server into multiple virtual machines — each can run its own OS and applications.'},
+  {q:'Which technology requires internet access to function?',opts:['Virtualization','Local hypervisors','Cloud computing','Virtual machines'],ans:2,exp:'Cloud computing is accessed through the internet, enabling mobility and remote access from anywhere. Virtualization can run entirely on a local network without internet.'},
+  {q:'A company wants zero upfront hardware costs and instant global scaling. Which technology fits best?',opts:['Virtualization','Local server clusters','Cloud computing','Software-defined networking'],ans:2,exp:'Cloud computing\'s pay-per-use model means no upfront capital expenditure, and its global data centers enable instant geographic scaling.'},
+  {q:'Virtualization is the _____ of cloud computing.',opts:['Customer','Competitor','Alternative','Foundation'],ans:3,exp:'Virtualization is the underlying technology that enables cloud computing. Cloud providers use hypervisors to slice physical servers into VMs and serve multiple customers simultaneously.'},
+  {q:'Which of the following is a characteristic of cloud computing that virtualization does NOT provide by default?',opts:['Resource isolation','Running multiple OS types','On-demand internet access and mobility','Creating virtual machines'],ans:2,exp:'Cloud computing is accessed through the internet from anywhere, enabling mobility. Virtualization typically requires local network or direct hardware access — it doesn\'t inherently provide internet mobility.'},
+  {q:'A hospital needs to keep patient data on-premises due to HIPAA compliance. Which solution is more appropriate?',opts:['Public cloud computing','Virtualization on local servers','SaaS applications','CDN services'],ans:1,exp:'Virtualization running on on-premises servers keeps data within the organization\'s control, meeting strict regulatory requirements like HIPAA that mandate data sovereignty.'},
+  {q:'In cloud computing, the term "pay-per-use" means:',opts:['You pay once for permanent access','You pay a fixed monthly flat rate regardless of usage','You pay based on the actual computing resources consumed','You pay in advance for estimated future usage'],ans:2,exp:'Pay-per-use (or pay-as-you-go) means you only pay for the computing resources you actually consume — similar to a utility bill for electricity.'},
+  {q:'Which of the following is a use case better suited for cloud computing than virtualization?',opts:['Running different OS versions for software testing','Consolidating 10 physical servers into 1','Hosting a globally scalable web application with unpredictable traffic','Isolating internal development environments'],ans:2,exp:'A globally scalable web application with variable traffic is the perfect cloud use case — elastic scaling handles traffic spikes, and global data centers reduce latency for users worldwide.'},
+];
+let qIdx=0,score=0,answered=[];
+
+function renderQProg(){
+  const el=document.getElementById('qprog');el.innerHTML='';
+  QS.forEach((_,i)=>{
+    const d=document.createElement('div');d.className='qp-dot'+(i<qIdx?' done':i===qIdx?' active':'');el.appendChild(d);
+  });
+}
+function renderQ(){
+  if(qIdx>=QS.length){showScore();return;}
+  const q=QS[qIdx];renderQProg();
+  const c=document.getElementById('q-container');
+  c.innerHTML=`<div class="q-card"><div class="q-num">Question ${qIdx+1} of ${QS.length}</div><div class="q-text">${q.q}</div><div class="q-opts">${q.opts.map((o,i)=>`<div class="qopt" id="opt-${i}" onclick="ansQ(${i})"><div class="qopt-idx">${['A','B','C','D'][i]}</div>${o}</div>`).join('')}</div><div class="q-feedback" id="qfb"></div></div>`;
+}
+function ansQ(i){
+  if(document.getElementById('q-container').querySelector('.answered'))return;
+  const q=QS[qIdx];const isRight=i===q.ans;
+  if(isRight)score++;
+  document.querySelectorAll('.qopt').forEach((o,idx)=>{
+    o.classList.add('answered');
+    if(idx===q.ans)o.classList.add('correct');
+    else if(idx===i&&!isRight)o.classList.add('wrong');
+  });
+  const fb=document.getElementById('qfb');
+  fb.style.background=isRight?'rgba(46,125,50,.08)':'rgba(198,40,40,.07)';
+  fb.style.border=`1px solid ${isRight?'rgba(46,125,50,.25)':'rgba(198,40,40,.2)'}`;
+  fb.style.color=isRight?'var(--green)':'var(--slate)';
+  fb.innerHTML=`<strong>${isRight?'✓ Correct!':'✗ Not quite.'}</strong> ${q.exp}`;
+  fb.classList.add('show');
+  setTimeout(()=>{qIdx++;renderQ();},2200);
+}
+function showScore(){
+  document.getElementById('q-container').innerHTML='';
+  renderQProg();
+  const pct=Math.round(score/QS.length*100);
+  const msg=pct===100?'Perfect score! You have mastered the core differences between virtualization and cloud computing.':pct>=75?'Great work! You have a solid understanding of both technologies.':pct>=50?'Good start. Review the comparison module to reinforce the key distinctions.':'Keep studying! Go back to Module 01 and 04 to strengthen your understanding.';
+  const sc=document.getElementById('qscore');
+  sc.innerHTML=`<div class="score-num">${score}/${QS.length}</div><div class="score-lbl">FINAL SCORE · ${pct}%</div><div class="score-msg">${msg}</div><button class="btn btn-p" style="margin-top:20px" onclick="restartQuiz()">↺ Retake Quiz</button>`;
+  sc.className='quiz-score show';
+}
+function restartQuiz(){qIdx=0;score=0;document.getElementById('qscore').className='quiz-score';renderQ();}
+
+// ══ INIT ══
+document.addEventListener('DOMContentLoaded',()=>{
+  renderVMs();updResources();
+  renderSvcs();
+  renderScenarios();
+  renderQ();
+  // Pre-add a sample VM to show the concept
+  setTimeout(()=>{
+    vms.push({id:'vm-demo',nm:'Web Server',ico:'🌐',cpu:4,ram:8,disk:.5,col:'#1565c0',state:'running',os:'Ubuntu 22.04'});
+    renderVMs();updResources();
+  },300);
+});
+</script>
+</body>
+</html>

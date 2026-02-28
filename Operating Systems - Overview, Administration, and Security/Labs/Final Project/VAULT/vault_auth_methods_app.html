@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAULT — Authentication Methods Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Code+Pro:wght@300;400;500;600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a080c;--bg2:#0e0b10;--surf:#13101a;--pan:#181423;--pan2:#1f1a2e;
+  --brd:#2a2440;--brd2:#3d3560;
+  --vio:#8b5cf6;--vio2:#a78bfa;--vio3:#c4b5fd;--vlo:rgba(139,92,246,.12);--vlo2:rgba(139,92,246,.06);
+  --amb:#f59e0b;--amb2:#fcd34d;--alo:rgba(245,158,11,.12);
+  --red:#ef4444;--red2:#fca5a5;--rlo:rgba(239,68,68,.1);
+  --grn:#10b981;--grn2:#6ee7b7;--glo:rgba(16,185,129,.1);
+  --blu:#3b82f6;--blu2:#93c5fd;--blo:rgba(59,130,246,.1);
+  --wht:#ede9fe;--mid:#7c6fa0;--dim:#3d3560;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--wht);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 20% 0%,rgba(139,92,246,.08) 0%,transparent 55%),
+  radial-gradient(ellipse at 80% 100%,rgba(245,158,11,.05) 0%,transparent 50%);}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(139,92,246,.02) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(139,92,246,.02) 1px,transparent 1px);
+  background-size:48px 48px;}
+.app{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh;}
+
+/* ── HEADER ── */
+.hbar{height:2px;background:linear-gradient(90deg,var(--vio),var(--amb),var(--vio));}
+.hdr{background:rgba(10,8,12,.95);border-bottom:1px solid var(--brd2);position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);}
+.hdr-in{max-width:1440px;margin:0 auto;padding:0 28px;height:60px;display:flex;align-items:center;gap:18px;}
+.logo{display:flex;align-items:center;gap:13px;flex-shrink:0;}
+.logo-gem{width:38px;height:38px;background:linear-gradient(135deg,var(--vio),#6d28d9);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(139,92,246,.35);animation:gemPulse 3s ease infinite;font-size:18px;}
+@keyframes gemPulse{0%,100%{box-shadow:0 0 18px rgba(139,92,246,.3);}50%{box-shadow:0 0 36px rgba(139,92,246,.55);}}
+.logo-nm{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;letter-spacing:3px;color:var(--wht);}
+.logo-tg{font-family:'Source Code Pro',monospace;font-size:8px;color:var(--mid);letter-spacing:2px;margin-top:2px;}
+.hpills{display:flex;gap:6px;margin-left:16px;}
+.hpill{font-family:'Source Code Pro',monospace;font-size:9px;letter-spacing:1px;padding:3px 11px;border-radius:4px;border:1px solid var(--brd2);color:var(--mid);background:var(--pan);display:flex;align-items:center;gap:5px;}
+.hdot{width:5px;height:5px;border-radius:50%;}
+.dl{background:var(--grn);box-shadow:0 0 6px var(--grn);animation:blink 1.5s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.hdr-r{margin-left:auto;}
+.course-tag{font-family:'Source Code Pro',monospace;font-size:9px;padding:4px 13px;border-radius:4px;background:var(--vlo);border:1px solid rgba(139,92,246,.3);color:var(--vio3);letter-spacing:1px;}
+
+/* ── NAV ── */
+.nav{background:rgba(13,11,16,.96);border-bottom:1px solid var(--brd);display:flex;padding:0 28px;overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nb{font-family:'Source Code Pro',monospace;font-size:9px;letter-spacing:1.5px;padding:0 16px;height:44px;color:var(--dim);cursor:pointer;border:none;background:none;text-transform:uppercase;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.nb:hover{color:var(--mid);}
+.nb.on{color:var(--vio2);border-bottom-color:var(--vio);background:var(--vlo2);}
+
+/* ── VIEWS ── */
+.main{flex:1;}
+.view{display:none;padding:30px 28px 80px;max-width:1440px;margin:0 auto;}
+.view.on{display:block;}
+.vh{margin-bottom:28px;}
+.vh-tag{font-family:'Source Code Pro',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--vio);margin-bottom:10px;display:flex;align-items:center;gap:9px;}
+.vh-tag::before{content:'';display:block;width:18px;height:1px;background:var(--vio);}
+.vh-tt{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,38px);font-weight:700;color:var(--wht);margin-bottom:7px;line-height:1.15;}
+.vh-sb{font-size:14px;color:var(--mid);line-height:1.7;max-width:700px;}
+
+/* Cards */
+.card{background:var(--surf);border:1px solid var(--brd);border-radius:10px;overflow:hidden;transition:border-color .2s;}
+.card:hover{border-color:var(--brd2);}
+.ch{padding:10px 18px;background:var(--pan);border-bottom:1px solid var(--brd);font-family:'Source Code Pro',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mid);display:flex;align-items:center;justify-content:space-between;}
+.cb{padding:18px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.mb16{margin-bottom:16px;}.mb24{margin-bottom:24px;}.mb28{margin-bottom:28px;}
+
+/* Buttons */
+.btn{font-family:'Source Code Pro',monospace;font-size:9px;letter-spacing:1.5px;padding:10px 20px;border-radius:7px;border:1px solid;cursor:pointer;text-transform:uppercase;transition:all .22s;display:inline-flex;align-items:center;gap:7px;}
+.btn-p{background:var(--vio);border-color:var(--vio);color:#fff;}
+.btn-p:hover{background:var(--vio2);box-shadow:0 0 22px rgba(139,92,246,.45);transform:translateY(-1px);}
+.btn-g{background:transparent;border-color:var(--brd2);color:var(--mid);}
+.btn-g:hover{border-color:var(--vio);color:var(--vio2);}
+.btn-a{background:var(--alo);border-color:rgba(245,158,11,.4);color:var(--amb2);}
+.btn-a:hover{background:rgba(245,158,11,.2);}
+
+/* Badges */
+.bdg{font-family:'Source Code Pro',monospace;font-size:8px;letter-spacing:1px;padding:2px 9px;border-radius:4px;border:1px solid;display:inline-flex;align-items:center;gap:4px;}
+.bdg-v{color:var(--vio2);border-color:rgba(139,92,246,.35);background:var(--vlo);}
+.bdg-a{color:var(--amb2);border-color:rgba(245,158,11,.35);background:var(--alo);}
+.bdg-g{color:var(--grn2);border-color:rgba(16,185,129,.35);background:var(--glo);}
+.bdg-r{color:var(--red2);border-color:rgba(239,68,68,.35);background:var(--rlo);}
+.bdg-b{color:var(--blu2);border-color:rgba(59,130,246,.35);background:var(--blo);}
+
+/* Progress */
+.pt{height:4px;background:var(--brd);border-radius:2px;overflow:hidden;}
+.pf{height:100%;border-radius:2px;transition:width .55s ease;}
+
+/* Terminal */
+.term{background:#070509;border:1px solid var(--brd);border-radius:8px;padding:16px;font-family:'Source Code Pro',monospace;font-size:11px;line-height:2;overflow-y:auto;}
+.tl{opacity:0;animation:tlin .16s ease forwards;}
+@keyframes tlin{from{opacity:0;transform:translateX(-5px);}to{opacity:1;transform:translateX(0);}}
+.tv{color:var(--vio2);}.ta{color:var(--amb2);}.tr{color:var(--red2);}.tg{color:var(--grn2);}.td{color:var(--dim);}.tw{color:var(--wht);}.tb{color:var(--blu2);}
+.tblink{animation:blk .7s step-end infinite;}@keyframes blk{0%,100%{opacity:1;}50%{opacity:0;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ══════════════════════
+   M1 — PROTOCOL LIBRARY
+══════════════════════ */
+.proto-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:24px;}
+.pc{
+  background:var(--surf);border:2px solid var(--brd);border-radius:12px;
+  padding:24px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;
+}
+.pc::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;pointer-events:none;
+  background:radial-gradient(ellipse at top left,var(--pc-glow,rgba(139,92,246,.1)),transparent 60%);}
+.pc:hover::after,.pc.on::after{opacity:1;}
+.pc:hover{transform:translateY(-4px);border-color:var(--pc-col,var(--brd2));}
+.pc.on{border-color:var(--pc-col,var(--vio));}
+.pc[data-id="radius"]{--pc-col:#10b981;--pc-glow:rgba(16,185,129,.1);}
+.pc[data-id="tacacs"]{--pc-col:#3b82f6;--pc-glow:rgba(59,130,246,.1);}
+.pc[data-id="kerberos"]{--pc-col:#f59e0b;--pc-glow:rgba(245,158,11,.1);}
+.pc[data-id="sso"]{--pc-col:#8b5cf6;--pc-glow:rgba(139,92,246,.12);}
+.pc-ico{font-size:34px;margin-bottom:13px;}
+.pc-nm{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;margin-bottom:4px;}
+.pc-full{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--mid);letter-spacing:1px;margin-bottom:13px;}
+.pc-desc{font-size:13px;color:var(--mid);line-height:1.65;margin-bottom:15px;}
+.pc-tags{display:flex;gap:6px;flex-wrap:wrap;}
+
+.pd{background:var(--pan);border:1px solid var(--brd2);border-radius:12px;padding:26px;display:none;animation:fadeUp .3s ease;}
+.pd.on{display:block;}
+.pdh{display:flex;align-items:center;gap:18px;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid var(--brd);}
+.pdh-ico{font-size:38px;}
+.pdh-tt{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;}
+.pdh-sub{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--mid);letter-spacing:2px;margin-top:4px;}
+.pd-body{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.pd-section label{font-family:'Source Code Pro',monospace;font-size:8px;color:var(--dim);letter-spacing:2.5px;display:block;margin-bottom:9px;text-transform:uppercase;}
+.pd-section p{font-size:13px;color:var(--mid);line-height:1.7;}
+.pd-comps{display:flex;flex-direction:column;gap:7px;}
+.pd-comp{background:var(--surf);border:1px solid var(--brd);border-radius:6px;padding:9px 13px;display:flex;align-items:center;gap:10px;font-family:'Source Code Pro',monospace;font-size:10px;color:var(--mid);}
+.pd-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.pd-foot{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.pd-foot-box{flex:1;background:var(--surf);border:1px solid var(--brd);border-radius:7px;padding:13px;}
+.pd-foot-box label{font-family:'Source Code Pro',monospace;font-size:8px;letter-spacing:2px;color:var(--dim);display:block;margin-bottom:7px;}
+.pd-foot-box p{font-size:12px;color:var(--mid);line-height:1.7;}
+
+/* ══════════════════════
+   M2 — RADIUS FLOW
+══════════════════════ */
+.flow-stage{background:#070509;border:1px solid var(--brd);border-radius:10px;padding:22px;margin-bottom:18px;position:relative;min-height:400px;}
+.flow-nodes{display:flex;align-items:center;justify-content:space-around;gap:8px;margin-bottom:24px;}
+.fn{background:var(--pan);border:2px solid var(--brd);border-radius:10px;padding:14px 16px;text-align:center;min-width:110px;flex-shrink:0;transition:all .3s;}
+.fn.lit{border-color:var(--fn-col,var(--vio));box-shadow:0 0 18px var(--fn-glow,rgba(139,92,246,.25));}
+.fn-ico{font-size:24px;margin-bottom:6px;}
+.fn-nm{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--wht);letter-spacing:1px;margin-bottom:2px;}
+.fn-sub{font-family:'Source Code Pro',monospace;font-size:8px;color:var(--mid);}
+.fa{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:50px;}
+.fa-line{height:2px;width:100%;background:var(--brd);border-radius:1px;position:relative;overflow:hidden;}
+.fa-pkt{position:absolute;top:0;left:-100%;width:40%;height:100%;border-radius:1px;transition:left .65s ease;}
+.fa-pkt.go{left:110%;}
+.fa-lbl{font-family:'Source Code Pro',monospace;font-size:8px;color:var(--mid);text-align:center;white-space:nowrap;}
+.flow-term{min-height:200px;max-height:220px;}
+.flow-ctrl{display:flex;gap:9px;align-items:center;margin-bottom:16px;}
+.fsteps{display:flex;flex-direction:column;gap:8px;}
+.fst{display:flex;align-items:flex-start;gap:12px;padding:11px 15px;background:var(--surf);border:1px solid var(--brd);border-radius:7px;opacity:.4;transition:all .3s;font-size:13px;color:var(--mid);}
+.fst.on{opacity:1;border-color:rgba(16,185,129,.45);background:rgba(16,185,129,.04);color:var(--wht);}
+.fst.done{opacity:.65;border-color:var(--brd);}
+.fst-n{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--grn2);min-width:22px;}
+
+/* ══════════════════════
+   M3 — KERBEROS LAB
+══════════════════════ */
+.kerb-nodes{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+.kn{background:var(--surf);border:2px solid var(--brd);border-radius:10px;padding:16px;text-align:center;transition:all .3s;}
+.kn.lit{border-color:var(--amb);box-shadow:0 0 20px rgba(245,158,11,.2);}
+.kn.done{border-color:rgba(16,185,129,.4);}
+.kn-ico{font-size:28px;margin-bottom:8px;}
+.kn-nm{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--wht);margin-bottom:3px;}
+.kn-abbr{font-family:'Source Code Pro',monospace;font-size:8px;color:var(--amb);letter-spacing:2px;margin-bottom:8px;}
+.kn-role{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--mid);line-height:1.6;}
+.tkt-box{background:#070509;border:1px solid var(--brd);border-radius:8px;padding:16px;min-height:150px;font-family:'Source Code Pro',monospace;font-size:10px;line-height:2;margin-bottom:16px;}
+.tkt-row{opacity:0;animation:tlin .18s ease forwards;}
+
+/* ══════════════════════
+   M4 — SSO DEMO
+══════════════════════ */
+.sso-user{background:var(--pan);border:2px solid var(--brd);border-radius:12px;padding:20px;text-align:center;transition:all .3s;}
+.sso-user.lit{border-color:var(--vio);box-shadow:0 0 20px rgba(139,92,246,.2);}
+.sso-avatar{font-size:44px;margin-bottom:10px;}
+.sso-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin-bottom:3px;}
+.sso-email{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--mid);letter-spacing:1px;margin-bottom:14px;}
+.sso-tkt{background:#070509;border:1px solid var(--brd);border-radius:6px;padding:10px 13px;font-family:'Source Code Pro',monospace;font-size:9px;transition:all .3s;color:var(--mid);text-align:left;}
+.sso-apps{display:flex;flex-direction:column;gap:8px;}
+.sso-app{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--pan);border:1px solid var(--brd);border-radius:8px;cursor:pointer;transition:all .2s;}
+.sso-app.locked{opacity:.45;cursor:not-allowed;}
+.sso-app:not(.locked):hover{border-color:var(--brd2);}
+.sso-app.accessed{border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.04);}
+.sso-app-ico{font-size:18px;}
+.sso-app-nm{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--wht);flex:1;letter-spacing:.5px;}
+.sso-app-st{font-family:'Source Code Pro',monospace;font-size:9px;}
+
+/* ══════════════════════
+   M5 — KERBEROS + AD
+══════════════════════ */
+.ad-wrap{display:flex;gap:18px;flex-wrap:wrap;}
+.ad-domain{background:var(--pan);border:2px solid var(--brd);border-radius:12px;padding:20px;flex:1;min-width:260px;transition:border-color .3s;}
+.ad-domain.lit{border-color:var(--vio);}
+.ad-dt{font-family:'Source Code Pro',monospace;font-size:9px;letter-spacing:2px;color:var(--mid);margin-bottom:14px;}
+.ad-comp{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--surf);border:1px solid var(--brd);border-radius:6px;margin-bottom:7px;transition:all .2s;}
+.ad-comp.active{border-color:rgba(139,92,246,.4);background:var(--vlo2);}
+.ad-comp-ico{font-size:16px;}
+.ad-comp-nm{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--wht);flex:1;}
+.ad-comp-st{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--mid);}
+.gp-list{display:flex;flex-direction:column;gap:7px;}
+.gp-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--surf);border:1px solid var(--brd);border-radius:6px;font-size:12px;color:var(--mid);transition:all .3s;}
+.gp-item.enforced{border-color:rgba(139,92,246,.35);color:var(--wht);}
+
+/* ══════════════════════
+   M6 — QUIZ
+══════════════════════ */
+.qbar{display:flex;gap:5px;margin-bottom:24px;}
+.qd{flex:1;height:4px;border-radius:2px;background:var(--brd);transition:background .3s;}
+.qd.done{background:var(--grn);}
+.qd.active{background:var(--vio);}
+.qcard{background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:28px;max-width:720px;margin:0 auto;animation:fadeUp .3s ease;}
+.qnum{font-family:'Source Code Pro',monospace;font-size:8px;letter-spacing:2.5px;color:var(--dim);margin-bottom:12px;}
+.qtxt{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--wht);margin-bottom:24px;line-height:1.35;}
+.qopts{display:flex;flex-direction:column;gap:9px;}
+.qopt{background:var(--pan);border:1px solid var(--brd2);border-radius:9px;padding:14px 18px;cursor:pointer;transition:all .2s;font-size:13px;color:var(--mid);display:flex;align-items:center;gap:12px;}
+.qopt:hover:not(.ans){border-color:var(--vio);color:var(--wht);}
+.qopt.correct{border-color:var(--grn);background:var(--glo);color:var(--grn2);}
+.qopt.wrong{border-color:var(--red);background:var(--rlo);color:var(--red2);}
+.qi{width:28px;height:28px;border-radius:7px;background:var(--surf);border:1px solid var(--brd);color:var(--mid);display:flex;align-items:center;justify-content:center;font-family:'Source Code Pro',monospace;font-size:10px;font-weight:600;flex-shrink:0;}
+.qfb{margin-top:15px;padding:14px;border-radius:9px;font-size:13px;line-height:1.65;display:none;animation:fadeUp .2s ease;}
+.qfb.on{display:block;}
+.qsc{background:linear-gradient(135deg,var(--bg2),var(--surf));border:2px solid var(--vio);border-radius:12px;padding:40px;max-width:720px;margin:0 auto;text-align:center;display:none;animation:fadeUp .4s ease;}
+.qsc.on{display:block;}
+.qsn{font-family:'Cormorant Garamond',serif;font-size:80px;color:var(--vio2);}
+.qsl{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--mid);letter-spacing:2px;margin-top:5px;}
+.qsm{font-size:15px;color:var(--mid);margin-top:14px;line-height:1.7;}
+
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:3px;}
+@media(max-width:900px){.proto-grid,.g2,.g3,.g4,.pd-body,.kerb-nodes{grid-template-columns:1fr;}.view{padding:16px 14px 60px;}.flow-nodes{flex-wrap:wrap;justify-content:center;gap:10px;}.fa{display:none;}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hbar"></div>
+<header class="hdr"><div class="hdr-in">
+  <div class="logo">
+    <div class="logo-gem">🔐</div>
+    <div><div class="logo-nm">VAULT</div><div class="logo-tg">Authentication Methods Simulator</div></div>
+  </div>
+  <div class="hpills">
+    <div class="hpill"><div class="hdot dl"></div>LIVE SIM</div>
+    <div class="hpill">IBM IT Security</div>
+  </div>
+  <div class="hdr-r"><div class="course-tag">AUTH METHODS · EST. 3 MIN</div></div>
+</div></header>
+<nav class="nav">
+  <button class="nb on" onclick="sv('lib')">01 Protocol Library</button>
+  <button class="nb" onclick="sv('rad')">02 RADIUS Flow</button>
+  <button class="nb" onclick="sv('kerb')">03 Kerberos Lab</button>
+  <button class="nb" onclick="sv('sso')">04 SSO Demo</button>
+  <button class="nb" onclick="sv('ad')">05 Kerberos + AD</button>
+  <button class="nb" onclick="sv('qz')">06 Quiz</button>
+</nav>
+
+<div class="main">
+
+<!-- ═══ M1: PROTOCOL LIBRARY ═══ -->
+<div class="view on" id="v-lib">
+<div class="vh"><div class="vh-tag">Module 01 — Foundations</div><div class="vh-title">Authentication Protocol Library</div><div class="vh-sb">Click any protocol card to expand its full architecture, components, and real-world use cases directly from the IBM reading.</div></div>
+
+<div class="proto-grid mb24">
+  <div class="pc" data-id="radius" onclick="showPD('radius',this)">
+    <div class="pc-ico">📡</div>
+    <div class="pc-nm" style="color:#10b981">RADIUS</div>
+    <div class="pc-full">Remote Authentication Dial-In User Service</div>
+    <div class="pc-desc">Widely used network protocol for centralized authentication, permission, and accounting. Enables remote access servers to communicate with a central RADIUS server for user authentication.</div>
+    <div class="pc-tags"><span class="bdg bdg-g">Centralized Auth</span><span class="bdg bdg-g">AAA Protocol</span><span class="bdg bdg-g">VPN</span></div>
+  </div>
+  <div class="pc" data-id="tacacs" onclick="showPD('tacacs',this)">
+    <div class="pc-ico">🖧</div>
+    <div class="pc-nm" style="color:#3b82f6">TACACS+</div>
+    <div class="pc-full">Terminal Access Controller Access Control System</div>
+    <div class="pc-desc">Separates authentication, permission, and accounting into distinct processes. TACACS+ provides more robust security with encryption and extended permission options for managing network devices.</div>
+    <div class="pc-tags"><span class="bdg bdg-b">Separate AAA</span><span class="bdg bdg-b">Encryption</span><span class="bdg bdg-b">Network Devices</span></div>
+  </div>
+  <div class="pc" data-id="kerberos" onclick="showPD('kerberos',this)">
+    <div class="pc-ico">🎫</div>
+    <div class="pc-nm" style="color:#f59e0b">Kerberos</div>
+    <div class="pc-full">Network Authentication Protocol (MIT)</div>
+    <div class="pc-desc">Robust network authentication protocol providing secure authentication across untrusted networks. Uses symmetric key cryptography, preventing eavesdropping and unauthorized access.</div>
+    <div class="pc-tags"><span class="bdg bdg-a">Ticket-Based</span><span class="bdg bdg-a">Symmetric Key</span><span class="bdg bdg-a">KDC/AS/TGS</span></div>
+  </div>
+  <div class="pc" data-id="sso" onclick="showPD('sso',this)">
+    <div class="pc-ico">🔑</div>
+    <div class="pc-nm" style="color:#8b5cf6">SSO</div>
+    <div class="pc-full">Single Sign-On with Kerberos</div>
+    <div class="pc-desc">Authentication method using a single set of login credentials to access various applications. In Windows environments, Kerberos issues a ticket used to access resources without re-entering credentials.</div>
+    <div class="pc-tags"><span class="bdg bdg-v">Single Login</span><span class="bdg bdg-v">Active Directory</span><span class="bdg bdg-v">User Experience</span></div>
+  </div>
+</div>
+
+<!-- RADIUS detail -->
+<div class="pd" id="pd-radius">
+  <div class="pdh"><div class="pdh-ico">📡</div><div><div class="pdh-tt" style="color:#10b981">RADIUS Protocol</div><div class="pdh-sub">Remote Authentication Dial-In User Service</div></div><span class="bdg bdg-g" style="margin-left:auto">RFC 2865</span></div>
+  <div class="pd-body">
+    <div><div class="pd-section"><label>How It Works</label><p>A remote access client sends credentials to a RADIUS server. The RADIUS server stores user credentials and verifies the user's identity before granting access. The server communicates back to the remote access server with Accept, Reject, or Challenge. All sessions are centrally logged for accounting.</p></div></div>
+    <div><div class="pd-section"><label>Core Components</label><div class="pd-comps">
+      <div class="pd-comp"><div class="pd-dot" style="background:#10b981"></div><span style="color:#6ee7b7">RADIUS Client</span> — Router, VPN gateway, NAS device</div>
+      <div class="pd-comp"><div class="pd-dot" style="background:#10b981"></div><span style="color:#6ee7b7">RADIUS Server</span> — Central authentication authority</div>
+      <div class="pd-comp"><div class="pd-dot" style="background:#10b981"></div><span style="color:#6ee7b7">User Database</span> — Credentials and permissions store</div>
+      <div class="pd-comp"><div class="pd-dot" style="background:#10b981"></div><span style="color:#6ee7b7">Accounting Log</span> — Session records: start, stop, usage data</div>
+    </div></div></div>
+  </div>
+  <div class="pd-foot">
+    <div class="pd-foot-box"><label>Use Cases</label><p>VPN remote access · Dial-up ISP authentication · Wi-Fi 802.1X network access control · Remote network resource access</p></div>
+    <div class="pd-foot-box"><label>Key Characteristics</label><p>Centralized authentication · Combines auth + authorization · Ports 1812/1813 · UDP transport protocol</p></div>
+  </div>
+</div>
+
+<!-- TACACS+ detail -->
+<div class="pd" id="pd-tacacs">
+  <div class="pdh"><div class="pdh-ico">🖧</div><div><div class="pdh-tt" style="color:#3b82f6">TACACS+ Protocol</div><div class="pdh-sub">Terminal Access Controller Access Control System Plus</div></div><span class="bdg bdg-b" style="margin-left:auto">Cisco Standard</span></div>
+  <div class="pd-body">
+    <div><div class="pd-section"><label>How It Works</label><p>TACACS+ separates each AAA function into independent processes — unlike RADIUS which combines them. A network admin's login request is separately authenticated (who are you?), authorized (what can you do?), and every command is accounted for. Full packet encryption protects all data in transit.</p></div></div>
+    <div><div class="pd-section"><label>The AAA Triad (Separated)</label><div class="pd-comps">
+      <div class="pd-comp"><div class="pd-dot" style="background:#3b82f6"></div><span style="color:#93c5fd">Authentication</span> — Verifies identity: "Who are you?"</div>
+      <div class="pd-comp"><div class="pd-dot" style="background:#3b82f6"></div><span style="color:#93c5fd">Permission/Authorization</span> — "What can you do?"</div>
+      <div class="pd-comp"><div class="pd-dot" style="background:#3b82f6"></div><span style="color:#93c5fd">Accounting</span> — Logs all actions performed</div>
+      <div class="pd-comp"><div class="pd-dot" style="background:#3b82f6"></div><span style="color:#93c5fd">Full Encryption</span> — Entire packet body is encrypted</div>
+    </div></div></div>
+  </div>
+  <div class="pd-foot">
+    <div class="pd-foot-box"><label>Use Cases</label><p>Router management · Switch configuration · Firewall access · Network device administration in Cisco environments</p></div>
+    <div class="pd-foot-box"><label>TACACS+ vs RADIUS</label><p>TCP vs UDP · Full body encryption vs password-only · Separated AAA vs combined · Better suited for device admin</p></div>
+  </div>
+</div>
+
+<!-- Kerberos detail -->
+<div class="pd" id="pd-kerberos">
+  <div class="pdh"><div class="pdh-ico">🎫</div><div><div class="pdh-tt" style="color:#f59e0b">Kerberos Protocol</div><div class="pdh-sub">Named for the three-headed guardian of the Underworld (KDC + AS + TGS)</div></div><span class="bdg bdg-a" style="margin-left:auto">RFC 4120 v5</span></div>
+  <div class="pd-body">
+    <div><div class="pd-section"><label>How It Works</label><p>Kerberos uses a trusted third party (the KDC) to issue time-stamped encrypted tickets. Clients prove identity using tickets — passwords never travel across the network. This prevents eavesdropping and replay attacks across untrusted networks using symmetric key cryptography.</p></div></div>
+    <div><div class="pd-section"><label>Architecture Components</label><div class="pd-comps">
+      <div class="pd-comp"><div class="pd-dot" style="background:#f59e0b"></div><span style="color:#fcd34d">KDC</span> — Key Distribution Center (trusted authority)</div>
+      <div class="pd-comp"><div class="pd-dot" style="background:#f59e0b"></div><span style="color:#fcd34d">AS</span> — Authentication Server — issues TGT</div>
+      <div class="pd-comp"><div class="pd-dot" style="background:#f59e0b"></div><span style="color:#fcd34d">TGS</span> — Ticket-Granting Service — issues service tickets</div>
+      <div class="pd-comp"><div class="pd-dot" style="background:#f59e0b"></div><span style="color:#fcd34d">TGT</span> — Ticket-Granting Ticket (user's "passport")</div>
+    </div></div></div>
+  </div>
+  <div class="pd-foot">
+    <div class="pd-foot-box"><label>Use Cases</label><p>Windows Active Directory domains · Unix/Linux Kerberos realms · Google internal systems · MIT campus networks</p></div>
+    <div class="pd-foot-box"><label>Security Features</label><p>Symmetric key cryptography · Time-stamped tickets prevent replay · No passwords over network · Mutual authentication</p></div>
+  </div>
+</div>
+
+<!-- SSO detail -->
+<div class="pd" id="pd-sso">
+  <div class="pdh"><div class="pdh-ico">🔑</div><div><div class="pdh-tt" style="color:#8b5cf6">SSO with Kerberos</div><div class="pdh-sub">Single Sign-On via Active Directory + Kerberos Integration</div></div><span class="bdg bdg-v" style="margin-left:auto">Windows AD</span></div>
+  <div class="pd-body">
+    <div><div class="pd-section"><label>How It Works</label><p>When a user logs into a Windows workstation that is part of an Active Directory domain, the workstation contacts the Active Directory domain controller. Kerberos issues a Ticket-Granting Ticket (TGT) that silently authenticates the user to all domain resources — no re-entering credentials required.</p></div></div>
+    <div><div class="pd-section"><label>Active Directory Integration</label><div class="pd-comps">
+      <div class="pd-comp"><div class="pd-dot" style="background:#8b5cf6"></div><span style="color:#c4b5fd">Domain Controller</span> — Hosts the KDC + user directory</div>
+      <div class="pd-comp"><div class="pd-dot" style="background:#8b5cf6"></div><span style="color:#c4b5fd">Group Policy</span> — Enforces security configurations</div>
+      <div class="pd-comp"><div class="pd-dot" style="background:#8b5cf6"></div><span style="color:#c4b5fd">Account Lockout</span> — Auto-disables on failed attempts</div>
+      <div class="pd-comp"><div class="pd-dot" style="background:#8b5cf6"></div><span style="color:#c4b5fd">Seamless SSO</span> — One TGT unlocks all domain resources</div>
+    </div></div></div>
+  </div>
+  <div class="pd-foot">
+    <div class="pd-foot-box"><label>Benefits</label><p>Reduced password fatigue · Consistent security policies · Centralized user management · Simplified account administration</p></div>
+    <div class="pd-foot-box"><label>Group Policy Examples</label><p>Password minimum length · Account lockout thresholds · Login hour restrictions · Audit logging · MFA enforcement</p></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ M2: RADIUS FLOW ═══ -->
+<div class="view" id="v-rad">
+<div class="vh"><div class="vh-tag">Module 02 — RADIUS Protocol</div><div class="vh-title">RADIUS Authentication Flow</div><div class="vh-sb">Step through a VPN dial-in authentication sequence. Watch packets travel between the user client, RADIUS client (VPN gateway), and the central RADIUS server — exactly as described in the IBM reading.</div></div>
+
+<div class="flow-ctrl">
+  <button class="btn btn-p" onclick="nextRad()">▶ Next Step</button>
+  <button class="btn btn-g" onclick="resetRad()">↺ Reset</button>
+  <div style="margin-left:auto;font-family:'Source Code Pro',monospace;font-size:11px;color:var(--mid)">Step <span id="rad-n">0</span> / 6</div>
+</div>
+
+<div class="flow-stage mb24">
+  <div class="flow-nodes">
+    <div class="fn" id="fn-usr" style="--fn-col:#10b981;--fn-glow:rgba(16,185,129,.2)"><div class="fn-ico">👤</div><div class="fn-nm">USER CLIENT</div><div class="fn-sub">Remote Access</div></div>
+    <div class="fa"><div class="fa-line"><div class="fa-pkt" id="fp1" style="background:linear-gradient(90deg,transparent,#10b981)"></div></div><div class="fa-lbl" id="fl1">Connection Req</div></div>
+    <div class="fn" id="fn-vpn" style="--fn-col:#3b82f6;--fn-glow:rgba(59,130,246,.2)"><div class="fn-ico">🔀</div><div class="fn-nm">VPN GATEWAY</div><div class="fn-sub">RADIUS Client</div></div>
+    <div class="fa"><div class="fa-line"><div class="fa-pkt" id="fp2" style="background:linear-gradient(90deg,transparent,#3b82f6)"></div></div><div class="fa-lbl" id="fl2">Access-Request</div></div>
+    <div class="fn" id="fn-rad" style="--fn-col:#f59e0b;--fn-glow:rgba(245,158,11,.2)"><div class="fn-ico">🗄️</div><div class="fn-nm">RADIUS SERVER</div><div class="fn-sub">Central Auth</div></div>
+    <div class="fa"><div class="fa-line"><div class="fa-pkt" id="fp3" style="background:linear-gradient(90deg,transparent,#f59e0b)"></div></div><div class="fa-lbl">DB Query</div></div>
+    <div class="fn" id="fn-db" style="--fn-col:#f59e0b;--fn-glow:rgba(245,158,11,.2)"><div class="fn-ico">💾</div><div class="fn-nm">USER DATABASE</div><div class="fn-sub">Credentials Store</div></div>
+  </div>
+  <div class="term flow-term" id="rad-term">
+    <span class="td">// RADIUS Authentication Simulation</span><br>
+    <span class="td">// Based on IBM Authentication Methods reading</span><br>
+    <span class="td">// Press "Next Step" to begin VPN login sequence</span><br>
+    <span class="tv">vault@sim:~$ </span><span class="tblink">█</span>
+  </div>
+</div>
+
+<div class="fsteps">
+  <div class="fst" id="rs0"><div class="fst-n">01</div><div><strong style="color:var(--wht)">User Connection Request</strong> — User attempts to connect to corporate VPN with credentials</div></div>
+  <div class="fst" id="rs1"><div class="fst-n">02</div><div><strong style="color:var(--wht)">Access-Request Forwarded</strong> — VPN Gateway (RADIUS Client) forwards credentials to central RADIUS Server</div></div>
+  <div class="fst" id="rs2"><div class="fst-n">03</div><div><strong style="color:var(--wht)">Database Credential Lookup</strong> — RADIUS Server queries user database to verify username and password hash</div></div>
+  <div class="fst" id="rs3"><div class="fst-n">04</div><div><strong style="color:var(--wht)">Access-Accept Returned</strong> — RADIUS Server returns Access-Accept with session attributes and policy</div></div>
+  <div class="fst" id="rs4"><div class="fst-n">05</div><div><strong style="color:var(--wht)">VPN Session Established</strong> — Gateway applies policy, opens encrypted tunnel for the user</div></div>
+  <div class="fst" id="rs5"><div class="fst-n">06</div><div><strong style="color:var(--wht)">Accounting Starts</strong> — RADIUS logs session: username, IP, timestamp, data transferred (centralized accounting)</div></div>
+</div>
+</div>
+
+<!-- ═══ M3: KERBEROS LAB ═══ -->
+<div class="view" id="v-kerb">
+<div class="vh"><div class="vh-tag">Module 03 — Kerberos Protocol</div><div class="vh-title">Kerberos Ticket Exchange Lab</div><div class="vh-sb">Simulate how the KDC, AS, and TGS issue encrypted tickets to authenticate a user without passwords ever crossing the network — the core innovation of Kerberos.</div></div>
+
+<div class="flow-ctrl">
+  <button class="btn btn-a" onclick="nextKerb()">▶ Next Step</button>
+  <button class="btn btn-g" onclick="resetKerb()">↺ Reset</button>
+  <div style="margin-left:auto;font-family:'Source Code Pro',monospace;font-size:11px;color:var(--mid)">Step <span id="kerb-n">0</span> / 6</div>
+</div>
+
+<div class="kerb-nodes">
+  <div class="kn" id="kn-c"><div class="kn-ico">💻</div><div class="kn-nm">Client</div><div class="kn-abbr">WORKSTATION</div><div class="kn-role">User's machine<br>requesting access</div></div>
+  <div class="kn" id="kn-as"><div class="kn-ico">🔐</div><div class="kn-nm">Auth Server</div><div class="kn-abbr">AS</div><div class="kn-role">Issues TGT.<br>Part of KDC</div></div>
+  <div class="kn" id="kn-tgs"><div class="kn-ico">🎟️</div><div class="kn-nm">Ticket-Granting</div><div class="kn-abbr">TGS</div><div class="kn-role">Issues service tickets.<br>Part of KDC</div></div>
+  <div class="kn" id="kn-svc"><div class="kn-ico">🗄️</div><div class="kn-nm">File Server</div><div class="kn-abbr">SERVICE</div><div class="kn-role">Target resource<br>being accessed</div></div>
+</div>
+
+<div class="tkt-box" id="kerb-tkt">
+  <span class="td">// Kerberos Ticket Exchange — Step through to observe each ticket</span><br>
+  <span class="td">// Key insight: passwords are never transmitted over the network!</span>
+</div>
+
+<div class="fsteps">
+  <div class="fst" id="ks0"><div class="fst-n">01</div><div><strong style="color:var(--wht)">AS-REQ</strong> — Client sends username and encrypted timestamp to Authentication Server (no password over network)</div></div>
+  <div class="fst" id="ks1"><div class="fst-n">02</div><div><strong style="color:var(--wht)">TGT Issued</strong> — AS verifies user exists, issues encrypted Ticket-Granting Ticket (TGT) + session key</div></div>
+  <div class="fst" id="ks2"><div class="fst-n">03</div><div><strong style="color:var(--wht)">TGS-REQ</strong> — Client presents TGT to the Ticket-Granting Service to request access to the file server</div></div>
+  <div class="fst" id="ks3"><div class="fst-n">04</div><div><strong style="color:var(--wht)">Service Ticket Issued</strong> — TGS validates TGT and issues a Service Ticket encrypted for the target service</div></div>
+  <div class="fst" id="ks4"><div class="fst-n">05</div><div><strong style="color:var(--wht)">AP-REQ to Service</strong> — Client presents Service Ticket to the file server for access</div></div>
+  <div class="fst" id="ks5"><div class="fst-n">06</div><div><strong style="color:var(--wht)">Access Granted</strong> — File server decrypts ticket, verifies session key, grants access — no password ever sent!</div></div>
+</div>
+</div>
+
+<!-- ═══ M4: SSO DEMO ═══ -->
+<div class="view" id="v-sso">
+<div class="vh"><div class="vh-tag">Module 04 — Single Sign-On</div><div class="vh-title">SSO with Kerberos Simulation</div><div class="vh-sb">Login once to your workstation. Then click each domain resource — watch SSO in action. Kerberos silently authenticates you to every service using your TGT, so you never re-enter credentials.</div></div>
+
+<div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px;">
+  <button class="btn btn-p" onclick="doSSO()">🔐 Login to Domain</button>
+  <button class="btn btn-g" onclick="resetSSO()">↺ Reset Session</button>
+  <div id="sso-status" style="margin-left:auto;font-family:'Source Code Pro',monospace;font-size:11px;color:var(--mid)">● Not authenticated</div>
+</div>
+
+<div class="g2 mb24">
+<div>
+  <div class="sso-user" id="sso-user">
+    <div class="sso-avatar">👤</div>
+    <div class="sso-name">Sarah Chen</div>
+    <div class="sso-email">sarah.chen@techsolutions.local</div>
+    <div class="sso-tkt" id="sso-tkt">No active Kerberos ticket — login first</div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="ch">Domain Controller Response Log</div>
+    <div class="cb">
+      <div class="term" id="sso-log" style="min-height:120px;max-height:160px;font-size:10px">
+        <span class="td">// Active Directory domain controller log</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <div class="card mb16">
+    <div class="ch">Domain Resources — Click any resource after login</div>
+    <div class="cb">
+      <div class="sso-apps">
+        <div class="sso-app locked" id="sa-email" onclick="accessSSO('email','Exchange Email Server','📧')"><div class="sso-app-ico">📧</div><div class="sso-app-nm">Exchange Email Server</div><div class="sso-app-st td" id="sst-email">🔒 Requires authentication</div></div>
+        <div class="sso-app locked" id="sa-files" onclick="accessSSO('files','File Server Shares','📁')"><div class="sso-app-ico">📁</div><div class="sso-app-nm">File Server (\\DC01\shares)</div><div class="sso-app-st td" id="sst-files">🔒 Requires authentication</div></div>
+        <div class="sso-app locked" id="sa-hr" onclick="accessSSO('hr','HR Information System','👥')"><div class="sso-app-ico">👥</div><div class="sso-app-nm">HR Information System</div><div class="sso-app-st td" id="sst-hr">🔒 Requires authentication</div></div>
+        <div class="sso-app locked" id="sa-intra" onclick="accessSSO('intra','SharePoint Intranet','🌐')"><div class="sso-app-ico">🌐</div><div class="sso-app-nm">SharePoint Intranet</div><div class="sso-app-st td" id="sst-intra">🔒 Requires authentication</div></div>
+        <div class="sso-app locked" id="sa-db" onclick="accessSSO('db','Project Database','🗄️')"><div class="sso-app-ico">🗄️</div><div class="sso-app-nm">Project Database</div><div class="sso-app-st td" id="sst-db">🔒 Requires authentication</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Why SSO Improves User Experience</div>
+    <div class="cb" style="font-size:13px;color:var(--mid);line-height:1.8;display:flex;flex-direction:column;gap:8px;">
+      <div>✓ <strong style="color:var(--wht)">Single login</strong> — one set of credentials for all resources</div>
+      <div>✓ <strong style="color:var(--wht)">No re-entry</strong> — Kerberos ticket handles auth silently</div>
+      <div>✓ <strong style="color:var(--wht)">Fewer passwords</strong> — reduces management burden</div>
+      <div>✓ <strong style="color:var(--wht)">Strong security</strong> — encrypted tickets, not plaintext passwords</div>
+      <div>✓ <strong style="color:var(--wht)">Centralized control</strong> — revoke access from one location</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ═══ M5: KERBEROS + AD ═══ -->
+<div class="view" id="v-ad">
+<div class="vh"><div class="vh-tag">Module 05 — Kerberos + Active Directory</div><div class="vh-title">Active Directory Integration</div><div class="vh-sb">Explore how integrating Kerberos with Active Directory enables seamless SSO, simplifies user account management, and enforces consistent security policies through Group Policy.</div></div>
+
+<div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px;">
+  <button class="btn btn-p" onclick="activateAD()">▶ Activate Domain</button>
+  <button class="btn btn-g" onclick="resetAD()">↺ Reset</button>
+</div>
+
+<div class="g2 mb20">
+<div>
+  <div class="ad-domain" id="add-dc">
+    <div class="ad-dt">🏛️ DOMAIN CONTROLLER — DC01.TECHSOLUTIONS.LOCAL</div>
+    <div class="ad-comp" id="adc-kdc"><div class="ad-comp-ico">🔐</div><div class="ad-comp-nm">Kerberos KDC (AS + TGS)</div><div class="ad-comp-st" id="adcs-kdc">● Idle</div></div>
+    <div class="ad-comp" id="adc-ad"><div class="ad-comp-ico">🗂️</div><div class="ad-comp-nm">Active Directory Database</div><div class="ad-comp-st" id="adcs-ad">● Idle</div></div>
+    <div class="ad-comp" id="adc-gp"><div class="ad-comp-ico">📋</div><div class="ad-comp-nm">Group Policy Engine</div><div class="ad-comp-st" id="adcs-gp">● Idle</div></div>
+    <div class="ad-comp" id="adc-log"><div class="ad-comp-ico">📝</div><div class="ad-comp-nm">Security Audit Logs</div><div class="ad-comp-st" id="adcs-log">● Idle</div></div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="ch">Domain Event Log</div>
+    <div class="cb">
+      <div class="term" id="ad-log" style="min-height:120px;max-height:160px;font-size:10px">
+        <span class="td">// Domain Controller event log — Activate Domain to begin</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <div class="card mb14">
+    <div class="ch">Group Policy — Enforced Security Configurations</div>
+    <div class="cb">
+      <div class="gp-list">
+        <div class="gp-item" id="gp1"><span style="font-size:16px">🔒</span><div><div style="font-weight:600;color:var(--wht);margin-bottom:2px">Password Policy</div><div style="font-size:12px">Minimum 12 chars · Complexity required · 90-day expiry</div></div></div>
+        <div class="gp-item" id="gp2"><span style="font-size:16px">🚫</span><div><div style="font-weight:600;color:var(--wht);margin-bottom:2px">Account Lockout</div><div style="font-size:12px">Lock after 5 failed attempts · 30-min lockout duration</div></div></div>
+        <div class="gp-item" id="gp3"><span style="font-size:16px">🕐</span><div><div style="font-weight:600;color:var(--wht);margin-bottom:2px">Logon Hours</div><div style="font-size:12px">Permitted Mon–Fri 7AM–8PM · Denied outside hours</div></div></div>
+        <div class="gp-item" id="gp4"><span style="font-size:16px">📊</span><div><div style="font-weight:600;color:var(--wht);margin-bottom:2px">Audit Logging</div><div style="font-size:12px">All login events, failures, and access logged</div></div></div>
+        <div class="gp-item" id="gp5"><span style="font-size:16px">🔐</span><div><div style="font-weight:600;color:var(--wht);margin-bottom:2px">MFA Enforcement</div><div style="font-size:12px">Smart card or TOTP required for privileged accounts</div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Benefits of Kerberos + AD Integration</div>
+    <div class="cb" style="font-size:13px;color:var(--mid);line-height:1.8;">
+      <div style="margin-bottom:6px">✓ Seamless authentication across Windows-based systems and services</div>
+      <div style="margin-bottom:6px">✓ Simplifies management of user accounts centrally</div>
+      <div style="margin-bottom:6px">✓ Ensures consistent security policies via Group Policy</div>
+      <div style="margin-bottom:6px">✓ Enables SSO capabilities across all network resources</div>
+      <div>✓ Comprehensive framework for authentication, permission, and access control</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ═══ M6: QUIZ ═══ -->
+<div class="view" id="v-qz">
+<div class="vh"><div class="vh-tag">Module 06 — Knowledge Assessment</div><div class="vh-title">Authentication Methods Quiz</div><div class="vh-sb">Test your understanding of RADIUS, TACACS+, Kerberos, SSO, and Active Directory. Questions drawn directly from the IBM reading.</div></div>
+<div class="qbar" id="qbar"></div>
+<div id="qcon"></div>
+<div class="qsc" id="qsc"></div>
+</div>
+
+</div></div>
+
+<script>
+// ══ NAV ══
+function sv(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));document.getElementById('v-'+id).classList.add('on');document.querySelectorAll('.nb').forEach(b=>{if(b.getAttribute('onclick')?.includes("'"+id+"'"))b.classList.add('on');});}
+
+// ══ M1: PROTOCOL LIBRARY ══
+let curPD=null;
+function showPD(id,card){
+  document.querySelectorAll('.pc').forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('.pd').forEach(d=>d.classList.remove('on'));
+  if(curPD===id){curPD=null;return;}
+  card.classList.add('on');
+  const pd=document.getElementById('pd-'+id);pd.classList.add('on');
+  pd.scrollIntoView({behavior:'smooth',block:'nearest'});
+  curPD=id;
+}
+
+// ══ M2: RADIUS ══
+let radStep=0;
+const RAD=[
+  {nodes:['fn-usr'],pkts:[],term:[['td','// Step 1: User initiates VPN connection request'],['tw','USER: sarah.chen attempting remote VPN login...'],['ta','  Credentials entered at remote client'],['td','  Request sent to VPN Gateway (10.0.0.1 / RADIUS client)']]},
+  {nodes:['fn-vpn'],pkts:['fp1'],term:[['td','// Step 2: VPN Gateway forwards to RADIUS Server'],['tw','VPN_GW → RADIUS_SERVER [Access-Request UDP/1812]'],['tv','  Code: Access-Request (1)'],['tv','  User-Name: "sarah.chen"'],['tv','  User-Password: {encrypted with shared secret}'],['tv','  NAS-IP-Address: 10.0.0.1'],['tv','  Service-Type: Framed-User']]},
+  {nodes:['fn-rad'],pkts:['fp2'],term:[['td','// Step 3: RADIUS Server queries user database'],['tw','RADIUS_SERVER → USER_DB [Credential Lookup]'],['tv','  SELECT credentials FROM users WHERE name="sarah.chen"'],['td','  Hashing received password...'],['td','  Comparing against stored hash...']]},
+  {nodes:['fn-db'],pkts:['fp3'],term:[['td','// Step 4: Access-Accept returned to VPN Gateway'],['tg','USER_DB: Match confirmed for sarah.chen'],['tw','RADIUS_SERVER → VPN_GW [Access-Accept]'],['tg','  Code: Access-Accept (2)'],['tg','  Reply-Message: "Welcome, Sarah Chen"'],['tg','  Session-Timeout: 28800s'],['tg','  Framed-IP-Address: 192.168.10.45'],['tg','  Filter-Id: "employee-policy"']]},
+  {nodes:['fn-vpn','fn-usr'],pkts:[],term:[['td','// Step 5: VPN Session Established'],['tg','[SUCCESS] Encrypted VPN tunnel opened'],['tw','VPN_GW → USER CLIENT: Session granted'],['tg','  Assigned IP: 192.168.10.45'],['tg','  Encryption: AES-256-GCM'],['tg','  Protocol: OpenVPN/IPSec'],['td','  User now has access to network resources']]},
+  {nodes:['fn-rad'],pkts:[],term:[['td','// Step 6: RADIUS Accounting begins (centralized)'],['tw','RADIUS_SERVER [Acct-Start logged]'],['tv','  Acct-Session-Id: {7a3f-b2c1-9d8e}'],['tv','  Acct-Status-Type: Start'],['tv','  User-Name: sarah.chen'],['tv','  NAS-IP-Address: 10.0.0.1'],['tg','[✓] All 3 AAA phases complete: Auth · Permission · Accounting']]},
+];
+function nextRad(){
+  if(radStep>=RAD.length)return;
+  const s=RAD[radStep];
+  document.querySelectorAll('.fn').forEach(n=>n.classList.remove('lit'));
+  s.nodes.forEach(n=>document.getElementById(n)?.classList.add('lit'));
+  s.pkts.forEach(pid=>{const p=document.getElementById(pid);if(p){p.classList.remove('go');setTimeout(()=>p.classList.add('go'),50);}});
+  const t=document.getElementById('rad-term');t.innerHTML='';
+  s.term.forEach((l,i)=>{setTimeout(()=>{const el=document.createElement('div');el.className='tl';el.innerHTML=`<span class="${l[0]}">${l[1]}</span>`;t.appendChild(el);t.scrollTop=t.scrollHeight;},i*190);});
+  document.querySelectorAll('.fst').forEach((el,i)=>{el.classList.toggle('on',i===radStep);if(i<radStep)el.classList.add('done');});
+  document.getElementById('rad-n').textContent=radStep+1;
+  radStep++;
+}
+function resetRad(){radStep=0;document.querySelectorAll('.fn').forEach(n=>n.classList.remove('lit'));document.querySelectorAll('.fa-pkt').forEach(p=>p.classList.remove('go'));document.querySelectorAll('.fst').forEach(s=>s.classList.remove('on','done'));document.getElementById('rad-term').innerHTML='<span class="td">// RADIUS Authentication Simulation</span><br><span class="td">// Press "Next Step" to begin VPN login sequence</span><br><span class="tv">vault@sim:~$ </span><span class="tblink">█</span>';document.getElementById('rad-n').textContent=0;}
+
+// ══ M3: KERBEROS ══
+let kStep=0;
+const KERB=[
+  {lit:['kn-c','kn-as'],lines:[['td','// Step 1: AS-REQ — Client contacts Authentication Server'],['tw','CLIENT → AS [AS-REQ]'],['tv','  cname: sarah.chen'],['tv','  realm: TECHSOLUTIONS.LOCAL'],['ta','  enc_timestamp: {encrypted with password hash}'],['td','  NOTE: Raw password never sent — only encrypted timestamp!']]},
+  {lit:['kn-as'],lines:[['td','// Step 2: AS-REP — Ticket-Granting Ticket (TGT) issued'],['tw','AS → CLIENT [AS-REP]'],['tv','  session_key: {KRB_ENC_KEY_0x8f2a} (for client)'],['ta','  TGT (encrypted with KDC secret — opaque to client):'],['ta','    client: sarah.chen@TECHSOLUTIONS.LOCAL'],['ta','    endtime: +10hrs from now'],['ta','    flags: FORWARDABLE, RENEWABLE'],['tg','  [✓] TGT is the user\'s "passport" for the session']]},
+  {lit:['kn-c','kn-tgs'],lines:[['td','// Step 3: TGS-REQ — Client requests service ticket'],['tw','CLIENT → TGS [TGS-REQ]'],['tv','  sname: cifs/fileserver01.techsolutions.local'],['ta','  TGT: {presented — encrypted, unreadable to client}'],['tv','  authenticator: {session_key encrypted timestamp}'],['td','  TGS verifying TGT validity and timestamp freshness...']]},
+  {lit:['kn-tgs'],lines:[['td','// Step 4: TGS-REP — Service Ticket issued'],['tw','TGS → CLIENT [TGS-REP]'],['ta','  Service Ticket (encrypted with file server\'s key):'],['ta','    client: sarah.chen@TECHSOLUTIONS.LOCAL'],['ta','    server: cifs/fileserver01'],['ta','    session_key: {SVC_KEY_0xd4e7}'],['ta','    endtime: +8hrs'],['tg','  [✓] Ticket ready — client CANNOT read it (encrypted for server)']]},
+  {lit:['kn-c','kn-svc'],lines:[['td','// Step 5: AP-REQ — Client presents ticket to file server'],['tw','CLIENT → FILE_SERVER [AP-REQ]'],['ta','  ticket: {Service Ticket — encrypted with server key}'],['tv','  authenticator: {client identity encrypted with session key}'],['td','  File server decrypting ticket with its own secret key...']]},
+  {lit:['kn-svc','kn-c'],lines:[['td','// Step 6: Access Granted — no password ever transmitted'],['tw','FILE_SERVER → CLIENT [AP-REP]'],['tg','  Ticket decrypted successfully'],['tg','  Identity verified: sarah.chen@TECHSOLUTIONS.LOCAL'],['tg','  Session key established for encrypted communication'],['tg','  [✓] ACCESS GRANTED to \\\\fileserver01\\shares'],['tg','  [✓] Symmetric key crypto prevented all eavesdropping!']]},
+];
+function nextKerb(){
+  if(kStep>=KERB.length)return;
+  const s=KERB[kStep];
+  document.querySelectorAll('.kn').forEach(n=>n.classList.remove('lit'));
+  s.lit.forEach(id=>document.getElementById(id)?.classList.add('lit'));
+  if(kStep>0)document.querySelectorAll('.kn').forEach((n,i)=>{if(i<kStep)n.classList.add('done');});
+  const td=document.getElementById('kerb-tkt');td.innerHTML='';
+  s.lines.forEach((l,i)=>{setTimeout(()=>{const el=document.createElement('div');el.className='tkt-row';el.innerHTML=`<span class="${l[0]}">${l[1]}</span>`;td.appendChild(el);td.scrollTop=td.scrollHeight;},i*180);});
+  document.querySelectorAll('#v-kerb .fst').forEach((el,i)=>{el.classList.toggle('on',i===kStep);if(i<kStep)el.classList.add('done');});
+  document.getElementById('kerb-n').textContent=kStep+1;
+  kStep++;
+}
+function resetKerb(){kStep=0;document.querySelectorAll('.kn').forEach(n=>n.classList.remove('lit','done'));document.querySelectorAll('#v-kerb .fst').forEach(s=>s.classList.remove('on','done'));document.getElementById('kerb-tkt').innerHTML='<span class="td">// Kerberos Ticket Exchange — Step through to observe each ticket</span><br><span class="td">// Key insight: passwords are never transmitted over the network!</span>';document.getElementById('kerb-n').textContent=0;}
+
+// ══ M4: SSO ══
+let ssoIn=false,ssoAccessed=new Set();
+function ssoLog(msg,cls='td'){
+  const log=document.getElementById('sso-log');
+  if(log.textContent.includes('// Active Directory'))log.innerHTML='';
+  const t=new Date().toLocaleTimeString('en-US',{hour12:false});
+  const el=document.createElement('div');el.className='tl';
+  el.innerHTML=`<span style="color:var(--dim)">[${t}]</span> <span class="${cls}">${msg}</span>`;
+  log.appendChild(el);log.scrollTop=log.scrollHeight;
+}
+function doSSO(){
+  if(ssoIn)return;
+  ssoLog('AS-REQ received from sarah.chen@TECHSOLUTIONS.LOCAL','ta');
+  document.getElementById('sso-status').textContent='● Authenticating...';
+  document.getElementById('sso-status').style.color='var(--amb)';
+  setTimeout(()=>ssoLog('Credentials verified against Active Directory database...','td'),500);
+  setTimeout(()=>ssoLog('Identity confirmed. Issuing Kerberos TGT...','td'),1000);
+  setTimeout(()=>{
+    ssoLog('[TGT ISSUED] Session key active. Expires: +10hrs','tg');
+    ssoIn=true;
+    document.getElementById('sso-tkt').textContent='🎫 Kerberos TGT Active — Expires +10 hours · Session key: {KRB_SES_0xa7f3}';
+    document.getElementById('sso-tkt').style.borderColor='rgba(139,92,246,.5)';
+    document.getElementById('sso-tkt').style.color='var(--vio2)';
+    document.getElementById('sso-user').classList.add('lit');
+    document.getElementById('sso-status').textContent='● Authenticated — TGT active';
+    document.getElementById('sso-status').style.color='var(--grn)';
+    ['sa-email','sa-files','sa-hr','sa-intra','sa-db'].forEach(id=>document.getElementById(id).classList.remove('locked'));
+  },1600);
+}
+function accessSSO(id,nm,ico){
+  if(!ssoIn){ssoLog('[DENIED] No active session — login first','tr');return;}
+  if(ssoAccessed.has(id))return;
+  ssoAccessed.add(id);
+  ssoLog(`TGS-REQ: Requesting service ticket for ${nm}...`,'tv');
+  setTimeout(()=>{ssoLog(`[SERVICE TICKET] ${nm} — authenticated via SSO, no password required!`,'tg');},700);
+  setTimeout(()=>{
+    document.getElementById('sa-'+id).classList.add('accessed');
+    document.getElementById('sst-'+id).textContent='✓ Authenticated via Kerberos SSO';
+    document.getElementById('sst-'+id).style.color='var(--grn2)';
+  },1000);
+}
+function resetSSO(){
+  ssoIn=false;ssoAccessed.clear();
+  document.getElementById('sso-tkt').textContent='No active Kerberos ticket — login first';
+  document.getElementById('sso-tkt').style.borderColor='var(--brd)';
+  document.getElementById('sso-tkt').style.color='var(--mid)';
+  document.getElementById('sso-user').classList.remove('lit');
+  document.getElementById('sso-status').textContent='● Not authenticated';
+  document.getElementById('sso-status').style.color='var(--mid)';
+  ['sa-email','sa-files','sa-hr','sa-intra','sa-db'].forEach(id=>{const el=document.getElementById(id);el.classList.add('locked');el.classList.remove('accessed');});
+  ['sst-email','sst-files','sst-hr','sst-intra','sst-db'].forEach(id=>{const el=document.getElementById(id);el.textContent='🔒 Requires authentication';el.style.color='';});
+  document.getElementById('sso-log').innerHTML='<span class="td">// Active Directory domain controller log</span>';
+}
+
+// ══ M5: KERBEROS + AD ══
+let adActive=false;
+function adLog(msg,cls='td'){
+  const log=document.getElementById('ad-log');
+  if(log.textContent.includes('// Domain Controller event log'))log.innerHTML='';
+  const el=document.createElement('div');el.className='tl';
+  el.innerHTML=`<span class="${cls}">${msg}</span>`;
+  log.appendChild(el);log.scrollTop=log.scrollHeight;
+}
+function activateAD(){
+  if(adActive)return;adActive=true;
+  const comps=[['adc-kdc','adcs-kdc','● Active — serving Kerberos tickets'],['adc-ad','adcs-ad','● Active — user directory online'],['adc-gp','adcs-gp','● Active — policies pushed'],['adc-log','adcs-log','● Logging all events']];
+  const logs=[['DC01 starting up domain services...','td'],['Kerberos KDC (AS + TGS) initialized','tv'],['Active Directory database loaded — 284 user accounts','tg'],['Group Policy Engine: pushing 23 policies to domain','ta'],['Security audit logging: enabled','tg'],['Domain TECHSOLUTIONS.LOCAL is ready to serve','tg']];
+  comps.forEach(([cid,sid,msg],i)=>{setTimeout(()=>{document.getElementById(cid).classList.add('active');document.getElementById(sid).textContent=msg;document.getElementById(sid).style.color='var(--grn2)';},i*300+200);});
+  logs.forEach(([msg,cls],i)=>{setTimeout(()=>adLog(msg,cls),i*300+100);});
+  document.getElementById('add-dc').classList.add('lit');
+  ['gp1','gp2','gp3','gp4','gp5'].forEach((id,i)=>{setTimeout(()=>document.getElementById(id).classList.add('enforced'),i*200+1200);});
+}
+function resetAD(){
+  adActive=false;
+  document.getElementById('add-dc').classList.remove('lit');
+  ['adc-kdc','adc-ad','adc-gp','adc-log'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  ['adcs-kdc','adcs-ad','adcs-gp','adcs-log'].forEach(id=>{const el=document.getElementById(id);el.textContent='● Idle';el.style.color='';});
+  ['gp1','gp2','gp3','gp4','gp5'].forEach(id=>document.getElementById(id).classList.remove('enforced'));
+  document.getElementById('ad-log').innerHTML='<span class="td">// Domain Controller event log — Activate Domain to begin</span>';
+}
+
+// ══ M6: QUIZ ══
+const QS=[
+  {q:'What does RADIUS enable remote access servers to do?',opts:['Encrypt all network traffic end-to-end','Communicate with a central RADIUS server for user authentication','Separate authentication and accounting into distinct processes','Issue Kerberos tickets to clients'],ans:1,exp:'According to the IBM reading, RADIUS enables remote access servers to communicate with a central RADIUS server for user authentication. The RADIUS server stores user credentials and verifies identity before granting access.'},
+  {q:'What makes TACACS+ an updated, more robust version of TACACS?',opts:['It combines authentication and authorization for speed','It uses UDP for faster packet delivery','It provides encryption and extended permission options','It issues Kerberos-style tickets for SSO'],ans:2,exp:'The IBM reading states that TACACS+ is an updated version of TACACS that provides more robust security measures like encryption and extended permission options. It also separates authentication, permission, and accounting processes.'},
+  {q:'What cryptographic approach does Kerberos use to authenticate clients and servers?',opts:['Asymmetric (public/private key) cryptography','Hashed passwords sent over TLS','Symmetric key cryptography','One-time password tokens'],ans:2,exp:'The IBM reading explicitly states that Kerberos uses symmetric key cryptography to authenticate clients and servers, preventing eavesdropping and unauthorized access across untrusted networks.'},
+  {q:'Which of the following is NOT listed as a component of Kerberos architecture in the IBM reading?',opts:['Key Distribution Center (KDC)','Authentication Server (AS)','Lightweight Directory Access Protocol (LDAP)','Ticket-Granting Service (TGS)'],ans:2,exp:'The IBM reading lists the Kerberos architecture components as: KDC (Key Distribution Center), AS (Authentication Server), TGS (Ticket-Granting Service), and TGT (Ticket-Granting Ticket). LDAP is not mentioned.'},
+  {q:'In a Windows environment, what does a user receive when they log in to their workstation via SSO with Kerberos?',opts:['A one-time password for each resource','An RSA private key stored in the Windows keychain','A Kerberos ticket used to access various resources without re-entering credentials','An LDAP session cookie valid for 24 hours'],ans:2,exp:'The IBM reading states: "When a user logs in to their workstation, they receive a Kerberos ticket, which they can use to access various resources without re-entering their credentials."'},
+  {q:'What does integrating Kerberos with Active Directory simplify, according to the IBM reading?',opts:['Hardware procurement and server maintenance','Management of user accounts and ensures consistent security policies','Routing of network packets between subnets','Configuration of RADIUS and TACACS+ simultaneously'],ans:1,exp:'The IBM reading states that integrating Kerberos with Active Directory "simplifies the management of user accounts, ensures consistent security policies, and enables SSO capabilities."'},
+  {q:'Which authentication method is specifically noted as managing access to network devices like routers and switches?',opts:['RADIUS','Kerberos','SSO','TACACS'],ans:3,exp:'The IBM reading states: "TACACS manages access network devices like routers and switches, ensuring only authorized administrators can configure and manage them."'},
+  {q:'According to the IBM reading, what does Active Directory\'s Group Policy allow administrators to enforce?',opts:['Network routing tables and VLAN configurations','Password policies, account lockouts, and other security configurations','Kerberos ticket expiration times across all domains','RADIUS shared secrets and NAS IP addresses'],ans:1,exp:'The IBM reading states: "Active Directory also offers additional security features such as Group Policy, which lets administrators enforce password policies, account lockouts, and other security configurations."'},
+];
+let qi=0,qs=0;
+function renderQBar(){const el=document.getElementById('qbar');el.innerHTML='';QS.forEach((_,i)=>{const d=document.createElement('div');d.className='qd'+(i<qi?' done':i===qi?' active':'');el.appendChild(d);});}
+function renderQ(){
+  if(qi>=QS.length){showQSc();return;}
+  const q=QS[qi];renderQBar();
+  document.getElementById('qcon').innerHTML=`<div class="qcard"><div class="qnum">Question ${qi+1} of ${QS.length} &nbsp;·&nbsp; IBM Authentication Methods</div><div class="qtxt">${q.q}</div><div class="qopts">${q.opts.map((o,i)=>`<div class="qopt" id="qo${i}" onclick="ansQ(${i})"><div class="qi">${['A','B','C','D'][i]}</div>${o}</div>`).join('')}</div><div class="qfb" id="qfb"></div></div>`;
+}
+function ansQ(i){
+  if(document.getElementById('qcon').querySelector('.ans'))return;
+  const q=QS[qi];const ok=i===q.ans;if(ok)qs++;
+  document.querySelectorAll('.qopt').forEach((o,idx)=>{o.classList.add('ans');if(idx===q.ans)o.classList.add('correct');else if(idx===i&&!ok)o.classList.add('wrong');});
+  const fb=document.getElementById('qfb');
+  fb.style.cssText=`background:${ok?'rgba(16,185,129,.06)':'rgba(239,68,68,.06)'};border:1px solid ${ok?'rgba(16,185,129,.25)':'rgba(239,68,68,.2)'};color:${ok?'var(--grn2)':'var(--wht)'}`;
+  fb.innerHTML=`<strong>${ok?'✓ Correct!':'✗ Incorrect.'}</strong> ${q.exp}`;
+  fb.classList.add('on');
+  setTimeout(()=>{qi++;renderQ();},2400);
+}
+function showQSc(){
+  document.getElementById('qcon').innerHTML='';renderQBar();
+  const pct=Math.round(qs/QS.length*100);
+  const msg=pct===100?'Perfect score! You have mastered all authentication methods covered in the IBM reading.':pct>=75?'Excellent work. Strong understanding of RADIUS, TACACS+, Kerberos, SSO, and Active Directory.':pct>=50?'Good progress. Review the Protocol Library and simulation modules to reinforce key concepts.':'Keep studying — revisit all 5 simulation modules and re-read the IBM article.';
+  const el=document.getElementById('qsc');
+  el.innerHTML=`<div class="qsn">${qs}/${QS.length}</div><div class="qsl">FINAL SCORE · ${pct}%</div><div class="qsm">${msg}</div><button class="btn btn-p" style="margin-top:22px" onclick="qi=0;qs=0;document.getElementById('qsc').classList.remove('on');renderQ()">↺ Retake Quiz</button>`;
+  el.classList.add('on');
+}
+
+document.addEventListener('DOMContentLoaded',()=>renderQ());
+</script>
+</body>
+</html>
