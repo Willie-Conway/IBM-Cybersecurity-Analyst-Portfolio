@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS — TechSolutions Security Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080d16;--bg2:#0b1220;--surf:#0f1929;--pan:#132034;--brd:#1e3050;--brd2:#2a4268;--blu:#2d8cf0;--blu2:#5ba8ff;--cyn:#00c8e8;--amb:#f5a623;--amb2:#ffc84a;--red:#e8404a;--red2:#ff6b73;--grn:#1fd0a0;--grn2:#4ae8c0;--wht:#e0ecff;--mid:#6b84a8;--dim:#2d4262;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--wht);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(45,140,240,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(45,140,240,.025) 1px,transparent 1px);background-size:40px 40px;}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 15% 10%,rgba(45,140,240,.09) 0%,transparent 50%),radial-gradient(ellipse at 85% 90%,rgba(0,200,232,.06) 0%,transparent 45%);}
+.app{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh;}
+.stripe{height:3px;background:linear-gradient(90deg,var(--blu),var(--cyn),var(--grn));}
+.hdr{background:rgba(8,13,22,.97);border-bottom:1px solid var(--brd2);position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);}
+.hdr-in{max-width:1440px;margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.hexmark{width:34px;height:34px;background:linear-gradient(135deg,var(--blu),var(--cyn));clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:11px;color:#fff;animation:hglow 3s ease infinite;}
+@keyframes hglow{0%,100%{filter:drop-shadow(0 0 5px rgba(45,140,240,.6));}50%{filter:drop-shadow(0 0 14px rgba(0,200,232,.8));}}
+.logo-nm{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;letter-spacing:4px;}
+.logo-tg{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--mid);letter-spacing:2px;margin-top:1px;}
+.pills{display:flex;gap:6px;margin-left:16px;}
+.pill{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;padding:3px 10px;border-radius:20px;border:1px solid var(--brd2);color:var(--mid);background:var(--pan);display:flex;align-items:center;gap:5px;}
+.dot{width:5px;height:5px;border-radius:50%;}
+.dot-live{background:var(--grn);box-shadow:0 0 5px var(--grn);animation:blink 1.4s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+.hdr-r{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.chip{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;padding:4px 12px;border-radius:3px;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.4);color:var(--amb);}
+.nav{background:rgba(11,18,32,.96);border-bottom:1px solid var(--brd);display:flex;padding:0 24px;overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nb{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:0 18px;height:42px;color:var(--dim);cursor:pointer;border:none;background:none;text-transform:uppercase;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:7px;}
+.nb:hover{color:var(--mid);}
+.nb.on{color:var(--blu2);border-bottom-color:var(--blu);background:rgba(45,140,240,.04);}
+.main{flex:1;}
+.view{display:none;padding:28px 24px 80px;max-width:1440px;margin:0 auto;}
+.view.on{display:block;}
+.vh{margin-bottom:24px;}
+.vh-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--blu);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.vh-tag::before{content:'';display:block;width:16px;height:1px;background:var(--blu);}
+.vh-tt{font-family:'Syne',sans-serif;font-size:clamp(20px,3vw,30px);font-weight:800;letter-spacing:-.5px;margin-bottom:5px;}
+.vh-sb{font-size:13px;color:var(--mid);line-height:1.65;max-width:680px;}
+.card{background:var(--surf);border:1px solid var(--brd);border-radius:8px;overflow:hidden;transition:border-color .2s;}
+.card:hover{border-color:var(--brd2);}
+.ch{padding:10px 16px;background:var(--pan);border-bottom:1px solid var(--brd);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mid);display:flex;align-items:center;justify-content:space-between;}
+.cb{padding:16px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.mb14{margin-bottom:14px;}.mb20{margin-bottom:20px;}.mb24{margin-bottom:24px;}
+.btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;padding:9px 18px;border-radius:5px;border:1px solid;cursor:pointer;text-transform:uppercase;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-p{background:var(--blu);border-color:var(--blu);color:#fff;}
+.btn-p:hover{background:var(--blu2);box-shadow:0 0 16px rgba(45,140,240,.45);}
+.btn-g{background:transparent;border-color:var(--brd2);color:var(--mid);}
+.btn-g:hover{border-color:var(--blu);color:var(--blu2);}
+.btn-r{background:rgba(232,64,74,.12);border-color:rgba(232,64,74,.5);color:var(--red2);}
+.btn-r:hover{background:rgba(232,64,74,.22);}
+.btn-ok{background:rgba(31,208,160,.1);border-color:rgba(31,208,160,.45);color:var(--grn2);}
+.bdg{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;padding:2px 9px;border-radius:20px;border:1px solid;display:inline-flex;align-items:center;gap:4px;}
+.bdg-r{color:var(--red2);border-color:rgba(232,64,74,.4);background:rgba(232,64,74,.1);}
+.bdg-g{color:var(--grn2);border-color:rgba(31,208,160,.4);background:rgba(31,208,160,.1);}
+.bdg-a{color:var(--amb2);border-color:rgba(245,166,35,.4);background:rgba(245,166,35,.1);}
+.bdg-b{color:var(--blu2);border-color:rgba(45,140,240,.4);background:rgba(45,140,240,.1);}
+.pt{height:5px;background:var(--brd);border-radius:3px;overflow:hidden;}
+.pf{height:100%;border-radius:3px;transition:width .6s ease;}
+/* TERMINAL */
+.term{background:var(--bg);border:1px solid var(--brd);border-radius:6px;padding:14px;min-height:280px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.9;color:#4adf9e;overflow-y:auto;max-height:310px;}
+.tl{opacity:0;animation:tlin .18s ease forwards;}
+@keyframes tlin{from{opacity:0;transform:translateX(-5px);}to{opacity:1;transform:translateX(0);}}
+.tr{color:var(--red2);}.ta{color:var(--amb2);}.tg{color:var(--grn2);}.tb{color:var(--blu2);}.td{color:var(--dim);}.tw{color:var(--wht);}.tp{color:var(--blu);}
+.tblink{animation:blk .7s step-end infinite;}@keyframes blk{0%,100%{opacity:1;}50%{opacity:0;}}
+.sel{font-family:'JetBrains Mono',monospace;font-size:10px;padding:8px 12px;border-radius:5px;border:1px solid var(--brd2);background:var(--pan);color:var(--wht);cursor:pointer;outline:none;}
+.sel option{background:var(--pan);}
+.oc{border:1px solid var(--brd);border-radius:6px;padding:13px 15px;margin-top:12px;display:none;}
+.oc.show{display:block;}
+.oc.blocked{border-color:rgba(31,208,160,.4);background:rgba(31,208,160,.06);}
+.oc.partial{border-color:rgba(245,166,35,.4);background:rgba(245,166,35,.06);}
+.oc.breached{border-color:rgba(232,64,74,.4);background:rgba(232,64,74,.06);}
+.srow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;}
+.sbox{background:var(--pan);border:1px solid var(--brd);border-radius:6px;padding:12px;text-align:center;}
+.sv{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;margin-bottom:2px;}
+.sl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1.5px;}
+/* RESOURCES */
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.rc{background:var(--surf);border:1px solid var(--brd);border-radius:8px;overflow:hidden;transition:all .2s;}
+.rt{padding:13px 15px;display:flex;align-items:center;gap:11px;}
+.ri{font-size:21px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:8px;flex-shrink:0;}
+.rn{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;}
+.rs{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;margin-top:2px;}
+.rb{padding:0 15px 13px;}
+.rc2{font-size:12px;color:var(--mid);margin-bottom:9px;}
+.ms{width:100%;font-family:'JetBrains Mono',monospace;font-size:10px;padding:7px 10px;background:var(--pan);border:1px solid var(--brd2);border-radius:4px;color:var(--wht);outline:none;cursor:pointer;}
+.ms option{background:var(--pan);}
+.rfb{font-family:'JetBrains Mono',monospace;font-size:10px;margin-top:8px;display:none;}
+.rfb.show{display:flex;align-items:baseline;gap:6px;}
+.asw{background:var(--pan);border:1px solid var(--brd2);border-radius:8px;padding:18px;margin-top:20px;display:none;}
+.asw.show{display:block;}
+/* FLOOR PLAN */
+.fpw{background:var(--bg2);border:1px solid var(--brd);border-radius:8px;overflow:hidden;}
+#fpC{display:block;width:100%;cursor:crosshair;}
+.fpleg{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;}
+.fpli{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mid);}
+.fpld{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.vd{background:var(--pan);border:1px solid var(--brd);border-radius:6px;padding:14px;margin-top:12px;display:none;animation:sup .22s ease;}
+.vd.show{display:block;}
+@keyframes sup{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.vdn{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:5px;}
+.vdg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.vdi label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1.5px;display:block;margin-bottom:3px;}
+.vdi p{font-size:12px;color:var(--mid);line-height:1.55;}
+.vsr{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--brd);border-radius:5px;cursor:pointer;transition:border-color .15s;margin-bottom:7px;}
+.vsr:hover{border-color:var(--brd2);}
+/* VISITOR FLOW */
+.sbar{display:flex;align-items:center;overflow-x:auto;padding-bottom:4px;margin-bottom:22px;scrollbar-width:none;}
+.sbar::-webkit-scrollbar{display:none;}
+.sit{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:70px;position:relative;}
+.sit:not(:last-child)::after{content:'';position:absolute;top:13px;left:50%;width:100%;height:2px;background:var(--brd);z-index:0;}
+.sit.dn::after{background:var(--grn);}
+.sit.ac::after{background:linear-gradient(90deg,var(--blu),var(--brd));}
+.sn{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;border:2px solid;z-index:1;background:var(--bg);transition:all .3s;}
+.sn.p{border-color:var(--dim);color:var(--dim);}
+.sn.a{border-color:var(--blu);color:var(--blu);box-shadow:0 0 0 3px rgba(45,140,240,.2);}
+.sn.d{border-color:var(--grn);background:rgba(31,208,160,.15);color:var(--grn2);}
+.slb{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.5px;color:var(--dim);text-align:center;line-height:1.3;}
+.slb.al{color:var(--blu2);}.slb.dl{color:var(--grn2);}
+.vs{background:var(--surf);border:1px solid var(--brd);border-radius:8px;padding:22px;min-height:255px;animation:sup .25s ease;}
+.vst{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;margin-bottom:14px;}
+.vfl label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--mid);letter-spacing:1.5px;display:block;margin-bottom:4px;}
+.vi{width:100%;background:var(--pan);border:1px solid var(--brd2);border-radius:4px;padding:9px 12px;color:var(--wht);font-family:'Barlow',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
+.vi:focus{border-color:var(--blu);}
+.vrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.dbtns{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.vlog{background:var(--bg);border:1px solid var(--brd);border-radius:5px;padding:10px 12px;margin-top:12px;max-height:130px;overflow-y:auto;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mid);line-height:1.9;}
+.vle{animation:tlin .2s ease;}
+.vqr{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--pan);border:1px solid var(--brd);border-radius:5px;cursor:pointer;transition:all .15s;margin-bottom:7px;}
+.vqr:hover{border-color:var(--brd2);}
+/* ROLLOUT */
+.kr{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.kc{background:var(--surf);border:1px solid var(--brd);border-radius:8px;padding:14px;text-align:center;}
+.kv{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:2px;}
+.kl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1.5px;}
+.kt{font-family:'JetBrains Mono',monospace;font-size:9px;margin-top:3px;}
+.phw{display:flex;flex-direction:column;gap:10px;}
+.phr{background:var(--surf);border:1px solid var(--brd);border-radius:7px;overflow:hidden;transition:border-color .2s;}
+.phh{display:grid;grid-template-columns:36px 1fr auto auto;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;}
+.phnum{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;background:var(--pan);color:var(--dim);flex-shrink:0;}
+.phnum.a{background:rgba(45,140,240,.18);color:var(--blu2);}
+.phnum.d{background:rgba(31,208,160,.15);color:var(--grn2);}
+.phnm{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;}
+.phwk{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);}
+.phpct{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;}
+.phdet{padding:0 16px;max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.phdet.open{max-height:280px;padding-bottom:14px;}
+.pdg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px;}
+.pdi{background:var(--pan);border-radius:4px;padding:10px 12px;}
+.pdl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1.5px;margin-bottom:4px;}
+.pdv{font-size:12px;color:var(--mid);}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:3px;}
+@media(max-width:900px){.g2,.g3,.g4,.vdg,.pdg,.kr{grid-template-columns:1fr;}.kr{grid-template-columns:1fr 1fr;}.view{padding:16px 14px 60px;}.phh{grid-template-columns:36px 1fr auto;}}
+</style>
+</head>
+<body><div class="app">
+<div class="stripe"></div>
+<header class="hdr"><div class="hdr-in">
+  <div class="logo"><div class="hexmark">N</div><div><div class="logo-nm">NEXUS</div><div class="logo-tg">Security Simulation Platform</div></div></div>
+  <div class="pills"><div class="pill"><div class="dot dot-live"></div>SIM ACTIVE</div><div class="pill">TechSolutions Inc.</div><div class="pill">W. Conway · IT Security Analyst</div></div>
+  <div class="hdr-r"><div class="chip">&#9888; ASSESSMENT: HIGH RISK</div></div>
+</div></header>
+<nav class="nav">
+  <button class="nb on" onclick="sv('atk')">01 &nbsp;MFA Attack Sim</button>
+  <button class="nb" onclick="sv('res')">02 &nbsp;Resource Access</button>
+  <button class="nb" onclick="sv('phy')">03 &nbsp;Physical Security</button>
+  <button class="nb" onclick="sv('vis')">04 &nbsp;Visitor Management</button>
+  <button class="nb" onclick="sv('rol')">05 &nbsp;MFA Rollout</button>
+</nav>
+<div class="main">
+<!-- ═══ M1: ATTACK SIM ═══ -->
+<div class="view on" id="v-atk">
+<div class="vh"><div class="vh-tag">Module 01 — Breach Simulation</div><div class="vh-tt">MFA Attack Simulator</div><div class="vh-sb">Simulate real-world credential attacks and observe how MFA blocks or allows each attempt — based on TechSolutions Inc.'s actual vulnerability analysis.</div></div>
+<div class="g2">
+<div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;">
+    <select class="sel" id="atype"><option value="phish">Phishing (Credential Theft)</option><option value="brute">Brute Force Attack</option><option value="cred">Credential Stuffing</option><option value="insider">Malicious Insider</option><option value="ctx">Anomalous Context (3AM/Foreign IP)</option></select>
+    <select class="sel" id="mtype"><option value="none">No MFA — Current State</option><option value="totp">TOTP Authenticator App</option><option value="fido2">FIDO2 Security Key</option><option value="bio">Biometric Auth</option></select>
+    <button class="btn btn-r" onclick="runAtk()">&#9654; RUN ATTACK</button>
+    <button class="btn btn-g" onclick="clrTerm()">&#8635; Clear</button>
+  </div>
+  <div class="term" id="term"><span class="td">// NEXUS Security Simulation Engine v2.6</span><br><span class="td">// TechSolutions Inc. — Authentication Framework</span><br><span class="td">// Select attack type and MFA status, then RUN ATTACK</span><br><span class="tp">nexus@sim:~$ </span><span class="tblink">&#9608;</span></div>
+  <div class="oc" id="oc"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;margin-bottom:5px;" id="oc-lbl"></div><div style="font-size:13px;color:var(--mid);line-height:1.6;" id="oc-txt"></div></div>
+</div>
+<div>
+  <div class="card mb14"><div class="ch">Attack History</div><div class="cb" id="hist" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mid);min-height:90px;line-height:2;"><span style="color:var(--dim)">// No attacks run yet</span></div></div>
+  <div class="srow">
+    <div class="sbox"><div class="sv" id="s-b" style="color:var(--grn)">0</div><div class="sl">BLOCKED</div></div>
+    <div class="sbox"><div class="sv" id="s-x" style="color:var(--red2)">0</div><div class="sl">BREACHED</div></div>
+    <div class="sbox"><div class="sv" id="s-t" style="color:var(--blu2)">0</div><div class="sl">TOTAL</div></div>
+  </div>
+  <div class="card" style="margin-top:12px;"><div class="ch">MFA Effectiveness Matrix</div><div class="cb">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;display:grid;grid-template-columns:1fr auto auto auto auto;gap:3px 10px;align-items:center;">
+      <span style="color:var(--dim);border-bottom:1px solid var(--brd);padding-bottom:4px;">ATTACK</span><span style="color:var(--dim);border-bottom:1px solid var(--brd);padding-bottom:4px;text-align:center">NONE</span><span style="color:var(--dim);border-bottom:1px solid var(--brd);padding-bottom:4px;text-align:center">TOTP</span><span style="color:var(--dim);border-bottom:1px solid var(--brd);padding-bottom:4px;text-align:center">FIDO2</span><span style="color:var(--dim);border-bottom:1px solid var(--brd);padding-bottom:4px;text-align:center">BIO</span>
+      <span style="color:var(--mid)">Phishing</span><span style="color:var(--red2);text-align:center">&#10007;</span><span style="color:var(--amb2);text-align:center">~</span><span style="color:var(--grn2);text-align:center">&#10003;</span><span style="color:var(--grn2);text-align:center">&#10003;</span>
+      <span style="color:var(--mid)">Brute Force</span><span style="color:var(--red2);text-align:center">&#10007;</span><span style="color:var(--grn2);text-align:center">&#10003;</span><span style="color:var(--grn2);text-align:center">&#10003;</span><span style="color:var(--grn2);text-align:center">&#10003;</span>
+      <span style="color:var(--mid)">Cred Stuffing</span><span style="color:var(--red2);text-align:center">&#10007;</span><span style="color:var(--grn2);text-align:center">&#10003;</span><span style="color:var(--grn2);text-align:center">&#10003;</span><span style="color:var(--grn2);text-align:center">&#10003;</span>
+      <span style="color:var(--mid)">Insider</span><span style="color:var(--red2);text-align:center">&#10007;</span><span style="color:var(--red2);text-align:center">&#10007;</span><span style="color:var(--red2);text-align:center">&#10007;</span><span style="color:var(--red2);text-align:center">&#10007;</span>
+      <span style="color:var(--mid)">Anomalous</span><span style="color:var(--red2);text-align:center">&#10007;</span><span style="color:var(--amb2);text-align:center">~</span><span style="color:var(--amb2);text-align:center">~</span><span style="color:var(--grn2);text-align:center">&#10003;</span>
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);margin-top:8px;">&#10003;=Blocked &nbsp;~=Partial &nbsp;&#10007;=Breached</div>
+  </div></div>
+</div></div></div>
+<!-- ═══ M2: RESOURCES ═══ -->
+<div class="view" id="v-res">
+<div class="vh"><div class="vh-tag">Module 02 — Access Policy Designer</div><div class="vh-tt">Resource Access Control</div><div class="vh-sb">Assign the correct MFA level to each of TechSolutions Inc.'s 8 systems. Scored against the assessment recommendations — can you get a perfect score?</div></div>
+<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:20px;">
+  <button class="btn btn-p" onclick="scoreRes()">&#9654; Score My Assessment</button>
+  <button class="btn btn-g" onclick="resetRes()">&#8635; Reset</button>
+  <div id="rscore" style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--blu2);"></div>
+</div>
+<div class="rg" id="rg"></div>
+<div class="asw" id="asw"></div>
+</div>
+<!-- ═══ M3: PHYSICAL ═══ -->
+<div class="view" id="v-phy">
+<div class="vh"><div class="vh-tag">Module 03 — Physical Security Audit</div><div class="vh-tt">Physical Security Map</div><div class="vh-sb">Click any area of the TechSolutions Inc. floor plan to inspect vulnerabilities, risk level, and remediation steps from the security assessment.</div></div>
+<div class="g2">
+<div>
+  <div class="fpw"><canvas id="fpC" height="460"></canvas></div>
+  <div class="fpleg">
+    <div class="fpli"><div class="fpld" style="background:#e8404a"></div>Critical</div>
+    <div class="fpli"><div class="fpld" style="background:#f5a623"></div>High</div>
+    <div class="fpli"><div class="fpld" style="background:#2d8cf0"></div>Medium</div>
+    <div class="fpli"><div class="fpld" style="background:#1fd0a0"></div>Low</div>
+  </div>
+</div>
+<div>
+  <div class="card mb14"><div class="ch">Vulnerability Index — Click to inspect</div><div class="cb" id="vsm"></div></div>
+  <div class="vd" id="vd">
+    <div class="vdn" id="vd-n"></div>
+    <div id="vd-p"></div>
+    <div class="vdg">
+      <div class="vdi"><label>VULNERABILITY</label><p id="vd-v"></p></div>
+      <div class="vdi"><label>POTENTIAL RISK</label><p id="vd-r"></p></div>
+      <div class="vdi"><label>REMEDIATION</label><p id="vd-m"></p></div>
+      <div class="vdi"><label>EST. COST</label><p id="vd-c"></p></div>
+    </div>
+  </div>
+</div></div></div>
+<!-- ═══ M4: VISITOR ═══ -->
+<div class="view" id="v-vis">
+<div class="vh"><div class="vh-tag">Module 04 — Visitor Management Simulation</div><div class="vh-tt">Visitor Check-In Flow</div><div class="vh-sb">Step through the redesigned visitor management protocol for TechSolutions Inc. Make security decisions at each gate to practice correct procedures.</div></div>
+<div class="g2">
+<div>
+  <div class="sbar" id="sbar"></div>
+  <div class="vs" id="vs"><div style="color:var(--mid);font-size:13px;padding:20px 0;">&#8592; Select a visitor from the queue to begin</div></div>
+  <div class="vlog" id="vlog"><div style="color:var(--dim)">// Visitor management log — start a simulation...</div></div>
+</div>
+<div>
+  <div class="card mb14"><div class="ch">Today's Visitor Queue</div><div class="cb" id="vq"></div></div>
+  <div class="card"><div class="ch">Badge Type Reference</div><div class="cb" style="font-family:'JetBrains Mono',monospace;font-size:10px;">
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:3px 12px;align-items:center;line-height:2.2;">
+      <span style="padding:1px 7px;border-radius:3px;background:rgba(255,255,255,.08);color:#fff;font-size:9px">WHITE</span><span style="color:var(--mid)">One-day visitor (escort required)</span>
+      <span style="padding:1px 7px;border-radius:3px;background:rgba(255,200,74,.18);color:var(--amb2);font-size:9px">YELLOW</span><span style="color:var(--mid)">Multi-day visitor (limited RFID)</span>
+      <span style="padding:1px 7px;border-radius:3px;background:rgba(255,140,50,.18);color:#ff9a50;font-size:9px">ORANGE</span><span style="color:var(--mid)">Short-term contractor</span>
+      <span style="padding:1px 7px;border-radius:3px;background:rgba(45,140,240,.18);color:var(--blu2);font-size:9px">BLUE</span><span style="color:var(--mid)">Long-term contractor</span>
+      <span style="padding:1px 7px;border-radius:3px;background:rgba(232,64,74,.18);color:var(--red2);font-size:9px">RED</span><span style="color:var(--mid)">Emergency services only</span>
+    </div>
+  </div></div>
+</div></div></div>
+<!-- ═══ M5: ROLLOUT ═══ -->
+<div class="view" id="v-rol">
+<div class="vh"><div class="vh-tag">Module 05 — Implementation Tracker</div><div class="vh-tt">MFA Rollout Dashboard</div><div class="vh-sb">Track TechSolutions Inc.'s 5-phase MFA implementation. Advance the timeline to see enrollment progress across all departments and systems.</div></div>
+<div class="kr" id="kr"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;">
+  <button class="btn btn-p" onclick="advRol()">&#9654; Advance Phase</button>
+  <button class="btn btn-g" onclick="rstRol()">&#8635; Reset</button>
+  <div style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mid)">Week <span id="rwk">0</span> / 12</div>
+</div>
+<div class="pt mb24" style="height:8px;"><div class="pf" id="opf" style="width:0%;background:linear-gradient(90deg,var(--blu),var(--grn));"></div></div>
+<div class="phw" id="phw"></div>
+</div>
+</div></div>
+<script>
+// ═══ NAV ═══
+function sv(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('v-'+id).classList.add('on');
+  document.querySelectorAll('.nb').forEach(b=>{if(b.getAttribute('onclick')?.includes("'"+id+"'"))b.classList.add('on');});
+}
+
+// ═══ M1: ATTACK SIMULATOR ═══
+const ATKS={
+  phish:{
+    lbl:'PHISHING ATTACK — Credential Theft via Deceptive Email',
+    steps:[['td','// Initiating phishing simulation...'],['td','// Target: TechSolutions 200-user employee base'],['tr','[ATTACKER] Crafting email: "IT: Urgent — Password Reset Required"'],['tr','[ATTACKER] Deploying fake portal: techsolutions-secure-login.com'],['tr','[ATTACKER] Sending to 200 employees — 23 clicks detected'],['ta','[CAPTURE]  Credentials stolen: sarah.chen@techsolutions.com'],['ta','[CAPTURE]  Password "Techsol2024!" confirmed via fake portal'],['tr','[ATTACKER] Attempting login to corporate email system...']],
+    out:{none:{r:'BREACH',t:'NO MFA — Access granted immediately. Attacker enters corporate email; lateral movement begins across all systems sharing these credentials.'},totp:{r:'PARTIAL',t:'TOTP — Partial mitigation only. Attacker launches real-time OTP relay attack. Sophisticated adversaries can still intercept TOTP codes. FIDO2 required for full phishing resistance.'},fido2:{r:'BLOCKED',t:'FIDO2 KEY — BLOCKED. Key validates the domain before responding — fake site cannot trigger authentication. Phishing completely defeated.'},bio:{r:'BLOCKED',t:'BIOMETRIC — BLOCKED. Requires physical presence on enrolled device. Attacker cannot replicate biometric factor remotely.'}}
+  },
+  brute:{
+    lbl:'BRUTE FORCE ATTACK — Automated Password Guessing',
+    steps:[['td','// Initiating brute force attack simulation...'],['td','// Wordlist: rockyou2024 — 10 billion entries'],['tr','[TOOL]     Hydra v9.4 — HTTP POST against email login portal'],['tr','[ATTEMPT]  admin:password123 — FAIL'],['tr','[ATTEMPT]  sarah.chen:TechSolutions1 — FAIL'],['tr','[ATTEMPT]  sarah.chen:Techsol2024! — SUCCESS'],['ta','[FOUND]    Valid credentials identified after 847 attempts'],['tr','[ATTACKER] Submitting credentials to email login...']],
+    out:{none:{r:'BREACH',t:'NO MFA — Brute force succeeded. Access granted; all systems using same credentials now accessible.'},totp:{r:'BLOCKED',t:'TOTP — BLOCKED. Correct password is insufficient without the time-based 6-digit code from enrolled device. Attack halted.'},fido2:{r:'BLOCKED',t:'FIDO2 — BLOCKED. Physical key not present; cryptographic challenge cannot be completed. Attack stopped cold.'},bio:{r:'BLOCKED',t:'BIOMETRIC — BLOCKED. Correct password insufficient alone. Biometric verification required on enrolled device.'}}
+  },
+  cred:{
+    lbl:'CREDENTIAL STUFFING — Exploiting External Data Breach',
+    steps:[['td','// Initiating credential stuffing simulation...'],['td','// Using combo list from 2024 LinkedIn breach (500M records)'],['tr','[TOOL]     OpenBullet 2 — automated credential testing'],['ta','[FOUND]    sarah.chen@techsolutions.com in breach database'],['ta','[FOUND]    Reused password from external breach: "Summer2023#"'],['tr','[TEST]     sarah.chen / Summer2023# against email — testing...'],['tr','[TEST]     sarah.chen / Summer2023# against HR system — testing...'],['ta','[RESULT]   Credential match confirmed on multiple systems']],
+    out:{none:{r:'BREACH',t:'NO MFA — Multiple breaches. Reused credentials accessed email, cloud storage, and project tools simultaneously.'},totp:{r:'BLOCKED',t:'TOTP — BLOCKED. Reused password alone is not enough. TOTP code required from enrolled device — attacker cannot generate it.'},fido2:{r:'BLOCKED',t:'FIDO2 — BLOCKED. No hardware key, no access. Password reuse risk completely eliminated.'},bio:{r:'BLOCKED',t:'BIOMETRIC — BLOCKED. Password reuse risk neutralized. Biometric gate prevents entry across all systems.'}}
+  },
+  insider:{
+    lbl:'MALICIOUS INSIDER — Authorized Credentials, Hostile Intent',
+    steps:[['td','// Initiating malicious insider simulation...'],['ta','[ACTOR]    Michael Torres — Finance Analyst (terminated yesterday)'],['tr','[PROBLEM]  Account not deprovisioned — IT backlog: 48 hours'],['tr','[ACCESS]   Insider using own valid credentials: m.torres@techsolutions.com'],['ta','[ACTION]   Login attempt: 11:14 PM from personal laptop'],['ta','[ACTION]   Exporting client database CSV from CRM system'],['tr','[ACTION]   Downloading payroll records from HR system'],['tr','[EXFIL]    Uploading to personal Google Drive via browser...']],
+    out:{none:{r:'BREACH',t:'NO MFA — Full access. Insider successfully exfiltrated client and payroll data. No detection until next business day.'},totp:{r:'BREACH',t:'TOTP — BREACH. Insider owns their own enrolled phone and generates valid OTPs. MFA alone cannot stop authorized users with malicious intent — requires tight HR/IT deprovisioning.'},fido2:{r:'BREACH',t:'FIDO2 — BREACH. Insider has their own registered security key. MFA does not prevent authorized users from abusing their own credentials. Deprovisioning SLAs are critical.'},bio:{r:'BLOCKED',t:'BIOMETRIC + Deprovisioning — BLOCKED (if HR-IT integration is tight). Biometric profile deactivated at termination. Requires <1hr deprovisioning SLA between HR and IT systems.'}}
+  },
+  ctx:{
+    lbl:'ANOMALOUS CONTEXT — Impossible Travel / Suspicious Login',
+    steps:[['td','// Initiating anomalous context attack simulation...'],['ta','[ATTACKER] Using credentials stolen in prior phishing attack'],['tr','[CONTEXT]  Login attempt: 3:14 AM EST'],['tr','[CONTEXT]  Location: Bucharest, Romania (IP: 185.220.101.x)'],['tr','[CONTEXT]  User last logged in: Chicago IL — 4 hours ago'],['ta','[FLAG]     Geographic impossibility — 7,000 miles in 4 hours'],['ta','[FLAG]     Time anomaly — 3 AM outside normal login window'],['ta','[FLAG]     Unknown device fingerprint / browser']],
+    out:{none:{r:'BREACH',t:'NO MFA / No Context Awareness — All red flags ignored. Full access granted despite clear impossible travel. Breach undetected until exfiltration complete.'},totp:{r:'PARTIAL',t:'TOTP + Context — Partial. OTP codes can still be relayed in real-time by attacker. Must combine TOTP with risk-based conditional access policies that block impossible travel scenarios.'},fido2:{r:'PARTIAL',t:'FIDO2 + Context — Partial. FIDO2 blocks unknown devices, but if attacker has the physical key (stolen device), location does not matter. Pair with geofencing and risk-based session controls.'},bio:{r:'BLOCKED',t:'BIOMETRIC + Risk-Based Auth — BLOCKED. Biometric requires local enrolled device. Impossible travel detection triggers re-verification. Geographic block prevents login from Bucharest.'}}
+  }
+};
+let stats={b:0,x:0,t:0};
+
+function runAtk(){
+  const at=document.getElementById('atype').value,mt=document.getElementById('mtype').value;
+  const atk=ATKS[at],out=atk.out[mt];
+  const term=document.getElementById('term');
+  term.innerHTML='';
+  document.getElementById('oc').className='oc';
+  const lines=[['td','// ──────────────────────────────────────'],['tb','// '+atk.lbl],['td','// MFA: '+mt.toUpperCase()],['td','// ──────────────────────────────────────'],...atk.steps];
+  let d=0;
+  lines.forEach(([cls,txt])=>{
+    setTimeout(()=>{
+      const el=document.createElement('div');el.className='tl';
+      el.innerHTML=`<span class="${cls}">${txt}</span>`;
+      term.appendChild(el);term.scrollTop=term.scrollHeight;
+    },d);d+=210+Math.random()*70;
+  });
+  setTimeout(()=>{
+    const isB=out.r==='BLOCKED',isP=out.r==='PARTIAL',isX=out.r==='BREACH';
+    const rl=document.createElement('div');rl.className='tl';
+    const c=isB?'tg':isP?'ta':'tr';
+    const sym=isB?'✓ BLOCKED':isP?'~ PARTIAL':'✗ BREACHED';
+    rl.innerHTML=`<span class="${c}" style="font-size:13px;font-weight:600">[RESULT] ${sym}</span>`;
+    term.appendChild(rl);
+    const pl=document.createElement('div');pl.className='tl';
+    pl.innerHTML=`<span class="tp">nexus@sim:~$ </span><span class="tblink">█</span>`;
+    term.appendChild(pl);term.scrollTop=term.scrollHeight;
+    const oc=document.getElementById('oc');
+    oc.className='oc show '+(isB?'blocked':isP?'partial':'breached');
+    const lc=isB?'var(--grn2)':isP?'var(--amb2)':'var(--red2)';
+    document.getElementById('oc-lbl').textContent='// RESULT: '+out.r;
+    document.getElementById('oc-lbl').style.color=lc;
+    document.getElementById('oc-txt').textContent=out.t;
+    stats.t++;if(isB)stats.b++;else if(isX)stats.x++;
+    document.getElementById('s-b').textContent=stats.b;
+    document.getElementById('s-x').textContent=stats.x;
+    document.getElementById('s-t').textContent=stats.t;
+    const hist=document.getElementById('hist');
+    if(hist.querySelector('span'))hist.innerHTML='';
+    const he=document.createElement('div');
+    he.style.cssText='margin-bottom:4px;display:flex;gap:8px;';
+    he.innerHTML=`<span style="color:${lc};min-width:68px">${out.r}</span><span style="color:var(--mid);font-size:9px">${at}/${mt}</span>`;
+    hist.insertBefore(he,hist.firstChild);
+  },d+350);
+}
+function clrTerm(){
+  document.getElementById('term').innerHTML='<span class="td">// Terminal cleared — ready for new simulation</span><br><span class="tp">nexus@sim:~$ </span><span class="tblink">█</span>';
+  document.getElementById('oc').className='oc';
+}
+
+// ═══ M2: RESOURCES ═══
+const RSCS=[
+  {id:'email',ico:'📧',nm:'Corporate Email',sens:'High',cur:'Username + Password',correct:'required',col:'#e8404a'},
+  {id:'db',ico:'🗄️',nm:'Internal Databases',sens:'High',cur:'Username + Password',correct:'required',col:'#e8404a'},
+  {id:'cloud',ico:'☁️',nm:'Cloud Storage',sens:'High',cur:'Username + Password',correct:'required',col:'#e8404a'},
+  {id:'hr',ico:'👥',nm:'HR Systems',sens:'High',cur:'Username + Password',correct:'required',col:'#e8404a'},
+  {id:'crm',ico:'💼',nm:'CRM Software',sens:'High',cur:'Username + Password',correct:'required',col:'#e8404a'},
+  {id:'pm',ico:'📋',nm:'Project Mgmt Tools',sens:'Medium',cur:'Username + Password',correct:'required',col:'#f5a623'},
+  {id:'dev',ico:'💻',nm:'Dev Environments',sens:'High',cur:'SSH Keys (unmanaged)',correct:'required',col:'#e8404a'},
+  {id:'intra',ico:'🌐',nm:'Intranet & Wiki',sens:'Low-Med',cur:'Username + Password',correct:'recommended',col:'#2d8cf0'},
+];
+let rsel={};
+function renderRes(){
+  const g=document.getElementById('rg');g.innerHTML='';
+  RSCS.forEach(r=>{
+    const sc={High:'var(--red2)',Medium:'var(--amb2)','Low-Med':'var(--blu2)'}[r.sens]||'var(--mid)';
+    const d=document.createElement('div');d.className='rc';d.id='rc-'+r.id;
+    d.innerHTML=`<div class="rt"><div class="ri" style="background:${r.col}15;border:1px solid ${r.col}30">${r.ico}</div><div><div class="rn">${r.nm}</div><div class="rs" style="color:${sc}">${r.sens} Sensitivity</div></div></div><div class="rb"><div class="rc2">Current: <span style="color:var(--amb2)">${r.cur}</span></div><select class="ms" id="sel-${r.id}" onchange="rsel['${r.id}']=this.value"><option value="">— Select MFA Level —</option><option value="not-needed">Not Needed</option><option value="recommended">Recommended</option><option value="required">Required</option></select><div class="rfb" id="rfb-${r.id}"></div></div>`;
+    g.appendChild(d);
+  });
+}
+function scoreRes(){
+  let ok=0;
+  RSCS.forEach(r=>{
+    const v=document.getElementById('sel-'+r.id)?.value||'';
+    const fb=document.getElementById('rfb-'+r.id);
+    const card=document.getElementById('rc-'+r.id);
+    if(!v){fb.className='rfb';return;}
+    fb.className='rfb show';
+    const good=v===r.correct;if(good)ok++;
+    fb.innerHTML=good?`<span style="color:var(--grn2)">✓ Correct</span>`:
+      `<span style="color:var(--red2)">✗ Incorrect</span><span style="color:var(--dim);font-size:9px;margin-left:4px">Should be: ${r.correct}</span>`;
+    card.style.borderColor=good?'rgba(31,208,160,.4)':'rgba(232,64,74,.4)';
+  });
+  const ans=Object.keys(rsel).filter(k=>rsel[k]).length;
+  const pct=Math.round(ok/RSCS.length*100);
+  document.getElementById('rscore').textContent=`Score: ${ok}/${RSCS.length} (${pct}%)`;
+  const asw=document.getElementById('asw');asw.className='asw show';
+  const grade=pct===100?'EXPERT':pct>=75?'PROFICIENT':pct>=50?'DEVELOPING':'NEEDS REVIEW';
+  const gc=pct===100?'var(--grn2)':pct>=75?'var(--blu2)':pct>=50?'var(--amb2)':'var(--red2)';
+  asw.innerHTML=`<div style="display:flex;align-items:center;gap:18px;"><div style="width:66px;height:66px;border-radius:50%;border:3px solid ${gc};color:${gc};display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:20px;font-weight:800;flex-shrink:0">${pct}%</div><div><div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:${gc};margin-bottom:4px">${grade}</div><div style="font-size:13px;color:var(--mid)">${ok} of ${RSCS.length} resources correctly assessed.</div><div style="font-size:12px;color:var(--dim);margin-top:6px;line-height:1.6">${pct<100?'Remember: All high/medium sensitivity resources require MFA. Only Intranet/Wiki is Recommended — it still lacks truly sensitive data.':'Perfect score! All 8 resources correctly assessed per the security assessment.'}</div></div></div>`;
+}
+function resetRes(){
+  rsel={};RSCS.forEach(r=>{const s=document.getElementById('sel-'+r.id),fb=document.getElementById('rfb-'+r.id),c=document.getElementById('rc-'+r.id);if(s)s.value='';if(fb)fb.className='rfb';if(c)c.style.borderColor='';});
+  document.getElementById('rscore').textContent='';document.getElementById('asw').className='asw';
+}
+
+// ═══ M3: PHYSICAL FLOOR PLAN ═══
+const ZONES=[
+  {id:'svr',nm:'Server Room / Data Center',x:.36,y:.04,w:.28,h:.22,col:'#e8404a',pri:'Critical',
+   vuln:'Janitorial staff have server room access alongside IT. Only lockable doors and basic environmental monitoring. No MFA for access.',
+   risk:'Cleaning schedules enable unauthorized access or device tampering. No CCTV inside. No biometric authentication for most sensitive area.',
+   remed:'Remove janitorial access; biometric+PIN for server rooms; interior CCTV (90-day); two-person rule; door forced-open alarms.',
+   cost:'$$$$ ($25,000–$50,000)'},
+  {id:'bk',nm:'Back Entrance (Parking)',x:.63,y:.35,w:.33,h:.28,col:'#e8404a',pri:'High',
+   vuln:'Back entrance opens directly to parking lot with only an "Authorized Personnel Only" sign. Last employee locks it — inconsistent and unreliable.',
+   risk:'Unauthorized entry by following employees; no audit trail; door may be forgotten unlocked; no remote lock capability; tailgating undetectable.',
+   remed:'Electronic card readers on both entrances; anti-tailgating turnstiles; CCTV; automatic closers with magnetic locks; centralized audit log.',
+   cost:'$$$ ($15,000–$30,000)'},
+  {id:'rec',nm:'Reception & Lobby',x:.04,y:.04,w:.3,h:.22,col:'#f5a623',pri:'High',
+   vuln:'Visitor badges issued without electronic verification, photo capture, or watchlist checks. No badge expiration mechanism.',
+   risk:'Fake identities obtain badges; no post-incident photo evidence; badges reused days later; no RFID access control integration.',
+   remed:'Electronic VMS with photo capture and ID scanning; photo badges with expiry; integrate with PACS; watchlist checks on all visitors.',
+   cost:'$$$ ($5,000–$12,000)'},
+  {id:'com',nm:'Breakrooms & Common Areas',x:.04,y:.72,w:.3,h:.24,col:'#f5a623',pri:'High',
+   vuln:'Common areas adjacent to workspaces have no access control or surveillance. Cleaning staff and vendors have unsupervised access.',
+   risk:'Attackers hide until after hours; staging area for tailgating; no after-hours lockdown; unauthorized individuals loiter undetected.',
+   remed:'CCTV at all entrances/exits; common areas within secured perimeter; after-hours lockdown; motion sensors; security patrols.',
+   cost:'$$ ($5,000–$12,000)'},
+  {id:'park',nm:'Parking Lot',x:.38,y:.72,w:.58,h:.24,col:'#2d8cf0',pri:'Medium',
+   vuln:'Single entry with fence and paper stickers — no gate control, license plate recognition, or sticker verification. Stickers easily duplicated.',
+   risk:'Unauthorized vehicles enter with copied stickers; no entry/exit log; cannot block terminated employees; increases tailgating to back entrance.',
+   remed:'Automated gate with card/RFID reader; license plate recognition (LPR); tamper-evident barcoded stickers; CCTV at entry/exit.',
+   cost:'$$–$$$ ($5,000–$15,000)'},
+  {id:'meet',nm:'Meeting Rooms',x:.67,y:.04,w:.29,h:.22,col:'#2d8cf0',pri:'Medium',
+   vuln:'Calendar-based booking with no access control integration. No monitoring of room activity or audit trail for room access.',
+   risk:'Unauthorized people book rooms to gain building access; sensitive whiteboard content; AV equipment theft; no post-meeting review.',
+   remed:'Badge access to book and enter; calendar-to-PACS integration; secure AV cabinets; CCTV in common meeting corridors.',
+   cost:'$$ ($3,000–$8,000)'},
+  {id:'ws',nm:'Employee Workspace',x:.04,y:.35,w:.55,h:.28,col:'#1fd0a0',pri:'Low',
+   vuln:'No direct workspace vulnerabilities identified beyond perimeter controls. Relies on front/back entrance security.',
+   risk:'Shoulder surfing, clean desk policy violations, and visual exposure of screens in open-plan areas are residual risks.',
+   remed:'Enforce clean desk policy; privacy screens on monitors facing walkways; badge-access audit log review monthly.',
+   cost:'$ ($500–$2,000)'},
+];
+
+function drawFP(){
+  const c=document.getElementById('fpC');if(!c)return;
+  const W=c.offsetWidth||600;c.width=W;const H=460;c.height=H;
+  const ctx=c.getContext('2d');
+  ctx.fillStyle='#0b1220';ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(45,140,240,.05)';ctx.lineWidth=1;
+  for(let x=0;x<W;x+=30){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<H;y+=30){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  ctx.strokeStyle='rgba(45,140,240,.25)';ctx.lineWidth=2;
+  ctx.strokeRect(W*.02,H*.02,W*.96,H*.96);
+  ctx.fillStyle='rgba(45,140,240,.025)';ctx.fillRect(W*.02,H*.02,W*.96,H*.96);
+  ctx.fillStyle='rgba(45,140,240,.25)';ctx.font='bold 10px "JetBrains Mono"';ctx.textAlign='center';
+  ctx.fillText('TECHSOLUTIONS INC. — FLOOR PLAN',W/2,H*.987);
+  ZONES.forEach(z=>{
+    const zx=z.x*W,zy=z.y*H,zw=z.w*W,zh=z.h*H;
+    ctx.fillStyle=z.col+'18';ctx.fillRect(zx,zy,zw,zh);
+    ctx.strokeStyle=z.col+'99';ctx.lineWidth=2;ctx.strokeRect(zx,zy,zw,zh);
+    ctx.beginPath();ctx.arc(zx+10,zy+10,5,0,Math.PI*2);
+    ctx.fillStyle=z.col;ctx.shadowColor=z.col;ctx.shadowBlur=8;ctx.fill();ctx.shadowBlur=0;
+    ctx.fillStyle='#e0ecff';ctx.font='600 10px "JetBrains Mono"';ctx.textAlign='center';
+    const parts=z.nm.split(' / ');
+    parts.forEach((p,i)=>ctx.fillText(p,zx+zw/2,zy+zh/2+(i-(parts.length-1)/2)*15));
+    ctx.fillStyle=z.col+'cc';ctx.font='500 8px "JetBrains Mono"';
+    ctx.fillText(z.pri.toUpperCase(),zx+zw/2,zy+zh-6);
+  });
+}
+function fpClick(e){
+  const c=document.getElementById('fpC'),rc=c.getBoundingClientRect();
+  const mx=(e.clientX-rc.left)/rc.width,my=(e.clientY-rc.top)/rc.height;
+  const z=ZONES.find(z=>mx>=z.x&&mx<=z.x+z.w&&my>=z.y&&my<=z.y+z.h);
+  if(z)showZone(z);
+}
+const PC={'Critical':'#e8404a','High':'#f5a623','Medium':'#2d8cf0','Low':'#1fd0a0'};
+function showZone(z){
+  const pc=PC[z.pri]||'var(--mid)';
+  document.getElementById('vd-n').textContent=z.nm;
+  document.getElementById('vd-p').innerHTML=`<span class="bdg" style="color:${pc};border-color:${pc}44;background:${pc}11;margin-bottom:8px;display:inline-flex">${z.pri} Priority</span>`;
+  document.getElementById('vd-v').textContent=z.vuln;
+  document.getElementById('vd-r').textContent=z.risk;
+  document.getElementById('vd-m').textContent=z.remed;
+  document.getElementById('vd-c').textContent=z.cost;
+  document.getElementById('vd').classList.add('show');
+}
+function buildVSM(){
+  const el=document.getElementById('vsm');el.innerHTML='';
+  ZONES.forEach(z=>{
+    const pc=PC[z.pri]||'var(--mid)';
+    const r=document.createElement('div');r.className='vsr';
+    r.innerHTML=`<div style="width:8px;height:8px;border-radius:50%;background:${pc};flex-shrink:0;box-shadow:0 0 5px ${pc}"></div><div style="flex:1;font-size:12px;color:var(--mid)">${z.nm}</div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:${pc};letter-spacing:1px">${z.pri}</div>`;
+    r.addEventListener('click',()=>showZone(z));
+    r.addEventListener('mouseenter',()=>r.style.borderColor=pc+'77');
+    r.addEventListener('mouseleave',()=>r.style.borderColor='var(--brd)');
+    el.appendChild(r);
+  });
+}
+
+// ═══ M4: VISITOR FLOW ═══
+const VSTEPS=['Arrival','ID Check','Watchlist','Photo','Host Alert','NDA','Badge','Escort'];
+const VQ=[
+  {nm:'James Whitfield',co:'CloudVault Partners',type:'Client meeting',risk:'low',pre:true},
+  {nm:'Sofia Reyes',co:'Unknown (Walk-in)',type:'No appointment',risk:'medium',pre:false},
+  {nm:'Marcus Chen',co:'ClearOps Maintenance',type:'Server room maintenance',risk:'high',pre:true},
+  {nm:'Amanda Torres',co:'HR Software Co.',type:'Software demo',risk:'low',pre:true},
+];
+let curVis=null,vStep=0,curVI=null;
+
+function renderVQ(){
+  const el=document.getElementById('vq');el.innerHTML='';
+  VQ.forEach((v,i)=>{
+    const rc={'low':'var(--grn2)','medium':'var(--amb2)','high':'var(--red2)'}[v.risk];
+    const r=document.createElement('div');r.className='vqr';
+    r.innerHTML=`<div style="width:36px;height:36px;border-radius:50%;background:${rc}18;border:1px solid ${rc}44;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">👤</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--wht)">${v.nm}</div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);margin-top:1px">${v.co}</div></div><div style="text-align:right"><div class="bdg bdg-${v.risk==='low'?'g':v.risk==='medium'?'a':'r'}">${v.risk.toUpperCase()}</div>${v.pre?'<div style="font-family:\'JetBrains Mono\',monospace;font-size:8px;color:var(--grn2);margin-top:2px">PRE-REG ✓</div>':''}</div>`;
+    r.addEventListener('click',()=>startVis(i));
+    r.addEventListener('mouseenter',()=>r.style.borderColor='var(--brd2)');
+    r.addEventListener('mouseleave',()=>r.style.borderColor='var(--brd)');
+    el.appendChild(r);
+  });
+}
+function updSbar(s){
+  const el=document.getElementById('sbar');el.innerHTML='';
+  VSTEPS.forEach((st,i)=>{
+    const div=document.createElement('div');
+    div.className='sit'+(i<s?' dn':i===s?' ac':'');
+    const nc=i<s?'d':i===s?'a':'p';
+    const lc=i<s?' dl':i===s?' al':'';
+    div.innerHTML=`<div class="sn ${nc}">${i<s?'✓':i+1}</div><div class="slb${lc}">${st}</div>`;
+    el.appendChild(div);
+  });
+}
+function vLog(msg,t=''){
+  const log=document.getElementById('vlog');
+  if(log.querySelector('div[style*="color:var(--dim)"]'))log.innerHTML='';
+  const hm=new Date().toLocaleTimeString('en-US',{hour12:false});
+  const cls={'ok':'color:var(--grn2)','warn':'color:var(--amb2)','err':'color:var(--red2)'}[t]||'color:var(--mid)';
+  const e=document.createElement('div');e.className='vle';
+  e.innerHTML=`<span style="color:var(--dim)">[${hm}]</span> <span style="${cls}">${msg}</span>`;
+  log.insertBefore(e,log.firstChild);
+}
+function startVis(i){
+  curVI=i;curVis=VQ[i];vStep=0;updSbar(0);renderVScreen(0);
+  vLog('Check-in started: '+curVis.nm,'ok');
+}
+function renderVScreen(s){
+  const el=document.getElementById('vs'),v=curVis;
+  if(!v){el.innerHTML='<div style="color:var(--mid);font-size:13px;padding:20px 0;">← Select a visitor from the queue to begin</div>';return;}
+  const screens=[
+    ()=>`<div class="vst">👋 Visitor Arrives at Reception</div><p style="font-size:13px;color:var(--mid);margin-bottom:14px;line-height:1.6"><strong style="color:var(--wht)">${v.nm}</strong> from <strong style="color:var(--wht)">${v.co}</strong> arrives.${v.pre?' <span style="color:var(--grn2)">(Pre-registered ✓)</span>':' <span style="color:var(--amb2)">(Walk-in — no appointment)</span>'}</p>${v.pre?`<div style="background:rgba(31,208,160,.07);border:1px solid rgba(31,208,160,.3);border-radius:5px;padding:11px;font-size:12px;color:var(--grn2);margin-bottom:14px">✓ Pre-registration found — Host: Sarah Chen — Purpose: ${v.type}</div>`:`<div style="background:rgba(245,166,35,.07);border:1px solid rgba(245,166,35,.3);border-radius:5px;padding:11px;font-size:12px;color:var(--amb2);margin-bottom:14px">⚠ No pre-registration. Walk-in visitor. Host must be contacted before proceeding.</div>`}<div class="dbtns"><button class="btn btn-p" onclick="nxtVS()">Proceed to ID Check →</button></div>`,
+    ()=>`<div class="vst">🪪 Government ID Verification</div><p style="font-size:13px;color:var(--mid);margin-bottom:12px">Request and scan government-issued photo ID.</p><div class="vrow mb14"><div class="vfl"><label>ID TYPE</label><select class="vi" style="font-family:'JetBrains Mono',monospace;font-size:12px"><option>Driver's License</option><option>Passport</option><option>National ID</option></select></div><div class="vfl"><label>LAST 4 DIGITS</label><input class="vi" placeholder="e.g. 4821" maxlength="4"></div></div><div style="background:rgba(45,140,240,.07);border:1px solid var(--brd2);border-radius:5px;padding:11px;font-size:12px;color:var(--mid);margin-bottom:12px">📋 <strong style="color:var(--wht)">Protocol:</strong> ID must be current. Scan barcode if available. Confirm photo matches visitor face.</div><div class="dbtns"><button class="btn btn-p" onclick="nxtVS()">ID Verified →</button><button class="btn btn-r" onclick="rejVis('Invalid or expired ID presented')">✗ Reject</button></div>`,
+    ()=>{const fl=v.risk==='high';return`<div class="vst">🔍 Watchlist & Database Check</div><p style="font-size:13px;color:var(--mid);margin-bottom:12px">Running visitor against security watchlists...</p><div style="background:var(--pan);border:1px solid var(--brd);border-radius:5px;padding:13px;font-family:'JetBrains Mono',monospace;font-size:10px;line-height:2;margin-bottom:12px"><div style="color:var(--grn2)">✓ OFAC SDN List — CLEAR</div><div style="color:var(--grn2)">✓ FBI Most Wanted — CLEAR</div><div style="color:var(--grn2)">✓ Internal Banned Visitors — CLEAR</div>${fl?`<div style="color:var(--amb2)">⚠ Previous visit: Server Room — requires IT escort only</div>`:`<div style="color:var(--grn2)">✓ Previous visits — No incidents</div>`}<div style="color:var(--blu2)">✓ Check complete — ${fl?'FLAGGED: Restricted area access':'All clear'}</div></div><div class="dbtns">${fl?`<button class="btn btn-g" onclick="nxtVS()">Acknowledge Flag & Continue →</button>`:`<button class="btn btn-p" onclick="nxtVS()">Clear — Continue →</button>`}<button class="btn btn-r" onclick="rejVis('Security concern in watchlist check')">✗ Deny Entry</button></div>`},
+    ()=>`<div class="vst">📸 Visitor Photo Capture</div><p style="font-size:13px;color:var(--mid);margin-bottom:12px">Capture photo for badge and incident records.</p><div style="background:var(--pan);border:2px dashed var(--brd2);border-radius:8px;height:100px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;margin-bottom:12px"><div style="font-size:28px">📷</div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)">CAMERA READY</div></div><div style="font-size:11px;color:var(--dim);margin-bottom:12px">Photo stored in encrypted visitor database — 90-day retention policy.</div><div class="dbtns"><button class="btn btn-p" onclick="vLog('Photo captured for ${v.nm}','ok');nxtVS()">📸 Capture Photo →</button></div>`,
+    ()=>`<div class="vst">📞 Host Notification</div><p style="font-size:13px;color:var(--mid);margin-bottom:12px">Alerting host to come escort the visitor.</p><div style="background:rgba(45,140,240,.07);border:1px solid var(--brd2);border-radius:5px;padding:13px;margin-bottom:12px"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);margin-bottom:6px">NOTIFICATION SENT</div><div style="font-size:13px;color:var(--wht)">📱 Push → Sarah Chen (Marketing)</div><div style="font-size:12px;color:var(--mid);margin-top:3px">"${v.nm} from ${v.co} is at reception."</div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--grn2);margin-top:7px">✓ Host confirmed — ETA 3 minutes</div></div>${!v.pre?'<div style="background:rgba(232,64,74,.07);border:1px solid rgba(232,64,74,.3);border-radius:5px;padding:10px;font-size:12px;color:var(--red2);margin-bottom:10px">⚠ Walk-in: Host MUST physically come to reception before access is granted.</div>':''}<div class="dbtns"><button class="btn btn-p" onclick="nxtVS()">Host Confirmed →</button><button class="btn btn-r" onclick="rejVis('Host unable to verify visitor')">Host Cannot Verify</button></div>`,
+    ()=>`<div class="vst">✍️ Visitor Agreement / NDA</div><p style="font-size:13px;color:var(--mid);margin-bottom:12px">Visitor must acknowledge security policy.</p><div style="background:var(--pan);border:1px solid var(--brd);border-radius:5px;padding:13px;font-size:12px;color:var(--mid);line-height:1.6;margin-bottom:12px;max-height:100px;overflow-y:auto">By signing, I (${v.nm}) agree to: comply with all TechSolutions security policies; remain with my escort; not access unauthorized areas; not photograph proprietary materials; acknowledge that violations may result in removal and legal action.</div><div style="display:flex;gap:10px;align-items:center;padding:10px;background:var(--surf);border-radius:5px;margin-bottom:12px"><input type="checkbox" id="ndachk" style="width:16px;height:16px;cursor:pointer"><label for="ndachk" style="font-size:12px;color:var(--wht);cursor:pointer">Visitor has signed digital NDA</label></div><div class="dbtns"><button class="btn btn-p" onclick="if(document.getElementById('ndachk').checked){vLog('NDA signed by ${v.nm}','ok');nxtVS();}else{alert('Please confirm NDA signed')}">NDA Signed →</button></div>`,
+    ()=>{const bt=v.risk==='high'?'ORANGE (Contractor)':'WHITE (One-Day Visitor)';const ar=v.risk==='high'?'Assigned area only — no server room without IT escort':'Common areas + escorted areas only';return`<div class="vst">🖨️ Badge Printing & Activation</div><div style="background:var(--pan);border:2px solid var(--brd2);border-radius:8px;padding:14px;margin-bottom:12px;display:flex;align-items:center;gap:14px"><div style="width:62px;height:82px;background:rgba(45,140,240,.12);border:2px solid var(--brd2);border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex-shrink:0"><div style="font-size:18px">👤</div><div style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--blu2);text-align:center;line-height:1.3">VISITOR<br>${v.nm.split(' ')[0].toUpperCase()}</div><div style="font-family:'JetBrains Mono',monospace;font-size:6px;color:var(--dim)">TODAY ONLY</div></div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;line-height:2.1;color:var(--mid)"><div>TYPE: <span style="color:var(--wht)">${bt}</span></div><div>NAME: <span style="color:var(--wht)">${v.nm}</span></div><div>AREAS: <span style="color:var(--amb2)">${ar}</span></div><div>EXPIRES: <span style="color:var(--red2)">TODAY 6:00 PM</span></div><div>RFID: <span style="color:var(--grn2)">ACTIVATED</span></div></div></div><div class="dbtns"><button class="btn btn-p" onclick="vLog('Badge printed for ${v.nm}','ok');nxtVS()">Print Badge →</button></div>`},
+    ()=>`<div class="vst" style="color:var(--grn2)">✓ Check-In Complete</div><div style="background:rgba(31,208,160,.07);border:1px solid rgba(31,208,160,.35);border-radius:6px;padding:14px;margin-bottom:12px"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--grn2);letter-spacing:2px;margin-bottom:6px">// CHECK-IN SUCCESSFUL</div><strong style="color:var(--wht)">${v.nm}</strong> has been successfully processed.<div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mid);line-height:2;margin-top:10px"><div>✓ ID Verified &amp; Scanned</div><div>✓ Watchlist Cleared</div><div>✓ Photo Captured</div><div>✓ Host Confirmed</div><div>✓ NDA Signed</div><div>✓ Badge Active</div></div></div><div class="dbtns"><button class="btn btn-ok" onclick="cmpVis()">Complete ✓</button><button class="btn btn-g" onclick="startVis(curVI)">↺ Restart</button></div>`,
+  ];
+  el.innerHTML=screens[s]();
+}
+function nxtVS(){vStep++;if(vStep>=VSTEPS.length)return;updSbar(vStep);renderVScreen(vStep);vLog('Step '+(vStep+1)+': '+VSTEPS[vStep],'ok');}
+function rejVis(r){document.getElementById('vs').innerHTML=`<div class="vst" style="color:var(--red2)">✗ Access Denied</div><div style="background:rgba(232,64,74,.07);border:1px solid rgba(232,64,74,.35);border-radius:6px;padding:14px"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--red2);margin-bottom:6px">// VISITOR REJECTED</div><div style="font-size:13px;color:var(--wht);margin-bottom:5px">Reason: ${r}</div><div style="font-size:12px;color:var(--mid)">Security notified. Incident log updated.</div></div><div class="dbtns" style="margin-top:12px"><button class="btn btn-g" onclick="startVis(curVI)">↺ Try Again</button></div>`;vLog('REJECTED: '+curVis.nm+' — '+r,'err');updSbar(0);}
+function cmpVis(){vLog('✓ COMPLETE: '+curVis.nm+' — Badge active until 6PM','ok');document.getElementById('vs').innerHTML=`<div style="text-align:center;padding:28px"><div style="font-size:44px;margin-bottom:10px">✅</div><div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--grn2);margin-bottom:6px">Check-In Complete</div><div style="font-size:13px;color:var(--mid)">Select another visitor to continue.</div></div>`;updSbar(VSTEPS.length);}
+
+// ═══ M5: ROLLOUT ═══
+const PHASES=[
+  {n:1,nm:'Phase 1: Pilot',tl:'Week 1–2',users:20,sys:'Email, VPN, Admin systems',mfa:'TOTP (Authenticator App)',criteria:'95% enrollment; <5% support tickets; all issues documented',info:'Controlled pilot with IT staff to identify configuration issues and refine helpdesk process before broader rollout.'},
+  {n:2,nm:'Phase 2: Technical Staff',tl:'Week 3–4',users:50,sys:'Email, Dev Environments, VPN',mfa:'FIDO2 Keys + TOTP',criteria:'All Phase 1 criteria met; FIDO2 keys distributed; feedback collected',info:'Expand to developers and security staff. Distribute FIDO2 keys for privileged access. Refine training based on Phase 1 feedback.'},
+  {n:3,nm:'Phase 3: All Employees',tl:'Week 5–8',users:200,sys:'Email, Cloud Storage, Project Tools, VPN',mfa:'TOTP (Authenticator App) — all staff',criteria:'90%+ enrollment; <10% support tickets; department champions active',info:'Company-wide rollout for business systems. Heavy helpdesk support planned. Lunch & learn sessions; department champions assist peers.'},
+  {n:4,nm:'Phase 4: High-Sensitivity Systems',tl:'Week 9–10',users:60,sys:'Internal Databases, HR Systems, CRM',mfa:'FIDO2 Security Keys (required)',criteria:'All users enrolled with FIDO2; zero exceptions without compensating controls',info:'Enforce FIDO2 on the most sensitive systems. Distribute hardware keys to finance, HR, and database admins. Zero-exception policy.'},
+  {n:5,nm:'Phase 5: Completion & Audit',tl:'Week 11–12',users:220,sys:'All systems including Intranet + legacy apps',mfa:'All methods — full coverage',criteria:'98%+ enrollment; exception process documented; quarterly reviews scheduled',info:'Final rollout, legacy app integration via RADIUS/proxy, formal audit, ongoing monitoring cadence established.'},
+];
+let rPhase=0,rWeek=0,rProg={};
+PHASES.forEach(p=>{rProg[p.n]=0;});
+
+function renderRol(){
+  const pw=document.getElementById('phw');pw.innerHTML='';
+  PHASES.forEach((p,i)=>{
+    const pct=rProg[p.n],isDn=pct>=100,isAc=i===rPhase&&pct<100;
+    const nc=isDn?'d':isAc?'a':'';
+    const pc2=isDn?'var(--grn2)':isAc?'var(--blu2)':'var(--dim)';
+    const bc=isDn?'rgba(31,208,160,.35)':isAc?'rgba(45,140,240,.35)':'var(--brd)';
+    const r=document.createElement('div');r.className='phr';r.style.borderColor=bc;
+    r.innerHTML=`<div class="phh" onclick="tglPh(${i})"><div class="phnum ${nc}">${isDn?'✓':p.n}</div><div><div class="phnm">${p.nm}</div><div class="pt" style="height:3px;margin-top:5px;width:150px"><div class="pf" style="width:${pct}%;background:${isDn?'var(--grn)':isAc?'var(--blu)':'var(--dim)'}"></div></div></div><div class="phwk">${p.tl}</div><div class="phpct" style="color:${pc2}">${pct}%</div></div><div class="phdet" id="pd-${i}"><div style="font-size:12px;color:var(--mid);line-height:1.6;padding-top:5px">${p.info}</div><div class="pdg"><div class="pdi"><div class="pdl">SYSTEMS</div><div class="pdv">${p.sys}</div></div><div class="pdi"><div class="pdl">MFA METHOD</div><div class="pdv">${p.mfa}</div></div><div class="pdi"><div class="pdl">SUCCESS CRITERIA</div><div class="pdv">${p.criteria}</div></div></div></div>`;
+    pw.appendChild(r);
+  });
+  updKPIs();
+}
+function tglPh(i){const el=document.getElementById('pd-'+i);el.classList.toggle('open');}
+function advRol(){
+  if(rPhase>=PHASES.length)return;
+  const p=PHASES[rPhase];let pr=rProg[p.n];
+  const step=Math.ceil((100-pr)/8);
+  const iv=setInterval(()=>{
+    pr=Math.min(100,pr+step+Math.floor(Math.random()*4));
+    rProg[p.n]=pr;rWeek=Math.min(12,rWeek+1);
+    document.getElementById('rwk').textContent=rWeek;
+    const tot=Math.round(Object.values(rProg).reduce((a,b)=>a+b,0)/(PHASES.length*100)*100);
+    document.getElementById('opf').style.width=tot+'%';
+    renderRol();
+    if(pr>=100){clearInterval(iv);rPhase=Math.min(PHASES.length,rPhase+1);}
+  },110);
+}
+function rstRol(){rPhase=0;rWeek=0;PHASES.forEach(p=>{rProg[p.n]=0;});document.getElementById('rwk').textContent='0';document.getElementById('opf').style.width='0%';renderRol();}
+function updKPIs(){
+  const enrolled=Math.round(PHASES.reduce((s,p)=>s+(p.users*rProg[p.n]/100),0));
+  const total=220,done=PHASES.filter(p=>rProg[p.n]>=100).length;
+  const pct=Math.round(enrolled/total*100);
+  const tix=Math.max(0,Math.round((total-enrolled)*0.08));
+  const kpis=[
+    {v:enrolled,l:'USERS ENROLLED',c:'var(--blu2)',t:'+'+Math.round(enrolled*.12)+' this week'},
+    {v:pct+'%',l:'ENROLLMENT RATE',c:pct>=90?'var(--grn2)':pct>=50?'var(--amb2)':'var(--red2)',t:pct>=98?'TARGET MET ✓':'Target: 98%'},
+    {v:done+'/5',l:'PHASES COMPLETE',c:'var(--purple)',t:done<5?'Phase '+(done+1)+' active':'All phases done ✓'},
+    {v:tix,l:'SUPPORT TICKETS',c:'var(--amb2)',t:tix<20?'Within SLA ✓':'Review capacity'},
+  ];
+  const kr=document.getElementById('kr');kr.innerHTML='';
+  kpis.forEach(k=>{const d=document.createElement('div');d.className='kc';d.innerHTML=`<div class="kv" style="color:${k.c}">${k.v}</div><div class="kl">${k.l}</div><div class="kt" style="color:var(--dim)">${k.t}</div>`;kr.appendChild(d);});
+}
+
+// ═══ INIT ═══
+document.addEventListener('DOMContentLoaded',()=>{
+  renderRes();
+  buildVSM();
+  renderVQ();
+  updSbar(0);
+  renderRol();
+  setTimeout(()=>{
+    drawFP();
+    document.getElementById('fpC').addEventListener('click',fpClick);
+  },120);
+  window.addEventListener('resize',()=>{const c=document.getElementById('fpC');if(c&&c.offsetParent)drawFP();});
+});
+</script>
+</body></html>
