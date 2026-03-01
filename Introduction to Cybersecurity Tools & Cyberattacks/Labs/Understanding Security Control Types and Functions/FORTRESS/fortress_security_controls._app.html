@@ -34,14 +34,12 @@
   --glow-g:    rgba(0,230,118,0.12);
   --glow-r:    rgba(255,23,68,0.12);
 
-  /* control type colors */
   --prevent:   #00d4ff;
   --detect:    #ffb300;
   --correct:   #00e676;
   --deter:     #e040fb;
   --recover:   #1de9b6;
   --compensate:#448aff;
-  /* control function colors */
   --tech:      #00d4ff;
   --admin:     #ffb300;
   --physical:  #00e676;
@@ -58,7 +56,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ── BLUEPRINT GRID BACKGROUND ── */
 body::before {
   content:'';
   position:fixed; inset:0; z-index:0; pointer-events:none;
@@ -70,7 +67,6 @@ body::before {
   background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
 }
 
-/* ── RADIAL GLOW ── */
 body::after {
   content:'';
   position:fixed; inset:0; z-index:0; pointer-events:none;
@@ -81,9 +77,6 @@ body::after {
 
 .app { position:relative; z-index:1; display:flex; flex-direction:column; min-height:100vh; }
 
-/* ══════════════════════════════
-   HEADER
-══════════════════════════════ */
 .header {
   background: rgba(5,13,26,0.97);
   border-bottom: 1px solid var(--border2);
@@ -113,43 +106,26 @@ body::after {
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   box-shadow: 0 0 14px rgba(0,212,255,0.4);
 }
-.brand-icon {
-  font-size:14px; position:relative; z-index:1; color:var(--cyan);
-}
-.brand-text { }
+.brand-icon { font-size:14px; position:relative; z-index:1; color:var(--cyan); }
 .brand-name {
   font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700;
   color:#fff; letter-spacing:5px; line-height:1;
   text-shadow: 0 0 20px rgba(0,212,255,0.5);
 }
-.brand-sub {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--mid);
-  letter-spacing:3px; margin-top:1px;
-}
+.brand-sub { font-family:'Inconsolata',monospace; font-size:9px; color:var(--mid); letter-spacing:3px; margin-top:1px; }
 .header-div { width:1px; height:28px; background:var(--border2); }
-.header-info {
-  font-family:'Inconsolata',monospace; font-size:10px; color:var(--mid);
-  display:flex; align-items:center; gap:6px;
-}
+.header-info { font-family:'Inconsolata',monospace; font-size:10px; color:var(--mid); display:flex; align-items:center; gap:6px; }
 .led { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
 .led-on { background:var(--green); box-shadow:0 0 8px var(--green); animation:ledPulse 2s ease infinite; }
 .led-warn { background:var(--amber); box-shadow:0 0 8px var(--amber); animation:ledPulse 1s ease infinite; }
 @keyframes ledPulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
 .header-chips { display:flex; gap:8px; margin-left:auto; }
-.hchip {
-  font-family:'Inconsolata',monospace; font-size:10px; letter-spacing:1px;
-  padding:3px 12px; border:1px solid; border-radius:2px;
-}
+.hchip { font-family:'Inconsolata',monospace; font-size:10px; letter-spacing:1px; padding:3px 12px; border:1px solid; border-radius:2px; }
 .hchip-c { color:var(--cyan); border-color:rgba(0,212,255,.3); background:rgba(0,212,255,.06); }
 .hchip-a { color:var(--amber); border-color:rgba(255,179,0,.3); background:rgba(255,179,0,.06); }
 .hchip-g { color:var(--green); border-color:rgba(0,230,118,.3); background:rgba(0,230,118,.06); }
-.header-clock {
-  font-family:'Inconsolata',monospace; font-size:12px; color:var(--dim);
-}
+.header-clock { font-family:'Inconsolata',monospace; font-size:12px; color:var(--dim); }
 
-/* ══════════════════════════════
-   NAV
-══════════════════════════════ */
 .nav {
   background:rgba(7,16,32,0.97);
   border-bottom:1px solid var(--border);
@@ -164,201 +140,81 @@ body::after {
   display:flex; align-items:center; gap:8px;
 }
 .nbtn:hover { color:var(--mid); }
-.nbtn.active {
-  color:var(--cyan); border-bottom-color:var(--cyan);
-  background:rgba(0,212,255,.04);
-  text-shadow:0 0 12px rgba(0,212,255,0.4);
-}
+.nbtn.active { color:var(--cyan); border-bottom-color:var(--cyan); background:rgba(0,212,255,.04); text-shadow:0 0 12px rgba(0,212,255,0.4); }
 
-/* ══════════════════════════════
-   MAIN
-══════════════════════════════ */
 .main { flex:1; overflow-y:auto; }
 .view { display:none; padding:28px 28px 80px; }
 .view.active { display:block; }
 
-/* ══════════════════════════════
-   SECTION HEADERS
-══════════════════════════════ */
-.sec-eyebrow {
-  font-family:'Inconsolata',monospace; font-size:10px; color:var(--cyan);
-  letter-spacing:4px; text-transform:uppercase; margin-bottom:6px;
-  display:flex; align-items:center; gap:8px;
-}
+.sec-eyebrow { font-family:'Inconsolata',monospace; font-size:10px; color:var(--cyan); letter-spacing:4px; text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; gap:8px; }
 .sec-eyebrow::before { content:'//'; color:var(--dim); }
-.sec-title {
-  font-family:'Rajdhani',sans-serif; font-size:clamp(24px,3vw,38px);
-  font-weight:700; color:#fff; letter-spacing:2px; margin-bottom:8px;
-  text-shadow:0 0 20px rgba(0,212,255,.25);
-}
-.sec-desc {
-  font-size:14px; color:var(--mid); line-height:1.7; margin-bottom:28px;
-  max-width:740px; font-family:'Barlow Condensed',sans-serif;
-}
-.sec-line {
-  height:1px;
-  background:linear-gradient(90deg,var(--border2),var(--border),transparent);
-  margin-bottom:28px;
-}
+.sec-title { font-family:'Rajdhani',sans-serif; font-size:clamp(24px,3vw,38px); font-weight:700; color:#fff; letter-spacing:2px; margin-bottom:8px; text-shadow:0 0 20px rgba(0,212,255,.25); }
+.sec-desc { font-size:14px; color:var(--mid); line-height:1.7; margin-bottom:28px; max-width:740px; font-family:'Barlow Condensed',sans-serif; }
+.sec-line { height:1px; background:linear-gradient(90deg,var(--border2),var(--border),transparent); margin-bottom:28px; }
 
-/* ══════════════════════════════
-   CARDS / PANELS
-══════════════════════════════ */
-.card {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:3px; overflow:hidden;
-  box-shadow:0 4px 20px rgba(0,0,0,0.4);
-}
-.card-hdr {
-  padding:10px 16px; border-bottom:1px solid var(--border);
-  font-family:'Inconsolata',monospace; font-size:10px; color:var(--mid);
-  letter-spacing:2px; text-transform:uppercase;
-  display:flex; align-items:center; justify-content:space-between;
-  background:rgba(0,212,255,.02);
-}
+.card { background:var(--surface); border:1px solid var(--border); border-radius:3px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.4); }
+.card-hdr { padding:10px 16px; border-bottom:1px solid var(--border); font-family:'Inconsolata',monospace; font-size:10px; color:var(--mid); letter-spacing:2px; text-transform:uppercase; display:flex; align-items:center; justify-content:space-between; background:rgba(0,212,255,.02); }
 
-/* ══════════════════════════════
-   CONTROL MATRIX (View 1)
-══════════════════════════════ */
 .matrix-wrap { overflow-x:auto; }
-.matrix-table {
-  width:100%; border-collapse:collapse;
-  font-family:'Barlow Condensed',sans-serif;
-  min-width:700px;
-}
-.matrix-table th, .matrix-table td {
-  border:1px solid var(--border); padding:0;
-}
-.matrix-th-corner {
-  background:var(--panel); padding:12px 16px;
-  font-family:'Inconsolata',monospace; font-size:9px;
-  color:var(--dim); letter-spacing:2px;
-}
-.matrix-th-col {
-  background:var(--panel); padding:12px 16px; text-align:center;
-  font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:700;
-  letter-spacing:2px; text-transform:uppercase;
-}
-.matrix-th-row {
-  background:var(--panel2); padding:12px 16px;
-  font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600;
-  letter-spacing:2px; white-space:nowrap; min-width:140px;
-}
-.matrix-cell {
-  padding:12px 14px; vertical-align:top; cursor:pointer;
-  transition:background .15s; min-width:160px;
-  background:var(--surface);
-}
+.matrix-table { width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif; min-width:700px; }
+.matrix-table th, .matrix-table td { border:1px solid var(--border); padding:0; }
+.matrix-th-corner { background:var(--panel); padding:12px 16px; font-family:'Inconsolata',monospace; font-size:9px; color:var(--dim); letter-spacing:2px; }
+.matrix-th-col { background:var(--panel); padding:12px 16px; text-align:center; font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:700; letter-spacing:2px; text-transform:uppercase; }
+.matrix-th-row { background:var(--panel2); padding:12px 16px; font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600; letter-spacing:2px; white-space:nowrap; min-width:140px; }
+.matrix-cell { padding:12px 14px; vertical-align:top; cursor:pointer; transition:background .15s; min-width:160px; background:var(--surface); }
 .matrix-cell:hover { background:var(--panel); }
 .matrix-cell.expanded { background:var(--panel2); border:1px solid var(--border2); }
-
-.mc-count {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--dim);
-  letter-spacing:1px; margin-bottom:6px;
-}
+.mc-count { font-family:'Inconsolata',monospace; font-size:9px; color:var(--dim); letter-spacing:1px; margin-bottom:6px; }
 .mc-chips { display:flex; flex-direction:column; gap:4px; }
-.mc-chip {
-  font-size:11px; padding:3px 8px; border-radius:2px; border:1px solid;
-  background:transparent; line-height:1.3; cursor:pointer; transition:all .15s;
-  font-family:'Barlow Condensed',sans-serif;
-}
+.mc-chip { font-size:11px; padding:3px 8px; border-radius:2px; border:1px solid; background:transparent; line-height:1.3; cursor:pointer; transition:all .15s; font-family:'Barlow Condensed',sans-serif; }
 .mc-chip:hover { opacity:.8; }
-.mc-see-more {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--dim);
-  cursor:pointer; margin-top:4px; text-decoration:underline;
-}
+.mc-see-more { font-family:'Inconsolata',monospace; font-size:9px; color:var(--dim); cursor:pointer; margin-top:4px; text-decoration:underline; }
 
-/* type/function color theming */
 .t-prevent   { --tc:var(--prevent);   }
 .t-detect    { --tc:var(--detect);    }
 .t-correct   { --tc:var(--correct);   }
 .t-deter     { --tc:var(--deter);     }
 .t-recover   { --tc:var(--recover);   }
 .t-compensate{ --tc:var(--compensate);}
-
 .matrix-th-col.t-prevent    { color:var(--prevent);   }
 .matrix-th-col.t-detect     { color:var(--detect);    }
 .matrix-th-col.t-correct    { color:var(--correct);   }
 .matrix-th-col.t-deter      { color:var(--deter);     }
 .matrix-th-col.t-recover    { color:var(--recover);   }
 .matrix-th-col.t-compensate { color:var(--compensate);}
-
 .mc-chip[class*='t-'] { color:var(--tc); border-color:color-mix(in srgb,var(--tc) 35%,transparent); background:color-mix(in srgb,var(--tc) 7%,transparent); }
 
-/* type legend */
 .type-legend { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px; }
-.tl-item {
-  display:flex; align-items:center; gap:7px;
-  font-family:'Inconsolata',monospace; font-size:10px; color:var(--mid);
-  padding:5px 12px; border:1px solid var(--border); border-radius:2px;
-  background:var(--surface); cursor:pointer; transition:all .15s;
-}
+.tl-item { display:flex; align-items:center; gap:7px; font-family:'Inconsolata',monospace; font-size:10px; color:var(--mid); padding:5px 12px; border:1px solid var(--border); border-radius:2px; background:var(--surface); cursor:pointer; transition:all .15s; }
 .tl-item:hover { border-color:var(--border2); }
 .tl-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 .tl-name { font-weight:500; letter-spacing:1px; }
 
-/* ══════════════════════════════
-   ATTACK SIMULATION (View 2)
-══════════════════════════════ */
+/* ── ATTACK SIM ── */
 .atk-layout { display:grid; grid-template-columns:320px 1fr; gap:18px; }
-
-/* attack selector */
-.atk-selector { }
-.atk-scenario-btn {
-  display:flex; align-items:flex-start; gap:12px;
-  padding:12px 14px; background:var(--surface); border:1px solid var(--border);
-  border-radius:3px; cursor:pointer; transition:all .15s; margin-bottom:8px;
-  border-left:3px solid transparent;
-}
+.atk-scenario-btn { display:flex; align-items:flex-start; gap:12px; padding:12px 14px; background:var(--surface); border:1px solid var(--border); border-radius:3px; cursor:pointer; transition:all .15s; margin-bottom:8px; border-left:3px solid transparent; }
 .atk-scenario-btn:hover { border-color:var(--border2); background:var(--panel); }
 .atk-scenario-btn.active { border-left-color:var(--amber); background:var(--panel); }
 .asb-icon { font-size:20px; flex-shrink:0; margin-top:2px; }
 .asb-info { flex:1; }
-.asb-type {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--amber);
-  letter-spacing:2px; text-transform:uppercase; margin-bottom:3px;
-}
+.asb-type { font-family:'Inconsolata',monospace; font-size:9px; color:var(--amber); letter-spacing:2px; text-transform:uppercase; margin-bottom:3px; }
 .asb-title { font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600; color:#fff; }
-.asb-difficulty {
-  font-family:'Inconsolata',monospace; font-size:9px; padding:1px 7px;
-  border-radius:1px; border:1px solid; margin-top:4px; display:inline-block;
-}
+.asb-difficulty { font-family:'Inconsolata',monospace; font-size:9px; padding:1px 7px; border-radius:1px; border:1px solid; margin-top:4px; display:inline-block; }
 
-/* attack viz */
-.atk-viz { }
-.atk-intro {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:3px; padding:18px 20px; margin-bottom:14px;
-}
-.ai-label {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--amber);
-  letter-spacing:3px; text-transform:uppercase; margin-bottom:6px;
-}
+.atk-intro { background:var(--surface); border:1px solid var(--border); border-radius:3px; padding:18px 20px; margin-bottom:14px; }
+.ai-label { font-family:'Inconsolata',monospace; font-size:9px; color:var(--amber); letter-spacing:3px; text-transform:uppercase; margin-bottom:6px; }
 .ai-title { font-family:'Rajdhani',sans-serif; font-size:20px; color:#fff; margin-bottom:6px; }
 .ai-desc { font-size:13px; color:var(--mid); line-height:1.65; }
 
-/* defense layers */
 .defense-layers { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
-.def-layer {
-  background:var(--surface); border:1px solid var(--border); border-radius:3px;
-  display:grid; grid-template-columns:180px 1fr auto; gap:0; overflow:hidden;
-  transition:all .2s;
-}
+.def-layer { background:var(--surface); border:1px solid var(--border); border-radius:3px; display:grid; grid-template-columns:180px 1fr auto; gap:0; overflow:hidden; transition:all .2s; }
 .def-layer.active { border-color:var(--border2); }
 .def-layer.breached { border-color:rgba(255,23,68,.4); }
 .def-layer.blocking { border-color:rgba(0,230,118,.5); box-shadow:0 0 16px rgba(0,230,118,.1); }
 
-.dl-label {
-  padding:12px 14px; background:var(--panel);
-  border-right:1px solid var(--border); display:flex; flex-direction:column; justify-content:center;
-}
-.dl-type {
-  font-family:'Inconsolata',monospace; font-size:9px; letter-spacing:2px;
-  text-transform:uppercase; margin-bottom:3px;
-}
-.dl-name {
-  font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:600; color:#fff;
-}
+.dl-label { padding:12px 14px; background:var(--panel); border-right:1px solid var(--border); display:flex; flex-direction:column; justify-content:center; }
+.dl-type { font-family:'Inconsolata',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; margin-bottom:3px; }
+.dl-name { font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:600; color:#fff; }
 .dl-controls { padding:10px 14px; display:flex; flex-wrap:wrap; gap:6px; align-items:center; flex:1; }
 .dl-control {
   font-family:'Inconsolata',monospace; font-size:10px; letter-spacing:.5px;
@@ -366,199 +222,101 @@ body::after {
   cursor:pointer; transition:all .15s; user-select:none;
 }
 .dl-control.on  { opacity:1; }
-.dl-control.off { opacity:.25; text-decoration:line-through; }
-.dl-status {
-  padding:12px 16px; display:flex; align-items:center; justify-content:center;
-  border-left:1px solid var(--border); min-width:120px;
-}
-.dl-status-text {
-  font-family:'Inconsolata',monospace; font-size:10px; letter-spacing:1.5px;
-  text-transform:uppercase; display:flex; align-items:center; gap:5px;
-}
+.dl-control.off { opacity:.28; text-decoration:line-through; filter:grayscale(60%); }
+.dl-status { padding:12px 16px; display:flex; align-items:center; justify-content:center; border-left:1px solid var(--border); min-width:120px; }
+.dl-status-text { font-family:'Inconsolata',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; display:flex; align-items:center; gap:5px; }
 .ds-icon { font-size:14px; }
 
-/* attack progress */
-.atk-progress-box {
-  background:var(--surface); border:1px solid var(--border); border-radius:3px;
-  padding:16px 18px; margin-bottom:14px;
-}
-.apb-label {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--cyan);
-  letter-spacing:3px; margin-bottom:12px;
-}
+.atk-progress-box { background:var(--surface); border:1px solid var(--border); border-radius:3px; padding:16px 18px; margin-bottom:14px; }
+.apb-label { font-family:'Inconsolata',monospace; font-size:9px; color:var(--cyan); letter-spacing:3px; margin-bottom:12px; }
 .atk-path { display:flex; align-items:center; gap:0; overflow-x:auto; }
-.ap-step {
-  display:flex; flex-direction:column; align-items:center; gap:5px;
-  min-width:80px; opacity:.3; transition:all .4s;
-}
+.ap-step { display:flex; flex-direction:column; align-items:center; gap:5px; min-width:80px; opacity:.3; transition:all .4s; }
 .ap-step.reached { opacity:1; }
 .ap-step.blocked { opacity:1; }
 .ap-step-icon { font-size:20px; }
-.ap-step-label {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--mid);
-  letter-spacing:1px; text-align:center; white-space:nowrap;
-}
+.ap-step-label { font-family:'Inconsolata',monospace; font-size:9px; color:var(--mid); letter-spacing:1px; text-align:center; white-space:nowrap; }
 .ap-step.reached .ap-step-label { color:var(--amber); }
 .ap-step.blocked .ap-step-label { color:var(--green); }
-.ap-arrow {
-  flex:1; height:2px; background:var(--border); min-width:24px; position:relative;
-  margin-bottom:18px; transition:background .3s;
-}
+.ap-arrow { flex:1; height:2px; background:var(--border); min-width:24px; position:relative; margin-bottom:18px; transition:background .3s; }
 .ap-arrow.active { background:var(--amber); }
 .ap-arrow.blocked { background:var(--green); }
 
-.atk-result {
-  padding:14px 16px; border-radius:3px; font-family:'Rajdhani',sans-serif;
-  font-size:16px; font-weight:600; letter-spacing:1px; margin-top:8px;
-  border:1px solid; display:none; animation:fadeIn .4s ease;
-}
+.atk-result { padding:14px 16px; border-radius:3px; font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:600; letter-spacing:1px; margin-top:8px; border:1px solid; display:none; animation:fadeIn .4s ease; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
 .atk-result.show { display:block; }
 .atk-result.success { background:rgba(0,230,118,.08); border-color:rgba(0,230,118,.4); color:var(--green); }
 .atk-result.failure { background:rgba(255,23,68,.08); border-color:rgba(255,23,68,.4); color:var(--red); }
 
-.atk-btn {
-  font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700;
-  letter-spacing:3px; padding:10px 22px; border-radius:2px; border:none;
-  cursor:pointer; transition:all .2s; text-transform:uppercase;
-}
+.atk-btn { font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; letter-spacing:3px; padding:10px 22px; border-radius:2px; border:none; cursor:pointer; transition:all .2s; text-transform:uppercase; }
 .ab-run { background:var(--amber); color:#000; }
 .ab-run:hover { background:var(--amber2); box-shadow:0 0 16px rgba(255,179,0,.3); }
 .ab-reset { background:transparent; border:1px solid var(--border2); color:var(--mid); }
 .ab-reset:hover { border-color:var(--cyan); color:var(--cyan); }
 
-/* ══════════════════════════════
-   SCENARIO LAB (View 3)
-══════════════════════════════ */
+/* ── SCENARIO LAB ── */
 .scenario-layout { display:grid; grid-template-columns:280px 1fr; gap:18px; }
 .scenario-list { display:flex; flex-direction:column; gap:8px; }
-.sc-list-btn {
-  background:var(--surface); border:1px solid var(--border); border-radius:3px;
-  padding:12px 14px; cursor:pointer; transition:all .15s; border-left:3px solid transparent;
-}
+.sc-list-btn { background:var(--surface); border:1px solid var(--border); border-radius:3px; padding:12px 14px; cursor:pointer; transition:all .15s; border-left:3px solid transparent; }
 .sc-list-btn:hover { background:var(--panel); }
 .sc-list-btn.active { border-left-color:var(--cyan); background:var(--panel); }
 .sc-list-btn.done { border-left-color:var(--green); }
-.slb-num {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--dim);
-  letter-spacing:2px; margin-bottom:4px;
-}
+.slb-num { font-family:'Inconsolata',monospace; font-size:9px; color:var(--dim); letter-spacing:2px; margin-bottom:4px; }
 .slb-title { font-family:'Rajdhani',sans-serif; font-size:14px; color:#fff; margin-bottom:3px; }
 .slb-status { font-family:'Inconsolata',monospace; font-size:10px; }
 .slb-status.pass { color:var(--green); }
 .slb-status.fail { color:var(--red); }
 .slb-status.new  { color:var(--dim); }
 
-.scenario-workspace { }
-.sc-brief {
-  background:var(--surface); border:1px solid var(--border); border-radius:3px;
-  padding:18px 20px; margin-bottom:14px;
-}
-.sc-brief-label {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--cyan);
-  letter-spacing:3px; margin-bottom:6px;
-}
+.sc-brief { background:var(--surface); border:1px solid var(--border); border-radius:3px; padding:18px 20px; margin-bottom:14px; }
+.sc-brief-label { font-family:'Inconsolata',monospace; font-size:9px; color:var(--cyan); letter-spacing:3px; margin-bottom:6px; }
 .sc-brief-title { font-family:'Rajdhani',sans-serif; font-size:20px; color:#fff; margin-bottom:6px; }
 .sc-brief-text { font-size:13px; color:var(--mid); line-height:1.65; }
 
-.sc-task-box {
-  background:var(--surface); border:1px solid var(--border2); border-radius:3px;
-  padding:16px; margin-bottom:14px;
-}
-.sc-task-label {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--amber);
-  letter-spacing:3px; margin-bottom:10px;
-}
+.sc-task-box { background:var(--surface); border:1px solid var(--border2); border-radius:3px; padding:16px; margin-bottom:14px; }
+.sc-task-label { font-family:'Inconsolata',monospace; font-size:9px; color:var(--amber); letter-spacing:3px; margin-bottom:10px; }
 .sc-question { font-size:14px; color:#fff; font-weight:600; margin-bottom:14px; line-height:1.5; }
 .sc-options { display:flex; flex-direction:column; gap:7px; }
-.sc-opt {
-  display:flex; gap:12px; padding:11px 14px; border:1px solid var(--border);
-  border-radius:2px; cursor:pointer; transition:all .15s;
-  background:var(--panel); font-size:13px; color:var(--mid); line-height:1.5;
-}
+.sc-opt { display:flex; gap:12px; padding:11px 14px; border:1px solid var(--border); border-radius:2px; cursor:pointer; transition:all .15s; background:var(--panel); font-size:13px; color:var(--mid); line-height:1.5; }
 .sc-opt:hover { border-color:var(--border2); color:var(--text); }
 .sc-opt.sel   { border-color:var(--cyan); color:var(--cyan); background:rgba(0,212,255,.06); }
 .sc-opt.corr  { border-color:var(--green)!important; color:var(--green)!important; background:rgba(0,230,118,.08)!important; }
 .sc-opt.wrng  { border-color:var(--red)!important; color:var(--red)!important; background:rgba(255,23,68,.08)!important; }
 .sc-opt.dis   { pointer-events:none; }
-.sc-opt-key {
-  font-family:'Inconsolata',monospace; font-size:10px; width:20px; height:20px;
-  border:1px solid var(--border2); display:flex; align-items:center;
-  justify-content:center; flex-shrink:0; border-radius:2px; margin-top:1px;
-}
+.sc-opt-key { font-family:'Inconsolata',monospace; font-size:10px; width:20px; height:20px; border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; flex-shrink:0; border-radius:2px; margin-top:1px; }
 .sc-opt.sel .sc-opt-key  { border-color:var(--cyan); color:var(--cyan); }
 .sc-opt.corr .sc-opt-key { border-color:var(--green); color:var(--green); }
 .sc-opt.wrng .sc-opt-key { border-color:var(--red); color:var(--red); }
 
-.sc-feedback {
-  padding:12px 14px; border-radius:2px; border-left:3px solid;
-  font-size:12px; line-height:1.65; display:none; margin-top:10px;
-  font-family:'Barlow Condensed',sans-serif;
-}
+.sc-feedback { padding:12px 14px; border-radius:2px; border-left:3px solid; font-size:12px; line-height:1.65; display:none; margin-top:10px; font-family:'Barlow Condensed',sans-serif; }
 .sc-feedback.show { display:block; }
 .sc-feedback.ok  { background:rgba(0,230,118,.06); border-color:var(--green); color:var(--green2); }
 .sc-feedback.err { background:rgba(255,23,68,.06); border-color:var(--red); color:var(--red2); }
-.sc-fb-label {
-  font-family:'Inconsolata',monospace; font-size:9px; letter-spacing:2px; margin-bottom:5px;
-}
+.sc-fb-label { font-family:'Inconsolata',monospace; font-size:9px; letter-spacing:2px; margin-bottom:5px; }
 
-.sc-btn {
-  font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700; letter-spacing:2px;
-  padding:9px 20px; border:none; border-radius:2px; cursor:pointer; transition:all .2s;
-  text-transform:uppercase;
-}
+.sc-btn { font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700; letter-spacing:2px; padding:9px 20px; border:none; border-radius:2px; cursor:pointer; transition:all .2s; text-transform:uppercase; }
 .sc-btn-check { background:var(--cyan); color:#000; }
 .sc-btn-check:hover { background:var(--cyan2); }
 .sc-btn-check:disabled { opacity:.3; cursor:default; }
 .sc-btn-next { background:transparent; border:1px solid var(--border2); color:var(--mid); }
 .sc-btn-next:hover { border-color:var(--cyan); color:var(--cyan); }
-.sc-score {
-  background:var(--surface); border:1px solid var(--border); border-radius:3px;
-  padding:14px 18px; display:flex; align-items:center; gap:14px;
-}
+.sc-score { background:var(--surface); border:1px solid var(--border); border-radius:3px; padding:14px 18px; display:flex; align-items:center; gap:14px; }
 .sc-score-val { font-family:'Rajdhani',sans-serif; font-size:28px; font-weight:700; color:var(--cyan); }
 .sc-score-label { font-family:'Inconsolata',monospace; font-size:10px; color:var(--dim); letter-spacing:2px; }
 .sc-score-bar-wrap { flex:1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
 .sc-score-bar { height:100%; background:var(--cyan); border-radius:2px; transition:width .5s; }
 
-/* ══════════════════════════════
-   CONTROL ENCYCLOPEDIA (View 4)
-══════════════════════════════ */
-.ency-controls {
-  display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; align-items:center;
-}
-.ency-filter {
-  font-family:'Inconsolata',monospace; font-size:10px; letter-spacing:1px;
-  padding:6px 14px; border:1px solid var(--border); background:var(--surface);
-  color:var(--dim); cursor:pointer; transition:all .15s; border-radius:2px;
-}
+/* ── ENCYCLOPEDIA ── */
+.ency-controls { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; align-items:center; }
+.ency-filter { font-family:'Inconsolata',monospace; font-size:10px; letter-spacing:1px; padding:6px 14px; border:1px solid var(--border); background:var(--surface); color:var(--dim); cursor:pointer; transition:all .15s; border-radius:2px; }
 .ency-filter:hover { color:var(--mid); }
 .ency-filter.active { border-color:var(--cyan); color:var(--cyan); background:rgba(0,212,255,.06); }
-.ency-search {
-  font-family:'Inconsolata',monospace; font-size:11px; color:var(--text);
-  background:var(--surface); border:1px solid var(--border); border-radius:2px;
-  padding:7px 14px; outline:none; width:200px; margin-left:auto;
-}
+.ency-search { font-family:'Inconsolata',monospace; font-size:11px; color:var(--text); background:var(--surface); border:1px solid var(--border); border-radius:2px; padding:7px 14px; outline:none; width:200px; margin-left:auto; }
 .ency-search:focus { border-color:var(--border2); }
 .ency-search::placeholder { color:var(--dim); }
-
-.ency-table {
-  background:var(--surface); border:1px solid var(--border); border-radius:3px; overflow:hidden;
-}
-.ency-hdr {
-  display:grid; grid-template-columns:200px 80px 100px 1fr 120px;
-  padding:10px 14px; border-bottom:1px solid var(--border2);
-  background:var(--panel); gap:10px;
-}
-.ency-hdr span {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--dim);
-  letter-spacing:2px; text-transform:uppercase;
-}
-.ency-row {
-  display:grid; grid-template-columns:200px 80px 100px 1fr 120px;
-  padding:11px 14px; border-bottom:1px solid var(--border);
-  gap:10px; align-items:start; transition:background .12s; cursor:pointer;
-}
+.ency-table { background:var(--surface); border:1px solid var(--border); border-radius:3px; overflow:hidden; }
+.ency-hdr { display:grid; grid-template-columns:200px 80px 100px 1fr 120px; padding:10px 14px; border-bottom:1px solid var(--border2); background:var(--panel); gap:10px; }
+.ency-hdr span { font-family:'Inconsolata',monospace; font-size:9px; color:var(--dim); letter-spacing:2px; text-transform:uppercase; }
+.ency-row { display:grid; grid-template-columns:200px 80px 100px 1fr 120px; padding:11px 14px; border-bottom:1px solid var(--border); gap:10px; align-items:start; transition:background .12s; cursor:pointer; }
 .ency-row:last-child { border-bottom:none; }
 .ency-row:hover { background:var(--panel); }
 .er-name { font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600; color:#fff; }
@@ -567,96 +325,36 @@ body::after {
 .er-desc { font-size:12px; color:var(--mid); line-height:1.5; }
 .er-ex { font-family:'Inconsolata',monospace; font-size:10px; color:var(--dim); }
 
-/* ══════════════════════════════
-   CONTROL BUILDER (View 5)
-══════════════════════════════ */
+/* ── BUILDER ── */
 .builder-layout { display:grid; grid-template-columns:260px 1fr 260px; gap:16px; }
-.builder-palette { }
 .bp-section { margin-bottom:16px; }
-.bp-section-title {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--mid);
-  letter-spacing:3px; text-transform:uppercase; margin-bottom:8px;
-  padding-bottom:6px; border-bottom:1px solid var(--border);
-}
-.bp-control {
-  background:var(--surface); border:1px solid var(--border); border-radius:2px;
-  padding:8px 11px; margin-bottom:5px; cursor:pointer; transition:all .15s;
-  display:flex; align-items:center; gap:8px; font-size:12px;
-}
+.bp-section-title { font-family:'Inconsolata',monospace; font-size:9px; color:var(--mid); letter-spacing:3px; text-transform:uppercase; margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.bp-control { background:var(--surface); border:1px solid var(--border); border-radius:2px; padding:8px 11px; margin-bottom:5px; cursor:pointer; transition:all .15s; display:flex; align-items:center; gap:8px; font-size:12px; }
 .bp-control:hover { border-color:var(--border2); background:var(--panel); }
 .bp-control.placed { opacity:.3; pointer-events:none; }
 .bp-ctrl-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
 .bp-ctrl-name { flex:1; color:var(--text); font-family:'Barlow Condensed',sans-serif; }
-.bp-ctrl-type {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--dim);
-}
-
-/* defense canvas */
-.builder-canvas { }
-.bc-header {
-  display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
-}
-.bc-score-display {
-  background:var(--surface); border:1px solid var(--border2); border-radius:3px;
-  padding:10px 16px; display:flex; align-items:center; gap:16px;
-}
-.bcs-val {
-  font-family:'Rajdhani',sans-serif; font-size:32px; font-weight:700; color:var(--cyan);
-  line-height:1;
-}
+.bp-ctrl-type { font-family:'Inconsolata',monospace; font-size:9px; color:var(--dim); }
+.bc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.bc-score-display { background:var(--surface); border:1px solid var(--border2); border-radius:3px; padding:10px 16px; display:flex; align-items:center; gap:16px; }
+.bcs-val { font-family:'Rajdhani',sans-serif; font-size:32px; font-weight:700; color:var(--cyan); line-height:1; }
 .bcs-label { font-family:'Inconsolata',monospace; font-size:9px; color:var(--dim); letter-spacing:2px; }
 .bcs-grade { font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600; }
-
-.bc-layers { }
-.bc-layer {
-  background:var(--surface); border:1px solid var(--border); border-radius:3px;
-  margin-bottom:10px; min-height:60px; position:relative; overflow:hidden;
-  transition:border-color .2s;
-}
+.bc-layer { background:var(--surface); border:1px solid var(--border); border-radius:3px; margin-bottom:10px; min-height:60px; position:relative; overflow:hidden; transition:border-color .2s; }
 .bc-layer:hover { border-color:var(--border2); }
-.bc-layer-header {
-  padding:8px 14px; background:var(--panel); border-bottom:1px solid var(--border);
-  display:flex; align-items:center; gap:10px;
-}
-.bcl-type {
-  font-family:'Inconsolata',monospace; font-size:9px; letter-spacing:2px;
-  text-transform:uppercase;
-}
+.bc-layer-header { padding:8px 14px; background:var(--panel); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+.bcl-type { font-family:'Inconsolata',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; }
 .bcl-name { font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:600; color:#fff; }
-.bcl-coverage {
-  margin-left:auto; font-family:'Inconsolata',monospace; font-size:10px; color:var(--dim);
-}
+.bcl-coverage { margin-left:auto; font-family:'Inconsolata',monospace; font-size:10px; color:var(--dim); }
 .bcl-controls { padding:10px 14px; display:flex; flex-wrap:wrap; gap:6px; min-height:40px; }
-.bcl-ctrl {
-  font-family:'Inconsolata',monospace; font-size:10px; padding:4px 10px;
-  border:1px solid; border-radius:2px; display:flex; align-items:center; gap:6px;
-  cursor:pointer; transition:all .15s;
-}
+.bcl-ctrl { font-family:'Inconsolata',monospace; font-size:10px; padding:4px 10px; border:1px solid; border-radius:2px; display:flex; align-items:center; gap:6px; cursor:pointer; transition:all .15s; }
 .bcl-ctrl:hover { opacity:.7; }
 .bcl-remove { font-size:10px; color:var(--dim); }
-.bcl-empty {
-  padding:10px 14px; font-family:'Inconsolata',monospace; font-size:10px;
-  color:var(--dim); letter-spacing:1px; font-style:italic;
-}
-.bc-drop-zone {
-  border:2px dashed var(--border); border-radius:2px;
-  padding:10px 14px; min-height:40px; display:flex; flex-wrap:wrap; gap:6px;
-  transition:border-color .15s;
-}
-.bc-drop-zone.drag-over { border-color:var(--cyan); background:rgba(0,212,255,.04); }
-
-/* threat coverage bars */
+.bcl-empty { padding:10px 14px; font-family:'Inconsolata',monospace; font-size:10px; color:var(--dim); letter-spacing:1px; font-style:italic; }
 .coverage-panel { }
-.cp-title {
-  font-family:'Inconsolata',monospace; font-size:9px; color:var(--mid);
-  letter-spacing:3px; text-transform:uppercase; margin-bottom:12px;
-  padding-bottom:6px; border-bottom:1px solid var(--border);
-}
+.cp-title { font-family:'Inconsolata',monospace; font-size:9px; color:var(--mid); letter-spacing:3px; text-transform:uppercase; margin-bottom:12px; padding-bottom:6px; border-bottom:1px solid var(--border); }
 .coverage-row { margin-bottom:10px; }
-.cr-label {
-  display:flex; justify-content:space-between;
-  font-family:'Inconsolata',monospace; font-size:10px; margin-bottom:4px;
-}
+.cr-label { display:flex; justify-content:space-between; font-family:'Inconsolata',monospace; font-size:10px; margin-bottom:4px; }
 .cr-name { color:var(--mid); }
 .cr-pct { color:var(--cyan); }
 .cr-bar-wrap { height:5px; background:var(--border); border-radius:2px; overflow:hidden; }
@@ -664,63 +362,33 @@ body::after {
 .cr-bar.warn { background:var(--amber); }
 .cr-bar.danger { background:var(--red); }
 
-/* ══════════════════════════════
-   KNOWLEDGE QUIZ (View 6)
-══════════════════════════════ */
+/* ── QUIZ ── */
 .quiz-wrap { max-width:800px; }
-.qprog-row {
-  background:var(--surface); border:1px solid var(--border); border-radius:3px;
-  padding:12px 16px; display:flex; align-items:center; gap:14px; margin-bottom:20px;
-}
+.qprog-row { background:var(--surface); border:1px solid var(--border); border-radius:3px; padding:12px 16px; display:flex; align-items:center; gap:14px; margin-bottom:20px; }
 .qpr-bar { flex:1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
 .qpr-fill { height:100%; background:var(--cyan); border-radius:2px; transition:width .4s; }
 .qpr-label { font-family:'Inconsolata',monospace; font-size:10px; color:var(--dim); white-space:nowrap; }
 .qpr-score { font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:700; color:var(--cyan); white-space:nowrap; }
-
-.qz-card {
-  background:var(--surface); border:1px solid var(--border); border-radius:3px;
-  margin-bottom:12px; overflow:hidden; animation:fadeUp .3s ease;
-  box-shadow:0 4px 16px rgba(0,0,0,.3);
-}
+.qz-card { background:var(--surface); border:1px solid var(--border); border-radius:3px; margin-bottom:12px; overflow:hidden; animation:fadeUp .3s ease; box-shadow:0 4px 16px rgba(0,0,0,.3); }
 @keyframes fadeUp { from{opacity:0;transform:translateY(6px);} to{opacity:1;} }
 .qz-card.qz-corr { border-color:rgba(0,230,118,.4); }
 .qz-card.qz-wrng { border-color:rgba(255,23,68,.4); }
-.qz-header {
-  padding:14px 18px 12px; display:flex; gap:12px;
-  background:rgba(0,212,255,.02); border-bottom:1px solid var(--border);
-}
-.qz-badge {
-  font-family:'Inconsolata',monospace; font-size:9px; letter-spacing:1px;
-  background:var(--cyan); color:#000; padding:2px 8px; flex-shrink:0; margin-top:2px;
-  border-radius:1px;
-}
+.qz-header { padding:14px 18px 12px; display:flex; gap:12px; background:rgba(0,212,255,.02); border-bottom:1px solid var(--border); }
+.qz-badge { font-family:'Inconsolata',monospace; font-size:9px; letter-spacing:1px; background:var(--cyan); color:#000; padding:2px 8px; flex-shrink:0; margin-top:2px; border-radius:1px; }
 .qz-text { font-size:14px; color:#fff; line-height:1.6; font-weight:500; }
 .qz-opts { padding:12px 18px; display:flex; flex-direction:column; gap:6px; }
-.qz-opt {
-  display:flex; gap:10px; padding:10px 13px; border:1px solid var(--border);
-  border-radius:2px; cursor:pointer; transition:all .12s;
-  font-size:12px; color:var(--mid); font-family:'Barlow Condensed',sans-serif;
-  background:var(--panel); line-height:1.5;
-}
+.qz-opt { display:flex; gap:10px; padding:10px 13px; border:1px solid var(--border); border-radius:2px; cursor:pointer; transition:all .12s; font-size:12px; color:var(--mid); font-family:'Barlow Condensed',sans-serif; background:var(--panel); line-height:1.5; }
 .qz-opt:hover { border-color:var(--border2); color:var(--text); }
 .qz-opt.qo-sel  { border-color:var(--cyan); color:var(--cyan); background:rgba(0,212,255,.06); }
 .qz-opt.qo-corr { border-color:var(--green)!important; color:var(--green)!important; background:rgba(0,230,118,.08)!important; }
 .qz-opt.qo-wrng { border-color:var(--red)!important; color:var(--red)!important; background:rgba(255,23,68,.08)!important; }
 .qz-opt.qo-dis  { pointer-events:none; }
-.qz-key {
-  font-family:'Inconsolata',monospace; font-size:9px; width:18px; height:18px;
-  border:1px solid var(--border2); display:flex; align-items:center;
-  justify-content:center; flex-shrink:0; margin-top:2px; border-radius:1px;
-}
+.qz-key { font-family:'Inconsolata',monospace; font-size:9px; width:18px; height:18px; border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; border-radius:1px; }
 .qz-opt.qo-sel .qz-key  { border-color:var(--cyan); color:var(--cyan); }
 .qz-opt.qo-corr .qz-key { border-color:var(--green); color:var(--green); }
 .qz-opt.qo-wrng .qz-key { border-color:var(--red); color:var(--red); }
 .qz-foot { padding:8px 18px 14px; display:flex; align-items:flex-start; gap:10px; }
-.qz-submit {
-  font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:2px;
-  padding:7px 18px; background:var(--cyan); color:#000; border:none;
-  cursor:pointer; transition:all .2s; text-transform:uppercase; border-radius:1px;
-}
+.qz-submit { font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:2px; padding:7px 18px; background:var(--cyan); color:#000; border:none; cursor:pointer; transition:all .2s; text-transform:uppercase; border-radius:1px; }
 .qz-submit:hover { background:var(--cyan2); }
 .qz-submit:disabled { opacity:.3; cursor:default; }
 .qz-explain { font-family:'Barlow Condensed',sans-serif; font-size:12px; display:none; line-height:1.65; }
@@ -728,7 +396,6 @@ body::after {
 .qz-explain.ok  { color:var(--green2); }
 .qz-explain.err { color:var(--red2); }
 
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width:5px; height:5px; }
 ::-webkit-scrollbar-track { background:var(--bg); }
 ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:3px; }
@@ -750,7 +417,6 @@ body::after {
 <body>
 <div class="app">
 
-<!-- ══════════════════════════════ HEADER ══════════════════════════════ -->
 <header class="header">
   <div class="header-inner">
     <div class="brand">
@@ -761,10 +427,7 @@ body::after {
       </div>
     </div>
     <div class="header-div"></div>
-    <div class="header-info">
-      <div class="led led-on"></div>
-      DEFENSE GRID ACTIVE
-    </div>
+    <div class="header-info"><div class="led led-on"></div>DEFENSE GRID ACTIVE</div>
     <div class="header-chips">
       <div class="hchip hchip-c">6 CONTROL TYPES</div>
       <div class="hchip hchip-a">3 FUNCTIONS</div>
@@ -774,7 +437,6 @@ body::after {
   </div>
 </header>
 
-<!-- ══════════════════════════════ NAV ══════════════════════════════ -->
 <nav class="nav">
   <button class="nbtn active" onclick="showView('matrix')">⊞ Control Matrix</button>
   <button class="nbtn" onclick="showView('attack')">⚡ Attack Simulation</button>
@@ -784,29 +446,22 @@ body::after {
   <button class="nbtn" onclick="showView('quiz')">◆ Knowledge Quiz</button>
 </nav>
 
-<!-- ══════════════════════════════ MAIN ══════════════════════════════ -->
 <div class="main">
 
-<!-- ═══ CONTROL MATRIX ═══ -->
+<!-- MATRIX -->
 <div class="view active" id="view-matrix">
   <div class="sec-eyebrow">NIST SP 800-53 · ISO 27001 ALIGNED</div>
   <div class="sec-title">Security Control Matrix</div>
   <div class="sec-desc">Security controls are categorized by <strong style="color:#fff">Type</strong> (what they do in relation to a threat) and <strong style="color:#fff">Function</strong> (how they are implemented). Click any cell to explore the controls in that category.</div>
   <div class="sec-line"></div>
-
   <div class="type-legend" id="type-legend"></div>
-
   <div class="card">
     <div class="card-hdr">
       <span>CONTROL TYPE × IMPLEMENTATION FUNCTION</span>
       <span style="color:var(--dim);font-size:9px;">CLICK A CELL TO EXPLORE</span>
     </div>
-    <div class="matrix-wrap">
-      <table class="matrix-table" id="control-matrix"></table>
-    </div>
+    <div class="matrix-wrap"><table class="matrix-table" id="control-matrix"></table></div>
   </div>
-
-  <!-- Detail panel -->
   <div id="matrix-detail" style="display:none;margin-top:16px;">
     <div class="card" id="matrix-detail-card">
       <div class="card-hdr">
@@ -818,13 +473,12 @@ body::after {
   </div>
 </div>
 
-<!-- ═══ ATTACK SIMULATION ═══ -->
+<!-- ATTACK SIM -->
 <div class="view" id="view-attack">
   <div class="sec-eyebrow">INTERACTIVE DEFENSE TESTING</div>
   <div class="sec-title">Attack Simulation</div>
   <div class="sec-desc">Toggle security controls on and off, then run the attack simulation to see which layers stop the threat — and which let it through. Learn how defense-in-depth works in practice.</div>
   <div class="sec-line"></div>
-
   <div class="atk-layout">
     <div class="atk-selector">
       <div style="font-family:'Inconsolata',monospace;font-size:9px;color:var(--mid);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);">// SELECT ATTACK SCENARIO</div>
@@ -840,13 +494,12 @@ body::after {
   </div>
 </div>
 
-<!-- ═══ SCENARIO LAB ═══ -->
+<!-- SCENARIO LAB -->
 <div class="view" id="view-scenarios">
   <div class="sec-eyebrow">ANALYST TRAINING EXERCISES</div>
   <div class="sec-title">Scenario Lab</div>
   <div class="sec-desc">Read each incident scenario and select the most appropriate security control type or control to address the threat. Understand the WHY behind each control decision.</div>
   <div class="sec-line"></div>
-
   <div class="sc-score" style="margin-bottom:14px;">
     <div>
       <div class="sc-score-val" id="sc-score-val">0/8</div>
@@ -855,7 +508,6 @@ body::after {
     <div class="sc-score-bar-wrap"><div class="sc-score-bar" id="sc-score-bar" style="width:0%"></div></div>
     <button class="sc-btn sc-btn-next" style="margin-left:16px;" onclick="resetScenarios()">↺ RESET</button>
   </div>
-
   <div class="scenario-layout">
     <div class="scenario-list" id="sc-list"></div>
     <div class="scenario-workspace" id="sc-workspace">
@@ -868,13 +520,12 @@ body::after {
   </div>
 </div>
 
-<!-- ═══ ENCYCLOPEDIA ═══ -->
+<!-- ENCYCLOPEDIA -->
 <div class="view" id="view-encyclopedia">
   <div class="sec-eyebrow">CONTROL REFERENCE DATABASE</div>
   <div class="sec-title">Control Encyclopedia</div>
   <div class="sec-desc">Comprehensive reference for 50+ security controls. Filter by type or function, or search by name.</div>
   <div class="sec-line"></div>
-
   <div class="ency-controls">
     <button class="ency-filter active" onclick="filterEncy('all',this)">All</button>
     <button class="ency-filter" onclick="filterEncy('type:Preventive',this)">Preventive</button>
@@ -889,7 +540,6 @@ body::after {
     <button class="ency-filter" onclick="filterEncy('func:Physical',this)">Physical</button>
     <input type="text" class="ency-search" id="ency-search" placeholder="Search controls..." oninput="filterEncy('search',null)">
   </div>
-
   <div class="ency-table">
     <div class="ency-hdr">
       <span>CONTROL NAME</span><span>TYPE</span><span>FUNCTION</span><span>DESCRIPTION</span><span>EXAMPLE</span>
@@ -898,39 +548,28 @@ body::after {
   </div>
 </div>
 
-<!-- ═══ DEFENSE BUILDER ═══ -->
+<!-- BUILDER -->
 <div class="view" id="view-builder">
   <div class="sec-eyebrow">ARCHITECTURE WORKSHOP</div>
   <div class="sec-title">Defense Builder</div>
   <div class="sec-desc">Drag controls from the palette into your defense layers and see your security score update in real time. Try to achieve full coverage across all threat categories.</div>
   <div class="sec-line"></div>
-
   <div class="builder-layout">
-    <!-- Palette -->
     <div class="builder-palette">
       <div style="font-family:'Inconsolata',monospace;font-size:9px;color:var(--mid);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);">// CONTROL PALETTE</div>
       <div id="builder-palette"></div>
     </div>
-
-    <!-- Canvas -->
     <div class="builder-canvas">
       <div class="bc-header">
         <div style="font-family:'Inconsolata',monospace;font-size:9px;color:var(--mid);letter-spacing:3px;text-transform:uppercase;">// DEFENSE ARCHITECTURE</div>
         <div class="bc-score-display">
-          <div>
-            <div class="bcs-val" id="bcs-val">0</div>
-            <div class="bcs-label">SECURITY SCORE</div>
-          </div>
-          <div>
-            <div class="bcs-grade" id="bcs-grade">NO CONTROLS</div>
-          </div>
+          <div><div class="bcs-val" id="bcs-val">0</div><div class="bcs-label">SECURITY SCORE</div></div>
+          <div><div class="bcs-grade" id="bcs-grade">NO CONTROLS</div></div>
         </div>
         <button class="sc-btn sc-btn-next" style="margin-left:8px;" onclick="resetBuilder()">↺ RESET</button>
       </div>
       <div class="bc-layers" id="bc-layers"></div>
     </div>
-
-    <!-- Coverage -->
     <div class="coverage-panel">
       <div class="cp-title">// THREAT COVERAGE</div>
       <div id="coverage-bars"></div>
@@ -942,7 +581,7 @@ body::after {
   </div>
 </div>
 
-<!-- ═══ KNOWLEDGE QUIZ ═══ -->
+<!-- QUIZ -->
 <div class="view" id="view-quiz">
   <div class="sec-eyebrow">KNOWLEDGE ASSESSMENT · 12 QUESTIONS</div>
   <div class="sec-title">Knowledge Quiz</div>
@@ -967,19 +606,17 @@ body::after {
 // ══════════════════════════════════════════════════════════
 
 const CONTROL_TYPES = [
-  { id:'Preventive',   color:'var(--prevent)',    desc:'Stop threats BEFORE they occur. The first and most desirable line of defense.' },
+  { id:'Preventive',   color:'var(--prevent)',    desc:'Stop threats BEFORE they occur.' },
   { id:'Detective',    color:'var(--detect)',     desc:'Identify and alert on threats that ARE occurring or have occurred.' },
-  { id:'Corrective',   color:'var(--correct)',    desc:'Reduce the impact of threats that HAVE occurred. Restore normal operations.' },
-  { id:'Deterrent',    color:'var(--deter)',      desc:'Discourage attackers from ATTEMPTING an attack through visible consequences.' },
-  { id:'Recovery',     color:'var(--recover)',    desc:'Restore systems and data AFTER a successful attack or disaster.' },
-  { id:'Compensating', color:'var(--compensate)', desc:'Alternative controls when primary controls cannot be implemented directly.' },
+  { id:'Corrective',   color:'var(--correct)',    desc:'Reduce the impact of threats that HAVE occurred.' },
+  { id:'Deterrent',    color:'var(--deter)',      desc:'Discourage attackers from ATTEMPTING an attack.' },
+  { id:'Recovery',     color:'var(--recover)',    desc:'Restore systems and data AFTER a successful attack.' },
+  { id:'Compensating', color:'var(--compensate)', desc:'Alternative controls when primary controls cannot be implemented.' },
 ];
 
 const CONTROL_FUNCS = ['Technical','Administrative','Physical'];
 
-// ALL CONTROLS: {name, type, func, desc, example, tags, defenseValue}
 const ALL_CONTROLS = [
-  // PREVENTIVE - TECHNICAL
   {name:'Firewall',              type:'Preventive',   func:'Technical',       desc:'Filters network traffic based on rules, blocking unauthorized connections.',                    example:'pfSense, Palo Alto, AWS Security Groups', tags:['network','perimeter'],           dv:8},
   {name:'Multi-Factor Auth',     type:'Preventive',   func:'Technical',       desc:'Requires two or more verification factors to authenticate users.',                            example:'Google Authenticator, Duo, YubiKey',      tags:['identity','access'],             dv:9},
   {name:'Encryption (at rest)',  type:'Preventive',   func:'Technical',       desc:'Encrypts stored data so it\'s unreadable without the decryption key.',                        example:'BitLocker, FileVault, AES-256',            tags:['data','confidentiality'],        dv:7},
@@ -989,122 +626,84 @@ const ALL_CONTROLS = [
   {name:'Application Whitelist', type:'Preventive',   func:'Technical',       desc:'Only allows pre-approved applications to execute on endpoints.',                             example:'AppLocker, Carbon Black, Airlock',        tags:['endpoint','application'],        dv:8},
   {name:'WAF',                   type:'Preventive',   func:'Technical',       desc:'Filters HTTP/HTTPS traffic to web applications, blocking OWASP Top 10 attacks.',             example:'Cloudflare WAF, AWS WAF, ModSecurity',    tags:['web','application'],             dv:7},
   {name:'DLP (Data Loss Prev.)', type:'Preventive',   func:'Technical',       desc:'Monitors and blocks unauthorized data exfiltration across channels.',                        example:'Forcepoint DLP, Microsoft Purview',       tags:['data','exfiltration'],           dv:7},
-  {name:'Zero Trust Network',    type:'Preventive',   func:'Technical',       desc:'Never-trust-always-verify architecture; every request is authenticated and authorized.',     example:'BeyondCorp, Zscaler ZPA, Okta',           tags:['network','identity','access'],   dv:9},
-
-  // PREVENTIVE - ADMINISTRATIVE
+  {name:'Zero Trust Network',    type:'Preventive',   func:'Technical',       desc:'Never-trust-always-verify architecture.',                                                     example:'BeyondCorp, Zscaler ZPA, Okta',           tags:['network','identity','access'],   dv:9},
   {name:'Security Policy',       type:'Preventive',   func:'Administrative',  desc:'Formal documented rules governing acceptable use and security requirements.',                 example:'AUP, Information Security Policy',        tags:['policy','governance'],           dv:5},
   {name:'Security Awareness',    type:'Preventive',   func:'Administrative',  desc:'Training programs to educate employees on security risks and best practices.',                example:'KnowBe4, Proofpoint PSAT, Annual training',tags:['training','human'],             dv:6},
-  {name:'Hiring Background Check',type:'Preventive',  func:'Administrative',  desc:'Pre-employment screening to verify identity and identify criminal history.',                  example:'Sterling, Checkr, BI background check',   tags:['personnel','insider'],           dv:5},
+  {name:'Hiring Background Check',type:'Preventive',  func:'Administrative',  desc:'Pre-employment screening to verify identity and criminal history.',                           example:'Sterling, Checkr, BI background check',   tags:['personnel','insider'],           dv:5},
   {name:'Separation of Duties',  type:'Preventive',   func:'Administrative',  desc:'No single individual has control over all aspects of a critical transaction.',               example:'Dual approval for wire transfers',        tags:['access','insider','fraud'],      dv:7},
   {name:'Least Privilege Policy',type:'Preventive',   func:'Administrative',  desc:'Users are granted only the minimum access rights needed to perform their job.',              example:'Role-based access, quarterly access review',tags:['access','identity'],           dv:8},
-  {name:'Vendor Risk Management',type:'Preventive',   func:'Administrative',  desc:'Assessment and monitoring of third-party security posture before and during engagement.',    example:'SOC 2 review, CAIQ, vendor questionnaire',tags:['supply chain','third party'],   dv:6},
+  {name:'Vendor Risk Management',type:'Preventive',   func:'Administrative',  desc:'Assessment and monitoring of third-party security posture.',                                  example:'SOC 2 review, CAIQ, vendor questionnaire',tags:['supply chain','third party'],   dv:6},
   {name:'Change Management',     type:'Preventive',   func:'Administrative',  desc:'Formal process for testing and approving changes to IT systems before production.',          example:'CAB process, ServiceNow change tickets',  tags:['operations','stability'],        dv:6},
-
-  // PREVENTIVE - PHYSICAL
-  {name:'Access Control System', type:'Preventive',   func:'Physical',        desc:'Electronic door locks requiring credentials (badge, PIN, biometric) to enter restricted areas.',example:'HID, Lenel, Brivo card readers',         tags:['physical','perimeter','access'], dv:7},
-  {name:'Security Guard',        type:'Preventive',   func:'Physical',        desc:'Trained personnel who verify identity, deter attackers, and enforce physical security policies.',example:'Lobby security, data center guard posts',  tags:['physical','personnel'],          dv:6},
-  {name:'Mantrap / Airlock',     type:'Preventive',   func:'Physical',        desc:'Double-door system that only allows one person through at a time, preventing tailgating.',   example:'Data center entry, secure server rooms',  tags:['physical','tailgating'],         dv:8},
-  {name:'Security Fencing',      type:'Preventive',   func:'Physical',        desc:'Perimeter barriers that restrict unauthorized physical access to facilities.',               example:'Chain link, anti-climb fence, barbed wire',tags:['physical','perimeter'],         dv:5},
-
-  // DETECTIVE - TECHNICAL
-  {name:'SIEM',                  type:'Detective',    func:'Technical',       desc:'Collects and correlates log data from across the environment to detect anomalies and attacks.',example:'Splunk, IBM QRadar, Microsoft Sentinel',  tags:['logging','monitoring','threat'], dv:9},
+  {name:'Access Control System', type:'Preventive',   func:'Physical',        desc:'Electronic door locks requiring credentials to enter restricted areas.',                      example:'HID, Lenel, Brivo card readers',          tags:['physical','perimeter','access'], dv:7},
+  {name:'Security Guard',        type:'Preventive',   func:'Physical',        desc:'Trained personnel who verify identity, deter attackers, and enforce physical security.',      example:'Lobby security, data center guard posts',  tags:['physical','personnel'],          dv:6},
+  {name:'Mantrap / Airlock',     type:'Preventive',   func:'Physical',        desc:'Double-door system preventing tailgating.',                                                   example:'Data center entry, secure server rooms',  tags:['physical','tailgating'],         dv:8},
+  {name:'Security Fencing',      type:'Preventive',   func:'Physical',        desc:'Perimeter barriers restricting unauthorized physical access.',                               example:'Chain link, anti-climb fence, barbed wire',tags:['physical','perimeter'],         dv:5},
+  {name:'SIEM',                  type:'Detective',    func:'Technical',       desc:'Collects and correlates log data to detect anomalies and attacks.',                           example:'Splunk, IBM QRadar, Microsoft Sentinel',  tags:['logging','monitoring','threat'], dv:9},
   {name:'IDS/IPS',               type:'Detective',    func:'Technical',       desc:'Monitors network traffic for known attack signatures and behavioral anomalies.',             example:'Snort, Suricata, Cisco Firepower',        tags:['network','intrusion'],           dv:8},
   {name:'File Integrity Monitor',type:'Detective',    func:'Technical',       desc:'Alerts when critical system files or configurations are modified unexpectedly.',             example:'Tripwire, OSSEC, Qualys FIM',             tags:['system','tampering'],            dv:7},
   {name:'Log Management',        type:'Detective',    func:'Technical',       desc:'Centralized collection, storage, and analysis of audit logs from all systems.',             example:'ELK Stack, Graylog, Loggly',             tags:['logging','audit','forensics'],   dv:7},
-  {name:'UEBA',                  type:'Detective',    func:'Technical',       desc:'User and Entity Behavior Analytics — detects anomalous behavior patterns.',                  example:'Microsoft Sentinel UEBA, Exabeam',        tags:['insider','behavioral','threat'], dv:8},
+  {name:'UEBA',                  type:'Detective',    func:'Technical',       desc:'Detects anomalous behavior patterns of users and entities.',                                 example:'Microsoft Sentinel UEBA, Exabeam',        tags:['insider','behavioral','threat'], dv:8},
   {name:'Vulnerability Scanner', type:'Detective',    func:'Technical',       desc:'Automatically scans systems for known vulnerabilities and misconfigurations.',              example:'Nessus, Qualys, OpenVAS',                tags:['vulnerability','assessment'],    dv:7},
-  {name:'Honeypot',              type:'Detective',    func:'Technical',       desc:'Decoy systems that attract attackers, revealing their techniques and triggering alerts.',   example:'OpenCanary, Thinkst Canary, Honeyd',     tags:['deception','threat intelligence'],dv:6},
-  {name:'Network Flow Analysis', type:'Detective',    func:'Technical',       desc:'Monitors network traffic patterns to detect unusual data flows and connections.',           example:'NetFlow, Darktrace, ExtraHop',           tags:['network','anomaly'],             dv:7},
-
-  // DETECTIVE - ADMINISTRATIVE
+  {name:'Honeypot',              type:'Detective',    func:'Technical',       desc:'Decoy systems that attract attackers, revealing their techniques.',                          example:'OpenCanary, Thinkst Canary, Honeyd',     tags:['deception','threat intelligence'],dv:6},
+  {name:'Network Flow Analysis', type:'Detective',    func:'Technical',       desc:'Monitors network traffic patterns to detect unusual data flows.',                            example:'NetFlow, Darktrace, ExtraHop',           tags:['network','anomaly'],             dv:7},
   {name:'Security Audit',        type:'Detective',    func:'Administrative',  desc:'Periodic review of security controls, configurations, and policy compliance.',              example:'Annual ISO audit, SOC 2 Type II audit',  tags:['compliance','governance'],       dv:7},
   {name:'Penetration Testing',   type:'Detective',    func:'Administrative',  desc:'Authorized simulated attacks to find vulnerabilities before real attackers do.',            example:'Annual pentest, red team exercise',       tags:['assessment','offensive'],        dv:8},
-  {name:'Log Review',            type:'Detective',    func:'Administrative',  desc:'Manual or automated review of system and security logs by trained personnel.',             example:'Daily SOC analyst log review',           tags:['logging','analyst'],             dv:6},
-  {name:'Risk Assessment',       type:'Detective',    func:'Administrative',  desc:'Systematic identification and evaluation of security risks to the organization.',          example:'NIST RMF, FAIR framework',               tags:['risk','governance'],             dv:6},
-
-  // DETECTIVE - PHYSICAL
-  {name:'CCTV / Security Camera',type:'Detective',   func:'Physical',        desc:'Video surveillance recording and monitoring of facilities and access points.',              example:'IP cameras, DVR/NVR, motion detection',   tags:['physical','surveillance'],       dv:6},
+  {name:'Log Review',            type:'Detective',    func:'Administrative',  desc:'Manual or automated review of system and security logs.',                                    example:'Daily SOC analyst log review',           tags:['logging','analyst'],             dv:6},
+  {name:'Risk Assessment',       type:'Detective',    func:'Administrative',  desc:'Systematic identification and evaluation of security risks.',                               example:'NIST RMF, FAIR framework',               tags:['risk','governance'],             dv:6},
+  {name:'CCTV / Security Camera',type:'Detective',   func:'Physical',        desc:'Video surveillance recording and monitoring of facilities.',                                  example:'IP cameras, DVR/NVR, motion detection',   tags:['physical','surveillance'],       dv:6},
   {name:'Motion Sensors',        type:'Detective',    func:'Physical',        desc:'Detect physical movement in restricted areas and trigger alerts.',                          example:'PIR sensors, microwave sensors, alarms',  tags:['physical','intrusion'],          dv:5},
   {name:'Environmental Sensors', type:'Detective',    func:'Physical',        desc:'Monitor temperature, humidity, smoke, and water to detect physical threats.',              example:'Smoke detectors, water sensors, UPS',    tags:['physical','facility'],           dv:5},
-
-  // CORRECTIVE - TECHNICAL
   {name:'Patch Deployment',      type:'Corrective',   func:'Technical',       desc:'Applying security patches to fix exploited vulnerabilities after detection.',              example:'Emergency patching after CVE exploit',   tags:['vulnerability','remediation'],   dv:7},
   {name:'System Reimaging',      type:'Corrective',   func:'Technical',       desc:'Restoring a system to a known-good state by wiping and reinstalling the OS.',              example:'Malware removal via full reimaging',      tags:['malware','remediation'],         dv:8},
-  {name:'Account Lockout',       type:'Corrective',   func:'Technical',       desc:'Automatically disables accounts after a defined number of failed authentication attempts.',example:'Active Directory account lockout policy',  tags:['identity','brute force'],        dv:7},
-  {name:'Quarantine / Isolation',type:'Corrective',   func:'Technical',       desc:'Automatically isolates compromised endpoints from the network to prevent spread.',         example:'EDR network isolation, VLAN quarantine', tags:['containment','incident'],        dv:8},
+  {name:'Account Lockout',       type:'Corrective',   func:'Technical',       desc:'Automatically disables accounts after failed authentication attempts.',                      example:'Active Directory account lockout policy',  tags:['identity','brute force'],        dv:7},
+  {name:'Quarantine / Isolation',type:'Corrective',   func:'Technical',       desc:'Automatically isolates compromised endpoints from the network.',                            example:'EDR network isolation, VLAN quarantine', tags:['containment','incident'],        dv:8},
   {name:'IR Playbooks',          type:'Corrective',   func:'Technical',       desc:'Documented step-by-step procedures for responding to specific security incidents.',        example:'Ransomware playbook, data breach runbook',tags:['incident response','process'],  dv:7},
-
-  // CORRECTIVE - ADMINISTRATIVE
   {name:'Incident Response Plan',type:'Corrective',   func:'Administrative',  desc:'Formal plan for detecting, containing, and recovering from security incidents.',          example:'NIST SP 800-61 aligned IRP',             tags:['incident response','governance'], dv:7},
   {name:'Disciplinary Policy',   type:'Corrective',   func:'Administrative',  desc:'Defined consequences for employees who violate security policies.',                        example:'HR warning, termination for data theft',  tags:['personnel','policy'],            dv:5},
-
-  // CORRECTIVE - PHYSICAL
   {name:'Fire Suppression',      type:'Corrective',   func:'Physical',        desc:'Systems that detect and extinguish fires to limit physical damage.',                       example:'FM-200, sprinkler, data center halon',   tags:['physical','facility'],           dv:6},
-
-  // DETERRENT
-  {name:'Warning Banners',       type:'Deterrent',    func:'Technical',       desc:'Legal notices displayed at login warning of monitoring and consequences of unauthorized use.',example:'SSID warning banners, login splash pages',tags:['legal','psychological'],        dv:4},
+  {name:'Warning Banners',       type:'Deterrent',    func:'Technical',       desc:'Legal notices displayed at login warning of monitoring and consequences.',                   example:'SSID warning banners, login splash pages',tags:['legal','psychological'],        dv:4},
   {name:'Visible Cameras',       type:'Deterrent',    func:'Physical',        desc:'Prominently visible security cameras that discourage physical attacks.',                   example:'Visible CCTV with recording lights',     tags:['physical','psychological'],      dv:5},
   {name:'Security Signage',      type:'Deterrent',    func:'Physical',        desc:'Signs indicating monitored areas, restricted zones, and consequences of trespassing.',      example:'"Restricted Area" signs, "CCTV in use"',  tags:['physical','psychological'],      dv:4},
-  {name:'Security Badges/Uniforms',type:'Deterrent',  func:'Physical',        desc:'Visible security presence that deters potential attackers from attempting intrusion.',     example:'Uniformed guards, security rover patrols',tags:['physical','personnel'],         dv:5},
-
-  // RECOVERY
+  {name:'Security Badges/Uniforms',type:'Deterrent',  func:'Physical',        desc:'Visible security presence that deters potential attackers.',                               example:'Uniformed guards, security rover patrols',tags:['physical','personnel'],         dv:5},
   {name:'Data Backups (3-2-1)', type:'Recovery',     func:'Technical',       desc:'3 copies on 2 different media types with 1 offsite — enables recovery from data loss.',  example:'Veeam, AWS S3 backup, tape + cloud',     tags:['backup','disaster recovery'],    dv:9},
   {name:'Disaster Recovery Plan',type:'Recovery',     func:'Administrative',  desc:'Documented strategy for restoring business operations after a major incident.',          example:'AWS DR region failover, BCP/DR plan',    tags:['continuity','governance'],       dv:8},
   {name:'High Availability',     type:'Recovery',     func:'Technical',       desc:'Redundant systems that automatically failover to minimize downtime.',                      example:'Active-active clusters, load balancers',  tags:['availability','redundancy'],     dv:8},
   {name:'Tabletop Exercises',    type:'Recovery',     func:'Administrative',  desc:'Simulated scenario discussions to test and improve recovery procedures.',                  example:'Annual DR tabletop, ransomware exercise', tags:['training','preparedness'],       dv:6},
-
-  // COMPENSATING
-  {name:'Increased Monitoring',  type:'Compensating', func:'Technical',       desc:'Enhanced logging and monitoring as a substitute when a primary control cannot be applied.', example:'Additional SIEM rules for legacy systems', tags:['monitoring','compensating'],    dv:5},
-  {name:'Network Segmentation',  type:'Compensating', func:'Technical',       desc:'Isolating systems into network segments to limit blast radius when patching is not possible.',example:'VLAN isolation for legacy OT/SCADA',     tags:['network','legacy','isolation'],  dv:7},
+  {name:'Increased Monitoring',  type:'Compensating', func:'Technical',       desc:'Enhanced logging and monitoring when a primary control cannot be applied.',               example:'Additional SIEM rules for legacy systems', tags:['monitoring','compensating'],    dv:5},
+  {name:'Network Segmentation',  type:'Compensating', func:'Technical',       desc:'Isolating systems to limit blast radius when patching is not possible.',                   example:'VLAN isolation for legacy OT/SCADA',     tags:['network','legacy','isolation'],  dv:7},
   {name:'Manual Approval Process',type:'Compensating',func:'Administrative',  desc:'Human review and approval gates as a substitute for automated technical controls.',       example:'Manual wire transfer approval workflow',  tags:['process','compensating'],        dv:5},
   {name:'Insurance',             type:'Compensating', func:'Administrative',  desc:'Cyber insurance as a financial compensating control for residual risk.',                  example:'Cyber liability policy, ransomware coverage',tags:['financial','risk transfer'],  dv:4},
 ];
 
-// ── Attack Scenarios ──
 const ATK_SCENARIOS = [
   {
     id:0, icon:'📧', type:'PHISHING / RANSOMWARE', title:'Email-Delivered Ransomware',
     difficulty:'HIGH', diffColor:'var(--red)',
     desc:'An attacker sends a spear-phishing email with a malicious Excel attachment to a finance employee. The attachment drops ransomware that attempts to spread via SMB to encrypt network shares.',
     attackPath:[
-      {label:'Phishing\nEmail',icon:'📧'},
-      {label:'User\nClicks',icon:'👆'},
-      {label:'Malware\nDropper',icon:'💾'},
-      {label:'Lateral\nMove',icon:'↔️'},
-      {label:'Ransomware\nEncrypts',icon:'🔒'},
+      {label:'Phishing\nEmail',icon:'📧'},{label:'User\nClicks',icon:'👆'},
+      {label:'Malware\nDropper',icon:'💾'},{label:'Lateral\nMove',icon:'↔️'},{label:'Ransomware\nEncrypts',icon:'🔒'},
     ],
     layers:[
-      {
-        type:'PREVENTIVE',name:'Email & Endpoint Controls',
-        controls:[
-          {id:'email-filter',name:'Email Security Gateway',color:'var(--prevent)',stops:'phishing'},
-          {id:'av-edr',name:'Antivirus / EDR',color:'var(--prevent)',stops:'dropper'},
-          {id:'mfa',name:'Multi-Factor Auth',color:'var(--prevent)',stops:'credential'},
-          {id:'awareness',name:'Security Awareness',color:'var(--prevent)',stops:'click'},
-        ]
-      },
-      {
-        type:'DETECTIVE',name:'Detection & Monitoring',
-        controls:[
-          {id:'siem',name:'SIEM Correlation',color:'var(--detect)',stops:'lateral'},
-          {id:'edr-behavior',name:'EDR Behavioral Analysis',color:'var(--detect)',stops:'dropper'},
-          {id:'net-monitor',name:'Network Monitoring',color:'var(--detect)',stops:'lateral'},
-        ]
-      },
-      {
-        type:'PREVENTIVE',name:'Network Segmentation',
-        controls:[
-          {id:'segmentation',name:'Network Segmentation',color:'var(--prevent)',stops:'lateral'},
-          {id:'least-priv',name:'Least Privilege Access',color:'var(--prevent)',stops:'lateral'},
-        ]
-      },
-      {
-        type:'RECOVERY',name:'Recovery Controls',
-        controls:[
-          {id:'backup',name:'Immutable Backups (3-2-1)',color:'var(--recover)',stops:'ransom'},
-          {id:'ir-plan',name:'Incident Response Plan',color:'var(--correct)',stops:'ransom'},
-        ]
-      }
+      { type:'PREVENTIVE', name:'Email & Endpoint Controls', controls:[
+        {id:'email-filter',name:'Email Security Gateway',color:'var(--prevent)',stops:'phishing'},
+        {id:'av-edr',name:'Antivirus / EDR',color:'var(--prevent)',stops:'dropper'},
+        {id:'mfa',name:'Multi-Factor Auth',color:'var(--prevent)',stops:'credential'},
+        {id:'awareness',name:'Security Awareness',color:'var(--prevent)',stops:'click'},
+      ]},
+      { type:'DETECTIVE', name:'Detection & Monitoring', controls:[
+        {id:'siem',name:'SIEM Correlation',color:'var(--detect)',stops:'lateral'},
+        {id:'edr-behavior',name:'EDR Behavioral Analysis',color:'var(--detect)',stops:'dropper'},
+        {id:'net-monitor',name:'Network Monitoring',color:'var(--detect)',stops:'lateral'},
+      ]},
+      { type:'PREVENTIVE', name:'Network Segmentation', controls:[
+        {id:'segmentation',name:'Network Segmentation',color:'var(--prevent)',stops:'lateral'},
+        {id:'least-priv',name:'Least Privilege Access',color:'var(--prevent)',stops:'lateral'},
+      ]},
+      { type:'RECOVERY', name:'Recovery Controls', controls:[
+        {id:'backup',name:'Immutable Backups (3-2-1)',color:'var(--recover)',stops:'ransom'},
+        {id:'ir-plan',name:'Incident Response Plan',color:'var(--correct)',stops:'ransom'},
+      ]},
     ],
     stopConditions:{
       'email-filter':'EMAIL BLOCKED — The email security gateway detected and blocked the phishing email before delivery.',
@@ -1125,305 +724,109 @@ const ATK_SCENARIOS = [
     difficulty:'MEDIUM', diffColor:'var(--amber)',
     desc:'A departing employee with database admin privileges attempts to exfiltrate 50,000 customer records to personal cloud storage before their last day.',
     attackPath:[
-      {label:'Notice\nGiven',icon:'📋'},
-      {label:'Data\nAccess',icon:'🗃️'},
-      {label:'Mass\nDownload',icon:'⬇️'},
-      {label:'Cloud\nUpload',icon:'☁️'},
-      {label:'Data\nExfiltrated',icon:'💸'},
+      {label:'Notice\nGiven',icon:'📋'},{label:'Data\nAccess',icon:'🗃️'},
+      {label:'Mass\nDownload',icon:'⬇️'},{label:'Cloud\nUpload',icon:'☁️'},{label:'Data\nExfiltrated',icon:'💸'},
     ],
     layers:[
-      {
-        type:'PREVENTIVE',name:'Access Controls',
-        controls:[
-          {id:'least-priv2',name:'Least Privilege',color:'var(--prevent)',stops:'access'},
-          {id:'pam',name:'Privileged Access Mgmt',color:'var(--prevent)',stops:'access'},
-          {id:'sep-duties',name:'Separation of Duties',color:'var(--prevent)',stops:'access'},
-        ]
-      },
-      {
-        type:'DETECTIVE',name:'Behavioral Monitoring',
-        controls:[
-          {id:'ueba',name:'UEBA',color:'var(--detect)',stops:'download'},
-          {id:'dlp',name:'Data Loss Prevention',color:'var(--detect)',stops:'upload'},
-          {id:'siem2',name:'SIEM User Activity',color:'var(--detect)',stops:'download'},
-        ]
-      },
-      {
-        type:'PREVENTIVE',name:'Data Exfiltration Controls',
-        controls:[
-          {id:'dlp-block',name:'DLP Block Policy',color:'var(--prevent)',stops:'upload'},
-          {id:'web-filter',name:'Web Proxy / Filter',color:'var(--prevent)',stops:'upload'},
-        ]
-      },
-      {
-        type:'DETECTIVE',name:'Policy & Process',
-        controls:[
-          {id:'offboard',name:'Offboarding Procedure',color:'var(--admin)',stops:'access'},
-          {id:'audit',name:'Access Log Audit',color:'var(--detect)',stops:'download'},
-        ]
-      }
+      { type:'PREVENTIVE', name:'Access Controls', controls:[
+        {id:'least-priv2',name:'Least Privilege',color:'var(--prevent)',stops:'access'},
+        {id:'pam',name:'Privileged Access Mgmt',color:'var(--prevent)',stops:'access'},
+        {id:'sep-duties',name:'Separation of Duties',color:'var(--prevent)',stops:'access'},
+      ]},
+      { type:'DETECTIVE', name:'Behavioral Monitoring', controls:[
+        {id:'ueba',name:'UEBA',color:'var(--detect)',stops:'download'},
+        {id:'dlp',name:'Data Loss Prevention',color:'var(--detect)',stops:'upload'},
+        {id:'siem2',name:'SIEM User Activity',color:'var(--detect)',stops:'download'},
+      ]},
+      { type:'PREVENTIVE', name:'Data Exfiltration Controls', controls:[
+        {id:'dlp-block',name:'DLP Block Policy',color:'var(--prevent)',stops:'upload'},
+        {id:'web-filter',name:'Web Proxy / Filter',color:'var(--prevent)',stops:'upload'},
+      ]},
+      { type:'DETECTIVE', name:'Policy & Process', controls:[
+        {id:'offboard',name:'Offboarding Procedure',color:'var(--amber)',stops:'access'},
+        {id:'audit',name:'Access Log Audit',color:'var(--detect)',stops:'download'},
+      ]},
     ],
     stopConditions:{
-      'least-priv2':'ACCESS DENIED — Least privilege prevented the employee from accessing other departments\' data.',
-      'pam':'SESSION BLOCKED — Privileged Access Management required additional approval for bulk data access.',
+      'least-priv2':'ACCESS DENIED — Least privilege prevented access to other departments\' data.',
+      'pam':'SESSION BLOCKED — PAM required additional approval for bulk data access.',
       'sep-duties':'BLOCKED — Separation of duties prevented unilateral access to customer records.',
-      'ueba':'ALERT TRIGGERED — UEBA flagged abnormal download volume (100x baseline) from the user account.',
-      'siem2':'ANALYST ALERTED — SIEM correlation identified the unusual access pattern before exfiltration.',
-      'audit':'DISCOVERED — Log audit identified the unauthorized data access for forensic investigation.',
+      'ueba':'ALERT TRIGGERED — UEBA flagged abnormal download volume (100x baseline).',
+      'siem2':'ANALYST ALERTED — SIEM correlation identified unusual access pattern.',
+      'audit':'DISCOVERED — Log audit identified unauthorized data access.',
       'dlp':'DLP ALERT — DLP detected bulk customer data being staged for transfer.',
-      'dlp-block':'BLOCKED — DLP policy blocked the upload of customer records to personal cloud storage.',
-      'web-filter':'UPLOAD BLOCKED — Web proxy blocked access to personal cloud storage (Dropbox, OneDrive personal).',
-      'offboard':'PREVENTED — Offboarding procedure reduced access upon notice — no privileged access remained.',
+      'dlp-block':'BLOCKED — DLP policy blocked upload of customer records to personal cloud.',
+      'web-filter':'UPLOAD BLOCKED — Web proxy blocked access to personal cloud storage.',
+      'offboard':'PREVENTED — Offboarding procedure removed access before exfiltration.',
     },
-    penetration:'DATA BREACH — 50,000 customer records exfiltrated. GDPR/CCPA notification required. Estimated $3.2M in fines and remediation.'
+    penetration:'DATA BREACH — 50,000 customer records exfiltrated. GDPR/CCPA notification required. Estimated $3.2M in fines.'
   },
   {
     id:2, icon:'🌐', type:'WEB APPLICATION ATTACK', title:'SQL Injection → Data Breach',
     difficulty:'MEDIUM', diffColor:'var(--amber)',
     desc:'An attacker discovers a SQL injection vulnerability in a public-facing login page and uses it to dump the entire user credentials database.',
     attackPath:[
-      {label:'Recon\nScan',icon:'🔍'},
-      {label:'SQLi\nExploit',icon:'💉'},
-      {label:'DB\nDumped',icon:'🗃️'},
-      {label:'Creds\nCracked',icon:'🔑'},
-      {label:'Full\nAccess',icon:'🚨'},
+      {label:'Recon\nScan',icon:'🔍'},{label:'SQLi\nExploit',icon:'💉'},
+      {label:'DB\nDumped',icon:'🗃️'},{label:'Creds\nCracked',icon:'🔑'},{label:'Full\nAccess',icon:'🚨'},
     ],
     layers:[
-      {
-        type:'PREVENTIVE',name:'Application Security',
-        controls:[
-          {id:'waf',name:'Web App Firewall',color:'var(--prevent)',stops:'sqli'},
-          {id:'input-val',name:'Input Validation',color:'var(--prevent)',stops:'sqli'},
-          {id:'pentest',name:'Penetration Testing',color:'var(--detect)',stops:'sqli'},
-        ]
-      },
-      {
-        type:'DETECTIVE',name:'Attack Detection',
-        controls:[
-          {id:'ids',name:'IDS/IPS',color:'var(--detect)',stops:'recon'},
-          {id:'siem3',name:'SIEM / WAF Logging',color:'var(--detect)',stops:'sqli'},
-        ]
-      },
-      {
-        type:'PREVENTIVE',name:'Data Protection',
-        controls:[
-          {id:'encryption-db',name:'Database Encryption',color:'var(--prevent)',stops:'dump'},
-          {id:'hashing',name:'Password Hashing (bcrypt)',color:'var(--prevent)',stops:'crack'},
-        ]
-      },
-      {
-        type:'PREVENTIVE',name:'Access Controls',
-        controls:[
-          {id:'mfa2',name:'MFA on All Accounts',color:'var(--prevent)',stops:'access'},
-          {id:'db-least',name:'DB Least Privilege',color:'var(--prevent)',stops:'dump'},
-        ]
-      }
+      { type:'PREVENTIVE', name:'Application Security', controls:[
+        {id:'waf',name:'Web App Firewall',color:'var(--prevent)',stops:'sqli'},
+        {id:'input-val',name:'Input Validation',color:'var(--prevent)',stops:'sqli'},
+        {id:'pentest',name:'Penetration Testing',color:'var(--detect)',stops:'sqli'},
+      ]},
+      { type:'DETECTIVE', name:'Attack Detection', controls:[
+        {id:'ids',name:'IDS/IPS',color:'var(--detect)',stops:'recon'},
+        {id:'siem3',name:'SIEM / WAF Logging',color:'var(--detect)',stops:'sqli'},
+      ]},
+      { type:'PREVENTIVE', name:'Data Protection', controls:[
+        {id:'encryption-db',name:'Database Encryption',color:'var(--prevent)',stops:'dump'},
+        {id:'hashing',name:'Password Hashing (bcrypt)',color:'var(--prevent)',stops:'crack'},
+      ]},
+      { type:'PREVENTIVE', name:'Access Controls', controls:[
+        {id:'mfa2',name:'MFA on All Accounts',color:'var(--prevent)',stops:'access'},
+        {id:'db-least',name:'DB Least Privilege',color:'var(--prevent)',stops:'dump'},
+      ]},
     ],
     stopConditions:{
-      'ids':'SCAN BLOCKED — IDS detected and blocked the reconnaissance scan before exploitation.',
-      'waf':'ATTACK BLOCKED — WAF detected SQL injection patterns and blocked the malicious request.',
-      'input-val':'NEUTRALIZED — Proper input validation prevented the SQL injection from being interpreted.',
-      'pentest':'VULNERABILITY FOUND — Pen testing identified and reported the SQLi before attackers did.',
-      'siem3':'INCIDENT DETECTED — SIEM alerts on SQLi patterns triggered SOC investigation.',
-      'encryption-db':'DATA PROTECTED — Even with DB access, encryption makes the data unusable.',
-      'db-least':'ACCESS LIMITED — DB least privilege prevented the web app user from reading other tables.',
+      'ids':'SCAN BLOCKED — IDS detected and blocked the reconnaissance scan.',
+      'waf':'ATTACK BLOCKED — WAF detected SQL injection patterns and blocked the request.',
+      'input-val':'NEUTRALIZED — Input validation prevented the SQL injection from being interpreted.',
+      'pentest':'VULNERABILITY FOUND — Pen testing identified and reported the SQLi first.',
+      'siem3':'INCIDENT DETECTED — SIEM alerts triggered SOC investigation.',
+      'encryption-db':'DATA PROTECTED — Encryption makes the dumped data unusable.',
+      'db-least':'ACCESS LIMITED — DB least privilege prevented reading other tables.',
       'hashing':'CREDS PROTECTED — bcrypt hashing makes cracking computationally infeasible.',
-      'mfa2':'ACCESS DENIED — Even with credentials, MFA prevents account takeover.',
+      'mfa2':'ACCESS DENIED — MFA prevents account takeover even with credentials.',
     },
     penetration:'FULL COMPROMISE — Database dumped, 180,000 plain-text passwords obtained. Accounts fully taken over.'
   }
 ];
 
-// ── Scenario Lab Questions ──
 const SCENARIOS = [
-  {
-    id:0, num:'01', title:'Preventing Brute Force',
-    brief:'An attacker is running an automated password spraying attack against your organization\'s Office 365 login page, trying common passwords across thousands of accounts.',
-    question:'Which control type DIRECTLY prevents this type of attack from succeeding?',
-    correct:0,
-    options:[
-      'Preventive — implement account lockout policy and MFA to stop the attack from succeeding',
-      'Detective — set up SIEM alerting to watch for multiple failed login attempts',
-      'Corrective — reset all compromised passwords after the attack',
-      'Recovery — restore from backup once accounts are compromised',
-    ],
-    feedback:'Correct. Preventive controls are the first choice — account lockout stops brute force by disabling accounts after failed attempts, while MFA makes the attack completely ineffective even if the password is guessed. Detective controls are secondary (they alert you AFTER attempts), and corrective/recovery are last resorts. Prevent first, detect second.',
-    correctType:'Preventive'
-  },
-  {
-    id:1, num:'02', title:'Ransomware Response',
-    brief:'Ransomware has successfully encrypted your file servers at 2 AM. It\'s now 6 AM and IT has contained the spread by isolating infected systems.',
-    question:'With servers encrypted and the attack ongoing, which control type should you activate NOW to get back to operations?',
-    correct:2,
-    options:[
-      'Preventive — implement better email filtering to stop future attacks',
-      'Detective — analyze logs to understand the attack vector',
-      'Recovery — restore systems from your tested, immutable offline backups',
-      'Deterrent — add warning banners to discourage future attackers',
-    ],
-    feedback:'Correct. Recovery controls are designed for exactly this moment — restoring operations after a successful attack. Immutable backups (following the 3-2-1 rule) allow you to restore without paying the ransom. Preventive controls are critical, but they\'re post-incident lessons. Detective analysis is important but secondary to restoring operations. Deterrents don\'t help after the fact.',
-    correctType:'Recovery'
-  },
-  {
-    id:2, num:'03', title:'Detecting the Insider',
-    brief:'A privileged database administrator has been selling customer data to competitors for three months. Standard security controls have not flagged anything unusual.',
-    question:'Which control type, if properly implemented, would have been most likely to detect this over a 3-month period?',
-    correct:1,
-    options:[
-      'Preventive — role-based access controls preventing DB admin from exporting data',
-      'Detective — UEBA and SIEM detecting unusual data access patterns and export volumes',
-      'Corrective — disciplinary policies addressing data theft',
-      'Physical — security cameras monitoring the administrator\'s workspace',
-    ],
-    feedback:'Correct. Detective controls — specifically User and Entity Behavior Analytics (UEBA) — are designed to detect anomalous behavior patterns over time. A UEBA system would baseline the admin\'s normal data access and flag the sustained unusual export behavior. While preventive controls (least privilege, separation of duties) could have limited the blast radius, the described scenario shows a privileged user — detection is the key control type here.',
-    correctType:'Detective'
-  },
-  {
-    id:3, num:'04', title:'Legacy System Vulnerability',
-    brief:'Your organization has a critical legacy SCADA system running Windows XP that controls manufacturing equipment. It cannot be patched or updated without a $2M hardware replacement.',
-    question:'What control type is MOST appropriate for an unpatchable legacy system?',
-    correct:3,
-    options:[
-      'Corrective — document a plan to fix the system next fiscal year',
-      'Recovery — maintain backups of the SCADA system configuration',
-      'Preventive — apply patches to the system despite vendor warnings',
-      'Compensating — network isolation (air gap/VLAN), enhanced monitoring, and strict access controls around it',
-    ],
-    feedback:'Correct. Compensating controls are specifically designed for situations where the primary control (patching) cannot be implemented. Network isolation (air-gapping or VLAN segmentation), strict access control, enhanced monitoring, and firewall rules create a "protection shell" around the legacy system. This is the standard approach for OT/SCADA systems and is recognized in frameworks like NIST SP 800-82.',
-    correctType:'Compensating'
-  },
-  {
-    id:4, num:'05', title:'Post-Breach Notification',
-    brief:'A breach has been discovered. Malware has been removed, systems are restored, but your investigation reveals customer PII was exfiltrated. You must now manage the fallout.',
-    question:'Which NIST Incident Response phase and control type best covers the post-incident obligations?',
-    correct:1,
-    options:[
-      'Preventive — implement better controls immediately to prevent recurrence',
-      'Corrective — execute your incident response plan: notify affected customers, regulators, and perform root cause analysis',
-      'Detective — continue analyzing logs to find more compromised data',
-      'Deterrent — publish a statement warning attackers of prosecution',
-    ],
-    feedback:'Correct. Corrective controls address the impact of an incident that has already occurred. This includes: executing the IR plan, breach notification to customers and regulators (GDPR, CCPA), forensic root cause analysis, remediation of the attack vector, and lessons-learned documentation. Corrective controls don\'t prevent the breach — they minimize its impact and address legal, regulatory, and organizational obligations afterward.',
-    correctType:'Corrective'
-  },
-  {
-    id:5, num:'06', title:'Discouraging Opportunists',
-    brief:'Your organization\'s parking lot has experienced several car break-ins and one attempted tailgating incident into the office building.',
-    question:'Which control type is best suited to reduce opportunistic physical threats without directly preventing or detecting them?',
-    correct:2,
-    options:[
-      'Preventive — install a mantrap at the building entrance',
-      'Detective — add motion sensors and cameras to the parking lot',
-      'Deterrent — install clearly visible security cameras with recording indicators, prominent "CCTV Monitored" signage, and increase visible guard presence',
-      'Corrective — improve lighting in the parking lot',
-    ],
-    feedback:'Correct. Deterrent controls discourage threat actors from attempting attacks by making the perceived risk of getting caught high. Visible cameras (even without active monitoring), prominent security signage, and uniformed security presence are classic deterrents — they change attacker cost-benefit analysis without directly preventing or detecting the attack. Note: A mantrap is Preventive, cameras (when actively monitored) are Detective.',
-    correctType:'Deterrent'
-  },
-  {
-    id:6, num:'07', title:'Account Compromise Recovery',
-    brief:'An HR employee\'s account was compromised via phishing. The attacker used it for 4 hours before detection. Access logs show HR files were accessed but no data was confirmed exfiltrated.',
-    question:'What is the CORRECT sequence of control types to apply to this incident?',
-    correct:3,
-    options:[
-      'Recovery → Detective → Preventive',
-      'Preventive → Deterrent → Corrective',
-      'Detective → Preventive → Recovery',
-      'Corrective (contain/reset) → Detective (investigate scope) → Preventive (add MFA, training)',
-    ],
-    feedback:'Correct. The NIST IR framework maps to control types perfectly: (1) Corrective — contain the incident immediately: disable compromised account, reset credentials, revoke active sessions. (2) Detective — investigate the scope: review all access during the 4-hour window, check for data exfiltration, determine attack vector. (3) Preventive — implement improvements: add MFA to prevent recurrence, run phishing training. This is the standard incident response sequence.',
-    correctType:'Multiple (Corrective → Detective → Preventive)'
-  },
-  {
-    id:7, num:'08', title:'Critical Infrastructure Protection',
-    brief:'A financial services firm is required by regulation to maintain 99.99% uptime for its trading platform. They need to design controls to ensure continuous availability.',
-    question:'Which control type is the PRIMARY consideration for meeting uptime requirements?',
-    correct:1,
-    options:[
-      'Preventive — prevent all attacks so systems never go down',
-      'Recovery — implement high availability, hot failover, and disaster recovery capable of meeting the uptime SLA',
-      'Detective — monitor all systems to catch issues before they cause downtime',
-      'Deterrent — discourage attackers from targeting the trading platform',
-    ],
-    feedback:'Correct. Recovery controls — specifically High Availability (HA) architecture, hot failover, and tested Disaster Recovery plans — are the primary controls for availability requirements. Preventing all attacks is impossible (Preventive can\'t guarantee 99.99%). Detection doesn\'t maintain availability by itself. Recovery controls like active-active clustering, automated failover, and RTO/RPO-aligned DR are how organizations meet strict availability SLAs.',
-    correctType:'Recovery'
-  }
+  { id:0, num:'01', title:'Preventing Brute Force', brief:'An attacker is running an automated password spraying attack against your organization\'s Office 365 login page, trying common passwords across thousands of accounts.', question:'Which control type DIRECTLY prevents this type of attack from succeeding?', correct:0, options:['Preventive — implement account lockout policy and MFA to stop the attack from succeeding','Detective — set up SIEM alerting to watch for multiple failed login attempts','Corrective — reset all compromised passwords after the attack','Recovery — restore from backup once accounts are compromised'], feedback:'Correct. Preventive controls are the first choice — account lockout stops brute force by disabling accounts after failed attempts, while MFA makes the attack completely ineffective even if the password is guessed.', correctType:'Preventive'},
+  { id:1, num:'02', title:'Ransomware Response', brief:'Ransomware has successfully encrypted your file servers at 2 AM. IT has contained the spread by isolating infected systems.', question:'With servers encrypted and the attack ongoing, which control type should you activate NOW to get back to operations?', correct:2, options:['Preventive — implement better email filtering to stop future attacks','Detective — analyze logs to understand the attack vector','Recovery — restore systems from your tested, immutable offline backups','Deterrent — add warning banners to discourage future attackers'], feedback:'Correct. Recovery controls are designed for exactly this moment — restoring operations after a successful attack. Immutable backups allow you to restore without paying the ransom.', correctType:'Recovery'},
+  { id:2, num:'03', title:'Detecting the Insider', brief:'A privileged database administrator has been selling customer data to competitors for three months. Standard security controls have not flagged anything unusual.', question:'Which control type would have been most likely to detect this over a 3-month period?', correct:1, options:['Preventive — role-based access controls preventing DB admin from exporting data','Detective — UEBA and SIEM detecting unusual data access patterns and export volumes','Corrective — disciplinary policies addressing data theft','Physical — security cameras monitoring the administrator\'s workspace'], feedback:'Correct. Detective controls — specifically UEBA — are designed to detect anomalous behavior patterns over time. A UEBA system would baseline normal data access and flag sustained unusual export behavior.', correctType:'Detective'},
+  { id:3, num:'04', title:'Legacy System Vulnerability', brief:'Your organization has a critical legacy SCADA system running Windows XP that controls manufacturing equipment. It cannot be patched without a $2M hardware replacement.', question:'What control type is MOST appropriate for an unpatchable legacy system?', correct:3, options:['Corrective — document a plan to fix the system next fiscal year','Recovery — maintain backups of the SCADA system configuration','Preventive — apply patches despite vendor warnings','Compensating — network isolation, enhanced monitoring, and strict access controls around it'], feedback:'Correct. Compensating controls are specifically designed for situations where the primary control (patching) cannot be implemented. Network isolation, strict access control, and enhanced monitoring create a protection shell.', correctType:'Compensating'},
+  { id:4, num:'05', title:'Post-Breach Notification', brief:'A breach has been discovered. Malware removed, systems restored, but investigation reveals customer PII was exfiltrated.', question:'Which NIST Incident Response phase and control type best covers the post-incident obligations?', correct:1, options:['Preventive — implement better controls immediately','Corrective — execute your IR plan: notify customers, regulators, perform root cause analysis','Detective — continue analyzing logs to find more compromised data','Deterrent — publish a statement warning attackers of prosecution'], feedback:'Correct. Corrective controls address the impact of an incident that has already occurred: IR plan execution, breach notification, forensic root cause analysis, and remediation.', correctType:'Corrective'},
+  { id:5, num:'06', title:'Discouraging Opportunists', brief:'Your parking lot has experienced car break-ins and one attempted tailgating incident.', question:'Which control type is best suited to reduce opportunistic physical threats without directly preventing or detecting them?', correct:2, options:['Preventive — install a mantrap at the building entrance','Detective — add motion sensors and cameras to the parking lot','Deterrent — install clearly visible cameras with recording indicators, prominent CCTV signage, and increased visible guard presence','Corrective — improve lighting in the parking lot'], feedback:'Correct. Deterrent controls discourage threat actors from attempting attacks by making the perceived risk of getting caught high. Visible cameras and signage change the attacker\'s cost-benefit analysis.', correctType:'Deterrent'},
+  { id:6, num:'07', title:'Account Compromise Recovery', brief:'An HR employee\'s account was compromised via phishing. The attacker used it for 4 hours before detection. Access logs show HR files were accessed.', question:'What is the CORRECT sequence of control types to apply?', correct:3, options:['Recovery → Detective → Preventive','Preventive → Deterrent → Corrective','Detective → Preventive → Recovery','Corrective (contain/reset) → Detective (investigate scope) → Preventive (add MFA, training)'], feedback:'Correct. The NIST IR framework maps to control types: (1) Corrective — contain immediately, (2) Detective — investigate scope, (3) Preventive — implement improvements to prevent recurrence.', correctType:'Multiple (Corrective → Detective → Preventive)'},
+  { id:7, num:'08', title:'Critical Infrastructure Protection', brief:'A financial services firm must maintain 99.99% uptime for its trading platform.', question:'Which control type is the PRIMARY consideration for meeting uptime requirements?', correct:1, options:['Preventive — prevent all attacks so systems never go down','Recovery — implement high availability, hot failover, and disaster recovery capable of meeting the uptime SLA','Detective — monitor all systems to catch issues before downtime','Deterrent — discourage attackers from targeting the platform'], feedback:'Correct. Recovery controls — specifically HA architecture, hot failover, and tested DR plans — are the primary controls for availability. Preventing all attacks is impossible; Recovery is how organizations meet strict availability SLAs.', correctType:'Recovery'},
 ];
 
-// ── Quiz Questions ──
 const QUIZ = [
-  {
-    q:'A security camera that is actively monitored and alerts on unauthorized movement is performing which control TYPE?',
-    opts:['Deterrent — it discourages attackers','Detective — it identifies and alerts on threats occurring now','Preventive — it stops unauthorized movement','Corrective — it fixes the situation after a breach'],
-    correct:1,
-    explain:'When actively monitored, a security camera is a Detective control — it identifies and alerts on threats that ARE occurring. When visible but perhaps not actively monitored, the same camera acts as a Deterrent. The same physical control can serve different TYPE functions depending on how it\'s implemented and monitored.'
-  },
-  {
-    q:'Which control FUNCTION includes policies, procedures, training programs, and background checks?',
-    opts:['Technical — implemented through hardware and software','Administrative — implemented through policies and human processes','Physical — implemented through tangible security measures','Operational — implemented through day-to-day operations'],
-    correct:1,
-    explain:'Administrative controls are implemented through policies, procedures, training, and human processes rather than technology or physical measures. Examples include: Acceptable Use Policies, security awareness training, incident response plans, hiring background checks, separation of duties, and change management procedures.'
-  },
-  {
-    q:'Your organization cannot patch a legacy ERP system because the vendor no longer supports it. What is the MOST appropriate control approach?',
-    opts:['Preventive — apply unofficial community patches','Detective — increase log monitoring and set up alerts for the system','Compensating — implement network isolation, firewall rules, enhanced monitoring, and strict access controls','Recovery — back up the system daily in case it\'s compromised'],
-    correct:2,
-    explain:'Compensating controls are specifically designed for situations where the primary control (patching) cannot be implemented. Isolating the system in a network segment, applying strict firewall rules, enhanced monitoring around it, and limiting access to only those who need it — this "defense shell" approach is the industry-standard compensating control for legacy systems. It\'s documented in PCI DSS, NIST SP 800-82, and others.'
-  },
-  {
-    q:'After malware is detected and removed, the IT team reimages the affected system and verifies integrity before returning it to production. This is an example of which control TYPE?',
-    opts:['Preventive — it prevents future malware','Detective — it identifies the malware','Corrective — it reduces impact and restores the system after the incident','Recovery — it restores the system to operational status'],
-    correct:2,
-    explain:'System reimaging after a malware incident is a Corrective control — it addresses and reduces the impact of a threat that has already occurred, restoring the system to a known-good state. Note: Corrective and Recovery controls are closely related; Corrective tends to address the immediate threat, while Recovery focuses on restoring business operations. Both are post-incident controls.'
-  },
-  {
-    q:'An organization posts "This facility is protected by 24-hour video surveillance and all intrusions will be prosecuted." This sign is PRIMARILY which control type?',
-    opts:['Detective — the camera monitors for intrusions','Preventive — the camera prevents intrusions','Corrective — the threat of prosecution corrects behavior','Deterrent — the sign discourages attempts through fear of consequences'],
-    correct:3,
-    explain:'Deterrent controls discourage threat actors from ATTEMPTING attacks. The sign changes the attacker\'s cost-benefit analysis — the risk of getting caught and prosecuted may make the target seem not worth attacking. Note: The camera itself (if monitored) would be Detective, and the prosecution process would be Corrective. The SIGN is the Deterrent control.'
-  },
-  {
-    q:'The CIA Triad consists of Confidentiality, Integrity, and Availability. MFA (Multi-Factor Authentication) primarily supports which element?',
-    opts:['Availability — ensuring systems are accessible when needed','Integrity — ensuring data has not been tampered with','Confidentiality — ensuring only authorized users can access information','Non-repudiation — ensuring actions cannot be denied'],
-    correct:2,
-    explain:'MFA is primarily a Confidentiality control — it ensures only authorized individuals can access information by requiring multiple verification factors. By making it much harder for unauthorized users to authenticate, MFA protects the confidentiality of accounts and data behind them. It has secondary integrity benefits (preventing unauthorized modifications) but confidentiality is the primary concern it addresses.'
-  },
-  {
-    q:'A financial organization uses dual approval for wire transfers over $10,000 — two different employees must both approve. This is an example of:',
-    opts:['Compensating control — used as an alternative to technical controls','Deterrent control — the policy discourages fraudulent transfers','Preventive + Administrative control — separation of duties preventing single-person fraud','Corrective control — fixing issues after unauthorized transfers'],
-    correct:2,
-    explain:'Dual approval for financial transactions is both Preventive in TYPE (it stops the fraudulent transaction from occurring) and Administrative in FUNCTION (implemented through policy and process, not technology). It\'s a classic implementation of Separation of Duties — one of the most effective fraud-prevention controls recognized by SOX, PCI DSS, and financial regulations.'
-  },
-  {
-    q:'What does the "3-2-1 Backup Rule" specify?',
-    opts:['3 firewalls, 2 IDS systems, 1 SIEM','3 total copies of data, on 2 different storage types, with 1 copy offsite/air-gapped','3-hour RTO, 2-hour RPO, 1-day backup schedule','3 administrators, 2 requiring approval, 1 final authority'],
-    correct:1,
-    explain:'The 3-2-1 rule is the industry standard for backup strategy: (3) Keep 3 total copies of your data — 1 primary + 2 backups; (2) Store on 2 different media types (disk + tape, or disk + cloud) to protect against media-specific failures; (1) Keep 1 copy offsite or air-gapped to protect against physical disasters and ransomware that targets online backup systems. This is a Recovery control critical for ransomware resilience.'
-  },
-  {
-    q:'The difference between IDS and IPS is PRIMARILY:',
-    opts:['IDS is hardware; IPS is software-based','IDS is Preventive; IPS is Detective — IPS actively blocks threats','IDS detects and alerts (Detective); IPS detects AND blocks (Preventive + Detective)','They are identical tools with different names'],
-    correct:2,
-    explain:'IDS (Intrusion Detection System) monitors traffic and ALERTS on threats — it\'s a Detective control. IPS (Intrusion Prevention System) monitors traffic, alerts, AND actively blocks detected threats — making it both Detective (identifies threats) AND Preventive (stops them). This is why security architects often specify IPS for environments where real-time blocking is acceptable and IDS for more sensitive environments where blocking false positives would be disruptive.'
-  },
-  {
-    q:'A SIEM (Security Information and Event Management) system is primarily classified as which control TYPE?',
-    opts:['Preventive — it prevents attacks from succeeding','Detective — it correlates data to identify attacks that are occurring or have occurred','Corrective — it fixes systems after an attack','Deterrent — it discourages attackers who know they are being monitored'],
-    correct:1,
-    explain:'A SIEM is primarily a Detective control — its core function is collecting, correlating, and analyzing log data to identify threats that are occurring or have occurred. A SIEM generates alerts for analysts to investigate; it does not directly prevent attacks (though it feeds into controls that do). SIEM is considered a cornerstone of detective control strategy and is required by frameworks like PCI DSS, ISO 27001, and NIST CSF.'
-  },
-  {
-    q:'An organization requires all employees to complete annual security awareness training. What type and function is this control?',
-    opts:['Preventive + Technical','Detective + Administrative','Preventive + Administrative','Deterrent + Administrative'],
-    correct:2,
-    explain:'Security awareness training is: TYPE = Preventive (it prevents employees from falling victim to social engineering by building knowledge before attacks occur); FUNCTION = Administrative (implemented through policy, process, and human development — not technology or physical measures). It\'s one of the most cost-effective preventive controls, directly reducing phishing success rates, password sharing, and other human-factor vulnerabilities.'
-  },
-  {
-    q:'Which statement BEST describes "Defense in Depth"?',
-    opts:['Having a very deep moat around your data center','Using only the most expensive security controls available','Implementing multiple overlapping layers of security controls so that if one fails, others continue to provide protection','Focusing all security investment on the perimeter firewall'],
-    correct:2,
-    explain:'Defense in Depth (also called layered security) is the principle of implementing multiple overlapping security controls so no single point of failure leads to a complete breach. No single control is perfect — attackers look for gaps. By layering Preventive, Detective, Corrective, and Recovery controls across Technical, Administrative, and Physical functions, organizations ensure that a failure in one control is caught or compensated by another.'
-  }
+  { q:'A security camera that is actively monitored and alerts on unauthorized movement is performing which control TYPE?', opts:['Deterrent — it discourages attackers','Detective — it identifies and alerts on threats occurring now','Preventive — it stops unauthorized movement','Corrective — it fixes the situation after a breach'], correct:1, explain:'When actively monitored, a security camera is Detective — it identifies and alerts on threats occurring NOW. When visible but unmonitored, the same camera acts as a Deterrent. Same physical control, different TYPE depending on implementation.'},
+  { q:'Which control FUNCTION includes policies, procedures, training programs, and background checks?', opts:['Technical — implemented through hardware and software','Administrative — implemented through policies and human processes','Physical — implemented through tangible security measures','Operational — implemented through day-to-day operations'], correct:1, explain:'Administrative controls are implemented through policies, procedures, training, and human processes rather than technology or physical measures.'},
+  { q:'Your organization cannot patch a legacy ERP system because the vendor no longer supports it. What is the MOST appropriate control approach?', opts:['Preventive — apply unofficial community patches','Detective — increase log monitoring and set up alerts for the system','Compensating — implement network isolation, firewall rules, enhanced monitoring, and strict access controls','Recovery — back up the system daily in case it\'s compromised'], correct:2, explain:'Compensating controls are specifically for situations where the primary control (patching) cannot be implemented. A defense shell of isolation, firewall rules, and enhanced monitoring is the industry standard for legacy systems.'},
+  { q:'After malware is detected and removed, the IT team reimages the affected system and verifies integrity before returning it to production. This is which control TYPE?', opts:['Preventive — it prevents future malware','Detective — it identifies the malware','Corrective — it reduces impact and restores the system after the incident','Recovery — it restores the system to operational status'], correct:2, explain:'System reimaging is a Corrective control — it addresses and reduces the impact of a threat that has already occurred, restoring the system to a known-good state.'},
+  { q:'An organization posts "This facility is protected by 24-hour video surveillance and all intrusions will be prosecuted." This sign is PRIMARILY which control type?', opts:['Detective — the camera monitors for intrusions','Preventive — the camera prevents intrusions','Corrective — the threat of prosecution corrects behavior','Deterrent — the sign discourages attempts through fear of consequences'], correct:3, explain:'Deterrent controls discourage threat actors from ATTEMPTING attacks. The sign changes the attacker\'s cost-benefit analysis. Note: the camera itself (if monitored) is Detective; the SIGN is the Deterrent.'},
+  { q:'MFA (Multi-Factor Authentication) primarily supports which element of the CIA Triad?', opts:['Availability — ensuring systems are accessible when needed','Integrity — ensuring data has not been tampered with','Confidentiality — ensuring only authorized users can access information','Non-repudiation — ensuring actions cannot be denied'], correct:2, explain:'MFA is primarily a Confidentiality control — it ensures only authorized individuals can access information by requiring multiple verification factors.'},
+  { q:'A financial organization requires dual approval for wire transfers over $10,000. This is an example of:', opts:['Compensating control — used as alternative to technical controls','Deterrent control — the policy discourages fraudulent transfers','Preventive + Administrative control — separation of duties preventing single-person fraud','Corrective control — fixing issues after unauthorized transfers'], correct:2, explain:'Dual approval is both Preventive in TYPE (stops fraudulent transactions) and Administrative in FUNCTION (implemented through policy, not technology). Classic Separation of Duties.'},
+  { q:'What does the "3-2-1 Backup Rule" specify?', opts:['3 firewalls, 2 IDS systems, 1 SIEM','3 total copies of data, on 2 different storage types, with 1 copy offsite/air-gapped','3-hour RTO, 2-hour RPO, 1-day backup schedule','3 administrators, 2 requiring approval, 1 final authority'], correct:1, explain:'3-2-1: (3) Keep 3 total copies; (2) on 2 different media types; (1) with 1 copy offsite/air-gapped to protect against ransomware and physical disasters.'},
+  { q:'The difference between IDS and IPS is PRIMARILY:', opts:['IDS is hardware; IPS is software-based','IDS is Preventive; IPS is Detective','IDS detects and alerts (Detective); IPS detects AND blocks (Preventive + Detective)','They are identical tools with different names'], correct:2, explain:'IDS monitors and ALERTS (Detective). IPS monitors, alerts, AND actively BLOCKS (Detective + Preventive). Security architects choose based on whether real-time blocking is acceptable.'},
+  { q:'A SIEM (Security Information and Event Management) system is primarily classified as which control TYPE?', opts:['Preventive — it prevents attacks from succeeding','Detective — it correlates data to identify attacks occurring or that have occurred','Corrective — it fixes systems after an attack','Deterrent — it discourages attackers who know they are being monitored'], correct:1, explain:'SIEM is primarily Detective — its core function is collecting, correlating, and analyzing log data to identify threats. It generates alerts; it does not directly prevent attacks.'},
+  { q:'Annual security awareness training is what type and function?', opts:['Preventive + Technical','Detective + Administrative','Preventive + Administrative','Deterrent + Administrative'], correct:2, explain:'Security awareness training is TYPE=Preventive (prevents employees from falling victim to social engineering before attacks occur) and FUNCTION=Administrative (implemented through policy and human development, not technology).'},
+  { q:'Which statement BEST describes "Defense in Depth"?', opts:['Having a very deep moat around your data center','Using only the most expensive security controls available','Implementing multiple overlapping layers of security controls so that if one fails, others continue to provide protection','Focusing all security investment on the perimeter firewall'], correct:2, explain:'Defense in Depth is the principle of multiple overlapping controls so no single failure leads to a complete breach. Layering Preventive, Detective, Corrective, and Recovery controls ensures a failure in one is caught by another.'},
 ];
 
 // ══════════════════════════════════════════════════════════
@@ -1447,7 +850,6 @@ function showView(id) {
 // CONTROL MATRIX
 // ══════════════════════════════════════════════════════════
 function buildMatrix() {
-  // Legend
   const legend = document.getElementById('type-legend');
   CONTROL_TYPES.forEach(t => {
     const item = document.createElement('div');
@@ -1457,7 +859,6 @@ function buildMatrix() {
   });
 
   const table = document.getElementById('control-matrix');
-  // Header row
   let html = '<thead><tr>';
   html += `<th class="matrix-th-corner">TYPE \\ FUNCTION</th>`;
   CONTROL_TYPES.forEach(t => {
@@ -1488,14 +889,8 @@ function buildMatrix() {
 function showMatrixDetail(type, func) {
   const controls = ALL_CONTROLS.filter(c => c.type === type && c.func === func);
   const tColor = CONTROL_TYPES.find(t => t.id === type)?.color || 'var(--cyan)';
-
-  const detail = document.getElementById('matrix-detail');
-  const title = document.getElementById('matrix-detail-title');
-  const body = document.getElementById('matrix-detail-body');
-
-  title.innerHTML = `<span style="color:${tColor}">${type}</span> / ${func} Controls (${controls.length})`;
-
-  body.innerHTML = `
+  document.getElementById('matrix-detail-title').innerHTML = `<span style="color:${tColor}">${type}</span> / ${func} Controls (${controls.length})`;
+  document.getElementById('matrix-detail-body').innerHTML = `
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">
       ${controls.map(c => `
         <div style="background:var(--panel);border:1px solid var(--border);border-radius:2px;padding:12px 14px;border-left:3px solid ${tColor};">
@@ -1504,13 +899,12 @@ function showMatrixDetail(type, func) {
           <div style="font-family:'Inconsolata',monospace;font-size:10px;color:var(--dim);"><span style="color:${tColor}">Example:</span> ${c.example}</div>
         </div>`).join('')}
     </div>`;
-
-  detail.style.display = 'block';
-  detail.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  document.getElementById('matrix-detail').style.display = 'block';
+  document.getElementById('matrix-detail').scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
 // ══════════════════════════════════════════════════════════
-// ATTACK SIMULATION
+// ATTACK SIMULATION  ← FIXED
 // ══════════════════════════════════════════════════════════
 let atkBuilt = false, atkActiveScenario = null, atkLayerStates = {};
 
@@ -1537,8 +931,8 @@ function loadAtkScenario(idx) {
   atkActiveScenario = idx;
   document.querySelectorAll('.atk-scenario-btn').forEach((b,i) => b.classList.toggle('active', i === idx));
   const sc = ATK_SCENARIOS[idx];
+  // Reset ALL controls to ON for a fresh load
   atkLayerStates = {};
-  // Init all controls as ON
   sc.layers.forEach(l => l.controls.forEach(c => { atkLayerStates[c.id] = true; }));
   renderAtkViz(sc);
 }
@@ -1546,11 +940,15 @@ function loadAtkScenario(idx) {
 function renderAtkViz(sc) {
   const viz = document.getElementById('atk-viz');
   const layersHtml = sc.layers.map((layer, li) => {
-    const typeColor = layer.type === 'PREVENTIVE' ? 'var(--prevent)' : layer.type === 'DETECTIVE' ? 'var(--detect)' : layer.type === 'RECOVERY' ? 'var(--recover)' : 'var(--correct)';
+    const typeColor = layer.type === 'PREVENTIVE' ? 'var(--prevent)'
+                    : layer.type === 'DETECTIVE'  ? 'var(--detect)'
+                    : layer.type === 'RECOVERY'   ? 'var(--recover)'
+                    : 'var(--correct)';
     const controlsHtml = layer.controls.map(c => {
       const on = atkLayerStates[c.id] !== false;
-      return `<div class="dl-control ${on?'on':'off'}" style="color:${c.color};border-color:${c.color}55;background:${c.color}${on?'14':'05'}"
-        onclick="toggleAtkControl('${c.id}','${sc.id}')">${c.name}</div>`;
+      return `<div class="dl-control ${on?'on':'off'}"
+        style="color:${c.color};border-color:${c.color}55;background:${c.color}${on?'14':'05'}"
+        onclick="toggleAtkControl('${c.id}')">${c.name}</div>`;
     }).join('');
     return `
       <div class="def-layer active" id="atk-layer-${li}">
@@ -1558,11 +956,9 @@ function renderAtkViz(sc) {
           <div class="dl-type" style="color:${typeColor}">${layer.type}</div>
           <div class="dl-name">${layer.name}</div>
         </div>
-        <div class="dl-controls">${controlsHtml}</div>
+        <div class="dl-controls" id="atk-layer-controls-${li}">${controlsHtml}</div>
         <div class="dl-status" id="atk-layer-status-${li}">
-          <div class="dl-status-text" style="color:var(--dim)">
-            <span class="ds-icon">○</span> STANDBY
-          </div>
+          <div class="dl-status-text" style="color:var(--dim)"><span class="ds-icon">○</span> STANDBY</div>
         </div>
       </div>`;
   }).join('');
@@ -1581,11 +977,11 @@ function renderAtkViz(sc) {
       <div class="ai-desc">${sc.desc}</div>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:14px 16px;margin-bottom:14px;">
-      <div style="font-family:'Inconsolata',monospace;font-size:9px;color:var(--amber);letter-spacing:3px;margin-bottom:10px;">// CLICK CONTROLS TO TOGGLE ON/OFF</div>
+      <div style="font-family:'Inconsolata',monospace;font-size:9px;color:var(--amber);letter-spacing:3px;margin-bottom:10px;">// CLICK CONTROLS TO TOGGLE ON/OFF — GREEN = ACTIVE, DIMMED = DISABLED</div>
       <div class="defense-layers">${layersHtml}</div>
       <div style="display:flex;gap:10px;margin-top:4px;">
         <button class="atk-btn ab-run" onclick="runAtkSim(${sc.id})">⚡ RUN SIMULATION</button>
-        <button class="atk-btn ab-reset" onclick="resetAtkSim(${sc.id})">↺ RESET CONTROLS</button>
+        <button class="atk-btn ab-reset" onclick="resetAtkSim()">↺ RESET CONTROLS</button>
       </div>
     </div>
     <div class="atk-progress-box" id="atk-progress-box">
@@ -1595,34 +991,67 @@ function renderAtkViz(sc) {
     </div>`;
 }
 
-function toggleAtkControl(controlId, scId) {
+// ── THE FIX: toggle state, re-render only the controls row (not the whole viz) ──
+function toggleAtkControl(controlId) {
+  // 1. Flip the state
   atkLayerStates[controlId] = !atkLayerStates[controlId];
-  loadAtkScenario(atkActiveScenario); // re-render
+
+  // 2. Re-render only the control chips for each layer (don't call loadAtkScenario — that resets state)
+  const sc = ATK_SCENARIOS[atkActiveScenario];
+  sc.layers.forEach((layer, li) => {
+    const controlsEl = document.getElementById(`atk-layer-controls-${li}`);
+    if (!controlsEl) return;
+    controlsEl.innerHTML = layer.controls.map(c => {
+      const on = atkLayerStates[c.id] !== false;
+      return `<div class="dl-control ${on?'on':'off'}"
+        style="color:${c.color};border-color:${c.color}55;background:${c.color}${on?'14':'05'}"
+        onclick="toggleAtkControl('${c.id}')">${c.name}</div>`;
+    }).join('');
+  });
+
+  // 3. Clear any previous sim result so user re-runs
+  const result = document.getElementById('atk-result');
+  if (result) { result.className = 'atk-result'; result.innerHTML = ''; }
+
+  // 4. Reset layer statuses and path back to STANDBY
+  sc.layers.forEach((layer, li) => {
+    const layerEl = document.getElementById(`atk-layer-${li}`);
+    const statusEl = document.getElementById(`atk-layer-status-${li}`);
+    if (layerEl) { layerEl.className = 'def-layer active'; }
+    if (statusEl) statusEl.innerHTML = `<div class="dl-status-text" style="color:var(--dim)"><span class="ds-icon">○</span> STANDBY</div>`;
+  });
+  sc.attackPath.forEach((_, i) => {
+    const step  = document.getElementById(`atk-step-${i}`);
+    const arrow = document.getElementById(`atk-arrow-${i}`);
+    if (step)  { step.classList.remove('reached','blocked'); }
+    if (arrow) { arrow.classList.remove('active','blocked'); }
+  });
 }
 
-function resetAtkSim(scId) {
-  loadAtkScenario(atkActiveScenario);
+// Reset re-loads the scenario fresh (which initialises all states to ON)
+function resetAtkSim() {
+  if (atkActiveScenario !== null) loadAtkScenario(atkActiveScenario);
 }
 
 function runAtkSim(scId) {
   const sc = ATK_SCENARIOS.find(s => s.id === scId);
+
   // Reset visuals
   sc.attackPath.forEach((_, i) => {
-    const step = document.getElementById(`atk-step-${i}`);
+    const step  = document.getElementById(`atk-step-${i}`);
     const arrow = document.getElementById(`atk-arrow-${i}`);
-    if (step) step.classList.remove('reached','blocked');
-    if (arrow) { arrow.classList.remove('active','blocked'); }
+    if (step)  step.classList.remove('reached','blocked');
+    if (arrow) arrow.classList.remove('active','blocked');
   });
 
+  // Find the first ON control that can stop the attack
   let stopControl = null;
   let stopLayerIdx = -1;
-
-  // Determine which control stops it (first ON control that stops a phase)
   for (let li = 0; li < sc.layers.length; li++) {
     const layer = sc.layers[li];
     for (let ci = 0; ci < layer.controls.length; ci++) {
       const ctrl = layer.controls[ci];
-      if (atkLayerStates[ctrl.id]) {
+      if (atkLayerStates[ctrl.id] !== false) {
         stopControl = ctrl;
         stopLayerIdx = li;
         break;
@@ -1631,66 +1060,55 @@ function runAtkSim(scId) {
     if (stopControl) break;
   }
 
-  // Animate the attack
   const totalSteps = sc.attackPath.length;
   const stepsToShow = stopControl ? Math.min(stopLayerIdx + 2, totalSteps) : totalSteps;
-
   let step = 0;
+
   const interval = setInterval(() => {
     if (step >= stepsToShow) {
       clearInterval(interval);
-      // Show result
       const result = document.getElementById('atk-result');
-      const stopped = step < totalSteps || (stopControl && step === totalSteps);
-      result.className = `atk-result show ${stopControl ? 'success' : 'failure'}`;
-
       if (stopControl) {
+        result.className = 'atk-result show success';
         result.innerHTML = `✓ ATTACK STOPPED — ${sc.stopConditions[stopControl.id] || 'Control blocked the attack.'}`;
-        // Mark blocking layer
         const layerEl = document.getElementById(`atk-layer-${stopLayerIdx}`);
-        if (layerEl) { layerEl.classList.add('blocking'); layerEl.classList.remove('breached'); }
         const statusEl = document.getElementById(`atk-layer-status-${stopLayerIdx}`);
+        if (layerEl) { layerEl.className = 'def-layer active blocking'; }
         if (statusEl) statusEl.innerHTML = `<div class="dl-status-text" style="color:var(--green)"><span class="ds-icon">✓</span> BLOCKING</div>`;
       } else {
+        result.className = 'atk-result show failure';
         result.innerHTML = `✗ BREACH SUCCESSFUL — ${sc.penetration}`;
-        // Mark all layers as breached
         sc.layers.forEach((_, li) => {
           const layerEl = document.getElementById(`atk-layer-${li}`);
-          if (layerEl) { layerEl.classList.add('breached'); }
           const statusEl = document.getElementById(`atk-layer-status-${li}`);
+          if (layerEl) { layerEl.className = 'def-layer active breached'; }
           if (statusEl) statusEl.innerHTML = `<div class="dl-status-text" style="color:var(--red)"><span class="ds-icon">✗</span> BREACHED</div>`;
         });
       }
       return;
     }
 
-    const stepEl = document.getElementById(`atk-step-${step}`);
-    if (stepEl) {
-      stepEl.classList.add(stopControl && step === stepsToShow - 1 ? 'blocked' : 'reached');
-    }
-    if (step > 0) {
-      const arrowEl = document.getElementById(`atk-arrow-${step}`);
-      if (arrowEl) arrowEl.classList.add(stopControl && step === stepsToShow - 1 ? 'blocked' : 'active');
-    }
+    const stepEl  = document.getElementById(`atk-step-${step}`);
+    const arrowEl = document.getElementById(`atk-arrow-${step}`);
+    const isLastStep = step === stepsToShow - 1;
 
-    // Update layer status
+    if (stepEl)  stepEl.classList.add(stopControl && isLastStep ? 'blocked' : 'reached');
+    if (step > 0 && arrowEl) arrowEl.classList.add(stopControl && isLastStep ? 'blocked' : 'active');
+
+    // Update mid-run layer status
     if (step < sc.layers.length) {
       const statusEl = document.getElementById(`atk-layer-status-${step}`);
-      const layerEl = document.getElementById(`atk-layer-${step}`);
-      const hasActiveControl = sc.layers[step].controls.some(c => atkLayerStates[c.id]);
-
-      if (statusEl && layerEl) {
-        if (hasActiveControl && step === stopLayerIdx) {
-          // Will be handled in completion
-        } else if (!hasActiveControl) {
+      const layerEl  = document.getElementById(`atk-layer-${step}`);
+      const hasActive = sc.layers[step].controls.some(c => atkLayerStates[c.id] !== false);
+      if (statusEl && layerEl && step !== stopLayerIdx) {
+        if (!hasActive) {
           statusEl.innerHTML = `<div class="dl-status-text" style="color:var(--red)"><span class="ds-icon">✗</span> BYPASSED</div>`;
-          layerEl.classList.add('breached');
-        } else if (step < stopLayerIdx || stopControl === null) {
-          statusEl.innerHTML = `<div class="dl-status-text" style="color:var(--amber)"><span class="ds-icon">⚡</span> ACTIVE</div>`;
+          layerEl.className = 'def-layer active breached';
+        } else {
+          statusEl.innerHTML = `<div class="dl-status-text" style="color:var(--amber)"><span class="ds-icon">⚡</span> UNDER ATTACK</div>`;
         }
       }
     }
-
     step++;
   }, 500);
 }
@@ -1702,7 +1120,7 @@ let scBuilt = false, scScores = [], scSelected = [], scAnswered = [];
 
 function buildScenarios() {
   scBuilt = true;
-  scScores = new Array(SCENARIOS.length).fill(null);
+  scScores   = new Array(SCENARIOS.length).fill(null);
   scSelected = new Array(SCENARIOS.length).fill(-1);
   scAnswered = new Array(SCENARIOS.length).fill(false);
   renderScList();
@@ -1713,13 +1131,10 @@ function renderScList() {
   list.innerHTML = '';
   SCENARIOS.forEach((sc, i) => {
     const btn = document.createElement('div');
-    const statusCls = scScores[i] === null ? 'new' : scScores[i] ? 'pass' : 'fail';
+    const statusCls  = scScores[i] === null ? 'new' : scScores[i] ? 'pass' : 'fail';
     const statusText = scScores[i] === null ? '○ Not started' : scScores[i] ? '✓ Correct' : '✗ Incorrect';
-    btn.className = `sc-list-btn${scScores[i] !== null ? (scScores[i] ? ' done' : '') : ''}`;
-    btn.innerHTML = `
-      <div class="slb-num">SCENARIO ${sc.num}</div>
-      <div class="slb-title">${sc.title}</div>
-      <div class="slb-status ${statusCls}">${statusText}</div>`;
+    btn.className = `sc-list-btn${scScores[i] ? ' done' : ''}`;
+    btn.innerHTML = `<div class="slb-num">SCENARIO ${sc.num}</div><div class="slb-title">${sc.title}</div><div class="slb-status ${statusCls}">${statusText}</div>`;
     btn.onclick = () => loadScenario(i);
     list.appendChild(btn);
   });
@@ -1731,22 +1146,16 @@ function loadScenario(idx) {
     b.style.borderLeftColor = i === idx ? 'var(--cyan)' : '';
     b.style.background = i === idx ? 'var(--panel)' : '';
   });
-
   const sc = SCENARIOS[idx];
   const letters = ['A','B','C','D'];
   const ws = document.getElementById('sc-workspace');
-
   const optsHtml = sc.options.map((opt, oi) => `
     <div class="sc-opt${scAnswered[idx] ? (oi === sc.correct ? ' corr' : (oi === scSelected[idx] && !scScores[idx] ? ' wrng' : '')) : (scSelected[idx] === oi ? ' sel' : '')} ${scAnswered[idx] ? 'dis' : ''}"
-      id="sc-opt-${idx}-${oi}"
-      onclick="${scAnswered[idx] ? '' : `selectScOpt(${idx},${oi})`}">
-      <div class="sc-opt-key">${letters[oi]}</div>
-      <div>${opt}</div>
+      id="sc-opt-${idx}-${oi}" onclick="${scAnswered[idx] ? '' : `selectScOpt(${idx},${oi})`}">
+      <div class="sc-opt-key">${letters[oi]}</div><div>${opt}</div>
     </div>`).join('');
-
   const fbClass = scAnswered[idx] ? (scScores[idx] ? 'show ok' : 'show err') : '';
   const fbLabel = scScores[idx] ? '// CORRECT — ANALYSIS CONFIRMED' : '// INCORRECT — REVIEW BELOW';
-
   ws.innerHTML = `
     <div class="sc-brief">
       <div class="sc-brief-label">// INCIDENT SCENARIO ${sc.num}</div>
@@ -1758,33 +1167,26 @@ function loadScenario(idx) {
       <div class="sc-question">${sc.question}</div>
       <div class="sc-options">${optsHtml}</div>
       <div class="sc-feedback ${fbClass}" id="sc-fb-${idx}">
-        <div class="sc-fb-label" style="font-family:'Inconsolata',monospace;font-size:9px;letter-spacing:2px;margin-bottom:5px;">${fbLabel}</div>
-        ${sc.feedback}
+        <div class="sc-fb-label">${fbLabel}</div>${sc.feedback}
       </div>
       <div style="display:flex;gap:8px;margin-top:12px;">
         ${!scAnswered[idx]
           ? `<button class="sc-btn sc-btn-check" id="sc-check-btn" onclick="checkScAnswer(${idx})" disabled>SUBMIT ANALYSIS</button>`
-          : `<button class="sc-btn sc-btn-next" onclick="loadScenario(${Math.min(idx+1, SCENARIOS.length-1)})">NEXT SCENARIO →</button>`
-        }
+          : `<button class="sc-btn sc-btn-next" onclick="loadScenario(${Math.min(idx+1, SCENARIOS.length-1)})">NEXT SCENARIO →</button>`}
       </div>
     </div>`;
 }
 
 function selectScOpt(idx, optIdx) {
   scSelected[idx] = optIdx;
-  document.querySelectorAll(`[id^="sc-opt-${idx}-"]`).forEach((el,i) => {
-    el.classList.toggle('sel', i === optIdx);
-  });
+  document.querySelectorAll(`[id^="sc-opt-${idx}-"]`).forEach((el,i) => el.classList.toggle('sel', i === optIdx));
   const btn = document.getElementById('sc-check-btn');
   if (btn) btn.disabled = false;
 }
 
 function checkScAnswer(idx) {
-  const sc = SCENARIOS[idx];
-  const sel = scSelected[idx];
-  if (sel === -1) return;
-  const correct = sel === sc.correct;
-  scScores[idx] = correct;
+  if (scSelected[idx] === -1) return;
+  scScores[idx]   = scSelected[idx] === SCENARIOS[idx].correct;
   scAnswered[idx] = true;
   renderScList();
   loadScenario(idx);
@@ -1797,7 +1199,7 @@ function updateScScore() {
 }
 
 function resetScenarios() {
-  scScores = new Array(SCENARIOS.length).fill(null);
+  scScores   = new Array(SCENARIOS.length).fill(null);
   scSelected = new Array(SCENARIOS.length).fill(-1);
   scAnswered = new Array(SCENARIOS.length).fill(false);
   renderScList();
@@ -1809,10 +1211,7 @@ function resetScenarios() {
 // ══════════════════════════════════════════════════════════
 let encyBuilt = false, encyFilter = 'all';
 
-function buildEncy() {
-  encyBuilt = true;
-  renderEncy();
-}
+function buildEncy() { encyBuilt = true; renderEncy(); }
 
 function filterEncy(filter, btn) {
   encyFilter = filter;
@@ -1823,25 +1222,18 @@ function filterEncy(filter, btn) {
 
 function renderEncy() {
   const search = document.getElementById('ency-search')?.value?.toLowerCase() || '';
-  const typeColors = {
-    Preventive:'var(--prevent)', Detective:'var(--detect)', Corrective:'var(--correct)',
-    Deterrent:'var(--deter)', Recovery:'var(--recover)', Compensating:'var(--compensate)'
-  };
+  const typeColors = { Preventive:'var(--prevent)', Detective:'var(--detect)', Corrective:'var(--correct)', Deterrent:'var(--deter)', Recovery:'var(--recover)', Compensating:'var(--compensate)' };
   const funcColors = { Technical:'var(--cyan)', Administrative:'var(--amber)', Physical:'var(--green)' };
-
   let filtered = ALL_CONTROLS;
   if (encyFilter !== 'all' && encyFilter !== 'search') {
     const [key, val] = encyFilter.split(':');
     filtered = filtered.filter(c => (key === 'type' ? c.type : c.func) === val);
   }
   if (search) filtered = filtered.filter(c => c.name.toLowerCase().includes(search) || c.desc.toLowerCase().includes(search) || c.example.toLowerCase().includes(search));
-
-  const body = document.getElementById('ency-body');
-  body.innerHTML = filtered.map(c => {
+  document.getElementById('ency-body').innerHTML = filtered.map(c => {
     const tc = typeColors[c.type] || 'var(--cyan)';
     const fc = funcColors[c.func] || 'var(--mid)';
-    return `
-    <div class="ency-row">
+    return `<div class="ency-row">
       <div class="er-name">${c.name}</div>
       <div><span class="er-type" style="color:${tc};border-color:${tc}44;background:${tc}0e">${c.type}</span></div>
       <div class="er-func" style="color:${fc}">${c.func}</div>
@@ -1857,57 +1249,51 @@ function renderEncy() {
 let bldBuilt = false, builderPlaced = {};
 
 const BUILDER_LAYERS = [
-  {id:'perimeter',type:'PREVENTIVE',name:'Perimeter Defense',color:'var(--prevent)',coversThreat:['external','network'],controls:[]},
-  {id:'identity',type:'PREVENTIVE',name:'Identity & Access',color:'var(--prevent)',coversThreat:['credential','insider','access'],controls:[]},
-  {id:'endpoint',type:'PREVENTIVE',name:'Endpoint Protection',color:'var(--detect)',coversThreat:['malware','endpoint'],controls:[]},
-  {id:'detection',type:'DETECTIVE',name:'Detection & Monitoring',color:'var(--detect)',coversThreat:['insider','external','anomaly'],controls:[]},
-  {id:'data',type:'PREVENTIVE',name:'Data Protection',color:'var(--cyan)',coversThreat:['exfiltration','data'],controls:[]},
-  {id:'recovery',type:'RECOVERY',name:'Recovery & Continuity',color:'var(--recover)',coversThreat:['ransomware','disaster','availability'],controls:[]},
+  {id:'perimeter', type:'PREVENTIVE', name:'Perimeter Defense',      color:'var(--prevent)', controls:[]},
+  {id:'identity',  type:'PREVENTIVE', name:'Identity & Access',      color:'var(--prevent)', controls:[]},
+  {id:'endpoint',  type:'PREVENTIVE', name:'Endpoint Protection',    color:'var(--detect)',  controls:[]},
+  {id:'detection', type:'DETECTIVE',  name:'Detection & Monitoring', color:'var(--detect)',  controls:[]},
+  {id:'data',      type:'PREVENTIVE', name:'Data Protection',        color:'var(--cyan)',    controls:[]},
+  {id:'recovery',  type:'RECOVERY',   name:'Recovery & Continuity',  color:'var(--recover)', controls:[]},
 ];
 
 const BUILDER_CONTROLS = [
-  {id:'b-fw',    name:'Firewall',             type:'Preventive', color:'var(--prevent)', layer:'perimeter', score:10},
-  {id:'b-ids',   name:'IDS/IPS',              type:'Detective',  color:'var(--detect)',  layer:'perimeter', score:8},
-  {id:'b-waf',   name:'Web App Firewall',     type:'Preventive', color:'var(--prevent)', layer:'perimeter', score:8},
-  {id:'b-mfa',   name:'Multi-Factor Auth',    type:'Preventive', color:'var(--prevent)', layer:'identity',  score:12},
-  {id:'b-pam',   name:'Priv. Access Mgmt',   type:'Preventive', color:'var(--prevent)', layer:'identity',  score:10},
-  {id:'b-lp',    name:'Least Privilege',      type:'Preventive', color:'var(--prevent)', layer:'identity',  score:8},
-  {id:'b-edr',   name:'EDR / Antivirus',      type:'Preventive', color:'var(--prevent)', layer:'endpoint',  score:10},
-  {id:'b-app',   name:'App Whitelisting',     type:'Preventive', color:'var(--prevent)', layer:'endpoint',  score:8},
-  {id:'b-patch', name:'Patch Management',     type:'Preventive', color:'var(--prevent)', layer:'endpoint',  score:10},
-  {id:'b-siem',  name:'SIEM',                 type:'Detective',  color:'var(--detect)',  layer:'detection', score:12},
-  {id:'b-ueba',  name:'UEBA',                 type:'Detective',  color:'var(--detect)',  layer:'detection', score:10},
-  {id:'b-fim',   name:'File Integrity Mon.',  type:'Detective',  color:'var(--detect)',  layer:'detection', score:7},
-  {id:'b-dlp',   name:'DLP',                  type:'Preventive', color:'var(--prevent)', layer:'data',      score:10},
-  {id:'b-enc',   name:'Encryption (at rest)', type:'Preventive', color:'var(--prevent)', layer:'data',      score:10},
-  {id:'b-etrans',name:'Encryption (transit)', type:'Preventive', color:'var(--prevent)', layer:'data',      score:8},
-  {id:'b-back',  name:'Backups (3-2-1)',       type:'Recovery',   color:'var(--recover)', layer:'recovery',  score:12},
-  {id:'b-dr',    name:'Disaster Recovery',    type:'Recovery',   color:'var(--recover)', layer:'recovery',  score:10},
-  {id:'b-ir',    name:'Incident Response',    type:'Corrective', color:'var(--correct)', layer:'recovery',  score:8},
+  {id:'b-fw',     name:'Firewall',             type:'Preventive', color:'var(--prevent)', layer:'perimeter', score:10},
+  {id:'b-ids',    name:'IDS/IPS',              type:'Detective',  color:'var(--detect)',  layer:'perimeter', score:8},
+  {id:'b-waf',    name:'Web App Firewall',     type:'Preventive', color:'var(--prevent)', layer:'perimeter', score:8},
+  {id:'b-mfa',    name:'Multi-Factor Auth',    type:'Preventive', color:'var(--prevent)', layer:'identity',  score:12},
+  {id:'b-pam',    name:'Priv. Access Mgmt',   type:'Preventive', color:'var(--prevent)', layer:'identity',  score:10},
+  {id:'b-lp',     name:'Least Privilege',      type:'Preventive', color:'var(--prevent)', layer:'identity',  score:8},
+  {id:'b-edr',    name:'EDR / Antivirus',      type:'Preventive', color:'var(--prevent)', layer:'endpoint',  score:10},
+  {id:'b-app',    name:'App Whitelisting',     type:'Preventive', color:'var(--prevent)', layer:'endpoint',  score:8},
+  {id:'b-patch',  name:'Patch Management',     type:'Preventive', color:'var(--prevent)', layer:'endpoint',  score:10},
+  {id:'b-siem',   name:'SIEM',                 type:'Detective',  color:'var(--detect)',  layer:'detection', score:12},
+  {id:'b-ueba',   name:'UEBA',                 type:'Detective',  color:'var(--detect)',  layer:'detection', score:10},
+  {id:'b-fim',    name:'File Integrity Mon.',  type:'Detective',  color:'var(--detect)',  layer:'detection', score:7},
+  {id:'b-dlp',    name:'DLP',                  type:'Preventive', color:'var(--prevent)', layer:'data',      score:10},
+  {id:'b-enc',    name:'Encryption (at rest)', type:'Preventive', color:'var(--prevent)', layer:'data',      score:10},
+  {id:'b-etrans', name:'Encryption (transit)', type:'Preventive', color:'var(--prevent)', layer:'data',      score:8},
+  {id:'b-back',   name:'Backups (3-2-1)',       type:'Recovery',   color:'var(--recover)', layer:'recovery',  score:12},
+  {id:'b-dr',     name:'Disaster Recovery',    type:'Recovery',   color:'var(--recover)', layer:'recovery',  score:10},
+  {id:'b-ir',     name:'Incident Response',    type:'Corrective', color:'var(--correct)', layer:'recovery',  score:8},
 ];
 
 const THREAT_COVERAGE = [
-  {id:'ransomware',  name:'Ransomware',         controls:['b-edr','b-back','b-mfa','b-app','b-siem']},
-  {id:'insider',     name:'Insider Threat',     controls:['b-ueba','b-dlp','b-pam','b-lp','b-siem']},
-  {id:'credential',  name:'Credential Theft',   controls:['b-mfa','b-pam','b-siem','b-ueba']},
-  {id:'exfiltration',name:'Data Exfiltration',  controls:['b-dlp','b-enc','b-etrans','b-ids','b-siem']},
-  {id:'malware',     name:'Malware',            controls:['b-edr','b-app','b-fw','b-patch','b-siem']},
-  {id:'availability',name:'Availability Loss',  controls:['b-back','b-dr','b-ir']},
+  {id:'ransomware',   name:'Ransomware',        controls:['b-edr','b-back','b-mfa','b-app','b-siem']},
+  {id:'insider',      name:'Insider Threat',    controls:['b-ueba','b-dlp','b-pam','b-lp','b-siem']},
+  {id:'credential',   name:'Credential Theft',  controls:['b-mfa','b-pam','b-siem','b-ueba']},
+  {id:'exfiltration', name:'Data Exfiltration', controls:['b-dlp','b-enc','b-etrans','b-ids','b-siem']},
+  {id:'malware',      name:'Malware',           controls:['b-edr','b-app','b-fw','b-patch','b-siem']},
+  {id:'availability', name:'Availability Loss', controls:['b-back','b-dr','b-ir']},
 ];
 
 function buildDefenseBuilder() {
   bldBuilt = true;
   builderPlaced = {};
   BUILDER_LAYERS.forEach(l => l.controls = []);
-
-  // Palette
   const palette = document.getElementById('builder-palette');
   const byLayer = {};
-  BUILDER_CONTROLS.forEach(c => {
-    if (!byLayer[c.layer]) byLayer[c.layer] = [];
-    byLayer[c.layer].push(c);
-  });
-
+  BUILDER_CONTROLS.forEach(c => { if (!byLayer[c.layer]) byLayer[c.layer] = []; byLayer[c.layer].push(c); });
   const layerLabels = {perimeter:'Perimeter',identity:'Identity',endpoint:'Endpoint',detection:'Detection',data:'Data',recovery:'Recovery'};
   Object.entries(byLayer).forEach(([layerId, ctrls]) => {
     const section = document.createElement('div');
@@ -1915,16 +1301,13 @@ function buildDefenseBuilder() {
     section.innerHTML = `<div class="bp-section-title">${layerLabels[layerId]} Controls</div>`;
     ctrls.forEach(c => {
       const div = document.createElement('div');
-      div.className = 'bp-control';
-      div.id = `bp-${c.id}`;
+      div.className = 'bp-control'; div.id = `bp-${c.id}`;
       div.innerHTML = `<div class="bp-ctrl-dot" style="background:${c.color}"></div><div class="bp-ctrl-name">${c.name}</div><div class="bp-ctrl-type">+${c.score}</div>`;
       div.onclick = () => placeControl(c.id);
       section.appendChild(div);
     });
     palette.appendChild(section);
   });
-
-  // Layers canvas
   const layersEl = document.getElementById('bc-layers');
   BUILDER_LAYERS.forEach(layer => {
     const el = document.createElement('div');
@@ -1935,40 +1318,25 @@ function buildDefenseBuilder() {
         <div class="bcl-name">${layer.name}</div>
         <div class="bcl-coverage" id="bcl-cov-${layer.id}">0 controls</div>
       </div>
-      <div class="bcl-controls" id="bcl-${layer.id}">
-        <div class="bcl-empty">// Click controls from palette to add →</div>
-      </div>`;
+      <div class="bcl-controls" id="bcl-${layer.id}"><div class="bcl-empty">// Click controls from palette to add →</div></div>`;
     layersEl.appendChild(el);
   });
-
-  // Coverage bars
   const cBars = document.getElementById('coverage-bars');
   THREAT_COVERAGE.forEach(t => {
-    cBars.innerHTML += `
-      <div class="coverage-row">
-        <div class="cr-label">
-          <span class="cr-name">${t.name}</span>
-          <span class="cr-pct" id="cr-pct-${t.id}">0%</span>
-        </div>
-        <div class="cr-bar-wrap"><div class="cr-bar" id="cr-bar-${t.id}" style="width:0%;background:var(--red)"></div></div>
-      </div>`;
+    cBars.innerHTML += `<div class="coverage-row"><div class="cr-label"><span class="cr-name">${t.name}</span><span class="cr-pct" id="cr-pct-${t.id}">0%</span></div><div class="cr-bar-wrap"><div class="cr-bar" id="cr-bar-${t.id}" style="width:0%;background:var(--red)"></div></div></div>`;
   });
 }
 
 function placeControl(controlId) {
+  const c = BUILDER_CONTROLS.find(x => x.id === controlId);
+  const layer = BUILDER_LAYERS.find(l => l.id === c.layer);
   if (builderPlaced[controlId]) {
-    // Remove it
     builderPlaced[controlId] = false;
-    const c = BUILDER_CONTROLS.find(x => x.id === controlId);
-    const layer = BUILDER_LAYERS.find(l => l.id === c.layer);
     if (layer) layer.controls = layer.controls.filter(x => x !== controlId);
     const palEl = document.getElementById(`bp-${controlId}`);
     if (palEl) palEl.classList.remove('placed');
   } else {
-    // Place it
     builderPlaced[controlId] = true;
-    const c = BUILDER_CONTROLS.find(x => x.id === controlId);
-    const layer = BUILDER_LAYERS.find(l => l.id === c.layer);
     if (layer && !layer.controls.includes(controlId)) layer.controls.push(controlId);
     const palEl = document.getElementById(`bp-${controlId}`);
     if (palEl) palEl.classList.add('placed');
@@ -1978,44 +1346,32 @@ function placeControl(controlId) {
 
 function updateBuilderCanvas() {
   BUILDER_LAYERS.forEach(layer => {
-    const el = document.getElementById(`bcl-${layer.id}`);
+    const el  = document.getElementById(`bcl-${layer.id}`);
     const cov = document.getElementById(`bcl-cov-${layer.id}`);
     if (!el) return;
-
-    if (layer.controls.length === 0) {
-      el.innerHTML = '<div class="bcl-empty">// Click controls from palette to add →</div>';
-    } else {
-      el.innerHTML = layer.controls.map(cid => {
-        const c = BUILDER_CONTROLS.find(x => x.id === cid);
-        return `<div class="bcl-ctrl" style="color:${c.color};border-color:${c.color}44;background:${c.color}10"
-          onclick="placeControl('${cid}')" title="Click to remove">
-          ${c.name} <span class="bcl-remove">✕</span>
-        </div>`;
-      }).join('');
-    }
+    el.innerHTML = layer.controls.length === 0
+      ? '<div class="bcl-empty">// Click controls from palette to add →</div>'
+      : layer.controls.map(cid => {
+          const c = BUILDER_CONTROLS.find(x => x.id === cid);
+          return `<div class="bcl-ctrl" style="color:${c.color};border-color:${c.color}44;background:${c.color}10" onclick="placeControl('${cid}')" title="Click to remove">${c.name} <span class="bcl-remove">✕</span></div>`;
+        }).join('');
     if (cov) cov.textContent = `${layer.controls.length} control${layer.controls.length !== 1 ? 's' : ''}`;
   });
-
-  // Calculate score
-  const totalMax = BUILDER_CONTROLS.reduce((a, c) => a + c.score, 0);
-  const currentScore = BUILDER_CONTROLS.filter(c => builderPlaced[c.id]).reduce((a, c) => a + c.score, 0);
-  const pct = Math.round((currentScore / totalMax) * 100);
-
+  const totalMax = BUILDER_CONTROLS.reduce((a,c) => a + c.score, 0);
+  const current  = BUILDER_CONTROLS.filter(c => builderPlaced[c.id]).reduce((a,c) => a + c.score, 0);
+  const pct = Math.round((current / totalMax) * 100);
   const val = document.getElementById('bcs-val');
   const grade = document.getElementById('bcs-grade');
   if (val) val.textContent = pct;
   if (grade) {
     let g, gc;
-    if (pct >= 85) { g = 'FORTRESS'; gc = 'var(--green)'; }
-    else if (pct >= 65) { g = 'STRONG'; gc = 'var(--cyan)'; }
-    else if (pct >= 45) { g = 'MODERATE'; gc = 'var(--amber)'; }
-    else if (pct >= 20) { g = 'WEAK'; gc = 'var(--red)'; }
-    else { g = 'NO CONTROLS'; gc = 'var(--dim)'; }
-    grade.textContent = g;
-    grade.style.color = gc;
+    if (pct >= 85) { g='FORTRESS'; gc='var(--green)'; }
+    else if (pct >= 65) { g='STRONG'; gc='var(--cyan)'; }
+    else if (pct >= 45) { g='MODERATE'; gc='var(--amber)'; }
+    else if (pct >= 20) { g='WEAK'; gc='var(--red)'; }
+    else { g='NO CONTROLS'; gc='var(--dim)'; }
+    grade.textContent = g; grade.style.color = gc;
   }
-
-  // Coverage bars
   const placed = new Set(Object.entries(builderPlaced).filter(([k,v]) => v).map(([k]) => k));
   const gaps = [];
   THREAT_COVERAGE.forEach(t => {
@@ -2023,14 +1379,10 @@ function updateBuilderCanvas() {
     const p = Math.round((covered / t.controls.length) * 100);
     const barEl = document.getElementById(`cr-bar-${t.id}`);
     const pctEl = document.getElementById(`cr-pct-${t.id}`);
-    if (barEl) {
-      barEl.style.width = `${p}%`;
-      barEl.className = `cr-bar${p < 40 ? ' danger' : p < 70 ? ' warn' : ''}`;
-    }
+    if (barEl) { barEl.style.width = `${p}%`; barEl.className = `cr-bar${p < 40 ? ' danger' : p < 70 ? ' warn' : ''}`; }
     if (pctEl) pctEl.textContent = `${p}%`;
     if (p < 50) gaps.push(`<span style="color:var(--red)">⚠ ${t.name}</span> coverage below 50%`);
   });
-
   const gapEl = document.getElementById('coverage-gaps');
   if (gapEl) gapEl.innerHTML = gaps.length ? gaps.join('<br>') : '<span style="color:var(--green)">✓ All threat categories have adequate coverage.</span>';
 }
@@ -2052,27 +1404,21 @@ function buildQuiz() {
   qzAnswered = new Array(QUIZ.length).fill(false);
   qzScores   = new Array(QUIZ.length).fill(false);
   qzSels     = new Array(QUIZ.length).fill(-1);
-
   const container = document.getElementById('quiz-container');
   const letters = ['A','B','C','D'];
-
   QUIZ.forEach((q, qi) => {
     const card = document.createElement('div');
-    card.className = 'qz-card';
-    card.id = `qzcard-${qi}`;
-
-    const optsHtml = q.opts.map((o, oi) => `
-      <div class="qz-opt" id="qzopt-${qi}-${oi}" onclick="selQzOpt(${qi},${oi})">
-        <div class="qz-key">${letters[oi]}</div>
-        <div>${o}</div>
-      </div>`).join('');
-
+    card.className = 'qz-card'; card.id = `qzcard-${qi}`;
     card.innerHTML = `
       <div class="qz-header">
         <div class="qz-badge">Q${qi+1}</div>
         <div class="qz-text">${q.q}</div>
       </div>
-      <div class="qz-opts">${optsHtml}</div>
+      <div class="qz-opts">${q.opts.map((o,oi) => `
+        <div class="qz-opt" id="qzopt-${qi}-${oi}" onclick="selQzOpt(${qi},${oi})">
+          <div class="qz-key">${letters[oi]}</div><div>${o}</div>
+        </div>`).join('')}
+      </div>
       <div class="qz-foot">
         <button class="qz-submit" id="qzsub-${qi}" onclick="checkQz(${qi})" disabled>SUBMIT</button>
         <div class="qz-explain" id="qzexpl-${qi}"></div>
@@ -2096,44 +1442,34 @@ function checkQz(qi) {
   const sel = qzSels[qi];
   const isRight = sel === correct;
   qzScores[qi] = isRight;
-
   document.querySelectorAll(`[id^="qzopt-${qi}-"]`).forEach((el,oi) => {
     el.classList.add('qo-dis');
     if (oi === correct) el.classList.add('qo-corr');
     else if (oi === sel && !isRight) el.classList.add('qo-wrng');
   });
-
   const expl = document.getElementById(`qzexpl-${qi}`);
   expl.className = `qz-explain show ${isRight ? 'ok' : 'err'}`;
   expl.textContent = (isRight ? '✓ Correct — ' : '✗ Incorrect — ') + QUIZ[qi].explain;
-
   document.getElementById(`qzsub-${qi}`).disabled = true;
   document.getElementById(`qzcard-${qi}`).classList.add(isRight ? 'qz-corr' : 'qz-wrng');
-
-  // Update progress
-  const done = qzAnswered.filter(Boolean).length;
+  const done    = qzAnswered.filter(Boolean).length;
   const correct2 = qzScores.filter(Boolean).length;
-  const pct = Math.round((done / QUIZ.length) * 100);
-  document.getElementById('qpr-fill').style.width = `${pct}%`;
+  document.getElementById('qpr-fill').style.width  = `${Math.round((done/QUIZ.length)*100)}%`;
   document.getElementById('qpr-label').textContent = `${done} of ${QUIZ.length} answered`;
   document.getElementById('qpr-score').textContent = `${correct2}/${QUIZ.length}`;
 }
 
 // ══════════════════════════════════════════════════════════
-// CLOCK
+// CLOCK & INIT
 // ══════════════════════════════════════════════════════════
 function updateClock() {
   document.getElementById('hclock').textContent =
-    new Date().toLocaleTimeString('en-US', {hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    new Date().toLocaleTimeString('en-US',{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'});
 }
 setInterval(updateClock, 1000); updateClock();
 
-// ══════════════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════════════
 buildMatrix();
 
-// Encyclopedia search live update
 document.addEventListener('input', e => {
   if (e.target.id === 'ency-search') renderEncy();
 });
