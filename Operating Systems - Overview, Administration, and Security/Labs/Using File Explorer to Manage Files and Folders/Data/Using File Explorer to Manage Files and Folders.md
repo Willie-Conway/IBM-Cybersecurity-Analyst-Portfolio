@@ -187,6 +187,8 @@ File Explorer and LibreOffice.
 1. The document title bar should now show the filename: **Project 1 Document - LibreOffice Writer**
 2. This confirms your document has been saved successfully
 
+
+
 ---
 
 ## Exercise 4: Identify the Stored Path of the New Document
@@ -197,6 +199,8 @@ In this exercise, you will locate and identify the full file path of your newly 
 
 1. Click back on the File Explorer window (or open a new one with **Windows key + E**)
 2. Navigate to **Documents** > **Office files**
+
+![alt text](<../Screenshots/LibreOffice Writer.png>)
 
 ### Step 2: Locate Your Document
 
@@ -216,7 +220,9 @@ There are several ways to identify the full file path:
 2. It should show: **This PC > Documents > Office files**
 3. Click in the address bar to see the full path: **`C:\Users\[YourUsername]\Documents\Office files`**
 
-![File Explorer address bar showing full path]
+
+
+![alt text](<../Screenshots/Create a file name Department.png>)
 
 **Method 2: File Properties**
 
@@ -225,7 +231,8 @@ There are several ways to identify the full file path:
 3. In the Properties window, look for **Location** - this shows the folder path
 4. The full path combines the Location + Filename
 
-![File Properties showing location]
+]
+![alt text](<../Screenshots/Create Empoyee foler in Documents.png>)
 
 **Method 3: Copy Path**
 
@@ -244,6 +251,7 @@ Full file path: _________________________________________________________
 Example: C:\Users\Student\Documents\Office files\Project 1 Document.odt
 ```
 
+![alt text](<../Screenshots/File path.png>)
 ---
 
 ## Exercise 5: Additional File Management Practice (Optional)
@@ -356,6 +364,8 @@ Use this checklist to ensure you've completed all lab requirements:
 | Copy full path       | Shift + Right-click > Copy as path             |
 
 ---
+
+<video controls src="Using File Explorer to Manage Files and Folders.mp4" title="Using File Explorer to Manage Files and Folders"></video>
 
 ## Key Takeaways
 
