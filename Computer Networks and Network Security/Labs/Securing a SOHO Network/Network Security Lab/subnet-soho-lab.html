@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Security Lab — Subnet & SOHO Simulator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --ink:     #0f1623;
+  --ink2:    #1e2d47;
+  --ink3:    #2e4268;
+  --slate:   #f0f4fa;
+  --slate2:  #e2e9f5;
+  --slate3:  #ccd6ed;
+  --blue:    #1a56db;
+  --blue2:   #1447b5;
+  --cyan:    #0891b2;
+  --green:   #059669;
+  --amber:   #d97706;
+  --red:     #dc2626;
+  --white:   #ffffff;
+  --text:    #0f1623;
+  --text2:   #3d5070;
+  --text3:   #7090b0;
+  --border:  #c8d5ea;
+  --border2: #a8bdd8;
+  --mono:    'IBM Plex Mono', monospace;
+  --sans:    'IBM Plex Sans', sans-serif;
+  --shadow:  0 1px 3px rgba(15,22,35,0.08), 0 4px 12px rgba(15,22,35,0.05);
+  --shadow2: 0 2px 8px rgba(15,22,35,0.12), 0 8px 24px rgba(15,22,35,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--slate);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+header {
+  background: var(--ink);
+  color: var(--white);
+  padding: 0 28px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: 15px; font-weight: 600;
+  letter-spacing: -0.3px; color: var(--white);
+}
+.logo-mark {
+  width: 30px; height: 30px;
+  background: var(--blue);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
+}
+.header-tabs {
+  display: flex; gap: 2px; flex: 1; margin-left: 8px;
+}
+.htab {
+  padding: 6px 16px;
+  border-radius: 5px;
+  font-size: 13px; font-weight: 400;
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+  white-space: nowrap;
+}
+.htab:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); }
+.htab.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: 500; }
+
+.header-badge {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.5px;
+}
+
+/* ── Layout ── */
+.pane { display: none; flex: 1; }
+.pane.active { display: block; }
+
+/* ══════════════════════════
+   SHARED COMPONENTS
+══════════════════════════ */
+.page-hero {
+  background: var(--ink2);
+  color: #fff;
+  padding: 24px 28px 22px;
+  border-bottom: 1px solid var(--ink3);
+}
+.hero-label {
+  font-size: 11px; font-family: var(--mono);
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 6px;
+}
+.hero-title { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+.hero-sub { font-size: 13px; color: rgba(255,255,255,0.55); }
+
+.page-body { padding: 24px 28px; max-width: 1280px; }
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.card-head {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+  background: var(--slate);
+}
+.card-icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+.card-title { font-weight: 600; font-size: 13px; }
+.card-sub { font-size: 12px; color: var(--text3); margin-left: auto; }
+.card-body { padding: 20px; }
+
+.field-label {
+  font-size: 11px; font-weight: 500; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--text3);
+  margin-bottom: 5px; display: block;
+}
+.field-input {
+  width: 100%;
+  padding: 9px 12px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  font-family: var(--mono); font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(26,86,219,0.12);
+}
+.field-input.error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(220,38,38,0.1); }
+.field-input.success { border-color: var(--green); }
+
+.btn {
+  padding: 9px 20px;
+  border-radius: 7px;
+  border: none;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: all 0.15s;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { background: var(--blue2); }
+.btn-primary:active { transform: scale(0.98); }
+.btn-ghost { background: var(--white); border: 1.5px solid var(--border); color: var(--text2); }
+.btn-ghost:hover { border-color: var(--border2); background: var(--slate); }
+.btn-success { background: var(--green); color: #fff; }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-amber { background: var(--amber); color: #fff; }
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+.result-cell {
+  background: var(--slate);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.rc-key { font-size: 10px; font-family: var(--mono); color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+.rc-val { font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--text); }
+.rc-val.blue { color: var(--blue); }
+.rc-val.green { color: var(--green); }
+.rc-val.amber { color: var(--amber); }
+.rc-val.red { color: var(--red); }
+.rc-val.cyan { color: var(--cyan); }
+
+.mono-block {
+  background: var(--ink);
+  color: #a8c0e8;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+.mb-key   { color: #7090b0; }
+.mb-val   { color: #e8f0ff; }
+.mb-good  { color: #34d399; }
+.mb-warn  { color: #fbbf24; }
+.mb-cyan  { color: #67e8f9; }
+.mb-blue  { color: #93c5fd; }
+
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-family: var(--mono); font-weight: 500;
+}
+.badge-blue  { background: #eff6ff; color: var(--blue2); border: 1px solid #bfdbfe; }
+.badge-green { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+.badge-amber { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+.badge-red   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+.badge-slate { background: var(--slate2); color: var(--text2); border: 1px solid var(--border); }
+
+.binary-row {
+  display: flex; align-items: center; gap: 2px;
+  font-family: var(--mono); font-size: 13px;
+}
+.b-net  { color: var(--blue); font-weight: 600; }
+.b-host { color: var(--green); }
+.b-sep  { color: var(--border2); margin: 0 4px; }
+
+.divider { height: 1px; background: var(--border); margin: 18px 0; }
+.section-label {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--text3); margin-bottom: 12px;
+}
+
+/* Progress step */
+.task-steps { display: flex; flex-direction: column; gap: 0; }
+.task-step {
+  display: flex; gap: 14px;
+  padding-bottom: 20px;
+  position: relative;
+}
+.task-step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 15px; top: 32px; bottom: 0;
+  width: 1px; background: var(--border);
+}
+.step-dot {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 12px; font-weight: 600;
+  color: var(--text3); font-family: var(--mono);
+  transition: all 0.2s;
+  z-index: 1;
+}
+.step-dot.done { background: var(--green); border-color: var(--green); color: #fff; }
+.step-dot.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+.step-body { flex: 1; padding-top: 4px; }
+.step-title { font-weight: 500; font-size: 13px; margin-bottom: 3px; }
+.step-desc { font-size: 12px; color: var(--text3); }
+
+/* ══════════════════════════
+   TAB 1 — IPv4 SUBNET
+══════════════════════════ */
+#tab-ipv4 .page-body {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.task-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-family: var(--mono);
+  color: var(--blue2);
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+  padding: 3px 10px;
+  margin-bottom: 12px;
+}
+
+.subnet-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-top: 8px;
+}
+.subnet-table th {
+  background: var(--slate2);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 10px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text3);
+  font-weight: 500;
+}
+.subnet-table td {
+  border: 1px solid var(--border);
+  padding: 9px 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.subnet-table tr:hover td { background: var(--slate); }
+.subnet-table tr.highlight td { background: #eff6ff; }
+
+/* Slider */
+.range-wrap { position: relative; }
+.range-input {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--slate3);
+  outline: none;
+}
+.range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(26,86,219,0.3);
+  cursor: pointer;
+}
+
+/* Bit visualizer */
+.bit-grid { display: flex; gap: 3px; flex-wrap: wrap; }
+.bit-cell {
+  width: 22px; height: 22px;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+  border: 1px solid;
+  transition: all 0.2s;
+}
+.bit-cell.net  { background: #dbeafe; border-color: #93c5fd; color: var(--blue2); }
+.bit-cell.host { background: #dcfce7; border-color: #86efac; color: #15803d; }
+.bit-octet-sep { width: 8px; flex-shrink: 0; }
+
+/* ══════════════════════════
+   TAB 2 — IPv6
+══════════════════════════ */
+#tab-ipv6 .page-body {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ══════════════════════════
+   TAB 3 — SOHO ROUTER
+══════════════════════════ */
+#tab-soho {
+  overflow: hidden;
+}
+#tab-soho .page-hero { background: #1a2535; }
+
+.router-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  height: calc(100vh - 56px - 86px);
+}
+.router-nav {
+  background: #1e2d47;
+  border-right: 1px solid #2e4268;
+  overflow-y: auto;
+  padding: 12px 0;
+}
+.router-nav-section { padding: 8px 14px 4px; }
+.rns-label {
+  font-size: 10px; font-family: var(--mono);
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase; letter-spacing: 1px;
+  padding: 0 6px; margin-bottom: 4px;
+}
+.rn-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
+  transition: all 0.12s;
+  user-select: none;
+}
+.rn-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
+.rn-item.active { background: rgba(26,86,219,0.35); color: #fff; }
+.rn-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+.router-content {
+  background: var(--slate);
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.router-panel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.rp-head {
+  background: var(--ink2);
+  color: #fff;
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.rp-title { font-weight: 600; font-size: 14px; }
+.rp-sub { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 1px; }
+.rp-status {
+  margin-left: auto;
+  font-family: var(--mono); font-size: 11px;
+  padding: 3px 10px; border-radius: 3px;
+}
+.rp-body { padding: 20px; }
+
+.pw-strength {
+  height: 4px; border-radius: 2px;
+  background: var(--slate2);
+  margin-top: 6px;
+  overflow: hidden;
+}
+.pw-bar {
+  height: 100%; border-radius: 2px;
+  transition: width 0.3s, background 0.3s;
+  width: 0;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px; height: 22px;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: var(--slate3);
+  border-radius: 11px;
+  transition: background 0.2s;
+}
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  left: 3px; top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+input:checked + .toggle-slider { background: var(--green); }
+input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+.freq-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.freq-tab {
+  padding: 9px 20px;
+  cursor: pointer;
+  font-size: 13px; font-weight: 500;
+  color: var(--text3);
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  user-select: none;
+}
+.freq-tab:hover { color: var(--text); }
+.freq-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+.wifi-signal {
+  display: flex; align-items: flex-end; gap: 2px;
+  height: 20px;
+}
+.ws-bar {
+  width: 5px; border-radius: 1px;
+  background: var(--slate3);
+  transition: background 0.3s;
+}
+.ws-bar.on { background: var(--green); }
+
+.security-level {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;
+}
+.sec-opt {
+  padding: 8px 14px;
+  border-radius: 7px;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  font-size: 12px; font-weight: 500;
+  transition: all 0.15s;
+  user-select: none;
+}
+.sec-opt:hover { border-color: var(--blue); }
+.sec-opt.selected { border-color: var(--blue); background: #eff6ff; color: var(--blue2); }
+.sec-opt.warn-opt { border-color: var(--border); }
+.sec-opt.warn-opt.selected { border-color: var(--amber); background: #fffbeb; color: #b45309; }
+.sec-opt.danger-opt.selected { border-color: var(--red); background: #fef2f2; color: #991b1b; }
+
+.toast {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--ink);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.25s;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast-icon { font-size: 16px; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--slate3); border-radius: 3px; }
+
+/* Animations */
+@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.anim { animation: fadeIn 0.2s ease; }
+
+/* Responsive */
+@media(max-width:900px) {
+  #tab-ipv4 .page-body, #tab-ipv6 .page-body { grid-template-columns: 1fr; }
+  .router-layout { grid-template-columns: 1fr; }
+  .router-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">NS</div>
+    Network Security Lab
+  </div>
+  <nav class="header-tabs">
+    <div class="htab active" data-tab="ipv4">IPv4 Subnetting</div>
+    <div class="htab" data-tab="ipv6">IPv6 Subnetting</div>
+    <div class="htab" data-tab="soho">SOHO Router Security</div>
+  </nav>
+  <div class="header-badge">LAB v2.0</div>
+</header>
+
+<!-- ═══════════════════════════
+     TAB 1: IPv4 SUBNETTING
+═══════════════════════════ -->
+<div class="pane active" id="tab-ipv4">
+  <div class="page-hero">
+    <div class="hero-label">Lab · Tasks 1–3</div>
+    <div class="hero-title">IPv4 Subnet Mask &amp; Host Calculation</div>
+    <div class="hero-sub">Calculate subnet masks, divide networks into subnets, and determine usable host counts.</div>
+  </div>
+  <div class="page-body">
+
+    <!-- LEFT: Input Panel -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+
+      <!-- Task 1: Subnet Mask Calc -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#eff6ff">🔢</div>
+          <div class="card-title">Task 1 — Subnet Mask Calculation</div>
+        </div>
+        <div class="card-body">
+          <div class="task-badge">Given IP Address</div>
+          <div style="margin-bottom:12px">
+            <label class="field-label">IP Address / CIDR Notation</label>
+            <input class="field-input" id="ipv4-input" type="text" value="192.168.1.0/24" placeholder="e.g. 192.168.1.0/24" oninput="calcIPv4()">
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary" onclick="calcIPv4()">Calculate</button>
+            <button class="btn btn-ghost" onclick="loadExample('192.168.1.0/24')">Example 1</button>
+            <button class="btn btn-ghost" onclick="loadExample('10.0.0.0/24')">Example 2</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 2: Subnet Splitter -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#f0fdf4">✂️</div>
+          <div class="card-title">Task 2 — Divide Into Subnets</div>
+        </div>
+        <div class="card-body">
+          <div class="task-badge">Subnet Division</div>
+          <div style="margin-bottom:12px">
+            <label class="field-label">Number of Required Subnets</label>
+            <div style="display:flex;align-items:center;gap:12px">
+              <input class="range-input" type="range" id="subnet-count" min="2" max="128" value="4" oninput="updateSubnetSlider()">
+              <span class="badge badge-blue" id="subnet-count-display" style="min-width:70px;justify-content:center">4 subnets</span>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="calcSubnets()">Generate Subnets</button>
+        </div>
+      </div>
+
+      <!-- Bit Visualizer -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#fefce8">🔵</div>
+          <div class="card-title">Bit Visualizer</div>
+          <div class="card-sub" id="bit-legend">
+            <span class="badge badge-blue" style="margin-right:4px">■ Network</span>
+            <span class="badge badge-green">■ Host</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="bit-grid" id="bit-grid"></div>
+          <div style="margin-top:10px;font-size:12px;color:var(--text3);font-family:var(--mono)" id="bit-label">—</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Results -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+
+      <!-- Main results -->
+      <div class="card anim" id="ipv4-result-card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#eff6ff">📊</div>
+          <div class="card-title">Calculation Results</div>
+          <div class="card-sub" id="result-header-badge"></div>
+        </div>
+        <div class="card-body">
+          <div class="result-grid" id="ipv4-result-grid">
+            <div class="result-cell"><div class="rc-key">Status</div><div class="rc-val" style="color:var(--text3)">Enter an IP above</div></div>
+          </div>
+          <div id="binary-section" style="margin-top:16px;display:none">
+            <div class="section-label">Binary Representation</div>
+            <div class="mono-block" id="binary-display"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 2: Subnet table -->
+      <div class="card" id="subnet-table-card" style="display:none">
+        <div class="card-head">
+          <div class="card-icon" style="background:#f0fdf4">📋</div>
+          <div class="card-title" id="subnet-table-title">Subnet Division Results</div>
+        </div>
+        <div class="card-body" style="overflow-x:auto">
+          <table class="subnet-table" id="subnet-table"></table>
+        </div>
+      </div>
+
+      <!-- Task 3: Host Calc -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#fff7ed">🖥️</div>
+          <div class="card-title">Task 3 — Host Count Calculator</div>
+        </div>
+        <div class="card-body">
+          <div class="task-badge">Given Network</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+            <div>
+              <label class="field-label">Network Address</label>
+              <input class="field-input" id="host-ip" type="text" value="10.10.0.0" placeholder="10.10.0.0">
+            </div>
+            <div>
+              <label class="field-label">Subnet Mask</label>
+              <input class="field-input" id="host-mask" type="text" value="255.255.255.192" placeholder="255.255.255.0" oninput="calcHosts()">
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="calcHosts()" style="margin-bottom:14px">Calculate Hosts</button>
+          <div id="host-result"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     TAB 2: IPv6 SUBNETTING
+═══════════════════════════ -->
+<div class="pane" id="tab-ipv6">
+  <div class="page-hero" style="background:#0f2038">
+    <div class="hero-label">Lab · Tasks 4–5</div>
+    <div class="hero-title">IPv6 Subnet &amp; Host Calculation</div>
+    <div class="hero-sub">Calculate IPv6 subnets, enumerate address ranges, and compute enormous host counts.</div>
+  </div>
+  <div class="page-body">
+
+    <!-- LEFT -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#eff6ff">🌐</div>
+          <div class="card-title">Task 4 — IPv6 Subnet Division</div>
+        </div>
+        <div class="card-body">
+          <div class="task-badge">IPv6 Address</div>
+          <div style="margin-bottom:12px">
+            <label class="field-label">IPv6 Address / Prefix</label>
+            <input class="field-input" id="ipv6-input" type="text" value="2001:0db8:85a3::/48" placeholder="2001:db8::/32" oninput="calcIPv6()">
+          </div>
+          <div style="margin-bottom:12px">
+            <label class="field-label">Required Subnets (power of 2 bits borrowed)</label>
+            <div style="display:flex;align-items:center;gap:12px">
+              <input class="range-input" type="range" id="ipv6-subnet-bits" min="1" max="16" value="4" oninput="updateIPv6Slider()">
+              <span class="badge badge-blue" id="ipv6-slider-display" style="min-width:80px;justify-content:center">16 subnets</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary" onclick="calcIPv6()">Calculate</button>
+            <button class="btn btn-ghost" onclick="loadIPv6Example('2001:0db8:85a3::/48')">Example 1</button>
+            <button class="btn btn-ghost" onclick="loadIPv6Example('2001:db8::/32')">Example 2</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 5 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#f0fdf4">🔢</div>
+          <div class="card-title">Task 5 — IPv6 Host Calculation</div>
+        </div>
+        <div class="card-body">
+          <div class="task-badge">Given Address</div>
+          <div style="margin-bottom:12px">
+            <label class="field-label">Full IPv6 Address</label>
+            <input class="field-input" id="ipv6-host-addr" type="text" value="2001:0db8:85a3:0000:0000:8a2e:0370:7334" style="font-size:12px">
+          </div>
+          <div style="margin-bottom:12px">
+            <label class="field-label">Subnet Mask / CIDR Prefix</label>
+            <input class="field-input" id="ipv6-host-prefix" type="text" value="/64" placeholder="/64">
+          </div>
+          <button class="btn btn-primary" onclick="calcIPv6Hosts()">Calculate Hosts</button>
+          <div id="ipv6-host-result" style="margin-top:14px"></div>
+        </div>
+      </div>
+
+      <!-- IPv6 vs IPv4 comparison -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#fdf4ff">⚖️</div>
+          <div class="card-title">IPv4 vs IPv6 at a Glance</div>
+        </div>
+        <div class="card-body">
+          <table style="width:100%;font-size:12px;border-collapse:collapse">
+            <tr style="background:var(--slate2)">
+              <th style="padding:7px 10px;text-align:left;border:1px solid var(--border);font-size:11px;font-family:var(--mono);color:var(--text3)">Feature</th>
+              <th style="padding:7px 10px;text-align:left;border:1px solid var(--border);font-size:11px;font-family:var(--mono);color:var(--blue2)">IPv4</th>
+              <th style="padding:7px 10px;text-align:left;border:1px solid var(--border);font-size:11px;font-family:var(--mono);color:var(--cyan)">IPv6</th>
+            </tr>
+            <tr><td style="padding:7px 10px;border:1px solid var(--border)">Address size</td><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">32 bits</td><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">128 bits</td></tr>
+            <tr style="background:var(--slate)"><td style="padding:7px 10px;border:1px solid var(--border)">Total addresses</td><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">~4.3 billion</td><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">~3.4 × 10³⁸</td></tr>
+            <tr><td style="padding:7px 10px;border:1px solid var(--border)">Notation</td><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">Dotted decimal</td><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">Colon hex</td></tr>
+            <tr style="background:var(--slate)"><td style="padding:7px 10px;border:1px solid var(--border)">Subnet bits</td><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">1–32</td><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">1–128</td></tr>
+            <tr><td style="padding:7px 10px;border:1px solid var(--border)">Typical LAN /prefix</td><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">/24 (254 hosts)</td><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">/64 (1.8×10¹⁹)</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+
+      <div class="card" id="ipv6-result-card">
+        <div class="card-head">
+          <div class="card-icon" style="background:#eff6ff">📊</div>
+          <div class="card-title">IPv6 Calculation Results</div>
+        </div>
+        <div class="card-body">
+          <div class="result-grid" id="ipv6-result-grid">
+            <div class="result-cell"><div class="rc-key">Status</div><div class="rc-val" style="color:var(--text3)">Enter an IPv6 above</div></div>
+          </div>
+          <div id="ipv6-binary-section" style="margin-top:16px;display:none">
+            <div class="section-label">Prefix Bit Visualization</div>
+            <div class="mono-block" id="ipv6-binary-display"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="ipv6-subnet-card" style="display:none">
+        <div class="card-head">
+          <div class="card-icon" style="background:#f0fdf4">📋</div>
+          <div class="card-title" id="ipv6-table-title">Generated IPv6 Subnets</div>
+        </div>
+        <div class="card-body" style="overflow-x:auto">
+          <table class="subnet-table" id="ipv6-subnet-table"></table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     TAB 3: SOHO ROUTER
+═══════════════════════════ -->
+<div class="pane" id="tab-soho">
+  <div class="page-hero" style="background:#1a2535">
+    <div class="hero-label">Lab · SOHO Security · Linksys E7350</div>
+    <div class="hero-title">Securing a SOHO Router</div>
+    <div class="hero-sub">Change admin password, update SSID, and enable WPA3 on 2.4 GHz and 5 GHz bands.</div>
+  </div>
+
+  <div class="router-layout">
+    <!-- Router Nav -->
+    <div class="router-nav">
+      <div class="router-nav-section">
+        <div class="rns-label">Main</div>
+        <div class="rn-item active" data-panel="dashboard" onclick="setRouterPanel('dashboard',this)">
+          <div class="rn-dot" style="background:#4ade80"></div> Dashboard
+        </div>
+        <div class="rn-item" data-panel="wireless" onclick="setRouterPanel('wireless',this)">
+          <div class="rn-dot" style="background:#60a5fa"></div> Wireless Settings
+        </div>
+      </div>
+      <div class="router-nav-section">
+        <div class="rns-label">Configuration</div>
+        <div class="rn-item" data-panel="administration" onclick="setRouterPanel('administration',this)">
+          <div class="rn-dot" style="background:#f59e0b"></div> Administration
+        </div>
+        <div class="rn-item" data-panel="security" onclick="setRouterPanel('security',this)">
+          <div class="rn-dot" style="background:#f87171"></div> Security
+        </div>
+      </div>
+      <div class="router-nav-section" style="margin-top:16px;padding:12px 14px">
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:10px;font-size:11px;color:rgba(255,255,255,0.4)">
+          <div style="font-family:var(--mono);color:rgba(255,255,255,0.7);margin-bottom:4px">Linksys E7350</div>
+          <div>Firmware: 1.1.7.190</div>
+          <div>Model: AX1800</div>
+        </div>
+        <div id="router-task-progress" style="margin-top:12px">
+          <div class="rns-label" style="margin-bottom:6px">Lab Progress</div>
+          <div class="task-steps">
+            <div class="task-step">
+              <div class="step-dot" id="task1-dot">1</div>
+              <div class="step-body">
+                <div class="step-title" style="color:rgba(255,255,255,0.7);font-size:12px">Change Admin Password</div>
+                <div class="step-desc" id="task1-status" style="color:rgba(255,255,255,0.35)">Pending</div>
+              </div>
+            </div>
+            <div class="task-step">
+              <div class="step-dot" id="task2-dot">2</div>
+              <div class="step-body">
+                <div class="step-title" style="color:rgba(255,255,255,0.7);font-size:12px">Change SSID</div>
+                <div class="step-desc" id="task2-status" style="color:rgba(255,255,255,0.35)">Pending</div>
+              </div>
+            </div>
+            <div class="task-step">
+              <div class="step-dot" id="task3-dot">3</div>
+              <div class="step-body">
+                <div class="step-title" style="color:rgba(255,255,255,0.7);font-size:12px">Enable WPA3</div>
+                <div class="step-desc" id="task3-status" style="color:rgba(255,255,255,0.35)">Pending</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Router Content -->
+    <div class="router-content">
+
+      <!-- DASHBOARD panel -->
+      <div id="panel-dashboard">
+        <div class="router-panel">
+          <div class="rp-head">
+            <div>
+              <div class="rp-title">Router Status</div>
+              <div class="rp-sub">Linksys E7350 AX1800 — Dual Band</div>
+            </div>
+            <div class="rp-status badge-green" id="router-status-badge">● Online</div>
+          </div>
+          <div class="rp-body">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:18px">
+              <div class="result-cell"><div class="rc-key">WAN IP</div><div class="rc-val blue">203.0.113.42</div></div>
+              <div class="result-cell"><div class="rc-key">LAN IP</div><div class="rc-val">192.168.1.1</div></div>
+              <div class="result-cell"><div class="rc-key">Firmware</div><div class="rc-val">1.1.7.190</div></div>
+              <div class="result-cell"><div class="rc-key">DHCP Clients</div><div class="rc-val green">8 active</div></div>
+              <div class="result-cell"><div class="rc-key">2.4 GHz SSID</div><div class="rc-val" id="dash-ssid24" style="font-size:12px">LinksysE7350</div></div>
+              <div class="result-cell"><div class="rc-key">5 GHz SSID</div><div class="rc-val" id="dash-ssid5" style="font-size:12px">LinksysE7350_5G</div></div>
+              <div class="result-cell"><div class="rc-key">2.4 GHz Security</div><div class="rc-val" id="dash-sec24" style="font-size:12px">WPA2</div></div>
+              <div class="result-cell"><div class="rc-key">Admin Password</div><div class="rc-val" id="dash-pw">Default ⚠️</div></div>
+            </div>
+
+            <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:14px;display:flex;gap:10px;margin-bottom:16px">
+              <div style="font-size:18px">⚠️</div>
+              <div>
+                <div style="font-weight:600;font-size:13px;color:#92400e;margin-bottom:2px">Security Warning — Default Credentials Detected</div>
+                <div style="font-size:12px;color:#b45309">Your router is using default settings. Complete all three lab exercises to secure this device.</div>
+              </div>
+            </div>
+
+            <div style="font-size:13px;color:var(--text2)">
+              <strong>Lab Exercises:</strong><br>
+              <div style="margin-top:8px;display:flex;flex-direction:column;gap:6px">
+                <div>1. Go to <strong>Administration</strong> → change the default admin password to a strong one</div>
+                <div>2. Go to <strong>Wireless Settings</strong> → change the SSIDs for 2.4 GHz and 5 GHz</div>
+                <div>3. Go to <strong>Wireless Settings</strong> → enable WPA3 Personal on both bands</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMINISTRATION panel -->
+      <div id="panel-administration" style="display:none">
+        <div class="router-panel">
+          <div class="rp-head">
+            <div>
+              <div class="rp-title">Administration — Router Password</div>
+              <div class="rp-sub">Exercise 1: Change the default administrator password</div>
+            </div>
+            <div class="rp-status" id="admin-pw-badge" style="background:#fef3c7;color:#b45309;border-radius:4px;padding:3px 10px;font-size:11px;font-family:var(--mono)">Default Password</div>
+          </div>
+          <div class="rp-body">
+            <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;margin-bottom:18px;font-size:12px;color:#991b1b">
+              <strong>Security Risk:</strong> The default administrator password is blank or widely known. An attacker on your local network could access router settings without authentication.
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div>
+                <label class="field-label">Current Password</label>
+                <input class="field-input" id="current-pw" type="password" placeholder="(leave blank if default)">
+              </div>
+              <div></div>
+              <div>
+                <label class="field-label">New Password</label>
+                <input class="field-input" id="new-pw" type="password" placeholder="Minimum 8 characters" oninput="checkPwStrength()">
+                <div class="pw-strength"><div class="pw-bar" id="pw-bar"></div></div>
+                <div style="font-size:11px;color:var(--text3);margin-top:4px" id="pw-strength-label">Enter a new password</div>
+              </div>
+              <div>
+                <label class="field-label">Confirm New Password</label>
+                <input class="field-input" id="confirm-pw" type="password" placeholder="Re-enter new password" oninput="checkPwMatch()">
+                <div style="font-size:11px;margin-top:4px" id="pw-match-label" style="color:var(--text3)"></div>
+              </div>
+            </div>
+
+            <div style="margin-top:16px">
+              <div class="section-label">Password Requirements</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px" id="pw-requirements">
+                <span class="badge badge-slate" id="req-length">8+ characters</span>
+                <span class="badge badge-slate" id="req-upper">Uppercase</span>
+                <span class="badge badge-slate" id="req-lower">Lowercase</span>
+                <span class="badge badge-slate" id="req-number">Number</span>
+                <span class="badge badge-slate" id="req-special">Special char</span>
+              </div>
+            </div>
+
+            <div style="margin-top:18px;display:flex;gap:8px">
+              <button class="btn btn-primary" onclick="saveAdminPassword()">Save Password</button>
+              <button class="btn btn-ghost" onclick="generateStrongPassword()">Generate Strong Password</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WIRELESS panel -->
+      <div id="panel-wireless" style="display:none">
+        <div class="router-panel">
+          <div class="rp-head">
+            <div>
+              <div class="rp-title">Wireless Settings</div>
+              <div class="rp-sub">Exercise 2 &amp; 3: Change SSID and enable WPA3 Personal</div>
+            </div>
+          </div>
+          <div class="rp-body">
+            <!-- Frequency tabs -->
+            <div class="freq-tabs">
+              <div class="freq-tab active" id="ftab-24" onclick="setFreqTab('24')">
+                <span style="margin-right:6px">📡</span>2.4 GHz
+              </div>
+              <div class="freq-tab" id="ftab-5" onclick="setFreqTab('5')">
+                <span style="margin-right:6px">📡</span>5 GHz
+              </div>
+            </div>
+
+            <!-- 2.4 GHz settings -->
+            <div id="freq-24-panel">
+              <div style="display:grid;grid-template-columns:1fr auto;align-items:center;margin-bottom:16px">
+                <div>
+                  <div class="section-label">2.4 GHz Band</div>
+                  <div style="font-size:12px;color:var(--text3)">Better range, more congested. Suitable for IoT and smart home devices.</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-size:12px;color:var(--text2)">Enable</span>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="band-24-enabled" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+                <div>
+                  <label class="field-label">Network Name (SSID) — Exercise 2</label>
+                  <input class="field-input" id="ssid-24" type="text" value="LinksysE7350" placeholder="Enter SSID" oninput="checkSSIDChange()">
+                  <div style="font-size:11px;color:var(--text3);margin-top:4px">Default: LinksysE7350 — change to something that doesn't reveal your router brand</div>
+                </div>
+                <div>
+                  <label class="field-label">Channel</label>
+                  <select class="field-input" id="channel-24" style="cursor:pointer">
+                    <option>Auto</option>
+                    <option>1</option><option>6</option><option selected>11</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="margin-bottom:16px">
+                <label class="field-label">Security Mode — Exercise 3</label>
+                <div class="security-level">
+                  <div class="sec-opt danger-opt" data-val="none" onclick="setSecMode('24','none',this)">None (Open)</div>
+                  <div class="sec-opt warn-opt" data-val="wep" onclick="setSecMode('24','wep',this)">WEP</div>
+                  <div class="sec-opt warn-opt" data-val="wpa2" onclick="setSecMode('24','wpa2',this)">WPA2</div>
+                  <div class="sec-opt" data-val="wpa3" onclick="setSecMode('24','wpa3',this)">WPA3 Personal ✓</div>
+                  <div class="sec-opt" data-val="wpa23" onclick="setSecMode('24','wpa23',this)">WPA2/WPA3 Mixed</div>
+                </div>
+                <div style="margin-top:8px;font-size:11px;padding:8px 10px;border-radius:6px;border:1px solid" id="sec-24-info"></div>
+              </div>
+
+              <div id="passphrase-24-wrap" style="margin-bottom:16px">
+                <label class="field-label">WPA3 Passphrase</label>
+                <input class="field-input" id="passphrase-24" type="password" value="" placeholder="Minimum 12 characters for WPA3">
+                <div style="font-size:11px;color:var(--text3);margin-top:4px">Use a strong, unique passphrase. Avoid common words or patterns.</div>
+              </div>
+
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-primary" onclick="saveWireless('24')">Apply 2.4 GHz Settings</button>
+                <button class="btn btn-ghost" onclick="generateSSID('24')">Suggest SSID</button>
+              </div>
+            </div>
+
+            <!-- 5 GHz settings -->
+            <div id="freq-5-panel" style="display:none">
+              <div style="display:grid;grid-template-columns:1fr auto;align-items:center;margin-bottom:16px">
+                <div>
+                  <div class="section-label">5 GHz Band</div>
+                  <div style="font-size:12px;color:var(--text3)">Faster speeds, shorter range. Best for streaming and gaming.</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-size:12px;color:var(--text2)">Enable</span>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="band-5-enabled" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+                <div>
+                  <label class="field-label">Network Name (SSID) — Exercise 2</label>
+                  <input class="field-input" id="ssid-5" type="text" value="LinksysE7350_5G" placeholder="Enter SSID" oninput="checkSSIDChange()">
+                  <div style="font-size:11px;color:var(--text3);margin-top:4px">Avoid using "_5G" suffix — reveals band information</div>
+                </div>
+                <div>
+                  <label class="field-label">Channel Width</label>
+                  <select class="field-input" id="channel-5" style="cursor:pointer">
+                    <option>Auto (80 MHz)</option>
+                    <option>40 MHz</option>
+                    <option>80 MHz</option>
+                    <option>160 MHz</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="margin-bottom:16px">
+                <label class="field-label">Security Mode — Exercise 3</label>
+                <div class="security-level">
+                  <div class="sec-opt danger-opt" data-val="none" onclick="setSecMode('5','none',this)">None (Open)</div>
+                  <div class="sec-opt warn-opt" data-val="wep" onclick="setSecMode('5','wep',this)">WEP</div>
+                  <div class="sec-opt warn-opt" data-val="wpa2" onclick="setSecMode('5','wpa2',this)">WPA2</div>
+                  <div class="sec-opt" data-val="wpa3" onclick="setSecMode('5','wpa3',this)">WPA3 Personal ✓</div>
+                  <div class="sec-opt" data-val="wpa23" onclick="setSecMode('5','wpa23',this)">WPA2/WPA3 Mixed</div>
+                </div>
+                <div style="margin-top:8px;font-size:11px;padding:8px 10px;border-radius:6px;border:1px solid" id="sec-5-info"></div>
+              </div>
+
+              <div id="passphrase-5-wrap" style="margin-bottom:16px">
+                <label class="field-label">WPA3 Passphrase</label>
+                <input class="field-input" id="passphrase-5" type="password" value="" placeholder="Minimum 12 characters for WPA3">
+              </div>
+
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-primary" onclick="saveWireless('5')">Apply 5 GHz Settings</button>
+                <button class="btn btn-ghost" onclick="generateSSID('5')">Suggest SSID</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECURITY panel -->
+      <div id="panel-security" style="display:none">
+        <div class="router-panel">
+          <div class="rp-head">
+            <div>
+              <div class="rp-title">Security Scorecard</div>
+              <div class="rp-sub">Your current SOHO router security posture</div>
+            </div>
+            <div class="rp-status" id="score-badge" style="background:#fef3c7;color:#b45309;border-radius:4px;padding:3px 10px;font-size:11px;font-family:var(--mono)">Score: 0/5</div>
+          </div>
+          <div class="rp-body">
+            <div id="scorecard-items" style="display:flex;flex-direction:column;gap:10px"></div>
+            <div class="divider"></div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:10px">WPA3 vs. Earlier Standards</div>
+            <table style="width:100%;font-size:12px;border-collapse:collapse">
+              <tr style="background:var(--slate2)">
+                <th style="padding:7px 10px;text-align:left;border:1px solid var(--border);font-size:11px;font-family:var(--mono);color:var(--text3)">Standard</th>
+                <th style="padding:7px 10px;text-align:left;border:1px solid var(--border);font-size:11px;font-family:var(--mono);color:var(--text3)">Year</th>
+                <th style="padding:7px 10px;text-align:left;border:1px solid var(--border);font-size:11px;font-family:var(--mono);color:var(--text3)">Encryption</th>
+                <th style="padding:7px 10px;text-align:left;border:1px solid var(--border);font-size:11px;font-family:var(--mono);color:var(--text3)">Status</th>
+                <th style="padding:7px 10px;text-align:left;border:1px solid var(--border);font-size:11px;font-family:var(--mono);color:var(--text3)">Key Vulnerability</th>
+              </tr>
+              <tr><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">WEP</td><td style="padding:7px 10px;border:1px solid var(--border)">1997</td><td style="padding:7px 10px;border:1px solid var(--border)">RC4</td><td style="padding:7px 10px;border:1px solid var(--border)"><span class="badge badge-red">Broken</span></td><td style="padding:7px 10px;border:1px solid var(--border);font-size:11px">Crackable in minutes (FMS/PTW attack)</td></tr>
+              <tr style="background:var(--slate)"><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">WPA</td><td style="padding:7px 10px;border:1px solid var(--border)">2003</td><td style="padding:7px 10px;border:1px solid var(--border)">TKIP/RC4</td><td style="padding:7px 10px;border:1px solid var(--border)"><span class="badge badge-red">Deprecated</span></td><td style="padding:7px 10px;border:1px solid var(--border);font-size:11px">TKIP vulnerabilities, dict attacks</td></tr>
+              <tr><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">WPA2</td><td style="padding:7px 10px;border:1px solid var(--border)">2004</td><td style="padding:7px 10px;border:1px solid var(--border)">AES-CCMP</td><td style="padding:7px 10px;border:1px solid var(--border)"><span class="badge badge-amber">Acceptable</span></td><td style="padding:7px 10px;border:1px solid var(--border);font-size:11px">KRACK (2017), PMKID attack</td></tr>
+              <tr style="background:var(--slate)"><td style="padding:7px 10px;border:1px solid var(--border);font-family:var(--mono)">WPA3</td><td style="padding:7px 10px;border:1px solid var(--border)">2018</td><td style="padding:7px 10px;border:1px solid var(--border)">AES-256 / SAE</td><td style="padding:7px 10px;border:1px solid var(--border)"><span class="badge badge-green">Recommended</span></td><td style="padding:7px 10px;border:1px solid var(--border);font-size:11px">Mitigates all known WPA2 issues</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toast-icon">✓</span>
+  <span id="toast-msg">Saved</span>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// TAB NAV
+// ══════════════════════════════════════════
+document.querySelectorAll('.htab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.htab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+function toast(msg, type='success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  document.getElementById('toast-icon').textContent = type === 'success' ? '✓' : type === 'warn' ? '⚠' : '✕';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ══════════════════════════════════════════
+// IPv4 SUBNET CALCULATOR
+// ══════════════════════════════════════════
+function parseIPv4(str) {
+  const parts = str.trim().split('/');
+  const ip = parts[0].trim();
+  const cidr = parts.length > 1 ? parseInt(parts[1]) : null;
+  const octets = ip.split('.').map(Number);
+  if (octets.length !== 4 || octets.some(o => isNaN(o) || o < 0 || o > 255)) return null;
+  return { ip, octets, cidr };
+}
+
+function maskFromCIDR(cidr) {
+  if (cidr === 0) return [0,0,0,0];
+  const m = (~0 << (32 - cidr)) >>> 0;
+  return [(m>>>24)&255, (m>>>16)&255, (m>>>8)&255, m&255];
+}
+
+function cidrFromMask(mask) {
+  return mask.reduce((acc, o) => acc + o.toString(2).replace(/0/g,'').length, 0);
+}
+
+function networkAddr(octets, mask) {
+  return octets.map((o, i) => o & mask[i]);
+}
+
+function broadcastAddr(net, mask) {
+  return net.map((o, i) => o | (~mask[i] & 255));
+}
+
+function calcIPv4() {
+  const raw = document.getElementById('ipv4-input').value;
+  const parsed = parseIPv4(raw);
+  if (!parsed) {
+    document.getElementById('ipv4-result-grid').innerHTML =
+      '<div class="result-cell" style="grid-column:1/-1"><div class="rc-key">Error</div><div class="rc-val red">Invalid IP address</div></div>';
+    return;
+  }
+
+  const cidr = parsed.cidr !== null ? parsed.cidr : 24;
+  const mask = maskFromCIDR(cidr);
+  const net = networkAddr(parsed.octets, mask);
+  const broad = broadcastAddr(net, mask);
+  const first = [...net]; first[3] += 1;
+  const last = [...broad]; last[3] -= 1;
+  const usable = cidr < 31 ? Math.pow(2, 32 - cidr) - 2 : cidr === 31 ? 2 : 1;
+  const total = Math.pow(2, 32 - cidr);
+
+  document.getElementById('result-header-badge').innerHTML =
+    `<span class="badge badge-blue">/${cidr}</span>`;
+
+  document.getElementById('ipv4-result-grid').innerHTML = `
+    <div class="result-cell"><div class="rc-key">IP Address</div><div class="rc-val blue">${parsed.ip}</div></div>
+    <div class="result-cell"><div class="rc-key">Subnet Mask</div><div class="rc-val">${mask.join('.')}</div></div>
+    <div class="result-cell"><div class="rc-key">Network Address</div><div class="rc-val">${net.join('.')}</div></div>
+    <div class="result-cell"><div class="rc-key">Broadcast Address</div><div class="rc-val amber">${broad.join('.')}</div></div>
+    <div class="result-cell"><div class="rc-key">First Usable Host</div><div class="rc-val green">${first.join('.')}</div></div>
+    <div class="result-cell"><div class="rc-key">Last Usable Host</div><div class="rc-val green">${last.join('.')}</div></div>
+    <div class="result-cell"><div class="rc-key">Usable Hosts</div><div class="rc-val green">${usable.toLocaleString()}</div></div>
+    <div class="result-cell"><div class="rc-key">Total Addresses</div><div class="rc-val">${total.toLocaleString()}</div></div>
+    <div class="result-cell"><div class="rc-key">CIDR Notation</div><div class="rc-val cyan">${net.join('.')}/${cidr}</div></div>
+    <div class="result-cell"><div class="rc-key">Hex Subnet Mask</div><div class="rc-val" style="font-size:12px">0x${mask.map(o=>o.toString(16).toUpperCase().padStart(2,'0')).join('')}</div></div>
+  `;
+
+  // Binary section
+  const netBits = parsed.octets.map((o,i) => ({octet:o, maskOctet:mask[i]}));
+  let binaryHtml = '';
+  netBits.forEach(({octet, maskOctet}, i) => {
+    const bits = octet.toString(2).padStart(8,'0').split('');
+    const mBits = maskOctet.toString(2).padStart(8,'0').split('');
+    binaryHtml += bits.map((b,j) =>
+      `<span style="color:${mBits[j]==='1'?'#93c5fd':'#86efac'}">${b}</span>`
+    ).join('');
+    if (i < 3) binaryHtml += `<span style="color:#3d5070"> . </span>`;
+  });
+  document.getElementById('binary-display').innerHTML =
+    `<div><span class="mb-key">IP: </span>${binaryHtml}</div>` +
+    `<div><span class="mb-key">SM: </span>${mask.map(o=>o.toString(2).padStart(8,'0').replace(/1/g,'<span style="color:#93c5fd">1</span>').replace(/0/g,'<span style="color:#86efac">0</span>')).join('<span style="color:#3d5070"> . </span>')}</div>` +
+    `<div style="margin-top:4px;font-size:10px;color:#4a6080"><span style="color:#93c5fd">■</span> Network bits  <span style="color:#86efac">■</span> Host bits</div>`;
+  document.getElementById('binary-section').style.display = 'block';
+
+  // Bit grid
+  renderBitGrid(cidr);
+}
+
+function renderBitGrid(cidr) {
+  const grid = document.getElementById('bit-grid');
+  let html = '';
+  for (let i = 0; i < 32; i++) {
+    if (i > 0 && i % 8 === 0) html += '<div class="bit-octet-sep"></div>';
+    const isNet = i < cidr;
+    html += `<div class="bit-cell ${isNet?'net':'host'}">${isNet?1:0}</div>`;
+  }
+  grid.innerHTML = html;
+  document.getElementById('bit-label').textContent = `/${cidr} — ${cidr} network bits · ${32-cidr} host bits`;
+}
+
+function loadExample(val) {
+  document.getElementById('ipv4-input').value = val;
+  calcIPv4();
+}
+
+function updateSubnetSlider() {
+  const v = document.getElementById('subnet-count').value;
+  document.getElementById('subnet-count-display').textContent = `${v} subnets`;
+}
+
+function calcSubnets() {
+  const raw = document.getElementById('ipv4-input').value;
+  const parsed = parseIPv4(raw);
+  if (!parsed) { toast('Enter a valid IP/CIDR first', 'error'); return; }
+  const baseCIDR = parsed.cidr !== null ? parsed.cidr : 24;
+  const count = parseInt(document.getElementById('subnet-count').value);
+  const bitsNeeded = Math.ceil(Math.log2(count));
+  const newCIDR = baseCIDR + bitsNeeded;
+  if (newCIDR > 30) { toast('CIDR would exceed /30 — reduce subnet count', 'error'); return; }
+
+  const newMask = maskFromCIDR(newCIDR);
+  const baseNet = networkAddr(parsed.octets, maskFromCIDR(baseCIDR));
+  const totalSubnets = Math.pow(2, bitsNeeded);
+  const hostsPerSubnet = Math.pow(2, 32 - newCIDR) - 2;
+  const subnetSize = Math.pow(2, 32 - newCIDR);
+
+  // Generate rows
+  const baseInt = (baseNet[0]<<24)|(baseNet[1]<<16)|(baseNet[2]<<8)|baseNet[3];
+  let rows = '';
+  for (let i = 0; i < totalSubnets; i++) {
+    const netInt = (baseInt + i * subnetSize) >>> 0;
+    const n = [(netInt>>>24)&255,(netInt>>>16)&255,(netInt>>>8)&255,netInt&255];
+    const brd = broadcastAddr(n, newMask);
+    const f = [...n]; f[3]++;
+    const l = [...brd]; l[3]--;
+    const highlight = i < count ? 'highlight' : '';
+    rows += `<tr class="${highlight}">
+      <td style="font-weight:600;color:var(--blue2)">Subnet ${i+1}</td>
+      <td>${n.join('.')}/${newCIDR}</td>
+      <td>${newMask.join('.')}</td>
+      <td>${f.join('.')} – ${l.join('.')}</td>
+      <td>${brd.join('.')}</td>
+      <td style="color:var(--green);font-weight:600">${hostsPerSubnet.toLocaleString()}</td>
+    </tr>`;
+  }
+
+  document.getElementById('subnet-table-title').textContent =
+    `Subnet Division — /${baseCIDR} → ${totalSubnets} × /${newCIDR} (${bitsNeeded} bit${bitsNeeded>1?'s':''} borrowed)`;
+  document.getElementById('subnet-table').innerHTML = `
+    <thead>
+      <tr>
+        <th>#</th><th>Subnet Address</th><th>Subnet Mask</th>
+        <th>Host Range</th><th>Broadcast</th><th>Usable Hosts</th>
+      </tr>
+    </thead>
+    <tbody>${rows}</tbody>
+  `;
+  document.getElementById('subnet-table-card').style.display = 'block';
+}
+
+function calcHosts() {
+  const maskStr = document.getElementById('host-mask').value;
+  const ip = document.getElementById('host-ip').value;
+  const parts = maskStr.split('.').map(Number);
+  if (parts.length !== 4 || parts.some(p=>isNaN(p))) {
+    document.getElementById('host-result').innerHTML = '<div class="badge badge-red">Invalid subnet mask</div>';
+    return;
+  }
+  const cidr = cidrFromMask(parts);
+  const hosts = cidr < 31 ? Math.pow(2, 32-cidr) - 2 : cidr === 31 ? 2 : 1;
+  const formula = `2^${32-cidr} - 2 = ${hosts.toLocaleString()}`;
+  document.getElementById('host-result').innerHTML = `
+    <div class="result-grid">
+      <div class="result-cell"><div class="rc-key">CIDR Prefix</div><div class="rc-val blue">/${cidr}</div></div>
+      <div class="result-cell"><div class="rc-key">Host Bits</div><div class="rc-val">${32-cidr}</div></div>
+      <div class="result-cell"><div class="rc-key">Usable Hosts</div><div class="rc-val green">${hosts.toLocaleString()}</div></div>
+      <div class="result-cell"><div class="rc-key">Formula</div><div class="rc-val" style="font-size:12px">${formula}</div></div>
+    </div>
+  `;
+}
+
+// Init
+calcIPv4();
+calcHosts();
+updateSubnetSlider();
+renderBitGrid(24);
+
+// ══════════════════════════════════════════
+// IPv6 CALCULATOR
+// ══════════════════════════════════════════
+function expandIPv6(addr) {
+  let a = addr.toLowerCase();
+  if (a.includes('::')) {
+    const sides = a.split('::');
+    const left = sides[0] ? sides[0].split(':') : [];
+    const right = sides[1] ? sides[1].split(':') : [];
+    const missing = 8 - left.length - right.length;
+    a = [...left, ...Array(missing).fill('0000'), ...right].join(':');
+  }
+  return a.split(':').map(g => g.padStart(4,'0')).join(':');
+}
+
+function calcIPv6() {
+  const raw = document.getElementById('ipv6-input').value.trim();
+  const parts = raw.split('/');
+  const addr = parts[0];
+  const prefix = parts.length > 1 ? parseInt(parts[1]) : 48;
+  const bits = parseInt(document.getElementById('ipv6-subnet-bits').value);
+  const numSubnets = Math.pow(2, bits);
+  const newPrefix = prefix + bits;
+
+  let expanded;
+  try { expanded = expandIPv6(addr); } catch(e) {
+    document.getElementById('ipv6-result-grid').innerHTML =
+      '<div class="result-cell"><div class="rc-key">Error</div><div class="rc-val red">Invalid IPv6</div></div>';
+    return;
+  }
+
+  const groups = expanded.split(':');
+  const maskStr = Array.from({length:8}, (_,i) => {
+    const start = i*16, end = start+16;
+    const netBits = Math.min(Math.max(newPrefix - start, 0), 16);
+    const v = netBits >= 16 ? 0xffff : netBits > 0 ? (0xffff << (16-netBits)) & 0xffff : 0;
+    return v.toString(16).padStart(4,'0');
+  }).join(':');
+
+  document.getElementById('ipv6-result-grid').innerHTML = `
+    <div class="result-cell"><div class="rc-key">Address</div><div class="rc-val blue" style="font-size:12px">${expanded}</div></div>
+    <div class="result-cell"><div class="rc-key">Prefix Length</div><div class="rc-val">/${prefix}</div></div>
+    <div class="result-cell"><div class="rc-key">New Prefix</div><div class="rc-val cyan">/${newPrefix}</div></div>
+    <div class="result-cell"><div class="rc-key">Bits Borrowed</div><div class="rc-val amber">${bits}</div></div>
+    <div class="result-cell"><div class="rc-key">Subnets Created</div><div class="rc-val green">${numSubnets.toLocaleString()}</div></div>
+    <div class="result-cell"><div class="rc-key">Subnet Mask</div><div class="rc-val" style="font-size:10px">${maskStr}</div></div>
+  `;
+
+  // Generate subnet table (show up to 16)
+  const displayCount = Math.min(numSubnets, 16);
+  const base = groups.map(g => parseInt(g, 16));
+  let rows = '';
+  for (let i = 0; i < displayCount; i++) {
+    const subnetGroups = [...base];
+    const groupIdx = Math.floor(prefix/16);
+    const bitOffset = prefix % 16;
+    // Increment at the prefix boundary
+    const subnetInc = i << (128 - newPrefix - (groupIdx * 16));
+    // Simplified: increment the relevant group
+    const groupToInc = Math.floor((prefix + bits - 1) / 16);
+    for (let g = 7; g >= 0; g--) {
+      subnetGroups[g] = (g === groupToInc)
+        ? (base[g] & (0xffff << (16 - (newPrefix % 16 || 16))) & 0xffff) | (i << Math.max(0, 16 - bits - (prefix % 16)))
+        : base[g];
+    }
+    const subnet = subnetGroups.map(g => Math.min(g, 0xffff).toString(16).padStart(4,'0')).join(':') + `::/${newPrefix}`;
+    rows += `<tr${i < Math.min(count,4) ? ' class="highlight"':''}>
+      <td style="color:var(--text3)">Subnet ${i+1}</td>
+      <td style="font-family:var(--mono);color:var(--blue2);font-size:12px">${groups[0]}:${groups[1]}:${groups[2]}:${i.toString(16).padStart(4,'0')}::/${newPrefix}</td>
+      <td style="font-size:11px;color:var(--text3)">/${newPrefix}</td>
+    </tr>`;
+  }
+  if (numSubnets > 16) rows += `<tr><td colspan="3" style="padding:10px;color:var(--text3);font-size:12px;text-align:center">… ${(numSubnets-16).toLocaleString()} more subnets not shown</td></tr>`;
+
+  document.getElementById('ipv6-table-title').textContent = `${numSubnets.toLocaleString()} IPv6 Subnets — /${prefix} → /${newPrefix}`;
+  document.getElementById('ipv6-subnet-table').innerHTML = `
+    <thead><tr><th>#</th><th>Subnet Address</th><th>Prefix</th></tr></thead>
+    <tbody>${rows}</tbody>
+  `;
+  document.getElementById('ipv6-subnet-card').style.display = 'block';
+}
+
+function updateIPv6Slider() {
+  const bits = parseInt(document.getElementById('ipv6-subnet-bits').value);
+  const count = Math.pow(2, bits);
+  document.getElementById('ipv6-slider-display').textContent = `${count.toLocaleString()} subnets`;
+}
+
+function loadIPv6Example(val) {
+  document.getElementById('ipv6-input').value = val;
+  calcIPv6();
+}
+
+function calcIPv6Hosts() {
+  const prefixStr = document.getElementById('ipv6-host-prefix').value.trim();
+  const prefix = parseInt(prefixStr.replace('/',''));
+  if (isNaN(prefix) || prefix < 0 || prefix > 128) {
+    document.getElementById('ipv6-host-result').innerHTML = '<div class="badge badge-red">Invalid prefix</div>';
+    return;
+  }
+  const hostBits = 128 - prefix;
+  const approx = hostBits > 60 ? `≈ ${Math.pow(2, hostBits - 60).toFixed(2)} × 10^18` :
+                 hostBits > 30 ? `≈ ${Math.pow(2, hostBits).toExponential(2)}` :
+                 Math.pow(2, hostBits).toLocaleString();
+
+  document.getElementById('ipv6-host-result').innerHTML = `
+    <div class="result-grid">
+      <div class="result-cell"><div class="rc-key">Prefix</div><div class="rc-val blue">/${prefix}</div></div>
+      <div class="result-cell"><div class="rc-key">Host Bits</div><div class="rc-val">${hostBits}</div></div>
+      <div class="result-cell"><div class="rc-key">Total Addresses</div><div class="rc-val green">2^${hostBits}</div></div>
+      <div class="result-cell"><div class="rc-key">Approx. Count</div><div class="rc-val cyan" style="font-size:12px">${approx}</div></div>
+    </div>
+    <div class="mono-block" style="margin-top:10px;font-size:11px">
+      <div><span class="mb-key">Formula: </span><span class="mb-val">2^${hostBits} = ${hostBits > 60 ? '~' : ''}${approx}</span></div>
+      <div><span class="mb-key">Note: </span><span class="mb-warn">Some addresses are reserved (anycast, multicast)</span></div>
+      ${prefix === 64 ? '<div style="margin-top:4px"><span class="mb-key">Context: </span><span class="mb-good">/64 is the standard subnet size for IPv6 LANs</span></div>' : ''}
+    </div>
+  `;
+}
+
+updateIPv6Slider();
+calcIPv6();
+
+// ══════════════════════════════════════════
+// SOHO ROUTER SIMULATOR
+// ══════════════════════════════════════════
+let routerState = {
+  adminPwChanged: false,
+  ssid24Changed: false,
+  ssid5Changed: false,
+  wpa3_24: false,
+  wpa3_5: false,
+  sec24: 'wpa2',
+  sec5: 'wpa2',
+  ssid24: 'LinksysE7350',
+  ssid5: 'LinksysE7350_5G',
+};
+
+const SEC_INFO = {
+  none: { text: '⚠️ Open network — NO encryption. All traffic is visible to anyone nearby.', bg: '#fef2f2', border: '#fecaca', color: '#991b1b' },
+  wep:  { text: '⚠️ WEP is broken and can be cracked in minutes. Do not use on any network.', bg: '#fef2f2', border: '#fecaca', color: '#991b1b' },
+  wpa2: { text: '⚠️ WPA2 is acceptable but vulnerable to KRACK and PMKID offline attacks. Upgrade to WPA3 if possible.', bg: '#fffbeb', border: '#fde68a', color: '#b45309' },
+  wpa3: { text: '✅ WPA3 Personal — Uses SAE (Simultaneous Authentication of Equals), resistant to dictionary and PMKID attacks. Recommended for all new deployments.', bg: '#f0fdf4', border: '#bbf7d0', color: '#15803d' },
+  wpa23: { text: '✅ Mixed WPA2/WPA3 — Allows older WPA2 clients while supporting WPA3. Good transitional choice.', bg: '#f0fdf4', border: '#bbf7d0', color: '#15803d' },
+};
+
+function setRouterPanel(name, el) {
+  ['dashboard','administration','wireless','security'].forEach(p =>
+    document.getElementById('panel-'+p).style.display = 'none'
+  );
+  document.getElementById('panel-'+name).style.display = 'block';
+  document.querySelectorAll('.rn-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  if (name === 'security') updateScorecard();
+}
+
+function setFreqTab(freq) {
+  document.getElementById('freq-24-panel').style.display = freq === '24' ? 'block' : 'none';
+  document.getElementById('freq-5-panel').style.display = freq === '5' ? 'block' : 'none';
+  document.getElementById('ftab-24').classList.toggle('active', freq === '24');
+  document.getElementById('ftab-5').classList.toggle('active', freq === '5');
+  // Init sec info on switch
+  const mode = freq === '24' ? routerState.sec24 : routerState.sec5;
+  updateSecInfo(freq, mode);
+}
+
+function setSecMode(freq, mode, el) {
+  const band = freq === '24' ? '24' : '5';
+  document.querySelectorAll(`#freq-${freq}-panel .sec-opt`).forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  if (freq === '24') routerState.sec24 = mode;
+  else routerState.sec5 = mode;
+  updateSecInfo(freq, mode);
+}
+
+function updateSecInfo(freq, mode) {
+  const info = SEC_INFO[mode] || SEC_INFO['none'];
+  const el = document.getElementById(`sec-${freq}-info`);
+  if (el) {
+    el.textContent = info.text;
+    el.style.background = info.bg;
+    el.style.borderColor = info.border;
+    el.style.color = info.color;
+  }
+}
+
+// Init security info
+updateSecInfo('24', 'wpa2');
+updateSecInfo('5', 'wpa2');
+
+// Pre-select WPA2 on load
+setTimeout(() => {
+  document.querySelectorAll('#freq-24-panel .sec-opt[data-val="wpa2"]').forEach(e => e.classList.add('selected'));
+  document.querySelectorAll('#freq-5-panel .sec-opt[data-val="wpa2"]').forEach(e => e.classList.add('selected'));
+}, 100);
+
+function checkPwStrength() {
+  const pw = document.getElementById('new-pw').value;
+  const bar = document.getElementById('pw-bar');
+  const lbl = document.getElementById('pw-strength-label');
+  const reqs = {
+    length: pw.length >= 8,
+    upper: /[A-Z]/.test(pw),
+    lower: /[a-z]/.test(pw),
+    number: /[0-9]/.test(pw),
+    special: /[^A-Za-z0-9]/.test(pw),
+  };
+  const score = Object.values(reqs).filter(Boolean).length;
+  const pct = (score/5)*100;
+  const colors = ['#dc2626','#dc2626','#d97706','#059669','#059669'];
+  const labels = ['','Very Weak','Weak','Moderate','Strong','Very Strong'];
+  bar.style.width = pct + '%';
+  bar.style.background = colors[score-1] || '#e2e9f5';
+  lbl.textContent = pw.length === 0 ? 'Enter a new password' : labels[score];
+  lbl.style.color = colors[score-1] || 'var(--text3)';
+  Object.entries(reqs).forEach(([k,v]) => {
+    const el = document.getElementById('req-'+k);
+    if (el) {
+      el.className = 'badge ' + (v ? 'badge-green' : 'badge-slate');
+    }
+  });
+}
+
+function checkPwMatch() {
+  const pw = document.getElementById('new-pw').value;
+  const confirm = document.getElementById('confirm-pw').value;
+  const lbl = document.getElementById('pw-match-label');
+  if (!confirm) { lbl.textContent = ''; return; }
+  if (pw === confirm) {
+    lbl.textContent = '✓ Passwords match';
+    lbl.style.color = 'var(--green)';
+  } else {
+    lbl.textContent = '✕ Passwords do not match';
+    lbl.style.color = 'var(--red)';
+  }
+}
+
+function saveAdminPassword() {
+  const np = document.getElementById('new-pw').value;
+  const cp = document.getElementById('confirm-pw').value;
+  if (np.length < 8) { toast('Password must be at least 8 characters', 'error'); return; }
+  if (np !== cp) { toast('Passwords do not match', 'error'); return; }
+
+  routerState.adminPwChanged = true;
+  document.getElementById('admin-pw-badge').textContent = '✓ Password Updated';
+  document.getElementById('admin-pw-badge').style.background = '#f0fdf4';
+  document.getElementById('admin-pw-badge').style.color = '#15803d';
+  document.getElementById('dash-pw').textContent = '✓ Secure';
+  document.getElementById('dash-pw').style.color = 'var(--green)';
+  updateTaskProgress();
+  toast('✓ Administrator password updated successfully!');
+}
+
+function generateStrongPassword() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%^&*';
+  const pw = Array.from({length:16}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
+  document.getElementById('new-pw').value = pw;
+  document.getElementById('confirm-pw').value = pw;
+  checkPwStrength();
+  checkPwMatch();
+  toast('Generated: ' + pw);
+}
+
+function checkSSIDChange() {
+  const s24 = document.getElementById('ssid-24').value;
+  const s5 = document.getElementById('ssid-5').value;
+  routerState.ssid24Changed = s24 !== 'LinksysE7350';
+  routerState.ssid5Changed = s5 !== 'LinksysE7350_5G';
+}
+
+function saveWireless(freq) {
+  const ssidEl = document.getElementById(`ssid-${freq}`);
+  const ppEl = document.getElementById(`passphrase-${freq}`);
+  const secMode = freq === '24' ? routerState.sec24 : routerState.sec5;
+
+  if (!ssidEl.value.trim()) { toast('SSID cannot be empty', 'error'); return; }
+  if ((secMode === 'wpa3' || secMode === 'wpa23') && ppEl.value.length < 8) {
+    toast('WPA3 requires at least 8 character passphrase', 'error'); return;
+  }
+
+  if (freq === '24') {
+    routerState.ssid24 = ssidEl.value;
+    routerState.ssid24Changed = ssidEl.value !== 'LinksysE7350';
+    routerState.wpa3_24 = secMode === 'wpa3' || secMode === 'wpa23';
+    document.getElementById('dash-ssid24').textContent = ssidEl.value;
+    document.getElementById('dash-sec24').textContent = secMode.toUpperCase();
+  } else {
+    routerState.ssid5 = ssidEl.value;
+    routerState.ssid5Changed = ssidEl.value !== 'LinksysE7350_5G';
+    routerState.wpa3_5 = secMode === 'wpa3' || secMode === 'wpa23';
+    document.getElementById('dash-ssid5').textContent = ssidEl.value;
+  }
+  updateTaskProgress();
+  toast(`✓ ${freq === '24' ? '2.4 GHz' : '5 GHz'} settings saved!`);
+}
+
+function generateSSID(freq) {
+  const adjectives = ['Swift','Blue','Secure','Hidden','Private','Home','Office'];
+  const nouns = ['Network','Hub','Connect','Wifi','Link','Node'];
+  const num = Math.floor(Math.random()*900)+100;
+  const ssid = `${adjectives[Math.floor(Math.random()*adjectives.length)]}-${nouns[Math.floor(Math.random()*nouns.length)]}-${num}`;
+  document.getElementById(`ssid-${freq}`).value = ssid;
+}
+
+function updateTaskProgress() {
+  const task1Done = routerState.adminPwChanged;
+  const task2Done = routerState.ssid24Changed || routerState.ssid5Changed;
+  const task3Done = routerState.wpa3_24 || routerState.wpa3_5;
+
+  function setTask(n, done) {
+    const dot = document.getElementById(`task${n}-dot`);
+    const status = document.getElementById(`task${n}-status`);
+    if (done) {
+      dot.className = 'step-dot done'; dot.textContent = '✓';
+      status.textContent = 'Complete'; status.style.color = '#4ade80';
+    } else {
+      dot.className = 'step-dot'; dot.textContent = n;
+      status.textContent = 'Pending'; status.style.color = 'rgba(255,255,255,0.35)';
+    }
+  }
+  setTask(1, task1Done);
+  setTask(2, task2Done);
+  setTask(3, task3Done);
+
+  const all = task1Done && task2Done && task3Done;
+  if (all) {
+    document.getElementById('router-status-badge').style.background = '#f0fdf4';
+    document.getElementById('router-status-badge').style.color = '#15803d';
+    document.getElementById('router-status-badge').textContent = '✓ Secured';
+    setTimeout(() => toast('🎉 All lab exercises complete! Router is now secured.'), 300);
+  }
+}
+
+function updateScorecard() {
+  const items = [
+    { label: 'Admin Password Changed', done: routerState.adminPwChanged, desc: 'Default admin passwords are a major security risk on SOHO devices.', fix: 'Go to Administration → change password' },
+    { label: '2.4 GHz SSID Updated', done: routerState.ssid24Changed, desc: 'Default SSIDs reveal device model, making targeted attacks easier.', fix: 'Go to Wireless Settings → 2.4 GHz → change SSID' },
+    { label: '5 GHz SSID Updated', done: routerState.ssid5Changed, desc: 'Same as above — both bands should have custom SSIDs.', fix: 'Go to Wireless Settings → 5 GHz → change SSID' },
+    { label: 'WPA3 on 2.4 GHz', done: routerState.wpa3_24, desc: 'WPA3 prevents PMKID attacks and provides forward secrecy.', fix: 'Go to Wireless Settings → 2.4 GHz → select WPA3 Personal' },
+    { label: 'WPA3 on 5 GHz', done: routerState.wpa3_5, desc: 'All bands should be protected with WPA3 where possible.', fix: 'Go to Wireless Settings → 5 GHz → select WPA3 Personal' },
+  ];
+  const score = items.filter(i => i.done).length;
+  document.getElementById('score-badge').textContent = `Score: ${score}/5`;
+  document.getElementById('score-badge').style.background = score === 5 ? '#f0fdf4' : score >= 3 ? '#fffbeb' : '#fef2f2';
+  document.getElementById('score-badge').style.color = score === 5 ? '#15803d' : score >= 3 ? '#b45309' : '#991b1b';
+
+  document.getElementById('scorecard-items').innerHTML = items.map(item => `
+    <div style="display:flex;gap:12px;padding:12px;border-radius:8px;border:1px solid;background:${item.done?'#f0fdf4':'#fef2f2'};border-color:${item.done?'#bbf7d0':'#fecaca'}">
+      <div style="width:28px;height:28px;border-radius:50%;background:${item.done?'#059669':'#dc2626'};display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;flex-shrink:0">
+        ${item.done?'✓':'✕'}
+      </div>
+      <div>
+        <div style="font-weight:600;font-size:13px;color:${item.done?'#15803d':'#991b1b'};margin-bottom:2px">${item.label}</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:${item.done?'0':'4px'}">${item.desc}</div>
+        ${!item.done ? `<div style="font-size:11px;color:var(--text3)">→ ${item.fix}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+</script>
+</body>
+</html>

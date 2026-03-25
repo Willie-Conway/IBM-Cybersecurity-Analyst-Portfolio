@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetSim Pro — Network Simulation Lab</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #080c18;
+    --bg2: #0d1526;
+    --bg3: #111d35;
+    --panel: #0f1a30;
+    --border: #1e3055;
+    --border2: #2a4070;
+    --cyan: #00d4ff;
+    --cyan2: #00a8cc;
+    --green: #00ff88;
+    --amber: #ffaa00;
+    --red: #ff4466;
+    --purple: #a855f7;
+    --text: #c8d8f0;
+    --text2: #6888aa;
+    --text3: #3a5070;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Space Grotesk', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-icon {
+    width: 28px; height: 28px;
+    border: 2px solid var(--cyan);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .logo-icon::before, .logo-icon::after {
+    content: '';
+    position: absolute;
+    background: var(--cyan);
+    border-radius: 50%;
+  }
+  .logo-icon::before { width: 5px; height: 5px; top: 4px; left: 4px; }
+  .logo-icon::after  { width: 5px; height: 5px; bottom: 4px; right: 4px; }
+
+  .nav-tabs {
+    display: flex;
+    gap: 2px;
+    flex: 1;
+  }
+  .nav-tab {
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .nav-tab:hover { color: var(--text); background: var(--bg3); }
+  .nav-tab.active {
+    color: var(--cyan);
+    background: rgba(0,212,255,0.08);
+    border-color: rgba(0,212,255,0.25);
+  }
+
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .status-text { font-family: var(--mono); font-size: 11px; color: var(--text2); }
+
+  /* ── Panes ── */
+  .pane {
+    display: none;
+    flex: 1;
+    overflow: hidden;
+  }
+  .pane.active { display: flex; }
+
+  /* ══════════════════════════════
+     TAB 1 — TOPOLOGY DESIGNER
+  ══════════════════════════════ */
+  #tab-topology {
+    flex-direction: row;
+  }
+
+  .topo-sidebar {
+    width: 200px;
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow-y: auto;
+  }
+  .sidebar-section {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+  .device-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: grab;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    color: var(--text);
+    font-size: 12px;
+    font-family: var(--sans);
+    width: 100%;
+    margin-bottom: 6px;
+    transition: all 0.12s;
+    user-select: none;
+  }
+  .device-btn:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    background: rgba(0,212,255,0.06);
+  }
+  .device-icon { width: 22px; height: 22px; flex-shrink: 0; }
+
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    font-size: 12px;
+    font-family: var(--sans);
+    width: 100%;
+    margin-bottom: 6px;
+    transition: all 0.12s;
+  }
+  .action-btn:hover { color: var(--text); border-color: var(--border2); }
+  .action-btn.danger:hover { color: var(--red); border-color: var(--red); }
+  .action-btn.primary:hover { color: var(--cyan); border-color: var(--cyan); }
+
+  .topo-canvas-wrap {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(0,212,255,0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(168,85,247,0.03) 0%, transparent 50%),
+      var(--bg);
+  }
+  .topo-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.4;
+  }
+  #topo-canvas {
+    position: absolute;
+    inset: 0;
+    cursor: default;
+  }
+
+  .topo-controls {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+  }
+  .topo-ctl-btn {
+    padding: 5px 12px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    font-size: 12px;
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: all 0.12s;
+  }
+  .topo-ctl-btn:hover { color: var(--cyan); border-color: var(--cyan); }
+  .topo-ctl-btn.active { color: var(--cyan); background: rgba(0,212,255,0.08); border-color: var(--cyan); }
+
+  .topo-info {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 180px;
+    font-size: 12px;
+    display: none;
+  }
+  .topo-info.visible { display: block; }
+  .info-title { font-weight: 600; color: var(--cyan); margin-bottom: 8px; }
+  .info-row { display: flex; justify-content: space-between; gap: 12px; color: var(--text2); margin-bottom: 4px; }
+  .info-val { color: var(--text); font-family: var(--mono); font-size: 11px; }
+
+  .hint-banner {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: var(--cyan);
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  /* ══════════════════════════════
+     TAB 2 — PROTOCOLS
+  ══════════════════════════════ */
+  #tab-protocols {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .proto-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .proto-search {
+    flex: 1;
+    max-width: 360px;
+    padding: 8px 14px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .proto-search:focus { border-color: var(--cyan); }
+  .proto-search::placeholder { color: var(--text3); }
+  .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-chip {
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    font-size: 11px;
+    cursor: pointer;
+    color: var(--text2);
+    transition: all 0.12s;
+    user-select: none;
+  }
+  .filter-chip:hover { border-color: var(--border2); color: var(--text); }
+  .filter-chip.active { background: rgba(0,212,255,0.1); border-color: var(--cyan); color: var(--cyan); }
+
+  .proto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+    padding: 20px 24px;
+  }
+  .proto-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .proto-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
+  }
+  .proto-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+  .proto-card.layer-app::before { background: var(--cyan); }
+  .proto-card.layer-transport::before { background: var(--green); }
+  .proto-card.layer-network::before { background: var(--amber); }
+  .proto-card.layer-link::before { background: var(--purple); }
+
+  .proto-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+  .proto-name { font-size: 15px; font-weight: 600; color: var(--text); }
+  .proto-port {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--cyan);
+  }
+  .proto-desc { font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 8px; }
+  .proto-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+  .proto-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: var(--bg3);
+    color: var(--text3);
+    font-family: var(--mono);
+  }
+
+  /* Protocol Detail Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--panel);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    width: 580px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 24px;
+    transform: translateY(10px);
+    transition: transform 0.2s;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .modal-title { font-size: 20px; font-weight: 600; color: var(--cyan); }
+  .modal-close { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.12s; }
+  .modal-close:hover { color: var(--red); border-color: var(--red); }
+  .modal-section { margin-bottom: 16px; }
+  .modal-section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); margin-bottom: 8px; }
+  .modal-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .modal-code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
+    color: var(--green);
+    line-height: 1.7;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .modal-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .meta-item { background: var(--bg3); border-radius: 6px; padding: 10px; }
+  .meta-key { font-size: 10px; color: var(--text3); font-family: var(--mono); margin-bottom: 3px; }
+  .meta-val { font-size: 13px; color: var(--text); font-weight: 500; }
+
+  /* ══════════════════════════════
+     TAB 3 — PACKET SIMULATOR
+  ══════════════════════════════ */
+  #tab-packets {
+    flex-direction: row;
+    gap: 0;
+  }
+  .packet-controls {
+    width: 260px;
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+  .ctrl-group-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); margin-bottom: 6px; }
+  .ctrl-select, .ctrl-input {
+    width: 100%;
+    padding: 8px 10px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .ctrl-select:focus, .ctrl-input:focus { border-color: var(--cyan); }
+  .ctrl-select option { background: var(--bg); }
+
+  .send-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--cyan);
+    background: rgba(0,212,255,0.1);
+    color: var(--cyan);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: all 0.15s;
+    letter-spacing: 0.3px;
+  }
+  .send-btn:hover { background: rgba(0,212,255,0.18); }
+  .send-btn:active { transform: scale(0.98); }
+
+  .packet-stage {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+  }
+  #packet-canvas {
+    flex: 1;
+  }
+
+  .packet-log {
+    height: 160px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 8px 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+  .log-entry { margin-bottom: 3px; }
+  .log-time { color: var(--text3); margin-right: 8px; }
+  .log-src  { color: var(--amber); }
+  .log-arrow{ color: var(--text3); margin: 0 4px; }
+  .log-dst  { color: var(--green); }
+  .log-proto{ color: var(--cyan); margin-left: 8px; }
+  .log-bytes{ color: var(--text3); margin-left: 6px; }
+
+  .osi-layers {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 12px;
+  }
+  .osi-layer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .osi-num { font-family: var(--mono); font-size: 10px; color: var(--text3); width: 16px; }
+  .osi-name { font-size: 12px; color: var(--text2); flex: 1; }
+  .osi-proto { font-family: var(--mono); font-size: 11px; color: var(--text3); }
+  .osi-bar { width: 4px; height: 100%; border-radius: 2px; align-self: stretch; min-height: 20px; }
+  .osi-layer.active { background: rgba(0,212,255,0.05); border-color: rgba(0,212,255,0.15); }
+  .osi-layer.active .osi-name { color: var(--text); }
+  .osi-layer.active .osi-proto { color: var(--cyan); }
+
+  /* ══════════════════════════════
+     TAB 4 — IP ANALYZER
+  ══════════════════════════════ */
+  #tab-ip {
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 24px;
+    gap: 20px;
+  }
+  .ip-top { display: flex; gap: 20px; flex-wrap: wrap; }
+  .ip-input-section {
+    flex: 1;
+    min-width: 300px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .ip-input-label { font-size: 12px; color: var(--text2); margin-bottom: 8px; display: block; }
+  .ip-input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--cyan);
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 500;
+    outline: none;
+    transition: border-color 0.15s;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  .ip-input:focus { border-color: var(--cyan); }
+  .ip-input::placeholder { color: var(--text3); font-size: 16px; }
+
+  .analyze-btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--cyan);
+    background: rgba(0,212,255,0.1);
+    color: var(--cyan);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: all 0.15s;
+    margin-right: 8px;
+  }
+  .analyze-btn:hover { background: rgba(0,212,255,0.18); }
+
+  .ip-result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .ip-result-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .irc-label { font-size: 10px; color: var(--text3); font-family: var(--mono); text-transform: uppercase; margin-bottom: 4px; }
+  .irc-val { font-size: 14px; font-weight: 600; color: var(--text); font-family: var(--mono); }
+  .irc-val.good { color: var(--green); }
+  .irc-val.warn { color: var(--amber); }
+
+  .ip-ranges-section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    flex: 1;
+    min-width: 300px;
+  }
+  .ranges-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 12px; }
+  .range-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.1s;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 2px;
+  }
+  .range-row:hover { background: var(--bg3); }
+  .range-badge {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .range-cidr { font-family: var(--mono); font-size: 12px; color: var(--cyan); width: 130px; }
+  .range-desc { font-size: 12px; color: var(--text2); flex: 1; }
+  .range-type { font-size: 10px; font-family: var(--mono); color: var(--text3); }
+
+  .binary-display {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 2;
+    margin-top: 14px;
+  }
+  .binary-octet { display: inline-flex; gap: 0; margin-right: 16px; }
+  .bit-1 { color: var(--cyan); }
+  .bit-0 { color: var(--text3); }
+  .octet-val { display: block; font-size: 10px; color: var(--text3); text-align: center; margin-top: 2px; }
+
+  /* ══════════════════════════════
+     TAB 5 — DESIGN GUIDE
+  ══════════════════════════════ */
+  #tab-guide {
+    overflow-y: auto;
+    padding: 24px;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .guide-steps { display: flex; flex-direction: column; gap: 12px; }
+  .guide-step {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .guide-step.done { border-color: rgba(0,255,136,0.3); }
+  .guide-step-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text2);
+    flex-shrink: 0;
+    transition: all 0.2s;
+    font-family: var(--mono);
+  }
+  .guide-step.done .step-num {
+    background: var(--green);
+    border-color: var(--green);
+    color: #001a0a;
+  }
+  .guide-step.active .step-num {
+    background: rgba(0,212,255,0.15);
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+  .step-title { font-weight: 600; font-size: 14px; flex: 1; }
+  .step-status { font-size: 11px; font-family: var(--mono); }
+  .guide-step.done .step-status { color: var(--green); }
+  .guide-step.active .step-status { color: var(--cyan); }
+
+  .guide-step-body {
+    padding: 0 16px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+  .guide-step.active .guide-step-body {
+    max-height: 400px;
+    padding: 0 16px 16px;
+  }
+  .step-content { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .step-checklist { list-style: none; margin-top: 10px; }
+  .step-checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 0;
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .check-box {
+    width: 14px; height: 14px;
+    border: 1px solid var(--border2);
+    border-radius: 3px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px;
+    color: transparent;
+    transition: all 0.15s;
+  }
+  .check-box.checked { background: var(--green); border-color: var(--green); color: #001a0a; }
+  .step-complete-btn {
+    margin-top: 12px;
+    padding: 7px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--green);
+    background: rgba(0,255,136,0.08);
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: all 0.12s;
+  }
+  .step-complete-btn:hover { background: rgba(0,255,136,0.15); }
+
+  .scrollbar-custom::-webkit-scrollbar { width: 4px; }
+  .scrollbar-custom::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-custom::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  /* Animation states */
+  @keyframes slide-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  .pane.active { animation: slide-in 0.2s ease; }
+
+  /* Packet animation */
+  @keyframes packet-travel {
+    0%   { stroke-dashoffset: 100; }
+    100% { stroke-dashoffset: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon"></div>
+    NetSim Pro
+  </div>
+  <nav class="nav-tabs">
+    <div class="nav-tab active" data-tab="topology">Topology Designer</div>
+    <div class="nav-tab" data-tab="protocols">Protocols &amp; Ports</div>
+    <div class="nav-tab" data-tab="packets">Packet Simulator</div>
+    <div class="nav-tab" data-tab="ip">IP Analyzer</div>
+    <div class="nav-tab" data-tab="guide">Design Guide</div>
+  </nav>
+  <div class="status-bar">
+    <div class="status-dot"></div>
+    <span class="status-text">SIM ONLINE</span>
+  </div>
+</header>
+
+<!-- ═══════════ TAB 1: TOPOLOGY ═══════════ -->
+<div class="pane active" id="tab-topology">
+  <div class="topo-sidebar scrollbar-custom">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Network Devices</div>
+      <div class="device-btn" data-type="router">
+        <svg class="device-icon" viewBox="0 0 22 22" fill="none">
+          <rect x="1" y="7" width="20" height="10" rx="2" stroke="#00d4ff" stroke-width="1.2"/>
+          <circle cx="6" cy="12" r="1.5" fill="#00d4ff"/>
+          <circle cx="11" cy="12" r="1.5" fill="#00d4ff"/>
+          <circle cx="16" cy="12" r="1.5" fill="#00d4ff"/>
+          <line x1="7" y1="4" x2="11" y2="7" stroke="#00d4ff" stroke-width="1.2"/>
+          <line x1="15" y1="4" x2="11" y2="7" stroke="#00d4ff" stroke-width="1.2"/>
+        </svg>
+        Router
+      </div>
+      <div class="device-btn" data-type="switch">
+        <svg class="device-icon" viewBox="0 0 22 22" fill="none">
+          <rect x="1" y="7" width="20" height="10" rx="2" stroke="#00ff88" stroke-width="1.2"/>
+          <line x1="5" y1="7" x2="5" y2="17" stroke="#00ff88" stroke-width="0.8"/>
+          <line x1="9" y1="7" x2="9" y2="17" stroke="#00ff88" stroke-width="0.8"/>
+          <line x1="13" y1="7" x2="13" y2="17" stroke="#00ff88" stroke-width="0.8"/>
+          <line x1="17" y1="7" x2="17" y2="17" stroke="#00ff88" stroke-width="0.8"/>
+        </svg>
+        Switch
+      </div>
+      <div class="device-btn" data-type="firewall">
+        <svg class="device-icon" viewBox="0 0 22 22" fill="none">
+          <path d="M11 2L20 6V11C20 16 16 20 11 21C6 20 2 16 2 11V6L11 2Z" stroke="#ff4466" stroke-width="1.2"/>
+          <line x1="8" y1="12" x2="14" y2="12" stroke="#ff4466" stroke-width="1.2"/>
+          <line x1="11" y1="9" x2="11" y2="15" stroke="#ff4466" stroke-width="1.2"/>
+        </svg>
+        Firewall
+      </div>
+      <div class="device-btn" data-type="server">
+        <svg class="device-icon" viewBox="0 0 22 22" fill="none">
+          <rect x="4" y="2" width="14" height="6" rx="1" stroke="#a855f7" stroke-width="1.2"/>
+          <rect x="4" y="10" width="14" height="6" rx="1" stroke="#a855f7" stroke-width="1.2"/>
+          <circle cx="16" cy="5" r="1" fill="#a855f7"/>
+          <circle cx="16" cy="13" r="1" fill="#a855f7"/>
+        </svg>
+        Server
+      </div>
+      <div class="device-btn" data-type="desktop">
+        <svg class="device-icon" viewBox="0 0 22 22" fill="none">
+          <rect x="2" y="3" width="18" height="12" rx="1.5" stroke="#ffaa00" stroke-width="1.2"/>
+          <line x1="7" y1="19" x2="15" y2="19" stroke="#ffaa00" stroke-width="1.2"/>
+          <line x1="11" y1="15" x2="11" y2="19" stroke="#ffaa00" stroke-width="1.2"/>
+        </svg>
+        Desktop
+      </div>
+      <div class="device-btn" data-type="laptop">
+        <svg class="device-icon" viewBox="0 0 22 22" fill="none">
+          <rect x="4" y="4" width="14" height="10" rx="1" stroke="#ffaa00" stroke-width="1.2"/>
+          <path d="M1 16H21V18H1Z" stroke="#ffaa00" stroke-width="1.2" fill="none"/>
+        </svg>
+        Laptop
+      </div>
+      <div class="device-btn" data-type="cloud">
+        <svg class="device-icon" viewBox="0 0 22 22" fill="none">
+          <path d="M17 16H5a4 4 0 01-.5-7.97A6 6 0 0116.5 9a3.5 3.5 0 01.5 7z" stroke="#00d4ff" stroke-width="1.2"/>
+        </svg>
+        Cloud/Internet
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Tools</div>
+      <div class="action-btn" id="connect-mode-btn" onclick="toggleConnectMode()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="2" y1="2" x2="12" y2="12" stroke="currentColor" stroke-width="1.5"/><circle cx="3" cy="3" r="2" stroke="currentColor" stroke-width="1.2"/><circle cx="11" cy="11" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+        Wire Tool
+      </div>
+      <div class="action-btn primary" onclick="runPacket()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polygon points="3,2 12,7 3,12" fill="currentColor"/></svg>
+        Send Test Packet
+      </div>
+      <div class="action-btn" onclick="autoLayout()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="4.5" y="8" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
+        Auto Layout
+      </div>
+      <div class="action-btn danger" onclick="clearCanvas()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="2" y1="2" x2="12" y2="12" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="2" x2="2" y2="12" stroke="currentColor" stroke-width="1.5"/></svg>
+        Clear All
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Legend</div>
+      <div style="font-size:11px;color:var(--text3);line-height:1.8">
+        • Click device to select<br>
+        • Drag to move<br>
+        • Wire Tool: click two devices to connect<br>
+        • Right-click to delete
+      </div>
+    </div>
+  </div>
+
+  <div class="topo-canvas-wrap">
+    <div class="topo-grid"></div>
+    <canvas id="topo-canvas"></canvas>
+    <div class="hint-banner" id="topo-hint">Drag devices onto the canvas to start designing</div>
+    <div class="topo-info" id="device-info">
+      <div class="info-title" id="info-name">Router</div>
+      <div class="info-row"><span>Type</span><span class="info-val" id="info-type">—</span></div>
+      <div class="info-row"><span>IP Address</span><span class="info-val" id="info-ip">—</span></div>
+      <div class="info-row"><span>MAC</span><span class="info-val" id="info-mac">—</span></div>
+      <div class="info-row"><span>Connections</span><span class="info-val" id="info-conns">—</span></div>
+      <div class="info-row"><span>Status</span><span class="info-val" style="color:var(--green)" id="info-status">Online</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TAB 2: PROTOCOLS ═══════════ -->
+<div class="pane" id="tab-protocols">
+  <div class="proto-header">
+    <input class="proto-search" id="proto-search" type="text" placeholder="Search protocol, port, or keyword..." oninput="filterProtocols()">
+    <div class="filter-chips">
+      <div class="filter-chip active" data-layer="all" onclick="setLayer('all',this)">All</div>
+      <div class="filter-chip" data-layer="app" onclick="setLayer('app',this)">Application</div>
+      <div class="filter-chip" data-layer="transport" onclick="setLayer('transport',this)">Transport</div>
+      <div class="filter-chip" data-layer="network" onclick="setLayer('network',this)">Network</div>
+      <div class="filter-chip" data-layer="link" onclick="setLayer('link',this)">Link</div>
+    </div>
+  </div>
+  <div class="proto-grid" id="proto-grid"></div>
+</div>
+
+<!-- ═══════════ TAB 3: PACKET SIM ═══════════ -->
+<div class="pane" id="tab-packets">
+  <div class="packet-controls scrollbar-custom">
+    <div>
+      <div class="ctrl-group-label">Source</div>
+      <select class="ctrl-select" id="pkt-src">
+        <option>192.168.1.10 (Desktop)</option>
+        <option>192.168.1.20 (Laptop)</option>
+        <option>10.0.0.5 (Server)</option>
+      </select>
+    </div>
+    <div>
+      <div class="ctrl-group-label">Destination</div>
+      <select class="ctrl-select" id="pkt-dst">
+        <option>8.8.8.8 (DNS - Google)</option>
+        <option>93.184.216.34 (Web Server)</option>
+        <option>192.168.1.1 (Router/Gateway)</option>
+        <option>10.0.0.5 (Internal Server)</option>
+      </select>
+    </div>
+    <div>
+      <div class="ctrl-group-label">Protocol</div>
+      <select class="ctrl-select" id="pkt-proto">
+        <option value="HTTP">HTTP (Port 80)</option>
+        <option value="HTTPS">HTTPS (Port 443)</option>
+        <option value="DNS">DNS (Port 53)</option>
+        <option value="SSH">SSH (Port 22)</option>
+        <option value="SMTP">SMTP (Port 25)</option>
+        <option value="FTP">FTP (Port 21)</option>
+        <option value="ICMP">ICMP (Ping)</option>
+      </select>
+    </div>
+    <div>
+      <div class="ctrl-group-label">Payload (bytes)</div>
+      <input class="ctrl-input" type="number" id="pkt-size" value="1024" min="64" max="65535">
+    </div>
+    <div>
+      <div class="ctrl-group-label">TTL</div>
+      <input class="ctrl-input" type="number" id="pkt-ttl" value="64" min="1" max="255">
+    </div>
+    <button class="send-btn" onclick="sendPacket()">▶ Send Packet</button>
+    <button class="send-btn" style="background:transparent;border-color:var(--border2);color:var(--text2)" onclick="sendBurst()">⚡ Send Burst (10x)</button>
+
+    <div>
+      <div class="ctrl-group-label">OSI Layer Traversal</div>
+      <div class="osi-layers" id="osi-layers">
+        <div class="osi-layer" data-layer="7"><div class="osi-bar" style="background:#00d4ff"></div><div class="osi-num">7</div><div class="osi-name">Application</div><div class="osi-proto">—</div></div>
+        <div class="osi-layer" data-layer="6"><div class="osi-bar" style="background:#00d4ff"></div><div class="osi-num">6</div><div class="osi-name">Presentation</div><div class="osi-proto">—</div></div>
+        <div class="osi-layer" data-layer="5"><div class="osi-bar" style="background:#00d4ff"></div><div class="osi-num">5</div><div class="osi-name">Session</div><div class="osi-proto">—</div></div>
+        <div class="osi-layer" data-layer="4"><div class="osi-bar" style="background:#00ff88"></div><div class="osi-num">4</div><div class="osi-name">Transport</div><div class="osi-proto">—</div></div>
+        <div class="osi-layer" data-layer="3"><div class="osi-bar" style="background:#ffaa00"></div><div class="osi-num">3</div><div class="osi-name">Network</div><div class="osi-proto">—</div></div>
+        <div class="osi-layer" data-layer="2"><div class="osi-bar" style="background:#a855f7"></div><div class="osi-num">2</div><div class="osi-name">Data Link</div><div class="osi-proto">—</div></div>
+        <div class="osi-layer" data-layer="1"><div class="osi-bar" style="background:#a855f7"></div><div class="osi-num">1</div><div class="osi-name">Physical</div><div class="osi-proto">—</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="packet-stage">
+    <canvas id="packet-canvas"></canvas>
+    <div class="packet-log scrollbar-custom" id="packet-log">
+      <div style="color:var(--text3);font-size:11px;padding:4px 0">// Packet log — send packets to see activity</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TAB 4: IP ANALYZER ═══════════ -->
+<div class="pane" id="tab-ip">
+  <div class="ip-top">
+    <div class="ip-input-section">
+      <label class="ip-input-label">Enter IP Address or CIDR Block</label>
+      <input class="ip-input" id="ip-input" type="text" placeholder="192.168.1.0/24" value="192.168.1.100">
+      <div>
+        <button class="analyze-btn" onclick="analyzeIP()">Analyze</button>
+        <button class="analyze-btn" style="border-color:var(--border2);color:var(--text2)" onclick="randomIP()">Random IP</button>
+      </div>
+      <div class="ip-result-grid" id="ip-result-grid"></div>
+      <div class="binary-display" id="binary-display"></div>
+    </div>
+
+    <div class="ip-ranges-section">
+      <div class="ranges-title">IP Address Ranges Reference</div>
+      <div id="ip-ranges-list"></div>
+    </div>
+  </div>
+
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px">
+    <div class="ranges-title" style="margin-bottom:14px">Common Subnet Reference</div>
+    <div id="subnet-table"></div>
+  </div>
+</div>
+
+<!-- ═══════════ TAB 5: DESIGN GUIDE ═══════════ -->
+<div class="pane" id="tab-guide">
+  <div style="max-width:860px;margin:0 auto">
+    <div style="margin-bottom:20px">
+      <div style="font-size:20px;font-weight:600;margin-bottom:6px">Network Design Workflow</div>
+      <div style="color:var(--text2);font-size:13px">Follow these steps to design a production-ready network structure. Check off tasks as you complete them.</div>
+    </div>
+    <div class="guide-steps" id="guide-steps"></div>
+  </div>
+</div>
+
+<!-- Protocol Modal -->
+<div class="modal-overlay" id="proto-modal" onclick="closeModal(event)">
+  <div class="modal scrollbar-custom" id="modal-content"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════
+
+const PROTOCOLS = [
+  {name:'HTTP',port:'80',layer:'app',transport:'TCP',desc:'HyperText Transfer Protocol — foundation of data communication on the Web. Transfers HTML, images, and other content.',tags:['web','stateless','request-response'],details:{rfc:'RFC 7230-7235',header:'GET /index.html HTTP/1.1\nHost: example.com\nUser-Agent: Mozilla/5.0\nAccept: text/html',handshake:'TCP 3-way → HTTP Request → HTTP Response',security:'None (use HTTPS)',use:'Web browsing, REST APIs, web services'}},
+  {name:'HTTPS',port:'443',layer:'app',transport:'TCP',desc:'HTTP Secure — encrypted web communication using TLS/SSL. Standard for all modern websites and APIs.',tags:['web','encrypted','TLS','secure'],details:{rfc:'RFC 2818',header:'GET / HTTP/2\nHost: example.com\n:authority: example.com',handshake:'TCP → TLS Handshake → HTTP/2 Frames',security:'TLS 1.2 / TLS 1.3',use:'Secure web, banking, e-commerce'}},
+  {name:'DNS',port:'53',layer:'app',transport:'UDP/TCP',desc:'Domain Name System — translates human-readable domain names (google.com) to IP addresses.',tags:['resolution','UDP','naming'],details:{rfc:'RFC 1034, 1035',header:'QUERY: example.com A?\nANSWER: 93.184.216.34 TTL:3600',handshake:'UDP datagram (TCP for large responses)',security:'DNSSEC optional',use:'Name resolution, email routing (MX records)'}},
+  {name:'DHCP',port:'67/68',layer:'app',transport:'UDP',desc:'Dynamic Host Configuration Protocol — automatically assigns IP addresses, subnet masks, gateways to clients.',tags:['addressing','auto-config','UDP'],details:{rfc:'RFC 2131',header:'DISCOVER → OFFER → REQUEST → ACK',handshake:'4-way DORA exchange',security:'No built-in auth (DHCP snooping for protection)',use:'Automatic IP assignment on LANs'}},
+  {name:'FTP',port:'21',layer:'app',transport:'TCP',desc:'File Transfer Protocol — transfers files between client and server. Uses separate control and data connections.',tags:['file-transfer','legacy','plaintext'],details:{rfc:'RFC 959',header:'USER admin\nPASS ****\nRETR file.txt',handshake:'Control port 21 + Data port 20',security:'Plaintext — use SFTP instead',use:'File hosting, legacy transfers'}},
+  {name:'SSH',port:'22',layer:'app',transport:'TCP',desc:'Secure Shell — encrypted remote login, command execution, and file transfer. Replaces Telnet and rsh.',tags:['encrypted','remote','management'],details:{rfc:'RFC 4251-4256',header:'SSH-2.0-OpenSSH_8.9\nKex: curve25519-sha256',handshake:'Key exchange → Session → Channel',security:'Asymmetric key exchange, encrypted session',use:'Remote server management, tunneling'}},
+  {name:'SMTP',port:'25',layer:'app',transport:'TCP',desc:'Simple Mail Transfer Protocol — sends email between mail servers and from clients to servers.',tags:['email','mail','push'],details:{rfc:'RFC 5321',header:'EHLO mail.example.com\nMAIL FROM:<alice@example.com>\nRCPT TO:<bob@example.com>',handshake:'TCP → EHLO → AUTH → DATA → QUIT',security:'STARTTLS, DKIM, SPF',use:'Email delivery between servers'}},
+  {name:'IMAP',port:'143',layer:'app',transport:'TCP',desc:'Internet Message Access Protocol — retrieves email from a server, keeping messages on server for multiple device access.',tags:['email','sync','mail'],details:{rfc:'RFC 3501',header:'A001 LOGIN user pass\nA002 SELECT INBOX\nA003 FETCH 1 BODY[]',handshake:'TCP → LOGIN → SELECT mailbox',security:'STARTTLS or IMAPS (993)',use:'Email clients (Outlook, Thunderbird)'}},
+  {name:'SNMP',port:'161',layer:'app',transport:'UDP',desc:'Simple Network Management Protocol — monitors and manages network devices. Collects device metrics and health data.',tags:['monitoring','management','UDP'],details:{rfc:'RFC 1157, 3411',header:'GET sysUpTime.0\nGET ifInOctets.1',handshake:'UDP request/response or traps',security:'v1/v2c: community strings; v3: auth+encrypt',use:'Network monitoring, router/switch management'}},
+  {name:'LDAP',port:'389',layer:'app',transport:'TCP',desc:'Lightweight Directory Access Protocol — accesses and manages distributed directory information services.',tags:['directory','authentication','enterprise'],details:{rfc:'RFC 4510-4519',header:'bindRequest: user@domain.com\nsearchRequest: (objectClass=user)',handshake:'TCP → Bind → Search/Modify → Unbind',security:'LDAPS (636) for TLS',use:'Active Directory, user authentication'}},
+  {name:'NTP',port:'123',layer:'app',transport:'UDP',desc:'Network Time Protocol — synchronizes clocks of computers to within milliseconds of Coordinated Universal Time.',tags:['time','sync','UDP'],details:{rfc:'RFC 5905',header:'Stratum: 2\nRefID: 0.pool.ntp.org',handshake:'UDP client → server → timestamp calc',security:'NTPsec or Chrony recommended',use:'Time sync for logs, certificates, Kerberos'}},
+  {name:'TCP',port:'—',layer:'transport',transport:'—',desc:'Transmission Control Protocol — reliable, ordered, error-checked delivery of a stream of bytes between applications.',tags:['reliable','ordered','connection'],details:{rfc:'RFC 793, 9293',header:'SYN → SYN-ACK → ACK\n(3-way handshake)',handshake:'SYN, SYN-ACK, ACK; FIN, ACK for close',security:'None inherent; relies on upper layers',use:'All applications requiring reliable delivery'}},
+  {name:'UDP',port:'—',layer:'transport',transport:'—',desc:'User Datagram Protocol — connectionless, faster but unreliable delivery. Best for latency-sensitive apps.',tags:['fast','connectionless','stateless'],details:{rfc:'RFC 768',header:'Source Port → Dest Port\nLength | Checksum | Data',handshake:'None — fire and forget',security:'None inherent',use:'DNS, streaming, gaming, VoIP, DHCP'}},
+  {name:'IP',port:'—',layer:'network',transport:'—',desc:'Internet Protocol — routes packets across networks using IP addresses. Foundation of internet routing.',tags:['routing','addressing','layer-3'],details:{rfc:'RFC 791 (IPv4), RFC 8200 (IPv6)',header:'Version|IHL|DSCP|Total Length\nSource IP → Destination IP\nTTL | Protocol | Header Checksum',handshake:'Connectionless — each packet routed independently',security:'IPsec for encryption/auth',use:'Packet routing across all IP networks'}},
+  {name:'ICMP',port:'—',layer:'network',transport:'—',desc:'Internet Control Message Protocol — sends error messages and operational info (e.g., ping, traceroute).',tags:['diagnostics','ping','errors'],details:{rfc:'RFC 792',header:'Type: 8 (Echo Request)\nCode: 0 | Checksum\nIdentifier | Sequence',handshake:'Echo Request → Echo Reply',security:'Often filtered at firewalls',use:'Ping, traceroute, path MTU discovery'}},
+  {name:'ARP',port:'—',layer:'link',transport:'—',desc:'Address Resolution Protocol — maps IPv4 addresses to MAC (hardware) addresses on a local network.',tags:['MAC','link-layer','LAN'],details:{rfc:'RFC 826',header:'WHO HAS 192.168.1.1?\nTELL 192.168.1.100\n→ 192.168.1.1 IS AT aa:bb:cc:dd:ee:ff',handshake:'Broadcast request → Unicast reply',security:'Vulnerable to ARP spoofing; use DAI',use:'Local address resolution on Ethernet networks'}},
+];
+
+const IP_RANGES = [
+  {cidr:'10.0.0.0/8',desc:'Class A private network',type:'Private',color:'#00ff88'},
+  {cidr:'172.16.0.0/12',desc:'Class B private network',type:'Private',color:'#00ff88'},
+  {cidr:'192.168.0.0/16',desc:'Class C private network',type:'Private',color:'#00ff88'},
+  {cidr:'127.0.0.0/8',desc:'Loopback (localhost)',type:'Reserved',color:'#ffaa00'},
+  {cidr:'169.254.0.0/16',desc:'APIPA / Link-local (no DHCP)',type:'Reserved',color:'#ffaa00'},
+  {cidr:'0.0.0.0/8',desc:'Current network (source only)',type:'Reserved',color:'#ffaa00'},
+  {cidr:'100.64.0.0/10',desc:'Carrier-grade NAT',type:'Shared',color:'#a855f7'},
+  {cidr:'192.0.2.0/24',desc:'Documentation examples (TEST-NET-1)',type:'Documentation',color:'#3a5070'},
+  {cidr:'224.0.0.0/4',desc:'IPv4 multicast addresses',type:'Multicast',color:'#00d4ff'},
+  {cidr:'240.0.0.0/4',desc:'Reserved for future use',type:'Reserved',color:'#ff4466'},
+  {cidr:'255.255.255.255/32',desc:'Limited broadcast',type:'Broadcast',color:'#ff4466'},
+];
+
+const SUBNETS = [
+  {cidr:'/8',mask:'255.0.0.0',hosts:'16,777,214',cls:'A'},
+  {cidr:'/16',mask:'255.255.0.0',hosts:'65,534',cls:'B'},
+  {cidr:'/24',mask:'255.255.255.0',hosts:'254',cls:'C (common LAN)'},
+  {cidr:'/25',mask:'255.255.255.128',hosts:'126',cls:'Small subnet'},
+  {cidr:'/26',mask:'255.255.255.192',hosts:'62',cls:'Small subnet'},
+  {cidr:'/27',mask:'255.255.255.224',hosts:'30',cls:'Small subnet'},
+  {cidr:'/28',mask:'255.255.255.240',hosts:'14',cls:'Very small'},
+  {cidr:'/29',mask:'255.255.255.248',hosts:'6',cls:'Point-to-point+'},
+  {cidr:'/30',mask:'255.255.255.252',hosts:'2',cls:'Point-to-point'},
+  {cidr:'/32',mask:'255.255.255.255',hosts:'1 (host)',cls:'Host route'},
+];
+
+const GUIDE_STEPS = [
+  {
+    title:'Gather Business Requirements',
+    tasks:[
+      'Identify why the organization needs the network',
+      'Define budget and infrastructure constraints',
+      'Determine which legacy systems need support',
+      'Document number of users and device types',
+      'Identify performance requirements (bandwidth, latency)',
+    ],
+    content:'Start by understanding what the network must do before selecting any hardware or software. Meet with stakeholders in IT, management, and end users to capture requirements from all angles.'
+  },
+  {
+    title:'Assess Current Network Infrastructure',
+    tasks:[
+      'Diagram existing network devices and cabling',
+      'Document current communication technologies',
+      'Identify reusable hardware vs hardware to replace',
+      'Audit bandwidth usage and bottlenecks',
+      'Review current security posture',
+    ],
+    content:'Before designing the new network, understand what already exists. Use tools like Wireshark, SolarWinds, or NetBrain to map and measure the current environment.'
+  },
+  {
+    title:'Define Network Goals',
+    tasks:[
+      'Document target performance benchmarks',
+      'Define security requirements (firewalls, VLANs, ACLs)',
+      'Establish redundancy and uptime requirements',
+      'Plan for scalability (growth projection 3–5 years)',
+      'Define management and monitoring approach',
+    ],
+    content:'Translate business requirements into concrete technical goals. Good network design is always intentional — every decision should trace back to a documented goal.'
+  },
+  {
+    title:'Select Devices and Technologies',
+    tasks:[
+      'Choose routers, switches, and firewall models',
+      'Select wired vs wireless (Wi-Fi 6/6E) strategy',
+      'Decide on VLAN segmentation scheme',
+      'Choose network management software (IBM Netcool, SolarWinds)',
+      'Select cabling standards (Cat6, Cat6A, fiber)',
+    ],
+    content:'Select hardware and software sized for current and projected loads. Avoid over-purchasing (waste) and under-purchasing (future bottleneck). Prefer equipment from a consistent vendor ecosystem for better interoperability.'
+  },
+  {
+    title:'Design the Physical Network',
+    tasks:[
+      'Create logical topology diagram (use Draw.io or Visio)',
+      'Plan physical cable routes and patch panels',
+      'Design IP addressing scheme and subnets',
+      'Define VLAN structure for traffic segmentation',
+      'Plan power redundancy (UPS, dual PSU)',
+    ],
+    content:'Use the Topology Designer tab in this simulator to prototype your layout. Map hardware connections, plan cable management, and define the IP addressing scheme before any physical installation.'
+  },
+  {
+    title:'Develop an Implementation Plan',
+    tasks:[
+      'Create phased rollout timeline',
+      'Assign responsibilities to team members',
+      'Plan for rollback/contingency scenarios',
+      'Schedule maintenance windows',
+      'Prepare change management communications',
+    ],
+    content:'A network cutover without a detailed plan risks extended downtime. Use a phased approach where possible — stand up the new network in parallel, test, then migrate traffic.'
+  },
+  {
+    title:'Document the Network Design',
+    tasks:[
+      'Store diagrams in a shared, version-controlled location',
+      'Document all device IPs, MACs, and hostnames',
+      'Record hardware configuration and firmware versions',
+      'Create runbooks for common procedures',
+      'Establish a disaster recovery plan',
+    ],
+    content:'Documentation is the last step that everyone skips and everyone regrets skipping. Good documentation is critical for troubleshooting, onboarding new staff, and disaster recovery.'
+  },
+];
+
+// ══════════════════════════════════════════
+// TAB NAVIGATION
+// ══════════════════════════════════════════
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    if (tab.dataset.tab === 'packets') initPacketCanvas();
+  });
+});
+
+// ══════════════════════════════════════════
+// TOPOLOGY DESIGNER
+// ══════════════════════════════════════════
+const topoCanvas = document.getElementById('topo-canvas');
+const ctx = topoCanvas.getContext('2d');
+let devices = [], connections = [], selectedDevice = null, connectMode = false, connectFirst = null;
+let dragging = null, dragOffX = 0, dragOffY = 0;
+let packetAnim = null;
+
+const DEVICE_COLORS = {
+  router:'#00d4ff', switch:'#00ff88', firewall:'#ff4466',
+  server:'#a855f7', desktop:'#ffaa00', laptop:'#ffaa00', cloud:'#00d4ff'
+};
+
+const IP_POOL = {};
+let ipCounter = 10;
+
+function getRandomIP(type) {
+  if (!IP_POOL[type]) {
+    IP_POOL[type] = `192.168.1.${ipCounter++}`;
+  }
+  return IP_POOL[type];
+}
+
+function randomMAC() {
+  return Array.from({length:6}, () => Math.floor(Math.random()*256).toString(16).padStart(2,'0')).join(':');
+}
+
+function resizeTopoCanvas() {
+  const wrap = topoCanvas.parentElement;
+  topoCanvas.width = wrap.clientWidth;
+  topoCanvas.height = wrap.clientHeight;
+  drawTopo();
+}
+
+function drawDevice(d) {
+  const c = DEVICE_COLORS[d.type] || '#aaa';
+  const sel = d === selectedDevice;
+  const conn = d === connectFirst;
+
+  ctx.save();
+  if (sel || conn) {
+    ctx.shadowColor = conn ? '#ff4466' : c;
+    ctx.shadowBlur = 16;
+  }
+
+  // Node circle
+  ctx.beginPath();
+  ctx.arc(d.x, d.y, 26, 0, Math.PI*2);
+  ctx.fillStyle = '#0d1526';
+  ctx.fill();
+  ctx.strokeStyle = conn ? '#ff4466' : (sel ? c : '#1e3055');
+  ctx.lineWidth = conn || sel ? 2 : 1;
+  ctx.stroke();
+  ctx.restore();
+
+  // Icon
+  ctx.save();
+  ctx.translate(d.x, d.y);
+  ctx.strokeStyle = c;
+  ctx.fillStyle = c;
+  ctx.lineWidth = 1.5;
+  ctx.lineCap = 'round';
+  drawIcon(ctx, d.type);
+  ctx.restore();
+
+  // Label
+  ctx.save();
+  ctx.fillStyle = '#c8d8f0';
+  ctx.font = '11px "Space Grotesk", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(d.label || d.type, d.x, d.y + 42);
+  if (d.ip) {
+    ctx.fillStyle = '#3a5070';
+    ctx.font = '10px "JetBrains Mono", monospace';
+    ctx.fillText(d.ip, d.x, d.y + 55);
+  }
+  ctx.restore();
+}
+
+function drawIcon(c, type) {
+  c.lineWidth = 1.5;
+  c.lineCap = 'round';
+  c.lineJoin = 'round';
+  if (type === 'router') {
+    c.strokeRect(-12, -6, 24, 12);
+    c.beginPath(); c.arc(-6, 0, 2, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(0, 0, 2, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(6, 0, 2, 0, Math.PI*2); c.fill();
+  } else if (type === 'switch') {
+    c.strokeRect(-12, -6, 24, 12);
+    [-6,0,6].forEach(x => { c.beginPath(); c.moveTo(x,-6); c.lineTo(x,6); c.stroke(); });
+  } else if (type === 'firewall') {
+    c.beginPath(); c.moveTo(0,-13); c.lineTo(11,-5); c.lineTo(11,4); c.bezierCurveTo(11,10,6,13,0,14); c.bezierCurveTo(-6,13,-11,10,-11,4); c.lineTo(-11,-5); c.closePath(); c.stroke();
+    c.beginPath(); c.moveTo(-5,3); c.lineTo(5,3); c.moveTo(0,-2); c.lineTo(0,8); c.stroke();
+  } else if (type === 'server') {
+    c.strokeRect(-10,-10,20,8);
+    c.strokeRect(-10,0,20,8);
+    c.beginPath(); c.arc(6,-6,1.5,0,Math.PI*2); c.fill();
+    c.beginPath(); c.arc(6,4,1.5,0,Math.PI*2); c.fill();
+  } else if (type === 'desktop') {
+    c.strokeRect(-10,-8,20,13);
+    c.beginPath(); c.moveTo(-5,9); c.lineTo(5,9); c.moveTo(0,5); c.lineTo(0,9); c.stroke();
+  } else if (type === 'laptop') {
+    c.strokeRect(-9,-6,18,10);
+    c.beginPath(); c.moveTo(-12,8); c.lineTo(12,8); c.lineTo(12,10); c.lineTo(-12,10); c.closePath(); c.stroke();
+  } else if (type === 'cloud') {
+    c.beginPath();
+    c.arc(0,-3,8,Math.PI*0.9,Math.PI*2.1);
+    c.arc(8,0,5,Math.PI*1.1,Math.PI*1.9,true);
+    c.arc(-8,0,5,Math.PI*1.2,Math.PI*1.8,true);
+    c.stroke();
+  }
+}
+
+function drawTopo() {
+  ctx.clearRect(0, 0, topoCanvas.width, topoCanvas.height);
+
+  // Connections
+  connections.forEach(conn => {
+    const a = devices.find(d=>d.id===conn[0]);
+    const b = devices.find(d=>d.id===conn[1]);
+    if (!a || !b) return;
+    ctx.save();
+    ctx.strokeStyle = '#1e3055';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.moveTo(a.x, a.y);
+    ctx.lineTo(b.x, b.y);
+    ctx.stroke();
+    ctx.restore();
+  });
+
+  // Packet animation
+  if (packetAnim) {
+    const {ax,ay,bx,by,t,color} = packetAnim;
+    const px = ax + (bx-ax)*t;
+    const py = ay + (by-ay)*t;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(px, py, 7, 0, Math.PI*2);
+    ctx.fillStyle = color;
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 12;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  devices.forEach(drawDevice);
+}
+
+function startPacketAnim(srcId, dstId, color) {
+  const src = devices.find(d=>d.id===srcId);
+  const dst = devices.find(d=>d.id===dstId);
+  if (!src || !dst) return;
+  let t = 0;
+  packetAnim = {ax:src.x,ay:src.y,bx:dst.x,by:dst.y,t:0,color};
+  function step() {
+    t += 0.03;
+    packetAnim.t = t;
+    drawTopo();
+    if (t < 1) requestAnimationFrame(step);
+    else { packetAnim = null; drawTopo(); }
+  }
+  requestAnimationFrame(step);
+}
+
+// Drag logic
+const deviceBtns = document.querySelectorAll('.device-btn[data-type]');
+deviceBtns.forEach(btn => {
+  btn.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('device-type', btn.dataset.type);
+  });
+  btn.setAttribute('draggable', 'true');
+});
+
+topoCanvas.addEventListener('dragover', e => e.preventDefault());
+topoCanvas.addEventListener('drop', e => {
+  e.preventDefault();
+  const type = e.dataTransfer.getData('device-type');
+  if (!type) return;
+  const rect = topoCanvas.getBoundingClientRect();
+  const id = Date.now();
+  const names = {router:'Router',switch:'Switch',firewall:'Firewall',server:'Server',desktop:'Desktop',laptop:'Laptop',cloud:'Internet'};
+  devices.push({
+    id, type, x: e.clientX - rect.left, y: e.clientY - rect.top,
+    label: names[type] || type,
+    ip: type === 'cloud' ? '8.8.8.8' : `192.168.1.${ipCounter++}`,
+    mac: randomMAC(),
+  });
+  document.getElementById('topo-hint').style.opacity = '0';
+  drawTopo();
+});
+
+topoCanvas.addEventListener('mousedown', e => {
+  const rect = topoCanvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  const hit = devices.find(d => Math.hypot(d.x-mx, d.y-my) < 28);
+
+  if (connectMode) {
+    if (hit) {
+      if (!connectFirst) {
+        connectFirst = hit;
+      } else if (connectFirst !== hit) {
+        const a = connectFirst.id, b = hit.id;
+        if (!connections.find(c => (c[0]===a&&c[1]===b)||(c[0]===b&&c[1]===a))) {
+          connections.push([a, b]);
+        }
+        connectFirst = null;
+      }
+      drawTopo();
+    }
+    return;
+  }
+
+  if (hit) {
+    dragging = hit;
+    dragOffX = mx - hit.x;
+    dragOffY = my - hit.y;
+    selectedDevice = hit;
+    showDeviceInfo(hit);
+    drawTopo();
+  } else {
+    selectedDevice = null;
+    document.getElementById('device-info').classList.remove('visible');
+    drawTopo();
+  }
+});
+
+topoCanvas.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  const rect = topoCanvas.getBoundingClientRect();
+  dragging.x = e.clientX - rect.left - dragOffX;
+  dragging.y = e.clientY - rect.top - dragOffY;
+  drawTopo();
+});
+
+topoCanvas.addEventListener('mouseup', () => { dragging = null; });
+
+topoCanvas.addEventListener('contextmenu', e => {
+  e.preventDefault();
+  const rect = topoCanvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  const hit = devices.findIndex(d => Math.hypot(d.x-mx, d.y-my) < 28);
+  if (hit > -1) {
+    const id = devices[hit].id;
+    devices.splice(hit, 1);
+    connections = connections.filter(c => c[0]!==id && c[1]!==id);
+    selectedDevice = null;
+    document.getElementById('device-info').classList.remove('visible');
+    drawTopo();
+  }
+});
+
+function showDeviceInfo(d) {
+  const panel = document.getElementById('device-info');
+  document.getElementById('info-name').textContent = d.label;
+  document.getElementById('info-type').textContent = d.type;
+  document.getElementById('info-ip').textContent = d.ip;
+  document.getElementById('info-mac').textContent = d.mac;
+  document.getElementById('info-conns').textContent = connections.filter(c=>c[0]===d.id||c[1]===d.id).length;
+  panel.classList.add('visible');
+}
+
+function toggleConnectMode() {
+  connectMode = !connectMode;
+  connectFirst = null;
+  const btn = document.getElementById('connect-mode-btn');
+  btn.style.color = connectMode ? 'var(--cyan)' : '';
+  btn.style.borderColor = connectMode ? 'var(--cyan)' : '';
+}
+
+function runPacket() {
+  if (devices.length < 2) { alert('Add at least 2 devices first!'); return; }
+  const src = devices[0], dst = devices[devices.length-1];
+  startPacketAnim(src.id, dst.id, '#00d4ff');
+}
+
+function autoLayout() {
+  if (!devices.length) return;
+  const cx = topoCanvas.width / 2, cy = topoCanvas.height / 2;
+  const r = Math.min(cx, cy) * 0.6;
+  devices.forEach((d, i) => {
+    const angle = (i / devices.length) * Math.PI * 2 - Math.PI / 2;
+    d.x = cx + Math.cos(angle) * r;
+    d.y = cy + Math.sin(angle) * r;
+  });
+  drawTopo();
+}
+
+function clearCanvas() {
+  devices = []; connections = []; selectedDevice = null; connectFirst = null;
+  document.getElementById('device-info').classList.remove('visible');
+  document.getElementById('topo-hint').style.opacity = '1';
+  drawTopo();
+}
+
+window.addEventListener('resize', resizeTopoCanvas);
+resizeTopoCanvas();
+
+// ══════════════════════════════════════════
+// PROTOCOLS TAB
+// ══════════════════════════════════════════
+let currentLayer = 'all';
+const LAYER_COLORS = {app:'var(--cyan)', transport:'var(--green)', network:'var(--amber)', link:'var(--purple)'};
+
+function renderProtocols() {
+  const query = document.getElementById('proto-search').value.toLowerCase();
+  const grid = document.getElementById('proto-grid');
+  const filtered = PROTOCOLS.filter(p => {
+    const matchLayer = currentLayer === 'all' || p.layer === currentLayer;
+    const matchQuery = !query || p.name.toLowerCase().includes(query) ||
+      String(p.port).includes(query) || p.desc.toLowerCase().includes(query) ||
+      p.tags.some(t => t.includes(query));
+    return matchLayer && matchQuery;
+  });
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="proto-card layer-${p.layer}" onclick="showProtoModal('${p.name}')">
+      <div class="proto-top">
+        <div class="proto-name">${p.name}</div>
+        <div class="proto-port">:${p.port}</div>
+      </div>
+      <div class="proto-desc">${p.desc}</div>
+      <div class="proto-tags">
+        <span class="proto-tag" style="color:${LAYER_COLORS[p.layer]};background:rgba(0,0,0,0.2)">${p.layer}</span>
+        <span class="proto-tag">${p.transport}</span>
+        ${p.tags.slice(0,2).map(t=>`<span class="proto-tag">${t}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterProtocols() { renderProtocols(); }
+function setLayer(l, el) {
+  currentLayer = l;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderProtocols();
+}
+
+function showProtoModal(name) {
+  const p = PROTOCOLS.find(x => x.name === name);
+  if (!p) return;
+  const d = p.details;
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">${p.name}</div>
+        <div style="color:var(--text2);font-size:13px;margin-top:4px">Port ${p.port} · ${p.transport} · ${p.layer} layer</div>
+      </div>
+      <button class="modal-close" onclick="document.getElementById('proto-modal').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Description</div>
+      <div class="modal-text">${p.desc}</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Example Header / Exchange</div>
+      <div class="modal-code">${d.header}</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Details</div>
+      <div class="modal-meta">
+        <div class="meta-item"><div class="meta-key">RFC / Standard</div><div class="meta-val">${d.rfc}</div></div>
+        <div class="meta-item"><div class="meta-key">Handshake</div><div class="meta-val" style="font-size:11px">${d.handshake}</div></div>
+        <div class="meta-item"><div class="meta-key">Security</div><div class="meta-val" style="font-size:11px">${d.security}</div></div>
+        <div class="meta-item"><div class="meta-key">Common Use</div><div class="meta-val" style="font-size:11px">${d.use}</div></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('proto-modal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('proto-modal')) {
+    document.getElementById('proto-modal').classList.remove('open');
+  }
+}
+
+renderProtocols();
+
+// ══════════════════════════════════════════
+// PACKET SIMULATOR
+// ══════════════════════════════════════════
+const pktCanvas = document.getElementById('packet-canvas');
+const pctx = pktCanvas.getContext('2d');
+let pktAnimations = [];
+let animRunning = false;
+
+const NETWORK_NODES = [
+  {id:'client',label:'Client',ip:'192.168.1.10',x:0.12,y:0.45,color:'#ffaa00'},
+  {id:'gateway',label:'Gateway\n192.168.1.1',ip:'192.168.1.1',x:0.35,y:0.45,color:'#00d4ff'},
+  {id:'firewall',label:'Firewall',ip:'10.0.0.1',x:0.55,y:0.45,color:'#ff4466'},
+  {id:'router',label:'Internet\nRouter',ip:'203.0.113.1',x:0.75,y:0.45,color:'#00d4ff'},
+  {id:'server',label:'Server',ip:'93.184.216.34',x:0.9,y:0.45,color:'#a855f7'},
+];
+
+function initPacketCanvas() {
+  resizePktCanvas();
+}
+
+function resizePktCanvas() {
+  const wrap = pktCanvas.parentElement;
+  pktCanvas.width = wrap.clientWidth;
+  pktCanvas.height = wrap.clientHeight - 160;
+  drawPacketScene();
+}
+
+function drawPacketScene() {
+  const w = pktCanvas.width, h = pktCanvas.height;
+  pctx.clearRect(0, 0, w, h);
+
+  // Connection lines
+  pctx.save();
+  pctx.strokeStyle = '#1e3055';
+  pctx.lineWidth = 2;
+  for (let i = 0; i < NETWORK_NODES.length - 1; i++) {
+    const a = NETWORK_NODES[i], b = NETWORK_NODES[i+1];
+    pctx.beginPath();
+    pctx.moveTo(a.x * w, a.y * h);
+    pctx.lineTo(b.x * w, b.y * h);
+    pctx.stroke();
+  }
+  pctx.restore();
+
+  // Nodes
+  NETWORK_NODES.forEach(n => {
+    const nx = n.x * w, ny = n.y * h;
+    pctx.save();
+    pctx.beginPath();
+    pctx.arc(nx, ny, 28, 0, Math.PI*2);
+    pctx.fillStyle = '#0d1526';
+    pctx.fill();
+    pctx.strokeStyle = n.color;
+    pctx.lineWidth = 1.5;
+    pctx.stroke();
+    pctx.restore();
+
+    pctx.save();
+    pctx.fillStyle = n.color;
+    pctx.font = 'bold 12px "Space Grotesk"';
+    pctx.textAlign = 'center';
+    pctx.textBaseline = 'middle';
+    pctx.fillText(n.id === 'client' ? 'PC' : n.id === 'server' ? 'SRV' : n.id === 'firewall' ? 'FW' : n.id === 'gateway' ? 'GW' : 'RTR', nx, ny);
+    pctx.restore();
+
+    // Labels below
+    const lines = n.label.split('\n');
+    pctx.save();
+    pctx.fillStyle = '#c8d8f0';
+    pctx.font = '11px "Space Grotesk"';
+    pctx.textAlign = 'center';
+    lines.forEach((line, i) => pctx.fillText(line, nx, ny + 38 + i*13));
+    pctx.restore();
+  });
+
+  // Animate packets
+  pktAnimations.forEach(anim => {
+    const src = NETWORK_NODES.find(n=>n.id===anim.srcId);
+    const dst = NETWORK_NODES.find(n=>n.id===anim.dstId);
+    if (!src || !dst) return;
+    const px = (src.x + (dst.x-src.x)*anim.t) * w;
+    const py = (src.y + (dst.y-src.y)*anim.t) * h;
+    pctx.save();
+    pctx.beginPath();
+    pctx.arc(px, py, 8, 0, Math.PI*2);
+    pctx.fillStyle = anim.color;
+    pctx.shadowColor = anim.color;
+    pctx.shadowBlur = 14;
+    pctx.fill();
+    pctx.restore();
+  });
+}
+
+function animatePackets() {
+  if (!animRunning) return;
+  pktAnimations.forEach((a, i) => {
+    a.t += a.speed;
+  });
+  pktAnimations = pktAnimations.filter(a => a.t < 1);
+  drawPacketScene();
+  if (pktAnimations.length > 0 || animRunning) {
+    requestAnimationFrame(animatePackets);
+  }
+}
+
+const OSI_MAP = {
+  HTTP:  [{l:7,name:'HTTP'},{l:6,name:'SSL/None'},{l:5,name:'TCP Session'},{l:4,name:'TCP'},{l:3,name:'IP'},{l:2,name:'Ethernet'},{l:1,name:'Cable/Fiber'}],
+  HTTPS: [{l:7,name:'HTTPS'},{l:6,name:'TLS 1.3'},{l:5,name:'TLS Session'},{l:4,name:'TCP'},{l:3,name:'IP'},{l:2,name:'Ethernet'},{l:1,name:'Cable/Fiber'}],
+  DNS:   [{l:7,name:'DNS'},{l:6,name:'None'},{l:5,name:'None'},{l:4,name:'UDP'},{l:3,name:'IP'},{l:2,name:'Ethernet'},{l:1,name:'Cable/Fiber'}],
+  SSH:   [{l:7,name:'SSH'},{l:6,name:'AES-256'},{l:5,name:'SSH Session'},{l:4,name:'TCP'},{l:3,name:'IP'},{l:2,name:'Ethernet'},{l:1,name:'Cable/Fiber'}],
+  SMTP:  [{l:7,name:'SMTP'},{l:6,name:'MIME'},{l:5,name:'TCP Session'},{l:4,name:'TCP'},{l:3,name:'IP'},{l:2,name:'Ethernet'},{l:1,name:'Cable/Fiber'}],
+  FTP:   [{l:7,name:'FTP'},{l:6,name:'None'},{l:5,name:'FTP Session'},{l:4,name:'TCP'},{l:3,name:'IP'},{l:2,name:'Ethernet'},{l:1,name:'Cable/Fiber'}],
+  ICMP:  [{l:7,name:'N/A'},{l:6,name:'N/A'},{l:5,name:'N/A'},{l:4,name:'N/A (ICMP)'},{l:3,name:'ICMP+IP'},{l:2,name:'Ethernet'},{l:1,name:'Cable/Fiber'}],
+};
+
+function animateOSI(proto) {
+  const layers = document.querySelectorAll('.osi-layer');
+  layers.forEach(l => l.classList.remove('active'));
+  const map = OSI_MAP[proto] || OSI_MAP['HTTP'];
+  map.reverse().forEach((item, i) => {
+    setTimeout(() => {
+      const layer = document.querySelector(`.osi-layer[data-layer="${item.l}"]`);
+      if (layer) {
+        layer.classList.add('active');
+        layer.querySelector('.osi-proto').textContent = item.name;
+      }
+    }, i * 200);
+  });
+  map.reverse();
+}
+
+function logPacket(src, dst, proto, bytes) {
+  const log = document.getElementById('packet-log');
+  const now = new Date();
+  const time = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}.${String(now.getMilliseconds()).padStart(3,'0')}`;
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.innerHTML = `<span class="log-time">[${time}]</span><span class="log-src">${src}</span><span class="log-arrow">→</span><span class="log-dst">${dst}</span><span class="log-proto">${proto}</span><span class="log-bytes">${bytes}B  TTL=${document.getElementById('pkt-ttl').value}</span>`;
+  log.appendChild(entry);
+  log.scrollTop = log.scrollHeight;
+}
+
+const PROTO_COLORS = {HTTP:'#00d4ff',HTTPS:'#00ff88',DNS:'#ffaa00',SSH:'#a855f7',SMTP:'#ff4466',FTP:'#00a8cc',ICMP:'#c8d8f0'};
+
+function sendPacket() {
+  const proto = document.getElementById('pkt-proto').value;
+  const srcTxt = document.getElementById('pkt-src').value;
+  const dstTxt = document.getElementById('pkt-dst').value;
+  const bytes = document.getElementById('pkt-size').value;
+  const color = PROTO_COLORS[proto] || '#00d4ff';
+  const srcIP = srcTxt.match(/[\d.]+/)?.[0] || '?';
+  const dstIP = dstTxt.match(/[\d.]+/)?.[0] || '?';
+
+  // Animate through network path
+  for (let i = 0; i < NETWORK_NODES.length - 1; i++) {
+    const delay = i * 0.18;
+    pktAnimations.push({
+      srcId: NETWORK_NODES[i].id,
+      dstId: NETWORK_NODES[i+1].id,
+      t: -delay * 5,
+      speed: 0.025,
+      color
+    });
+  }
+
+  animRunning = true;
+  animatePackets();
+  animateOSI(proto);
+  logPacket(srcIP, dstIP, proto, bytes);
+
+  setTimeout(() => { animRunning = false; }, 3000);
+}
+
+function sendBurst() {
+  const proto = document.getElementById('pkt-proto').value;
+  const srcTxt = document.getElementById('pkt-src').value;
+  const dstTxt = document.getElementById('pkt-dst').value;
+  const srcIP = srcTxt.match(/[\d.]+/)?.[0] || '?';
+  const dstIP = dstTxt.match(/[\d.]+/)?.[0] || '?';
+  const bytes = document.getElementById('pkt-size').value;
+  const color = PROTO_COLORS[proto] || '#00d4ff';
+
+  for (let b = 0; b < 10; b++) {
+    for (let i = 0; i < NETWORK_NODES.length - 1; i++) {
+      const delay = b * 0.4 + i * 0.12;
+      pktAnimations.push({srcId:NETWORK_NODES[i].id, dstId:NETWORK_NODES[i+1].id, t:-delay*5, speed:0.03, color});
+    }
+    logPacket(srcIP, dstIP, proto, bytes);
+  }
+  animRunning = true;
+  animatePackets();
+  animateOSI(proto);
+  setTimeout(() => { animRunning = false; }, 6000);
+}
+
+// ══════════════════════════════════════════
+// IP ANALYZER
+// ══════════════════════════════════════════
+function classifyIP(ip) {
+  const parts = ip.split('.').map(Number);
+  if (parts.length !== 4 || parts.some(p => isNaN(p) || p < 0 || p > 255)) return null;
+  const [a,b,c,d] = parts;
+  let type = 'Public';
+  let cls = 'Unknown';
+  let notes = '';
+
+  if (a === 10) { type = 'Private'; notes = 'RFC 1918 Class A'; }
+  else if (a === 172 && b >= 16 && b <= 31) { type = 'Private'; notes = 'RFC 1918 Class B'; }
+  else if (a === 192 && b === 168) { type = 'Private'; notes = 'RFC 1918 Class C'; }
+  else if (a === 127) { type = 'Loopback'; notes = 'Localhost only'; }
+  else if (a === 169 && b === 254) { type = 'Link-local'; notes = 'APIPA (no DHCP)'; }
+  else if (a === 0) { type = 'Reserved'; notes = 'Current network'; }
+  else if (a >= 240) { type = 'Reserved'; notes = 'Future use'; }
+  else if (a >= 224 && a < 240) { type = 'Multicast'; notes = 'Class D multicast'; }
+
+  if (a < 128) cls = 'A';
+  else if (a < 192) cls = 'B';
+  else if (a < 224) cls = 'C';
+  else if (a < 240) cls = 'D';
+  else cls = 'E';
+
+  const dec = (a << 24) + (b << 16) + (c << 8) + d;
+  return { type, cls, notes, decimal: dec >>> 0, binary: parts.map(p => p.toString(2).padStart(8,'0')).join('.'), parts };
+}
+
+function toBinary(n) {
+  return n.toString(2).padStart(8, '0');
+}
+
+function analyzeIP() {
+  const raw = document.getElementById('ip-input').value.trim();
+  let ip = raw.split('/')[0];
+  const cidr = raw.includes('/') ? parseInt(raw.split('/')[1]) : null;
+  const info = classifyIP(ip);
+  if (!info) { document.getElementById('ip-result-grid').innerHTML = '<div style="color:var(--red);font-size:13px">Invalid IP address format</div>'; return; }
+
+  let subnetInfo = '';
+  if (cidr !== null) {
+    const mask = cidr === 0 ? 0 : (~0 << (32 - cidr)) >>> 0;
+    const m = [(mask>>>24)&255,(mask>>>16)&255,(mask>>>8)&255,mask&255];
+    const net = info.parts.map((p,i) => p & m[i]);
+    const broad = net.map((p,i) => p | (~m[i] & 255));
+    const hosts = cidr < 31 ? Math.pow(2, 32-cidr) - 2 : cidr === 31 ? 2 : 1;
+    subnetInfo = `
+      <div class="ip-result-card"><div class="irc-label">Network Addr</div><div class="irc-val">${net.join('.')}</div></div>
+      <div class="ip-result-card"><div class="irc-label">Broadcast</div><div class="irc-val warn">${broad.join('.')}</div></div>
+      <div class="ip-result-card"><div class="irc-label">Subnet Mask</div><div class="irc-val">${m.join('.')}</div></div>
+      <div class="ip-result-card"><div class="irc-label">Usable Hosts</div><div class="irc-val good">${hosts.toLocaleString()}</div></div>
+    `;
+  }
+
+  document.getElementById('ip-result-grid').innerHTML = `
+    <div class="ip-result-card"><div class="irc-label">Type</div><div class="irc-val ${info.type==='Public'?'warn':info.type==='Private'?'good':''}">${info.type}</div></div>
+    <div class="ip-result-card"><div class="irc-label">Class</div><div class="irc-val">Class ${info.cls}</div></div>
+    <div class="ip-result-card"><div class="irc-label">Decimal</div><div class="irc-val">${info.decimal.toLocaleString()}</div></div>
+    ${cidr !== null ? `<div class="ip-result-card"><div class="irc-label">CIDR</div><div class="irc-val">/${cidr}</div></div>` : ''}
+    ${subnetInfo}
+    ${info.notes ? `<div class="ip-result-card" style="grid-column:1/-1"><div class="irc-label">Notes</div><div class="irc-val" style="font-size:12px">${info.notes}</div></div>` : ''}
+  `;
+
+  // Binary display
+  document.getElementById('binary-display').innerHTML = info.parts.map((p, i) => {
+    const bits = toBinary(p).split('').map(b => `<span class="${b==='1'?'bit-1':'bit-0'}">${b}</span>`).join('');
+    return `<span class="binary-octet">${bits}</span>`;
+  }).join('<span style="color:#1e3055;margin-right:16px">.</span>') +
+  `<div style="margin-top:4px;font-size:11px;color:var(--text3)">${ip} = 0x${info.decimal.toString(16).toUpperCase().padStart(8,'0')}</div>`;
+}
+
+function randomIP() {
+  const templates = [
+    () => `192.168.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*254)+1}/24`,
+    () => `10.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*254)+1}/8`,
+    () => `172.${16+Math.floor(Math.random()*16)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*254)+1}/12`,
+    () => `${Math.floor(Math.random()*200)+1}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*254)+1}`,
+    () => `8.8.8.8`, () => `1.1.1.1`, () => `127.0.0.1`, () => `169.254.1.100`,
+  ];
+  document.getElementById('ip-input').value = templates[Math.floor(Math.random()*templates.length)]();
+  analyzeIP();
+}
+
+// Render IP ranges
+document.getElementById('ip-ranges-list').innerHTML = IP_RANGES.map(r => `
+  <div class="range-row" onclick="document.getElementById('ip-input').value='${r.cidr.split('/')[0]}';analyzeIP()">
+    <div class="range-badge" style="background:${r.color}"></div>
+    <div class="range-cidr">${r.cidr}</div>
+    <div class="range-desc">${r.desc}</div>
+    <div class="range-type">${r.type}</div>
+  </div>
+`).join('');
+
+// Subnet table
+document.getElementById('subnet-table').innerHTML = `
+  <table style="width:100%;border-collapse:collapse;font-size:12px">
+    <thead>
+      <tr style="color:var(--text3);font-family:var(--mono);font-size:11px">
+        <th style="padding:6px 10px;text-align:left;border-bottom:1px solid var(--border)">CIDR</th>
+        <th style="padding:6px 10px;text-align:left;border-bottom:1px solid var(--border)">Subnet Mask</th>
+        <th style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--border)">Usable Hosts</th>
+        <th style="padding:6px 10px;text-align:left;border-bottom:1px solid var(--border)">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${SUBNETS.map(s => `
+        <tr onclick="document.getElementById('ip-input').value='192.168.1.0${s.cidr}';analyzeIP()" style="cursor:pointer" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background=''">
+          <td style="padding:8px 10px;font-family:var(--mono);color:var(--cyan)">${s.cidr}</td>
+          <td style="padding:8px 10px;font-family:var(--mono);color:var(--text2)">${s.mask}</td>
+          <td style="padding:8px 10px;font-family:var(--mono);color:var(--green);text-align:right">${s.hosts}</td>
+          <td style="padding:8px 10px;color:var(--text3)">${s.cls}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+`;
+
+analyzeIP();
+
+// ══════════════════════════════════════════
+// DESIGN GUIDE
+// ══════════════════════════════════════════
+let stepStates = GUIDE_STEPS.map(() => ({active: false, done: false, checks: []}));
+stepStates[0].active = true;
+
+function renderGuide() {
+  document.getElementById('guide-steps').innerHTML = GUIDE_STEPS.map((step, si) => {
+    const state = stepStates[si];
+    return `
+      <div class="guide-step ${state.done?'done':''} ${state.active&&!state.done?'active':''}" id="step-${si}">
+        <div class="guide-step-header" onclick="toggleStep(${si})">
+          <div class="step-num">${state.done ? '✓' : si+1}</div>
+          <div class="step-title">${step.title}</div>
+          <div class="step-status">${state.done?'Complete':state.active?'In Progress':'Pending'}</div>
+        </div>
+        <div class="guide-step-body">
+          <div class="step-content">${step.content}</div>
+          <ul class="step-checklist">
+            ${step.tasks.map((task, ti) => `
+              <li>
+                <div class="check-box ${state.checks[ti]?'checked':''}" onclick="toggleCheck(${si},${ti})">
+                  ${state.checks[ti]?'✓':''}
+                </div>
+                <span>${task}</span>
+              </li>
+            `).join('')}
+          </ul>
+          <button class="step-complete-btn" onclick="completeStep(${si})">
+            ${state.done ? '↩ Reopen Step' : '✓ Mark Complete'}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleStep(i) {
+  stepStates[i].active = !stepStates[i].active;
+  renderGuide();
+}
+
+function toggleCheck(si, ti) {
+  if (!stepStates[si].checks[ti]) {
+    stepStates[si].checks[ti] = true;
+  } else {
+    delete stepStates[si].checks[ti];
+  }
+  renderGuide();
+}
+
+function completeStep(si) {
+  stepStates[si].done = !stepStates[si].done;
+  stepStates[si].active = false;
+  if (si + 1 < stepStates.length && !stepStates[si].done === false) {
+    stepStates[si+1].active = true;
+  }
+  renderGuide();
+}
+
+renderGuide();
+</script>
+</body>
+</html>

@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecOps Lab — Network Security Operations Simulator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+:root {
+  --bg:#0a0e1a; --bg2:#0f1524; --bg3:#141c30; --card:#131e34;
+  --border:#1f2d48; --border2:#2a3d5e;
+  --red:#ef4444; --orange:#f97316; --amber:#f59e0b; --green:#10b981;
+  --cyan:#06b6d4; --blue:#3b82f6; --purple:#8b5cf6; --pink:#ec4899;
+  --text:#e2e8f0; --text2:#94a3b8; --text3:#475569;
+  --mono:'Fira Code',monospace; --sans:'Inter',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;height:100vh;overflow:hidden;display:flex;flex-direction:column;}
+header{background:var(--bg2);border-bottom:1px solid var(--border);height:50px;display:flex;align-items:center;padding:0 20px;gap:16px;flex-shrink:0;}
+.logo{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--cyan);display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.logo-sq{width:26px;height:26px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:5px;display:flex;align-items:center;justify-content:center;}
+.tab-bar{display:flex;gap:1px;flex:1;overflow-x:auto;}
+.tab-bar::-webkit-scrollbar{display:none;}
+.tab{padding:5px 14px;border-radius:5px;cursor:pointer;font-size:12px;color:var(--text3);white-space:nowrap;transition:all .15s;user-select:none;display:flex;align-items:center;gap:5px;}
+.tab:hover{color:var(--text2);background:rgba(255,255,255,.04);}
+.tab.active{color:var(--text);background:rgba(255,255,255,.07);font-weight:500;}
+.live-bdg{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;color:var(--green);border:1px solid rgba(16,185,129,.3);border-radius:4px;padding:3px 8px;margin-left:auto;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.pane{display:none;flex:1;overflow:hidden;}
+.pane.active{display:flex;}
+#tab-flow,#tab-wireshark,#tab-edr,#tab-dhcp,#tab-dns{flex-direction:row;}
+/* shared */
+.card{background:var(--card);border:1px solid var(--border);border-radius:9px;overflow:hidden;}
+.card-h{padding:11px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.02);}
+.card-title{font-size:12px;font-weight:600;flex:1;}
+.card-b{padding:14px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;}
+.stat-lbl{font-size:10px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.stat-val{font-size:20px;font-weight:600;font-family:var(--mono);}
+.stat-sub{font-size:10px;color:var(--text3);margin-top:3px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.mb8{margin-bottom:8px;}.mb14{margin-bottom:14px;}
+.btn{padding:7px 14px;border-radius:6px;border:none;font-size:11px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:all .12s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
+.btn:active{transform:scale(.97);}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none!important;}
+.btn-c{background:rgba(6,182,212,.15);color:var(--cyan);border:1px solid rgba(6,182,212,.3);}
+.btn-c:hover:not(:disabled){background:rgba(6,182,212,.25);}
+.btn-r{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3);}
+.btn-r:hover:not(:disabled){background:rgba(239,68,68,.25);}
+.btn-g{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3);}
+.btn-g:hover:not(:disabled){background:rgba(16,185,129,.25);}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2);}
+.btn-ghost:hover:not(:disabled){color:var(--text);border-color:var(--text3);}
+.btn-b{background:rgba(59,130,246,.15);color:var(--blue);border:1px solid rgba(59,130,246,.3);}
+.btn-b:hover:not(:disabled){background:rgba(59,130,246,.25);}
+.badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:3px;font-size:10px;font-family:var(--mono);font-weight:500;}
+.b-r{background:rgba(239,68,68,.12);color:#fca5a5;border:1px solid rgba(239,68,68,.25);}
+.b-g{background:rgba(16,185,129,.12);color:#6ee7b7;border:1px solid rgba(16,185,129,.25);}
+.b-a{background:rgba(245,158,11,.12);color:#fcd34d;border:1px solid rgba(245,158,11,.25);}
+.b-c{background:rgba(6,182,212,.12);color:#67e8f9;border:1px solid rgba(6,182,212,.25);}
+.b-bl{background:rgba(59,130,246,.12);color:#93c5fd;border:1px solid rgba(59,130,246,.25);}
+.b-pu{background:rgba(139,92,246,.12);color:#c4b5fd;border:1px solid rgba(139,92,246,.25);}
+.b-gr{background:rgba(100,116,139,.12);color:#94a3b8;border:1px solid rgba(100,116,139,.25);}
+.b-or{background:rgba(249,115,22,.12);color:#fdba74;border:1px solid rgba(249,115,22,.25);}
+.field{width:100%;padding:8px 10px;background:var(--bg);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;transition:border-color .15s;}
+.field:focus{border-color:var(--cyan);}
+.fl{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;display:block;}
+.div{height:1px;background:var(--border);margin:12px 0;}
+/* scrollbars */
+.sc{overflow-y:auto;}
+.sc::-webkit-scrollbar{width:4px;}
+.sc::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+/* FLOW */
+.flow-l{width:300px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;}
+.flow-m{flex:1;overflow-y:auto;padding:14px;}
+.flow-m::-webkit-scrollbar{width:4px;}
+.flow-m::-webkit-scrollbar-thumb{background:var(--border2);}
+.fcwrap{position:relative;background:var(--bg);border-bottom:1px solid var(--border);height:200px;overflow:hidden;flex-shrink:0;}
+#fcanv{position:absolute;inset:0;}
+.alist{flex:1;overflow-y:auto;padding:8px;}
+.alist::-webkit-scrollbar{width:3px;}
+.alist::-webkit-scrollbar-thumb{background:var(--border2);}
+.ai{padding:8px 10px;border-radius:6px;border:1px solid var(--border);margin-bottom:6px;background:var(--card);}
+.ai.crit{border-color:rgba(239,68,68,.4);}
+.ai.warn{border-color:rgba(245,158,11,.3);}
+.aitop{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.aitime{font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;}
+.ftbl{width:100%;border-collapse:collapse;font-size:11px;}
+.ftbl th{padding:6px 10px;background:var(--bg2);border-bottom:1px solid var(--border);text-align:left;font-size:10px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;white-space:nowrap;}
+.ftbl td{padding:7px 10px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;vertical-align:middle;}
+.ftbl tr:hover td{background:rgba(255,255,255,.02);}
+.ftbl tr.anom td{background:rgba(239,68,68,.04);}
+.ucard{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:10px 12px;margin-bottom:8px;}
+.ucard.alert{border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.04);}
+.uctop{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.ucav{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;}
+/* WIRESHARK */
+.wsl{width:240px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:12px;gap:10px;flex-shrink:0;overflow-y:auto;}
+.wsl::-webkit-scrollbar{width:3px;}
+.wsl::-webkit-scrollbar-thumb{background:var(--border2);}
+.wsm{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.wstb{background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 12px;display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.wsf{flex:1;padding:6px 10px;background:var(--bg);border:1px solid var(--border2);border-radius:5px;color:var(--green);font-family:var(--mono);font-size:12px;outline:none;}
+.wsf:focus{border-color:var(--green);}
+.pktl{flex:1;overflow-y:auto;}
+.pktl::-webkit-scrollbar{width:4px;}
+.pktl::-webkit-scrollbar-thumb{background:var(--border2);}
+.ptbl{width:100%;border-collapse:collapse;font-size:11px;}
+.ptbl th{padding:5px 10px;background:var(--bg2);border-bottom:1px solid var(--border);text-align:left;font-size:10px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;position:sticky;top:0;z-index:5;white-space:nowrap;}
+.ptbl td{padding:5px 10px;border-bottom:1px solid rgba(31,45,72,.5);font-family:var(--mono);font-size:11px;cursor:pointer;white-space:nowrap;}
+.ptbl tr:hover td{background:rgba(255,255,255,.03);}
+.ptbl tr.sel td{background:rgba(6,182,212,.08)!important;}
+.pt-tcp{border-left:2px solid var(--blue);}
+.pt-udp{border-left:2px solid var(--green);}
+.pt-dns{border-left:2px solid var(--amber);}
+.pt-http{border-left:2px solid var(--cyan);}
+.pt-icmp{border-left:2px solid var(--purple);}
+.pt-tls{border-left:2px solid var(--pink);}
+.pt-arp{border-left:2px solid var(--orange);}
+.wsd{height:190px;background:var(--bg2);border-top:1px solid var(--border);display:flex;flex-shrink:0;}
+.wstree{width:280px;border-right:1px solid var(--border);overflow-y:auto;padding:8px;font-size:11px;}
+.wstree::-webkit-scrollbar{width:3px;}
+.dg{margin-bottom:4px;}
+.dgh{display:flex;align-items:center;gap:4px;cursor:pointer;padding:3px 4px;border-radius:4px;font-family:var(--mono);font-size:11px;color:var(--text2);user-select:none;}
+.dgh:hover{background:rgba(255,255,255,.04);}
+.dgb{padding-left:16px;display:none;}
+.dgb.open{display:block;}
+.dgr{padding:2px 0;font-family:var(--mono);font-size:10px;color:var(--text3);}
+.dgk{color:var(--text2);}
+.dgv{color:var(--cyan);}
+.wshex{flex:1;overflow:auto;padding:8px 12px;font-family:var(--mono);font-size:10px;color:var(--text3);line-height:1.8;}
+.wshex::-webkit-scrollbar{width:3px;}
+.hexr{display:flex;gap:16px;}
+.hexo{color:var(--text3);width:40px;flex-shrink:0;}
+.hexb{color:var(--cyan);}
+.hexa{color:var(--text2);}
+.hsviz{padding:12px 14px;background:var(--bg);border-radius:6px;border:1px solid var(--border);margin-top:8px;}
+.hsstep{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.hsnode{width:60px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--text3);}
+.hsarr{flex:1;position:relative;height:20px;}
+.hsline{position:absolute;top:50%;left:0;right:0;height:1px;transform:translateY(-50%);}
+.hslbl{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;white-space:nowrap;}
+.hshead{position:absolute;top:50%;right:0;transform:translateY(-50%);width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:6px solid;}
+/* EDR */
+.edrnav{width:200px;background:var(--bg2);border-right:1px solid var(--border);padding:12px 8px;flex-shrink:0;display:flex;flex-direction:column;gap:2px;overflow-y:auto;}
+.edrnav::-webkit-scrollbar{width:3px;}
+.edrni{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--text3);transition:all .12s;user-select:none;}
+.edrni:hover{background:rgba(255,255,255,.04);color:var(--text2);}
+.edrni.active{background:rgba(6,182,212,.1);color:var(--cyan);}
+.edrnibdg{margin-left:auto;background:var(--red);color:#fff;border-radius:10px;padding:0 5px;font-size:9px;min-width:16px;text-align:center;}
+.edrm{flex:1;overflow-y:auto;padding:14px;}
+.edrm::-webkit-scrollbar{width:4px;}
+.edrm::-webkit-scrollbar-thumb{background:var(--border2);}
+.eprow{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:7px;margin-bottom:6px;cursor:pointer;transition:border-color .12s;}
+.eprow:hover{border-color:var(--border2);}
+.eprow.threat{border-color:rgba(239,68,68,.4);}
+.epicon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.patchitem{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;margin-bottom:5px;}
+/* DHCP */
+.dhcps{width:220px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;}
+.dhcptree{flex:1;overflow-y:auto;padding:8px;}
+.dhcptree::-webkit-scrollbar{width:3px;}
+.dti{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:5px;cursor:pointer;font-size:11px;color:var(--text2);font-family:var(--mono);user-select:none;transition:all .12s;}
+.dti:hover{background:rgba(255,255,255,.04);color:var(--text);}
+.dti.active{background:rgba(59,130,246,.12);color:var(--blue);}
+.dti.i1{padding-left:22px;}
+.dti.i2{padding-left:36px;}
+.dhcpm{flex:1;overflow-y:auto;padding:14px;}
+.dhcpm::-webkit-scrollbar{width:4px;}
+.dhcpm::-webkit-scrollbar-thumb{background:var(--border2);}
+.ippool{display:grid;grid-template-columns:repeat(auto-fill,minmax(34px,1fr));gap:3px;margin-top:8px;}
+.ipcell{height:22px;border-radius:3px;border:1px solid;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;cursor:pointer;position:relative;}
+.ipcell.available{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.2);color:var(--green);}
+.ipcell.leased{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.25);color:var(--blue);}
+.ipcell.excluded{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);color:var(--red);}
+.ipcell.reserved{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.2);color:var(--amber);}
+.iptip{display:none;position:absolute;bottom:110%;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--border2);border-radius:5px;padding:5px 8px;font-size:10px;color:var(--text);white-space:nowrap;z-index:10;pointer-events:none;}
+.ipcell:hover .iptip{display:block;}
+.ltbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px;}
+.ltbl th{padding:6px 10px;background:var(--bg2);border-bottom:1px solid var(--border);text-align:left;font-size:10px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;}
+.ltbl td{padding:7px 10px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;}
+.ltbl tr:hover td{background:rgba(255,255,255,.02);}
+/* DNS */
+.dnsl{width:280px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:12px;flex-shrink:0;overflow-y:auto;}
+.dnsl::-webkit-scrollbar{width:3px;}
+.dnsm{flex:1;overflow-y:auto;padding:14px;}
+.dnsm::-webkit-scrollbar{width:4px;}
+.dnsm::-webkit-scrollbar-thumb{background:var(--border2);}
+.rulerow{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:6px;margin-bottom:5px;}
+.ruledot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.fwviz{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:14px;}
+.fwflow{display:flex;align-items:center;margin:12px 0;}
+.fwnode{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 12px;text-align:center;font-size:11px;min-width:80px;}
+.fwarr{flex:1;height:2px;background:var(--border2);position:relative;transition:background .3s;}
+.fwarr::after{content:'';position:absolute;right:0;top:-4px;border-left:7px solid var(--border2);border-top:5px solid transparent;border-bottom:5px solid transparent;transition:border-left-color .3s;}
+.fwarr.allowed{background:var(--green);}
+.fwarr.allowed::after{border-left-color:var(--green);}
+.fwarr.blocked{background:var(--red);}
+.fwarr.blocked::after{border-left-color:var(--red);}
+.dnslog{background:var(--bg);border:1px solid var(--border);border-radius:6px;height:160px;overflow-y:auto;padding:8px 12px;font-family:var(--mono);font-size:11px;}
+.dnslog::-webkit-scrollbar{width:3px;}
+.lline{margin-bottom:3px;line-height:1.6;}
+.lts{color:var(--text3);margin-right:6px;}
+.lok{color:var(--green);}
+.lblk{color:var(--red);}
+.lwrn{color:var(--amber);}
+.linf{color:var(--cyan);}
+.wizstep{display:flex;gap:12px;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;margin-bottom:6px;transition:border-color .2s;}
+.wizstep.done{border-color:rgba(16,185,129,.4);}
+.wizstep.active{border-color:rgba(6,182,212,.4);}
+.wiznum{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text3);flex-shrink:0;transition:all .2s;}
+.wizstep.done .wiznum{background:var(--green);border-color:var(--green);color:#000;}
+.wizstep.active .wiznum{background:rgba(6,182,212,.2);border-color:var(--cyan);color:var(--cyan);}
+.wiztitle{font-size:12px;font-weight:500;margin-bottom:2px;}
+.wizdesc{font-size:10px;color:var(--text3);}
+/* toast */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:10px 16px;font-size:12px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:999;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="logo-sq">🛡</div>SecOps Lab</div>
+  <div class="tab-bar">
+    <div class="tab active" data-tab="flow">📊 Flow &amp; UBA</div>
+    <div class="tab" data-tab="wireshark">📡 Wireshark</div>
+    <div class="tab" data-tab="edr">🛡 EDR</div>
+    <div class="tab" data-tab="dhcp">🌐 DHCP</div>
+    <div class="tab" data-tab="dns">🔥 DNS Firewall</div>
+  </div>
+  <div class="live-bdg"><div class="live-dot"></div>LIVE</div>
+</header>
+
+<!-- TAB 1: FLOW & UBA -->
+<div class="pane active" id="tab-flow">
+  <div class="flow-l">
+    <div style="padding:10px;border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text2);flex-shrink:0">
+      ANOMALY ALERTS <span class="badge b-r" id="anomaly-count" style="margin-left:6px">0</span>
+    </div>
+    <div class="fcwrap"><canvas id="fcanv"></canvas></div>
+    <div class="alist" id="alist">
+      <div style="font-size:10px;color:var(--text3);text-align:center;padding:20px">Monitoring network flows…</div>
+    </div>
+  </div>
+  <div class="flow-m">
+    <div class="g4 mb14">
+      <div class="stat-card"><div class="stat-lbl">Flows/sec</div><div class="stat-val" id="stat-fps" style="color:var(--cyan)">0</div><div class="stat-sub">avg last 60s</div></div>
+      <div class="stat-card"><div class="stat-lbl">Packets/sec</div><div class="stat-val" id="stat-pps" style="color:var(--blue)">0</div><div class="stat-sub">current rate</div></div>
+      <div class="stat-card"><div class="stat-lbl">Anomalies</div><div class="stat-val" id="stat-anom" style="color:var(--red)">0</div><div class="stat-sub">last 5 min</div></div>
+      <div class="stat-card"><div class="stat-lbl">Alerts</div><div class="stat-val" id="stat-alerts" style="color:var(--amber)">0</div><div class="stat-sub">unacknowledged</div></div>
+    </div>
+    <div class="card mb14">
+      <div class="card-h">
+        <div class="card-title">Network Flow Records (NetFlow / IPFIX)</div>
+        <div style="display:flex;gap:8px;margin-left:auto">
+          <button class="btn btn-c" onclick="addFlows()">▶ Simulate Flows</button>
+          <button class="btn btn-r" id="ddos-btn" onclick="simDDoS()">⚡ Simulate DDoS</button>
+          <button class="btn btn-ghost" onclick="clearFlows()">Clear</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto;max-height:200px;overflow-y:auto">
+        <table class="ftbl"><thead><tr>
+          <th>Time</th><th>Src IP</th><th>Dst IP</th><th>Proto</th><th>Src Port</th><th>Dst Port</th>
+          <th>Packets</th><th>Bytes</th><th>Dur</th><th>Flow Type</th><th>Status</th>
+        </tr></thead><tbody id="ftbody"></tbody></table>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-h">
+          <div class="card-title">User Behavior Analysis</div>
+          <button class="btn btn-c" style="margin-left:auto;font-size:10px" onclick="simBreach()">Simulate Breach</button>
+        </div>
+        <div class="card-b" id="uba-users"></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><div class="card-title">Threat Detection Matrix</div></div>
+        <div class="card-b">
+          <div id="threat-matrix"></div>
+          <div class="div"></div>
+          <div style="font-size:10px;font-weight:600;color:var(--text2);margin-bottom:6px">INCIDENT CORRELATION ENGINE</div>
+          <div id="corr-out" style="font-family:var(--mono);font-size:10px;color:var(--text3);line-height:1.8">Simulate flows and breach to see correlation…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 2: WIRESHARK -->
+<div class="pane" id="tab-wireshark">
+  <div class="wsl">
+    <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Capture Settings</div>
+    <div><label class="fl">Interface</label>
+      <select class="field" id="ws-iface"><option>Wi-Fi (802.11ac)</option><option>Ethernet 0</option><option>Loopback (lo)</option></select>
+    </div>
+    <div><label class="fl">Capture Filter</label><input class="field" type="text" placeholder="tcp port 80"></div>
+    <div style="display:flex;gap:6px">
+      <button class="btn btn-c" id="ws-start" onclick="startCap()" style="flex:1">▶ Start</button>
+      <button class="btn btn-r" id="ws-stop" onclick="stopCap()" style="flex:1" disabled>■ Stop</button>
+    </div>
+    <div class="div"></div>
+    <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">TCP 3-Way Handshake</div>
+    <div class="hsviz">
+      <div style="font-size:10px;color:var(--text3);font-family:var(--mono);text-align:center;margin-bottom:8px">Client ↔ Server</div>
+      <div class="hsstep">
+        <div class="hsnode" style="color:var(--blue)">Client</div>
+        <div class="hsarr"><div class="hsline" style="background:var(--blue)"></div><div class="hshead" style="border-left-color:var(--blue)"></div><div class="hslbl" style="color:var(--blue)">SYN (seq=0)</div></div>
+        <div class="hsnode">Server</div>
+      </div>
+      <div class="hsstep">
+        <div class="hsnode">Client</div>
+        <div class="hsarr" style="transform:scaleX(-1)"><div class="hsline" style="background:var(--green)"></div><div class="hshead" style="border-left-color:var(--green)"></div><div class="hslbl" style="color:var(--green);transform:translateX(-50%) scaleX(-1)">SYN-ACK</div></div>
+        <div class="hsnode" style="color:var(--green)">Server</div>
+      </div>
+      <div class="hsstep">
+        <div class="hsnode" style="color:var(--cyan)">Client</div>
+        <div class="hsarr"><div class="hsline" style="background:var(--cyan)"></div><div class="hshead" style="border-left-color:var(--cyan)"></div><div class="hslbl" style="color:var(--cyan)">ACK (ack=1)</div></div>
+        <div class="hsnode">Server</div>
+      </div>
+      <div style="font-size:9px;color:var(--green);text-align:center;font-family:var(--mono);margin-top:4px">✓ Connection Established</div>
+    </div>
+    <div class="div"></div>
+    <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Generate Traffic</div>
+    <button class="btn btn-b" onclick="genHTTP()" style="width:100%;margin-bottom:5px">HTTP/HTTPS Traffic</button>
+    <button class="btn btn-g" onclick="genDNS()" style="width:100%;margin-bottom:5px">DNS Queries</button>
+    <button class="btn btn-ghost" onclick="genUDP()" style="width:100%">UDP Stream</button>
+  </div>
+  <div class="wsm">
+    <div class="wstb">
+      <span style="font-size:11px;color:var(--text3);font-family:var(--mono)">Filter:</span>
+      <input class="wsf" id="ws-filter" type="text" placeholder="tcp · udp · dns · http · icmp" oninput="applyFilter()">
+      <button class="btn btn-ghost" onclick="document.getElementById('ws-filter').value='';applyFilter()">Clear</button>
+      <div style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--text3)" id="pkt-cnt">0 packets</div>
+    </div>
+    <div class="pktl"><table class="ptbl">
+      <thead><tr><th>#</th><th>Time</th><th>Source</th><th>Destination</th><th>Protocol</th><th>Length</th><th>Info</th></tr></thead>
+      <tbody id="ptbody"></tbody>
+    </table></div>
+    <div class="wsd">
+      <div class="wstree" id="wstree"><div style="font-size:10px;color:var(--text3);padding:8px">Select a packet to inspect…</div></div>
+      <div class="wshex" id="wshex"><div style="color:var(--text3)">Select a packet to view hex dump…</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: EDR -->
+<div class="pane" id="tab-edr">
+  <div class="edrnav">
+    <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;margin-bottom:4px">Dashboard</div>
+    <div class="edrni active" data-edr="overview" onclick="setEDR('overview',this)"><span>📊</span> Overview</div>
+    <div class="edrni" data-edr="endpoints" onclick="setEDR('endpoints',this)"><span>🖥</span> Endpoints <span class="edrnibdg">2</span></div>
+    <div style="font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;margin:8px 0 4px">Management</div>
+    <div class="edrni" data-edr="patches" onclick="setEDR('patches',this)"><span>🔧</span> Patch Manager</div>
+    <div class="edrni" data-edr="scan" onclick="setEDR('scan',this)"><span>🔍</span> Malware Scan</div>
+    <div class="edrni" data-edr="mfa" onclick="setEDR('mfa',this)"><span>🔐</span> MFA Setup</div>
+  </div>
+  <div class="edrm" id="edrm"></div>
+</div>
+
+<!-- TAB 4: DHCP -->
+<div class="pane" id="tab-dhcp">
+  <div class="dhcps">
+    <div style="padding:10px;border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text2);flex-shrink:0">DHCP Server Manager</div>
+    <div class="dhcptree">
+      <div class="dti active" onclick="setDHCP('scope',this)">🌐 DHCP Server</div>
+      <div class="dti i1" onclick="setDHCP('scope',this)">📋 IPv4</div>
+      <div class="dti i2" onclick="setDHCP('scope',this)">📁 LAN Scope</div>
+      <div class="dti i2" onclick="setDHCP('leases',this)">🖥 Address Leases</div>
+      <div class="dti i2" onclick="setDHCP('exclusions',this)">🚫 Exclusions</div>
+      <div class="dti i2" onclick="setDHCP('reservations',this)">📌 Reservations</div>
+      <div class="dti i2" onclick="setDHCP('options',this)">⚙ Scope Options</div>
+      <div class="div" style="margin:8px 0"></div>
+      <div class="dti" onclick="setDHCP('install',this)">⚡ Install DHCP Role</div>
+    </div>
+    <div style="padding:10px;border-top:1px solid var(--border);flex-shrink:0">
+      <div style="font-size:10px;color:var(--text3);font-family:var(--mono);margin-bottom:4px">SERVER STATUS</div>
+      <div style="display:flex;align-items:center;gap:8px"><div class="live-dot"></div><span style="font-size:11px;color:var(--green)">Running</span></div>
+    </div>
+  </div>
+  <div class="dhcpm" id="dhcpm"></div>
+</div>
+
+<!-- TAB 5: DNS FIREWALL -->
+<div class="pane" id="tab-dns">
+  <div class="dnsl">
+    <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Lab Wizard</div>
+    <div id="dns-wiz"></div>
+    <div class="div"></div>
+    <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">New Outbound Rule</div>
+    <div style="margin-bottom:8px"><label class="fl">Rule Type</label>
+      <select class="field" id="rule-type" onchange="updateRuleForm()"><option value="port">Port</option><option value="program">Program</option></select>
+    </div>
+    <div style="margin-bottom:8px" id="proto-wrap"><label class="fl">Protocol</label>
+      <select class="field" id="rule-proto"><option>TCP</option><option>UDP</option><option>Both TCP and UDP</option></select>
+    </div>
+    <div style="margin-bottom:8px" id="port-wrap"><label class="fl">Specific Port</label>
+      <input class="field" id="rule-port" type="text" value="53">
+    </div>
+    <div style="margin-bottom:8px"><label class="fl">Action</label>
+      <select class="field" id="rule-action"><option value="block">Block the connection</option><option value="allow">Allow the connection</option></select>
+    </div>
+    <div style="margin-bottom:8px"><label class="fl">Rule Name</label>
+      <input class="field" id="rule-name" type="text" value="Block DNS Outbound">
+    </div>
+    <button class="btn btn-c" style="width:100%;margin-bottom:6px" onclick="createRule()">Create Rule</button>
+    <button class="btn btn-ghost" style="width:100%;margin-bottom:6px" onclick="testDNS()">Test DNS Query</button>
+    <button class="btn btn-ghost" style="width:100%" onclick="clearRules()">Clear All Rules</button>
+  </div>
+  <div class="dnsm">
+    <div class="fwviz">
+      <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:8px">Windows Firewall — Outbound DNS Traffic Flow</div>
+      <div class="fwflow">
+        <div class="fwnode">🖥<br><span style="font-size:9px">Endpoint</span></div>
+        <div class="fwarr" id="fw1"></div>
+        <div class="fwnode">🔥<br><span style="font-size:9px">Firewall</span></div>
+        <div class="fwarr" id="fw2"></div>
+        <div class="fwnode">🌐<br><span style="font-size:9px">DNS :53</span></div>
+        <div class="fwarr" id="fw3"></div>
+        <div class="fwnode">☁️<br><span style="font-size:9px">Internet</span></div>
+      </div>
+      <div style="font-size:10px;color:var(--text3);font-family:var(--mono)" id="fw-txt">DNS traffic flows freely — no outbound rule active</div>
+    </div>
+    <div class="card mb14">
+      <div class="card-h">
+        <div class="card-title">Outbound Rules (Windows Defender Firewall)</div>
+        <span class="badge b-c" style="margin-left:auto" id="rules-cnt">0 rules</span>
+      </div>
+      <div class="card-b" id="rules-list">
+        <div style="font-size:11px;color:var(--text3);text-align:center;padding:16px">No outbound rules. Use the wizard on the left.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h">
+        <div class="card-title">DNS Query Test Log</div>
+        <button class="btn btn-ghost" onclick="clearDNSLog()" style="margin-left:auto;font-size:10px">Clear</button>
+      </div>
+      <div class="card-b">
+        <div style="display:flex;gap:8px;margin-bottom:8px">
+          <input class="field" id="dns-dom" type="text" value="google.com" style="flex:1">
+          <select class="field" id="dns-type" style="width:80px"><option>A</option><option>AAAA</option><option>MX</option><option>NS</option></select>
+          <button class="btn btn-c" onclick="testDNS()">Query</button>
+        </div>
+        <div class="dnslog" id="dns-log">
+          <div class="lline"><span class="lts">[boot]</span><span class="linf">DNS filtering lab ready. Create a block rule for port 53 then test queries.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="t-icon">✓</span> <span id="t-msg"></span></div>
+
+<script>
+// ── UTILS ──
+function tstamp(){var d=new Date();return[d.getHours(),d.getMinutes(),d.getSeconds()].map(function(n){return('0'+n).slice(-2);}).join(':');}
+
+function toast(msg,type){
+  type=type||'ok';
+  var ic={ok:'✓',err:'✕',warn:'⚠',info:'ℹ'};
+  var co={ok:'var(--green)',err:'var(--red)',warn:'var(--amber)',info:'var(--cyan)'};
+  document.getElementById('t-icon').textContent=ic[type]||'✓';
+  document.getElementById('t-icon').style.color=co[type]||'var(--green)';
+  document.getElementById('t-msg').textContent=msg;
+  var el=document.getElementById('toast');
+  el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show');},3000);
+}
+
+// ── TAB NAV ──
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+    document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('active');});
+    t.classList.add('active');
+    document.getElementById('tab-'+t.dataset.tab).classList.add('active');
+  });
+});
+
+// ── TAB 1: FLOW & UBA ──
+var fcanv=document.getElementById('fcanv');
+var fc=fcanv.getContext('2d');
+var fdata=[];for(var _=0;_<60;_++)fdata.push(0);
+var anomCnt=0,alertCnt=0,ddos=false;
+
+function resizeFC(){var w=fcanv.parentElement;fcanv.width=w.clientWidth;fcanv.height=w.clientHeight;drawFC();}
+function drawFC(){
+  var w=fcanv.width,h=fcanv.height;
+  fc.clearRect(0,0,w,h);
+  var mx=Math.max.apply(null,fdata.concat([100]));
+  var bw=w/fdata.length;
+  fdata.forEach(function(v,i){
+    var bh=(v/mx)*(h-16);
+    var pct=v/mx;
+    var col=pct>.8?'#ef4444':pct>.5?'#f59e0b':'#06b6d4';
+    fc.fillStyle=col+'80';
+    fc.fillRect(i*bw,h-bh,bw-1,bh);
+  });
+  var bl=(50/mx)*(h-16);
+  fc.setLineDash([4,4]);fc.strokeStyle='#2a3d5e';fc.lineWidth=1;
+  fc.beginPath();fc.moveTo(0,h-bl);fc.lineTo(w,h-bl);fc.stroke();fc.setLineDash([]);
+  fc.fillStyle='#475569';fc.font='9px monospace';fc.fillText('baseline',4,h-bl-3);
+}
+
+setInterval(function(){
+  var base=ddos?400+Math.random()*300:30+Math.random()*40;
+  fdata.shift();fdata.push(Math.round(base));
+  var fps=document.getElementById('stat-fps');
+  var pps=document.getElementById('stat-pps');
+  if(fps)fps.textContent=Math.round(base/5);
+  if(pps)pps.textContent=Math.round(base);
+  drawFC();
+},800);
+
+var FP=['TCP','UDP','ICMP','DNS','HTTP','HTTPS'];
+var FS=['192.168.1.10','192.168.1.20','10.0.0.5','172.16.1.8','192.168.1.15'];
+var FD=['8.8.8.8','93.184.216.34','142.250.80.4','151.101.1.57','192.168.1.1'];
+
+function addFRow(anomalous,proto,sPort,dPort,bytes,pkts,label){
+  anomalous=!!anomalous;
+  var src=anomalous?'198.51.100.'+Math.floor(Math.random()*254):FS[Math.floor(Math.random()*FS.length)];
+  var dst=anomalous?'192.168.1.100':FD[Math.floor(Math.random()*FD.length)];
+  var p=proto||FP[Math.floor(Math.random()*FP.length)];
+  var sp=sPort||(1024+Math.floor(Math.random()*60000));
+  var dp=dPort||(p==='DNS'?53:p==='HTTP'?80:p==='HTTPS'?443:Math.floor(Math.random()*1024));
+  var b=bytes||Math.floor(Math.random()*65536);
+  var pk=pkts||Math.floor(Math.random()*200)+1;
+  var dur=(Math.random()*5).toFixed(2);
+  var ft=Math.random()>.3?'Bidirectional':'Unidirectional';
+  var st=anomalous?'ANOMALY':'Normal';
+  var bc=p==='TCP'?'b-bl':p==='UDP'?'b-g':p==='DNS'?'b-a':p==='HTTP'?'b-c':'b-gr';
+  var row=document.createElement('tr');
+  if(anomalous)row.classList.add('anom');
+  row.innerHTML='<td style="color:var(--text3)">'+tstamp()+'</td>'
+    +'<td style="color:var(--cyan)">'+src+'</td>'
+    +'<td style="color:var(--blue)">'+dst+'</td>'
+    +'<td><span class="badge '+bc+'">'+p+'</span></td>'
+    +'<td>'+sp+'</td>'
+    +'<td style="color:'+(dp===53||dp===80||dp===443?'var(--amber)':'var(--text2)')+'">'+dp+'</td>'
+    +'<td>'+pk+'</td><td>'+b.toLocaleString()+'</td><td>'+dur+'s</td>'
+    +'<td style="color:'+(ft==='Bidirectional'?'var(--cyan)':'var(--text2)')+'">'+ft+'</td>'
+    +'<td><span class="badge '+(anomalous?'b-r':'b-g')+'">'+st+'</span></td>';
+  var tb=document.getElementById('ftbody');
+  tb.insertBefore(row,tb.firstChild);
+  if(tb.children.length>50)tb.removeChild(tb.lastChild);
+  if(anomalous)addAnomaly(label||'Unusual traffic pattern',p,src,dst,'crit');
+}
+
+function addFlows(){for(var i=0;i<8;i++){(function(i){setTimeout(function(){addFRow(Math.random()<.1);},i*120);})(i);}}
+
+function simDDoS(){
+  ddos=true;
+  var btn=document.getElementById('ddos-btn');
+  btn.textContent='⚡ DDoS Active!';btn.className='btn btn-ghost';
+  for(var i=0;i<20;i++){setTimeout(function(){addFRow(true,'UDP',null,80,1024,9999,'DDoS — SYN flood from multiple sources');},Math.random()*2000);}
+  setTimeout(function(){ddos=false;btn.textContent='⚡ Simulate DDoS';btn.className='btn btn-r';toast('DDoS simulation complete','warn');},3000);
+  toast('⚡ DDoS simulation started!','warn');
+}
+
+function clearFlows(){
+  document.getElementById('ftbody').innerHTML='';
+  document.getElementById('alist').innerHTML='<div style="font-size:10px;color:var(--text3);text-align:center;padding:20px">Monitoring…</div>';
+  anomCnt=0;alertCnt=0;
+  ['anomaly-count','stat-anom','stat-alerts'].forEach(function(id){document.getElementById(id).textContent='0';});
+}
+
+function addAnomaly(type,proto,src,dst,sev){
+  anomCnt++;alertCnt++;
+  document.getElementById('anomaly-count').textContent=anomCnt;
+  document.getElementById('stat-anom').textContent=anomCnt;
+  document.getElementById('stat-alerts').textContent=alertCnt;
+  var list=document.getElementById('alist');
+  if(list.firstChild&&list.firstChild.textContent&&list.firstChild.textContent.indexOf('Monitoring')>=0)list.innerHTML='';
+  var d=document.createElement('div');
+  d.className='ai '+(sev==='crit'?'crit':'warn');
+  d.innerHTML='<div class="aitop"><span class="badge '+(sev==='crit'?'b-r':'b-a')+'">'+sev.toUpperCase()+'</span>'
+    +'<span style="font-size:11px;font-weight:600;color:'+(sev==='crit'?'var(--red)':'var(--amber)')+'">'+type+'</span>'
+    +'<span class="aitime">'+tstamp()+'</span></div>'
+    +'<div style="font-size:10px;color:var(--text3)">'+src+' → '+dst+' ['+proto+']</div>';
+  list.insertBefore(d,list.firstChild);
+  if(list.children.length>20)list.removeChild(list.lastChild);
+}
+
+var UBA=[
+  {name:'alice.wang',role:'Analyst',dept:'SOC',normal:'09:00–17:00 EST',risk:12,ip:'10.0.0.12',anomaly:false},
+  {name:'bob.chen',role:'Admin',dept:'IT',normal:'08:00–18:00 EST',risk:78,ip:'198.51.100.44',anomaly:true},
+  {name:'carol.diaz',role:'Developer',dept:'R&D',normal:'09:00–19:00 EST',risk:24,ip:'192.168.1.22',anomaly:false},
+  {name:'dave.kumar',role:'Finance',dept:'Accounting',normal:'09:00–17:00 EST',risk:91,ip:'203.0.113.8',anomaly:true},
+];
+
+function renderUBA(){
+  document.getElementById('uba-users').innerHTML=UBA.map(function(u){
+    return '<div class="ucard'+(u.anomaly?' alert':'')+'"><div class="uctop">'
+      +'<div class="ucav" style="background:'+(u.anomaly?'rgba(239,68,68,.15)':'rgba(6,182,212,.12)')+';color:'+(u.anomaly?'var(--red)':'var(--cyan)')+'">'+u.name.substring(0,2).toUpperCase()+'</div>'
+      +'<div><div style="font-size:12px;font-weight:500">'+u.name+'</div><div style="font-size:10px;color:var(--text3)">'+u.role+' · '+u.dept+'</div></div>'
+      +'<div style="margin-left:auto;text-align:right"><div style="font-size:18px;font-weight:700;font-family:var(--mono);color:'+(u.risk>70?'var(--red)':u.risk>40?'var(--amber)':'var(--green)')+'">'+u.risk+'</div><div style="font-size:9px;color:var(--text3)">risk</div></div></div>'
+      +'<div style="display:flex;gap:6px;flex-wrap:wrap"><span class="badge b-gr" style="font-size:9px">🕐 '+u.normal+'</span>'
+      +'<span class="badge '+(u.anomaly?'b-r':'b-gr')+'" style="font-size:9px">📍 '+u.ip+'</span>'
+      +(u.anomaly?'<span class="badge b-r" style="font-size:9px">⚠ ANOMALY</span>':'')+'</div></div>';
+  }).join('');
+}
+
+function simBreach(){
+  UBA[3].anomaly=true;UBA[3].risk=98;UBA[3].ip='198.51.100.99';
+  addFRow(true,'HTTPS',54321,443,104857600,8192,'Data Exfiltration — 100MB outbound to foreign IP');
+  renderUBA();updateCorr();
+  toast('⚠ Compromise simulated — dave.kumar anomalous!','warn');
+}
+
+function updateCorr(){
+  var lines=[
+    '<span style="color:var(--red)">ALERT: HIGH CONFIDENCE THREAT DETECTED</span>',
+    '<span style="color:var(--amber)">Network Flow:</span> 100MB outbound → 198.51.100.99',
+    '<span style="color:var(--amber)">UBA Signal:</span>  dave.kumar off-hours login 02:13',
+    '<span style="color:var(--amber)">IP Mismatch:</span> Normal 192.168.1.xx → Foreign IP',
+    '<span style="color:var(--red)">Correlation:</span> Account compromise + data exfiltration',
+    '<span style="color:var(--green)">Action:</span>      Lock account · Alert SOC · Preserve logs',
+  ];
+  document.getElementById('corr-out').innerHTML=lines.map(function(l){return'<div>'+l+'</div>';}).join('');
+}
+
+var THREATS=[
+  {name:'DDoS Attack',flow:'High PPS spike · multiple sources',uba:'N/A',color:'var(--red)'},
+  {name:'Data Exfiltration',flow:'Large outbound · foreign IP',uba:'Off-hours · new location',color:'var(--orange)'},
+  {name:'Insider Threat',flow:'Unusual lateral movement',uba:'Sensitive resource access',color:'var(--amber)'},
+  {name:'Account Compromise',flow:'Unusual protocol usage',uba:'IP mismatch · off-hours',color:'var(--purple)'},
+];
+document.getElementById('threat-matrix').innerHTML=THREATS.map(function(t){
+  return '<div style="display:flex;gap:6px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--border)">'
+    +'<div style="width:3px;align-self:stretch;border-radius:2px;background:'+t.color+';flex-shrink:0"></div>'
+    +'<div><div style="font-size:11px;font-weight:600;color:'+t.color+';margin-bottom:2px">'+t.name+'</div>'
+    +'<div style="font-size:10px;color:var(--text3)">Flow: '+t.flow+'</div>'
+    +'<div style="font-size:10px;color:var(--text3)">UBA: '+t.uba+'</div></div></div>';
+}).join('');
+
+renderUBA();
+window.addEventListener('resize',resizeFC);
+resizeFC();
+
+// ── TAB 2: WIRESHARK ──
+var allPkts=[],filtPkts=[],capIv=null,capturing=false,selPktId=null,pktId=0,capStart=null;
+
+function startCap(){
+  capturing=true;capStart=Date.now();
+  document.getElementById('ws-start').disabled=true;
+  document.getElementById('ws-stop').disabled=false;
+  capIv=setInterval(autoGen,600);
+  toast('Capture started on '+document.getElementById('ws-iface').value);
+}
+function stopCap(){
+  capturing=false;clearInterval(capIv);
+  document.getElementById('ws-start').disabled=false;
+  document.getElementById('ws-stop').disabled=true;
+  toast('Capture stopped — '+allPkts.length+' packets');
+}
+
+var PTPL=[
+  {proto:'TCP',color:'pt-tcp',src:'192.168.1.10',dst:'93.184.216.34',dport:443,info:'SYN Seq=0 Len=0',flags:'SYN'},
+  {proto:'TCP',color:'pt-tcp',src:'93.184.216.34',dst:'192.168.1.10',dport:56432,info:'SYN ACK Seq=0 Ack=1',flags:'SYN ACK'},
+  {proto:'TCP',color:'pt-tcp',src:'192.168.1.10',dst:'93.184.216.34',dport:443,info:'ACK Seq=1 Ack=1 Len=0',flags:'ACK'},
+  {proto:'TLS',color:'pt-tls',src:'192.168.1.10',dst:'93.184.216.34',dport:443,info:'Client Hello (TLSv1.3)',flags:''},
+  {proto:'TLS',color:'pt-tls',src:'93.184.216.34',dst:'192.168.1.10',dport:56432,info:'Server Hello, Certificate',flags:''},
+  {proto:'DNS',color:'pt-dns',src:'192.168.1.10',dst:'8.8.8.8',dport:53,info:'Standard query A google.com',flags:''},
+  {proto:'DNS',color:'pt-dns',src:'8.8.8.8',dst:'192.168.1.10',dport:53214,info:'Standard query response A 142.250.80.4',flags:''},
+  {proto:'UDP',color:'pt-udp',src:'192.168.1.10',dst:'192.168.1.1',dport:5353,info:'mDNS query PTR _services._dns-sd._udp.local',flags:''},
+  {proto:'HTTP',color:'pt-http',src:'192.168.1.10',dst:'93.184.216.34',dport:80,info:'GET / HTTP/1.1 Host: example.com',flags:''},
+  {proto:'ARP',color:'pt-arp',src:'192.168.1.10',dst:'Broadcast',dport:0,info:'Who has 192.168.1.1? Tell 192.168.1.10',flags:''},
+  {proto:'ICMP',color:'pt-icmp',src:'192.168.1.10',dst:'8.8.8.8',dport:0,info:'Echo (ping) request id=1 seq=1',flags:''},
+  {proto:'ICMP',color:'pt-icmp',src:'8.8.8.8',dst:'192.168.1.10',dport:0,info:'Echo (ping) reply id=1 seq=1 ttl=55',flags:''},
+];
+
+function addPkt(tpl){
+  var t=tpl||PTPL[Math.floor(Math.random()*PTPL.length)];
+  if(!capStart)capStart=Date.now();
+  var pkt={id:++pktId,time:((Date.now()-capStart)/1000).toFixed(6),src:t.src,dst:t.dst,proto:t.proto,color:t.color,len:54+Math.floor(Math.random()*1400),info:t.info,flags:t.flags,dport:t.dport};
+  allPkts.push(pkt);
+  applyFilter();
+}
+function autoGen(){var n=2+Math.floor(Math.random()*3);for(var i=0;i<n;i++)addPkt();}
+function genHTTP(){if(!capStart)capStart=Date.now();[2,3,4].forEach(function(i){addPkt(PTPL[i]);});addPkt(PTPL[8]);}
+function genDNS(){if(!capStart)capStart=Date.now();addPkt(PTPL[5]);addPkt(PTPL[6]);}
+function genUDP(){if(!capStart)capStart=Date.now();for(var i=0;i<5;i++)addPkt(PTPL[7]);}
+
+function applyFilter(){
+  var f=document.getElementById('ws-filter').value.trim().toLowerCase();
+  if(f){
+    filtPkts=allPkts.filter(function(p){
+      if(['tcp','udp','dns','http','icmp','arp','tls'].indexOf(f)>=0)return p.proto.toLowerCase()===f;
+      if(f.indexOf('ip.addr==')===0){var a=f.split('==')[1];return p.src===a||p.dst===a;}
+      return p.proto.toLowerCase().indexOf(f)>=0||p.src.indexOf(f)>=0||p.dst.indexOf(f)>=0||p.info.toLowerCase().indexOf(f)>=0;
+    });
+  }else{filtPkts=allPkts.slice();}
+  renderPkts();
+  document.getElementById('pkt-cnt').textContent=filtPkts.length+' / '+allPkts.length+' packets';
+}
+
+function renderPkts(){
+  var html=filtPkts.slice(-200).reverse().map(function(p){
+    return '<tr class="'+p.color+(selPktId===p.id?' sel':'')+'" onclick="selPkt('+p.id+')">'
+      +'<td style="color:var(--text3)">'+p.id+'</td>'
+      +'<td style="color:var(--text3)">'+p.time+'</td>'
+      +'<td style="color:var(--cyan)">'+p.src+'</td>'
+      +'<td style="color:var(--blue)">'+p.dst+'</td>'
+      +'<td style="font-weight:600">'+p.proto+'</td>'
+      +'<td>'+p.len+'</td>'
+      +'<td style="color:var(--text2);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+p.info+'</td></tr>';
+  }).join('');
+  document.getElementById('ptbody').innerHTML=html;
+}
+
+function selPkt(id){
+  selPktId=id;renderPkts();
+  var p=allPkts.find(function(x){return x.id===id;});
+  if(p)renderPktDetail(p);
+}
+
+function renderPktDetail(p){
+  var isIP=p.proto!=='ARP';
+  var isTCP=['TCP','HTTP','TLS'].indexOf(p.proto)>=0;
+  var isDNS=p.proto==='DNS';
+  var tree='<div class="dg"><div class="dgh" onclick="this.nextElementSibling.classList.toggle(\'open\')"><span style="font-size:8px;color:var(--text3)">▶</span> Frame '+p.id+': '+p.len+' bytes</div>'
+    +'<div class="dgb open"><div class="dgr"><span class="dgk">Arrival Time: </span><span class="dgv">'+p.time+'s</span></div>'
+    +'<div class="dgr"><span class="dgk">Frame Length: </span><span class="dgv">'+p.len+' bytes</span></div>'
+    +'<div class="dgr"><span class="dgk">Protocol: </span><span class="dgv">'+p.proto+'</span></div></div></div>';
+  tree+='<div class="dg"><div class="dgh" onclick="this.nextElementSibling.classList.toggle(\'open\')"><span style="font-size:8px;color:var(--text3)">▶</span> Ethernet II</div>'
+    +'<div class="dgb"><div class="dgr"><span class="dgk">Src MAC: </span><span class="dgv">aa:bb:cc:dd:ee:'+((p.id%256).toString(16).padStart(2,'0'))+'</span></div>'
+    +'<div class="dgr"><span class="dgk">Dst MAC: </span><span class="dgv">ff:ff:ff:ff:ff:ff</span></div></div></div>';
+  if(isIP)tree+='<div class="dg"><div class="dgh" onclick="this.nextElementSibling.classList.toggle(\'open\')"><span style="font-size:8px;color:var(--text3)">▶</span> Internet Protocol v4</div>'
+    +'<div class="dgb open"><div class="dgr"><span class="dgk">Source: </span><span class="dgv">'+p.src+'</span></div>'
+    +'<div class="dgr"><span class="dgk">Destination: </span><span class="dgv">'+p.dst+'</span></div>'
+    +'<div class="dgr"><span class="dgk">TTL: </span><span class="dgv">'+(64+Math.floor(Math.random()*64))+'</span></div>'
+    +'<div class="dgr"><span class="dgk">Protocol: </span><span class="dgv">'+(isTCP?'6 (TCP)':isDNS?'17 (UDP)':'1 (ICMP)')+'</span></div></div></div>';
+  if(isTCP){
+    var fc2=p.flags.indexOf('SYN')>=0?'color:var(--green)':p.flags.indexOf('ACK')>=0?'color:var(--blue)':'';
+    tree+='<div class="dg"><div class="dgh" onclick="this.nextElementSibling.classList.toggle(\'open\')"><span style="font-size:8px;color:var(--text3)">▶</span> Transmission Control Protocol</div>'
+      +'<div class="dgb open"><div class="dgr"><span class="dgk">Src Port: </span><span class="dgv">'+(32768+p.id)+'</span></div>'
+      +'<div class="dgr"><span class="dgk">Dst Port: </span><span class="dgv">'+p.dport+'</span></div>'
+      +'<div class="dgr"><span class="dgk">Seq: </span><span class="dgv">'+Math.floor(Math.random()*4294967295)+'</span></div>'
+      +'<div class="dgr"><span class="dgk">Ack: </span><span class="dgv">'+Math.floor(Math.random()*4294967295)+'</span></div>'
+      +'<div class="dgr"><span class="dgk">Flags: </span><span class="dgv" style="'+fc2+'">'+(p.flags||'PSH ACK')+'</span></div>'
+      +'<div class="dgr"><span class="dgk">Window: </span><span class="dgv">65535</span></div></div></div>';
+  }
+  if(isDNS)tree+='<div class="dg"><div class="dgh" onclick="this.nextElementSibling.classList.toggle(\'open\')"><span style="font-size:8px;color:var(--text3)">▶</span> Domain Name System</div>'
+    +'<div class="dgb open"><div class="dgr"><span class="dgk">Transaction ID: </span><span class="dgv">0x'+Math.floor(Math.random()*65535).toString(16).padStart(4,'0')+'</span></div>'
+    +'<div class="dgr"><span class="dgk">Type: </span><span class="dgv">'+(p.info.indexOf('response')>=0?'Response':'Query')+'</span></div>'
+    +'<div class="dgr"><span class="dgk">Questions: </span><span class="dgv">1</span></div></div></div>';
+  document.getElementById('wstree').innerHTML=tree;
+  var byt=[];for(var i=0;i<Math.min(p.len,128);i++)byt.push(Math.floor(Math.random()*256));
+  var hex='';
+  for(var i=0;i<byt.length;i+=16){
+    var row=byt.slice(i,i+16);
+    var hp=row.map(function(b){return b.toString(16).padStart(2,'0');}).join(' ');
+    var ap=row.map(function(b){return(b>=32&&b<127)?String.fromCharCode(b):'.';}).join('');
+    hex+='<div class="hexr"><span class="hexo">'+i.toString(16).padStart(4,'0')+'</span><span class="hexb">'+hp.padEnd(47)+'</span><span class="hexa">'+ap+'</span></div>';
+  }
+  document.getElementById('wshex').innerHTML=hex;
+}
+
+// ── TAB 3: EDR ──
+var ENDPOINTS=[
+  {name:'DESKTOP-HR01',os:'Windows 11',ip:'192.168.1.12',status:'Protected',threat:false,patches:3,scan:'2 hours ago'},
+  {name:'LAPTOP-DEV04',os:'Windows 10',ip:'192.168.1.25',status:'Threat Detected',threat:true,patches:7,scan:'5 hours ago'},
+  {name:'SERVER-DC01',os:'Windows Server 2022',ip:'10.0.0.2',status:'Protected',threat:false,patches:1,scan:'1 hour ago'},
+  {name:'LAPTOP-MKT02',os:'macOS 14',ip:'192.168.1.31',status:'Threat Detected',threat:true,patches:4,scan:'12 hours ago'},
+  {name:'SERVER-FS01',os:'Ubuntu 22.04',ip:'10.0.0.5',status:'Protected',threat:false,patches:2,scan:'30 min ago'},
+];
+var PATCHES=[
+  {name:'Windows Security Update KB5034441',cve:'CVE-2024-21307',sev:'Critical',age:'3 days'},
+  {name:'OpenSSL 3.0.9 → 3.0.13',cve:'CVE-2024-0727',sev:'High',age:'7 days'},
+  {name:'Adobe Reader MUI Update',cve:'CVE-2023-44358',sev:'Medium',age:'14 days'},
+  {name:'Chrome 121.0.6167.160',cve:'CVE-2024-0519',sev:'Critical',age:'1 day'},
+  {name:'curl 8.5.0 → 8.6.0',cve:'CVE-2024-0853',sev:'Medium',age:'10 days'},
+];
+var edrP='overview';
+
+function setEDR(name,el){
+  edrP=name;
+  document.querySelectorAll('.edrni').forEach(function(i){i.classList.remove('active');});
+  el.classList.add('active');
+  renderEDR();
+}
+
+function epIcon(os){return os.indexOf('Server')>=0?'🖥':os.indexOf('Ubuntu')>=0?'🐧':os.indexOf('macOS')>=0?'🍎':'💻';}
+
+function renderEDR(){
+  var m=document.getElementById('edrm');
+  if(edrP==='overview'){
+    m.innerHTML='<div class="g4 mb14">'
+      +'<div class="stat-card"><div class="stat-lbl">Endpoints</div><div class="stat-val" style="color:var(--cyan)">'+ENDPOINTS.length+'</div></div>'
+      +'<div class="stat-card"><div class="stat-lbl">Protected</div><div class="stat-val" style="color:var(--green)">'+ENDPOINTS.filter(function(e){return!e.threat;}).length+'</div></div>'
+      +'<div class="stat-card"><div class="stat-lbl">Threats</div><div class="stat-val" style="color:var(--red)">'+ENDPOINTS.filter(function(e){return e.threat;}).length+'</div></div>'
+      +'<div class="stat-card"><div class="stat-lbl">Patches Due</div><div class="stat-val" style="color:var(--amber)">'+PATCHES.length+'</div></div></div>'
+      +'<div class="card"><div class="card-h"><div class="card-title">Xcitium OpenEDR — Endpoint Overview</div></div><div class="card-b">'
+      +ENDPOINTS.map(function(ep){
+        return'<div class="eprow'+(ep.threat?' threat':'')+'">'
+          +'<div class="epicon" style="background:'+(ep.threat?'rgba(239,68,68,.12)':'rgba(16,185,129,.1)')+'">'+epIcon(ep.os)+'</div>'
+          +'<div><div style="font-size:12px;font-weight:500">'+ep.name+'</div><div style="font-size:10px;color:var(--text3);font-family:var(--mono)">'+ep.ip+' · '+ep.os+'</div></div>'
+          +'<span class="badge '+(ep.threat?'b-r':'b-g')+'" style="margin-left:auto">'+ep.status+'</span>'
+          +'<span class="badge b-a" style="margin-left:8px">'+ep.patches+' patches</span></div>';
+      }).join('')+'</div></div>';
+  }else if(edrP==='endpoints'){
+    m.innerHTML='<div class="card mb14"><div class="card-h"><div class="card-title">Managed Endpoints</div>'
+      +'<button class="btn btn-c" style="margin-left:auto" onclick="toast(\'Download OpenEDR client from openedr.com\')">+ Add Endpoint</button></div><div class="card-b">'
+      +ENDPOINTS.map(function(ep){
+        return'<div class="eprow'+(ep.threat?' threat':'')+'" onclick="toast(\''+ep.name+': '+ep.status+' · '+ep.patches+' patches\')">'
+          +'<div class="epicon" style="background:'+(ep.threat?'rgba(239,68,68,.12)':'rgba(59,130,246,.1)')+'">'+epIcon(ep.os)+'</div>'
+          +'<div><div style="font-size:12px;font-weight:500">'+ep.name+'</div><div style="font-size:10px;color:var(--text3);font-family:var(--mono)">'+ep.ip+' · '+ep.os+' · Scan: '+ep.scan+'</div></div>'
+          +'<span class="badge '+(ep.threat?'b-r':'b-g')+'" style="margin-left:auto">'+ep.status+'</span></div>';
+      }).join('')+'</div></div>'
+      +'<div class="card"><div class="card-h"><div class="card-title">MFA Setup — Xcitium Cloud Manager</div></div><div class="card-b">'
+      +'<div style="display:flex;gap:16px;align-items:flex-start">'
+      +'<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;width:110px;height:110px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><div style="font-size:10px;color:var(--text3);text-align:center;font-family:var(--mono)">[ QR CODE ]<br>Scan with<br>Auth App</div></div>'
+      +'<div><div style="font-size:12px;font-weight:500;margin-bottom:6px">Pair Authenticator App</div>'
+      +'<div style="font-size:11px;color:var(--text3);margin-bottom:10px">Scan with Google Authenticator, Microsoft Authenticator, or any TOTP app to enable MFA.</div>'
+      +'<div style="display:flex;gap:6px;margin-bottom:8px">'
+      +'<input class="field" id="mfa-code" type="text" maxlength="6" placeholder="000000" style="width:110px;letter-spacing:4px;text-align:center">'
+      +'<button class="btn btn-c" onclick="verifyMFA()">Pair</button></div>'
+      +'<div style="font-size:10px;color:var(--text3);font-family:var(--mono)">Demo secret: JBSWY3DPEHPK3PXP</div></div></div></div></div>';
+  }else if(edrP==='patches'){
+    m.innerHTML='<div class="card"><div class="card-h"><div class="card-title">Patch Manager</div>'
+      +'<button class="btn btn-c" style="margin-left:auto" onclick="installAll()">Install All Critical</button></div><div class="card-b" id="plist">'
+      +PATCHES.map(function(p,i){
+        var bc=p.sev==='Critical'?'b-r':p.sev==='High'?'b-or':'b-a';
+        return'<div class="patchitem" id="pr-'+i+'">'
+          +'<span class="badge '+bc+'" style="width:52px;justify-content:center">'+p.sev+'</span>'
+          +'<div style="flex:1"><div style="font-size:11px;font-weight:500">'+p.name+'</div>'
+          +'<div style="font-family:var(--mono);font-size:10px;color:var(--text3)">'+p.cve+' · '+p.age+' old</div></div>'
+          +'<button class="btn btn-c" style="font-size:10px" id="pb-'+i+'" onclick="instPatch('+i+')">Install</button></div>';
+      }).join('')+'</div></div>';
+  }else if(edrP==='scan'){
+    m.innerHTML='<div class="card"><div class="card-h"><div class="card-title">Malware Scan — Xcitium OpenEDR</div></div><div class="card-b">'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">'
+      +'<div><label class="fl">Target Endpoint</label><select class="field">'
+      +ENDPOINTS.map(function(e){return'<option>'+e.name+' ('+e.ip+')</option>';}).join('')
+      +'</select></div><div><label class="fl">Scan Type</label><select class="field"><option>Quick Scan</option><option>Full System Scan</option><option>Custom Path</option></select></div></div>'
+      +'<button class="btn btn-c" onclick="runScan()" style="margin-bottom:14px">▶ Start Scan</button>'
+      +'<div id="scan-prog" style="display:none;margin-bottom:12px">'
+      +'<div style="font-size:11px;color:var(--text2);margin-bottom:6px" id="scan-lbl">Scanning…</div>'
+      +'<div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden">'
+      +'<div id="scan-bar" style="height:100%;background:var(--cyan);width:0%;transition:width .3s;border-radius:4px"></div></div></div>'
+      +'<div id="scan-res"></div></div></div>';
+  }else if(edrP==='mfa'){
+    setEDR('endpoints',document.querySelector('.edrni[data-edr="endpoints"]'));
+  }
+}
+
+function verifyMFA(){
+  var c=document.getElementById('mfa-code')&&document.getElementById('mfa-code').value;
+  if(c&&c.length===6&&/^\d+$/.test(c))toast('✓ MFA paired! Cloud Manager access enabled.');
+  else toast('Enter a valid 6-digit code','err');
+}
+function instPatch(i){
+  var btn=document.getElementById('pb-'+i);if(!btn)return;
+  btn.textContent='Installing…';btn.disabled=true;
+  setTimeout(function(){btn.textContent='✓ Installed';btn.className='btn btn-g';btn.style.fontSize='10px';toast('Patch '+PATCHES[i].cve+' installed');},1500);
+}
+function installAll(){PATCHES.forEach(function(p,i){setTimeout(function(){instPatch(i);},i*400);});}
+function runScan(){
+  document.getElementById('scan-prog').style.display='block';
+  var pct=0;
+  var stages=['Scanning system files…','Checking registry…','Analyzing processes…','Scanning memory…','Checking network connections…'];
+  var iv=setInterval(function(){
+    pct+=Math.random()*12;
+    if(pct>=100){pct=100;clearInterval(iv);showScanRes();}
+    document.getElementById('scan-bar').style.width=pct+'%';
+    document.getElementById('scan-lbl').textContent=stages[Math.floor(pct/22)]||'Finalizing…';
+  },300);
+}
+function showScanRes(){
+  document.getElementById('scan-res').innerHTML='<div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:14px;margin-bottom:10px">'
+    +'<div style="color:var(--red);font-weight:600;margin-bottom:8px">⚠ 2 Threats Found</div>'
+    +'<div style="font-family:var(--mono);font-size:11px;line-height:2;color:var(--text2)">'
+    +'<div>🔴 Trojan.GenericKD.68147 → C:\\Users\\Public\\Downloads\\invoice.exe</div>'
+    +'<div>🔴 PUP.Optional.Bundler → C:\\Program Files (x86)\\ToolbarHelper.dll</div></div>'
+    +'<div style="margin-top:10px;display:flex;gap:8px">'
+    +'<button class="btn btn-r" onclick="toast(\'2 threats quarantined and removed\')">Quarantine All</button>'
+    +'<button class="btn btn-ghost">View Details</button></div></div>'
+    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">'
+    +'<div class="stat-card"><div class="stat-lbl">Files Scanned</div><div class="stat-val" style="color:var(--cyan)">142,847</div></div>'
+    +'<div class="stat-card"><div class="stat-lbl">Threats Found</div><div class="stat-val" style="color:var(--red)">2</div></div>'
+    +'<div class="stat-card"><div class="stat-lbl">Scan Duration</div><div class="stat-val" style="color:var(--green)">3m 42s</div></div></div>';
+  toast('⚠ Scan complete — 2 threats detected!','warn');
+}
+renderEDR();
+
+// ── TAB 4: DHCP ──
+var dhcpExcl=[{start:2,end:7,note:'6 Printers (static IPs)'}];
+var dhcpPanel='scope';
+
+var dhcpPool=(function(){
+  var pool=[];
+  for(var i=0;i<253;i++){
+    var n=i+2;
+    var excl=dhcpExcl.some(function(e){return n>=e.start&&n<=e.end;});
+    if(excl){pool.push({num:n,state:'excluded',dev:'Printer (static)'});}
+    else if(Math.random()<.3){var ds=['DESKTOP-','LAPTOP-','SERVER-','PHONE-'];pool.push({num:n,state:'leased',dev:ds[Math.floor(Math.random()*ds.length)]+('0'+(Math.floor(Math.random()*99)+1)).slice(-2)});}
+    else{pool.push({num:n,state:'available',dev:''});}
+  }
+  return pool;
+})();
+
+function setDHCP(name,el){
+  dhcpPanel=name;
+  document.querySelectorAll('.dti').forEach(function(i){i.classList.remove('active');});
+  el.classList.add('active');
+  renderDHCP();
+}
+
+function renderDHCP(){
+  var m=document.getElementById('dhcpm');
+  if(dhcpPanel==='install'){
+    var steps=[
+      {t:'Open Server Manager',d:'Click Windows key → Open Server Manager on Windows Server'},
+      {t:'Add Roles and Features',d:'Click "Manage" → "Add Roles and Features"'},
+      {t:'Select Installation Type',d:'Role-based or feature-based installation → Next'},
+      {t:'Select Server',d:'Select your server from the pool → Next'},
+      {t:'Select DHCP Server Role',d:'Check "DHCP Server" checkbox → Add Features → Next'},
+      {t:'Confirm and Install',d:'Review summary → Install → Wait for completion'},
+    ];
+    m.innerHTML='<div class="card"><div class="card-h"><div class="card-title">Install DHCP Server Role</div></div><div class="card-b">'
+      +'<div style="font-size:11px;color:var(--text3);margin-bottom:14px">Lab Exercise 1: Install DHCP Server role via Server Manager roles wizard.</div>'
+      +'<div id="install-steps">'
+      +steps.map(function(s,i){
+        return'<div class="wizstep" id="is-'+i+'"><div class="wiznum">'+(i+1)+'</div>'
+          +'<div style="flex:1"><div class="wiztitle">'+s.t+'</div><div class="wizdesc">'+s.d+'</div></div>'
+          +'<button class="btn btn-ghost" style="font-size:10px;flex-shrink:0" onclick="doneStep('+i+')">Complete ✓</button></div>';
+      }).join('')
+      +'</div><button class="btn btn-c" style="margin-top:14px" onclick="autoInstall()">Auto-Complete All Steps</button>'
+      +'</div></div>';
+  }else if(dhcpPanel==='scope'){
+    var av=dhcpPool.filter(function(p){return p.state==='available';}).length;
+    var le=dhcpPool.filter(function(p){return p.state==='leased';}).length;
+    var ex=dhcpPool.filter(function(p){return p.state==='excluded';}).length;
+    m.innerHTML='<div class="g4 mb14">'
+      +'<div class="stat-card"><div class="stat-lbl">Scope Range</div><div class="stat-val" style="color:var(--cyan);font-size:14px">192.168.1.2–254</div></div>'
+      +'<div class="stat-card"><div class="stat-lbl">Available</div><div class="stat-val" style="color:var(--green)">'+av+'</div></div>'
+      +'<div class="stat-card"><div class="stat-lbl">Leased</div><div class="stat-val" style="color:var(--blue)">'+le+'</div></div>'
+      +'<div class="stat-card"><div class="stat-lbl">Excluded</div><div class="stat-val" style="color:var(--red)">'+ex+'</div></div></div>'
+      +'<div class="card mb14"><div class="card-h"><div class="card-title">IPv4 Address Pool — 192.168.1.x</div>'
+      +'<div style="display:flex;gap:8px;margin-left:auto;font-size:10px;align-items:center">'
+      +'<span style="color:var(--green)">■ Available</span><span style="color:var(--blue)">■ Leased</span>'
+      +'<span style="color:var(--red)">■ Excluded</span><span style="color:var(--amber)">■ Reserved</span></div></div>'
+      +'<div class="card-b"><div class="ippool">'
+      +dhcpPool.map(function(p){
+        return'<div class="ipcell '+p.state+'">'+p.num+'<div class="iptip">192.168.1.'+p.num+'<br>'+p.state+(p.dev?' · '+p.dev:'')+'</div></div>';
+      }).join('')+'</div></div></div>'
+      +'<div class="card"><div class="card-h"><div class="card-title">Create / Edit Scope</div></div><div class="card-b">'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">'
+      +'<div><label class="fl">Scope Name</label><input class="field" value="LAN Scope" type="text"></div>'
+      +'<div><label class="fl">Start IP</label><input class="field" value="192.168.1.2" type="text"></div>'
+      +'<div><label class="fl">End IP</label><input class="field" value="192.168.1.254" type="text"></div>'
+      +'<div><label class="fl">Subnet Mask</label><input class="field" value="255.255.255.0" type="text"></div>'
+      +'<div><label class="fl">Lease Duration</label><input class="field" value="8 days" type="text"></div>'
+      +'<div><label class="fl">Gateway (Opt 3)</label><input class="field" value="192.168.1.1" type="text"></div></div>'
+      +'<button class="btn btn-c" onclick="toast(\'Scope saved and activated\')">Activate Scope</button></div></div>';
+  }else if(dhcpPanel==='leases'){
+    m.innerHTML='<div class="card"><div class="card-h"><div class="card-title">Active Address Leases</div>'
+      +'<button class="btn btn-ghost" style="margin-left:auto;font-size:10px" onclick="toast(\'Leases refreshed\')">Refresh</button></div>'
+      +'<div class="card-b" style="overflow-x:auto"><table class="ltbl"><thead><tr>'
+      +'<th>Client IP</th><th>Hostname</th><th>MAC Address</th><th>Lease Expires</th><th>Type</th></tr></thead><tbody>'
+      +dhcpPool.filter(function(p){return p.state==='leased';}).map(function(p){
+        var mac='aa:bb:cc:'+p.num.toString(16).padStart(2,'0')+':'+Math.floor(Math.random()*256).toString(16).padStart(2,'0')+':ff';
+        return'<tr><td style="color:var(--cyan)">192.168.1.'+p.num+'</td>'
+          +'<td>'+p.dev+'</td><td style="color:var(--text3)">'+mac+'</td>'
+          +'<td style="color:var(--text3)">'+new Date(Date.now()+86400000*8).toLocaleDateString()+'</td>'
+          +'<td><span class="badge b-bl">Dynamic</span></td></tr>';
+      }).join('')+'</tbody></table></div></div>';
+  }else if(dhcpPanel==='exclusions'){
+    m.innerHTML='<div class="card"><div class="card-h"><div class="card-title">Exclusion Ranges</div></div><div class="card-b">'
+      +'<div style="font-size:11px;color:var(--text3);margin-bottom:12px">Lab Task: Exclude 192.168.1.2–7 so the 6 printers\' static IPs are never leased to other devices.</div>'
+      +'<table class="ltbl"><thead><tr><th>Start IP</th><th>End IP</th><th>Note</th><th>Action</th></tr></thead><tbody id="excl-tbody">'
+      +dhcpExcl.map(function(e,i){
+        return'<tr><td style="color:var(--red)">192.168.1.'+e.start+'</td>'
+          +'<td style="color:var(--red)">192.168.1.'+e.end+'</td>'
+          +'<td style="color:var(--text3)">'+e.note+'</td>'
+          +'<td><button class="btn btn-ghost" style="font-size:10px" onclick="rmExcl('+i+')">Remove</button></td></tr>';
+      }).join('')+'</tbody></table>'
+      +'<div style="margin-top:12px;display:flex;gap:8px;align-items:flex-end">'
+      +'<div><label class="fl">Start octet</label><input class="field" id="ex-s" type="number" value="8" min="2" max="254" style="width:80px"></div>'
+      +'<div><label class="fl">End octet</label><input class="field" id="ex-e" type="number" value="10" min="2" max="254" style="width:80px"></div>'
+      +'<div><label class="fl">Note</label><input class="field" id="ex-n" type="text" value="Static servers" style="width:140px"></div>'
+      +'<button class="btn btn-c" onclick="addExcl()">Add</button></div></div></div>';
+  }else if(dhcpPanel==='options'){
+    var opts=[{c:'003',n:'Router (Gateway)',v:'192.168.1.1'},{c:'006',n:'DNS Servers',v:'8.8.8.8, 8.8.4.4'},{c:'015',n:'DNS Domain Name',v:'corp.local'}];
+    m.innerHTML='<div class="card"><div class="card-h"><div class="card-title">Scope Options</div></div><div class="card-b">'
+      +opts.map(function(o){
+        return'<div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border)">'
+          +'<span class="badge b-bl" style="width:40px;justify-content:center">'+o.c+'</span>'
+          +'<span style="font-size:12px;color:var(--text2);flex:1">'+o.n+'</span>'
+          +'<span style="font-family:var(--mono);font-size:12px;color:var(--cyan)">'+o.v+'</span>'
+          +'<button class="btn btn-ghost" style="font-size:10px" onclick="toast(\'Edit option '+o.c+'\')">Edit</button></div>';
+      }).join('')+'</div></div>';
+  }else if(dhcpPanel==='reservations'){
+    m.innerHTML='<div class="card"><div class="card-h"><div class="card-title">Address Reservations</div>'
+      +'<button class="btn btn-c" style="margin-left:auto;font-size:10px" onclick="toast(\'Enter MAC address to create a reservation\')">+ New Reservation</button></div>'
+      +'<div class="card-b"><table class="ltbl"><thead><tr><th>Name</th><th>IP Address</th><th>MAC Address</th><th>Description</th></tr></thead><tbody>'
+      +'<tr><td>PRINTER-01</td><td style="color:var(--amber)">192.168.1.2</td><td style="color:var(--text3)">aa:bb:cc:00:00:01</td><td style="color:var(--text3)">HP LaserJet Floor 1</td></tr>'
+      +'<tr><td>PRINTER-02</td><td style="color:var(--amber)">192.168.1.3</td><td style="color:var(--text3)">aa:bb:cc:00:00:02</td><td style="color:var(--text3)">HP LaserJet Floor 2</td></tr>'
+      +'<tr><td>SERVER-GW</td><td style="color:var(--amber)">192.168.1.1</td><td style="color:var(--text3)">aa:bb:cc:00:ff:01</td><td style="color:var(--text3)">Default Gateway</td></tr>'
+      +'</tbody></table></div></div>';
+  }
+}
+
+function doneStep(i){
+  var s=document.getElementById('is-'+i);if(!s)return;
+  s.classList.add('done');var btn=s.querySelector('button');btn.textContent='✓ Done';btn.disabled=true;
+  if(i===5)toast('✓ DHCP Server role installed successfully!');
+}
+function autoInstall(){for(var i=0;i<6;i++){(function(i){setTimeout(function(){doneStep(i);},i*500);})(i);}}
+function addExcl(){
+  var s=parseInt(document.getElementById('ex-s').value);
+  var e=parseInt(document.getElementById('ex-e').value);
+  var n=document.getElementById('ex-n').value;
+  if(isNaN(s)||isNaN(e)||s>e){toast('Start must be ≤ End','err');return;}
+  dhcpExcl.push({start:s,end:e,note:n});renderDHCP();toast('Exclusion 192.168.1.'+s+'–'+e+' added');
+}
+function rmExcl(i){dhcpExcl.splice(i,1);renderDHCP();toast('Exclusion removed');}
+renderDHCP();
+
+// ── TAB 5: DNS FIREWALL ──
+var dnsRules=[];
+var wizStepN=0;
+var WIZ=[
+  {t:'Open Windows Firewall',d:'Control Panel → System & Security → Windows Defender Firewall'},
+  {t:'Advanced Settings',d:'Click "Advanced settings" in the left pane'},
+  {t:'Outbound Rules',d:'Select "Outbound Rules" in the left pane'},
+  {t:'New Rule Wizard',d:'In the Actions pane, click "New Rule…"'},
+  {t:'Select Port Type',d:'Choose "Port" → Next → UDP → Specific port: 53 → Next'},
+  {t:'Set Action',d:'Select "Block the connection" → Next → Next'},
+  {t:'Name the Rule',d:'Name: "Block DNS Outbound" → Finish'},
+];
+
+function renderWiz(){
+  var html=WIZ.map(function(s,i){
+    var cls=i<wizStepN?'done':i===wizStepN?'active':'';
+    return'<div class="wizstep '+cls+'"><div class="wiznum">'+(i<wizStepN?'✓':i+1)+'</div>'
+      +'<div><div class="wiztitle" style="font-size:11px">'+s.t+'</div><div class="wizdesc">'+s.d+'</div></div></div>';
+  }).join('');
+  if(wizStepN<WIZ.length)html+='<button class="btn btn-c" style="width:100%;margin-top:6px" onclick="advWiz()">Next Step →</button>';
+  else html+='<div class="badge b-g" style="width:100%;justify-content:center;padding:6px;margin-top:6px">✓ Wizard Complete</div>';
+  document.getElementById('dns-wiz').innerHTML=html;
+}
+
+function advWiz(){
+  if(wizStepN<WIZ.length)wizStepN++;
+  renderWiz();
+  if(wizStepN===WIZ.length){createRule();toast('✓ DNS Firewall rule created via wizard!');}
+}
+
+function createRule(){
+  var name=document.getElementById('rule-name').value||'Block DNS Outbound';
+  var action=document.getElementById('rule-action').value;
+  var port=document.getElementById('rule-port').value||'53';
+  var proto=document.getElementById('rule-proto').value;
+  dnsRules.push({name:name,action:action,port:port,proto:proto,enabled:true,id:Date.now()});
+  renderRules();updateFW();
+  toast('Rule "'+name+'" created — port '+port+' '+action+'ed');
+}
+
+function renderRules(){
+  document.getElementById('rules-cnt').textContent=dnsRules.length+' rule'+(dnsRules.length!==1?'s':'');
+  if(!dnsRules.length){
+    document.getElementById('rules-list').innerHTML='<div style="font-size:11px;color:var(--text3);text-align:center;padding:16px">No outbound rules defined.</div>';
+    return;
+  }
+  document.getElementById('rules-list').innerHTML=dnsRules.map(function(r,i){
+    var bc=r.action==='block'?'b-r':r.action==='allow'?'b-g':'b-a';
+    return'<div class="rulerow">'
+      +'<div class="ruledot" style="background:'+(r.enabled?'var(--green)':'var(--text3)')+'"></div>'
+      +'<div style="flex:1"><div style="font-size:12px;font-weight:500">'+r.name+'</div>'
+      +'<div style="font-size:10px;color:var(--text3);font-family:var(--mono)">'+r.proto+' · Port '+r.port+' · '+r.action.toUpperCase()+'</div></div>'
+      +'<span class="badge '+bc+'" style="margin-left:auto">'+r.action.toUpperCase()+'</span>'
+      +'<button class="btn btn-ghost" style="font-size:10px;margin-left:6px" onclick="toggleRule('+i+')">'+(r.enabled?'Disable':'Enable')+'</button>'
+      +'<button class="btn btn-r" style="font-size:10px;margin-left:4px" onclick="delRule('+i+')">✕</button></div>';
+  }).join('');
+}
+
+function toggleRule(i){dnsRules[i].enabled=!dnsRules[i].enabled;renderRules();updateFW();}
+function delRule(i){dnsRules.splice(i,1);renderRules();updateFW();}
+function clearRules(){dnsRules=[];wizStepN=0;renderRules();renderWiz();updateFW();}
+
+function updateFW(){
+  var blk=dnsRules.some(function(r){return r.enabled&&r.action==='block'&&(r.port==='53'||r.port.indexOf('53')>=0);});
+  document.getElementById('fw1').className='fwarr'+(blk?' allowed':'');
+  document.getElementById('fw2').className='fwarr'+(blk?' blocked':'');
+  document.getElementById('fw3').className='fwarr'+(blk?' blocked':'');
+  var txt=document.getElementById('fw-txt');
+  if(blk){txt.style.color='var(--red)';txt.textContent='⛔ DNS blocked at firewall — outbound port 53 traffic will be dropped';}
+  else{txt.style.color='var(--text3)';txt.textContent='DNS traffic flows freely — no outbound block rule active';}
+}
+
+function testDNS(){
+  var dom=document.getElementById('dns-dom').value||'google.com';
+  var type=document.getElementById('dns-type').value;
+  var blk=dnsRules.some(function(r){return r.enabled&&r.action==='block'&&(r.port==='53'||r.port.indexOf('53')>=0);});
+  var log=document.getElementById('dns-log');
+  var line=document.createElement('div');
+  line.className='lline';
+  if(blk){
+    line.innerHTML='<span class="lts">['+tstamp()+']</span><span class="lblk"> BLOCKED </span><span style="color:var(--text2)">'+type+' query for '+dom+' — port 53 denied by Windows Firewall</span>';
+    toast('DNS query for '+dom+' blocked','warn');
+  }else{
+    var ip=(Math.floor(Math.random()*223)+1)+'.'+Math.floor(Math.random()*256)+'.'+Math.floor(Math.random()*256)+'.'+Math.floor(Math.random()*254+1);
+    line.innerHTML='<span class="lts">['+tstamp()+']</span><span class="lok"> RESOLVED </span><span style="color:var(--text2)">'+dom+' '+type+' → '+ip+' (TTL 300s)</span>';
+  }
+  log.appendChild(line);log.scrollTop=log.scrollHeight;
+}
+
+function clearDNSLog(){
+  document.getElementById('dns-log').innerHTML='<div class="lline"><span class="lts">[cleared]</span><span class="linf"> Log cleared.</span></div>';
+}
+
+function updateRuleForm(){
+  var show=document.getElementById('rule-type').value==='port';
+  document.getElementById('proto-wrap').style.display=show?'block':'none';
+  document.getElementById('port-wrap').style.display=show?'block':'none';
+}
+
+renderWiz();
+</script>
+</body>
+</html>

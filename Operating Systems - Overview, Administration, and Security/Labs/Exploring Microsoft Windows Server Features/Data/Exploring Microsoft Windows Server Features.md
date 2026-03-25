@@ -1,6 +1,5 @@
 ![alt text](<../Screenshots/Windows Defender.png>)
 
-
 # Hands-on Lab: Exploring Microsoft Windows Server Features
 
 **Estimated time needed:** 20 minutes
@@ -42,13 +41,19 @@ In this exercise, you will learn how to open the Windows Server Manager and get 
 2. Scroll through the applications list or look for **Server Manager** in the menu
 3. Click on **Server Manager** to open the management console
 
-![Windows Start menu with Server Manager highlighted]
+
+
+
+![alt text](<../Screenshots/Windows Start menu with Server Manager highlighted.png>)
+
 
 ### Step 2: Explore the Server Manager Dashboard
 
 The Server Manager dashboard opens, displaying all the details of your Windows server machine. This is the central management interface for Windows Server.
 
-![Server Manager Dashboard]
+
+
+![alt text](<../Screenshots/Server Manager Dashboard.png>)
 
 **The dashboard is organized into several key sections:**
 
@@ -73,7 +78,9 @@ From the dashboard, you can perform various management tasks:
 | **Create a server group**       | Organize servers into logical groups for easier management |
 | **Connect to cloud services**   | Integrate with Azure or other cloud platforms              |
 
-![Server Manager dashboard with configuration options highlighted]
+
+
+![alt text](<../Screenshots/Server Manager dashboard with configuration options highlighted.png>)
 
 **Note:** As mentioned, anything you change here will only last until the lab session closes.
 
@@ -82,7 +89,9 @@ From the dashboard, you can perform various management tasks:
 1. In the left navigation pane, click on **Local Server**
 2. This section lists the local servers in the virtual environment
 
-![Local Server selected in left navigation]
+
+
+![alt text](<../Screenshots/Local Server selected in left navigation.png>)
 
 ### Step 5: Examine Local Server Properties
 
@@ -97,7 +106,9 @@ The Local Server view displays detailed information about your server:
 | **RAM**              | Total installed memory                | _________________ GB          |
 | **Disk space**       | Available storage capacity            | _________________ GB          |
 
-![Local Server properties view]
+
+
+![alt text](<../Screenshots/Local Server properties view.png>)
 
 ### Step 6: Explore Local Server Configuration Tiles
 
@@ -133,7 +144,8 @@ The Local Server page contains several interactive tiles:
 - Overview of running services
 - Click to open Services management console
 
-![Local Server tiles with descriptions]
+
+![alt text](<../Screenshots/Local Server tiles with descriptions.png>)
 
 ### Step 7: View Server Details (Optional)
 
@@ -145,7 +157,9 @@ The Local Server page contains several interactive tiles:
    - System type (64-bit operating system)
    - Computer name/domain changes
 
-![System Properties window]
+
+
+![alt text](<../Screenshots/System Properties window.png>)
 
 ### Step 8: Check Windows Defender Firewall Status
 
@@ -156,8 +170,15 @@ The Local Server page contains several interactive tiles:
    - Private network
    - Public network
 
-![Windows Defender Firewall status]
 
+
+![alt text](<../Screenshots/Windows Defender Firewall status.png>)
+
+![alt text](<../Screenshots/configure the type of events you want to get updates.png>)
+
+![alt text](<../Screenshots/secerity of the events.png>)
+
+![alt text](../Screenshots/cdrive.png)
 ---
 
 ## Additional Exploration: Remote Server Management (Conceptual)
@@ -294,6 +315,10 @@ In this hands-on lab, you have:
 | Reviewed the concept of multi-server management                          | ✓        |
 
 ---
+
+
+<video controls src="Exploring Microsoft Windows Server Features.mp4" title="Exploring Microsoft Windows Server Features"></video>
+
 
 ## Key Takeaways
 

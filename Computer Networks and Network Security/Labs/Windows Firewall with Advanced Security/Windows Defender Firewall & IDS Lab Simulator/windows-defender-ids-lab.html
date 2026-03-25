@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Windows Defender Firewall &amp; IDS — Security Lab Simulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2333; --bg4:#21262d;
+  --surface:#252d3d; --surface2:#2d3748;
+  --border:#30363d; --border2:#3d4450;
+  --win-blue:#0078d4; --win-blue2:#005a9e; --win-blue-lt:#4da3e0;
+  --red:#d73a49; --red2:#b91c1c; --red-lt:#f85149;
+  --amber:#d4930a; --amber-lt:#f0b429;
+  --green:#238636; --green-lt:#3fb950;
+  --purple:#6e40c9; --purple-lt:#a5a0ff;
+  --orange:#e65500; --orange-lt:#ff7b00;
+  --text:#c9d1d9; --text2:#8b949e; --text3:#6e7681; --text-hi:#f0f6fc;
+  --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif;
+  --rad:6px; --rad2:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;height:100vh;overflow:hidden;display:flex;flex-direction:column;}
+
+/* TOP BAR */
+.topbar{height:48px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:12px;flex-shrink:0;}
+.app-icon{width:32px;height:32px;background:linear-gradient(135deg,#0078d4,#40a9ff);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.app-title{font-size:14px;font-weight:600;color:var(--text-hi);flex:1;}
+.app-subtitle{font-size:11px;color:var(--text3);}
+.status-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:10px;font-family:var(--mono);font-weight:500;}
+.pill-on{background:rgba(35,134,54,.15);color:var(--green-lt);border:1px solid rgba(35,134,54,.35);}
+.pill-off{background:rgba(215,58,73,.15);color:var(--red-lt);border:1px solid rgba(215,58,73,.35);}
+.pulse{width:6px;height:6px;border-radius:50%;animation:pulse 2s ease-in-out infinite;}
+.pulse.on{background:var(--green-lt);}
+.pulse.off{background:var(--red-lt);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* LAYOUT */
+.app-body{flex:1;display:flex;overflow:hidden;}
+
+/* SIDEBAR */
+.sidebar{width:240px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;}
+.sidebar::-webkit-scrollbar{width:4px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2);}
+.nav-section{padding:12px 8px 4px;}
+.nav-label{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.8px;padding:4px 8px;margin-bottom:2px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--rad);cursor:pointer;color:var(--text2);font-size:12px;transition:all .12s;user-select:none;border:1px solid transparent;}
+.nav-item:hover{background:var(--bg3);color:var(--text);}
+.nav-item.active{background:rgba(0,120,212,.12);color:var(--win-blue-lt);border-color:rgba(0,120,212,.25);}
+.nav-item .nav-icon{width:18px;text-align:center;font-size:14px;flex-shrink:0;}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;border-radius:10px;padding:0 5px;font-size:9px;min-width:16px;text-align:center;}
+.sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid var(--border);}
+.fw-status-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:10px 12px;}
+.fw-status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.fw-status-row:last-child{margin-bottom:0;}
+.fw-net-name{font-size:10px;color:var(--text3);font-family:var(--mono);}
+.fw-toggle{width:32px;height:16px;border-radius:8px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;}
+.fw-toggle .knob{position:absolute;top:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:all .2s;}
+.fw-toggle.on{background:var(--win-blue);}
+.fw-toggle.on .knob{left:18px;}
+.fw-toggle.off{background:var(--border2);}
+.fw-toggle.off .knob{left:2px;}
+
+/* MAIN CONTENT */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.pane{display:none;flex:1;flex-direction:column;overflow:hidden;}
+.pane.active{display:flex;}
+.pane-head{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 20px;flex-shrink:0;}
+.ph-title{font-size:16px;font-weight:600;color:var(--text-hi);margin-bottom:2px;}
+.ph-desc{font-size:11px;color:var(--text3);}
+.pane-body{flex:1;overflow-y:auto;padding:18px 20px;}
+.pane-body::-webkit-scrollbar{width:4px;}
+.pane-body::-webkit-scrollbar-thumb{background:var(--border2);}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rad2);overflow:hidden;margin-bottom:14px;}
+.card-h{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.02);}
+.card-title{font-size:12px;font-weight:600;color:var(--text-hi);flex:1;}
+.card-b{padding:16px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.mb12{margin-bottom:12px;} .mb16{margin-bottom:16px;}
+
+/* NETWORK PROFILE CARDS */
+.net-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);padding:14px 16px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden;}
+.net-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;transition:background .2s;}
+.net-card.domain::before{background:var(--win-blue);}
+.net-card.private::before{background:var(--green);}
+.net-card.public::before{background:var(--amber);}
+.net-card:hover{border-color:var(--border2);background:var(--bg4);}
+.net-card.on{border-color:rgba(0,120,212,.3);}
+.nc-icon{font-size:28px;margin-bottom:8px;}
+.nc-name{font-size:13px;font-weight:600;color:var(--text-hi);margin-bottom:4px;}
+.nc-desc{font-size:10px;color:var(--text3);line-height:1.5;margin-bottom:10px;}
+.nc-status{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-family:var(--mono);}
+
+/* BUTTONS */
+.btn{padding:7px 14px;border-radius:var(--rad);border:none;font-size:11px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:all .12s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
+.btn:active{transform:scale(.97);}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none!important;}
+.btn-primary{background:var(--win-blue);color:#fff;}
+.btn-primary:hover:not(:disabled){background:var(--win-blue2);}
+.btn-red{background:rgba(215,58,73,.15);color:var(--red-lt);border:1px solid rgba(215,58,73,.3);}
+.btn-red:hover:not(:disabled){background:rgba(215,58,73,.25);}
+.btn-green{background:rgba(35,134,54,.15);color:var(--green-lt);border:1px solid rgba(35,134,54,.3);}
+.btn-green:hover:not(:disabled){background:rgba(35,134,54,.25);}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2);}
+.btn-ghost:hover:not(:disabled){color:var(--text);border-color:var(--text3);}
+.btn-blue{background:rgba(0,120,212,.15);color:var(--win-blue-lt);border:1px solid rgba(0,120,212,.3);}
+.btn-blue:hover:not(:disabled){background:rgba(0,120,212,.25);}
+.btn-amber{background:rgba(212,147,10,.15);color:var(--amber-lt);border:1px solid rgba(212,147,10,.3);}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:3px;font-size:10px;font-family:var(--mono);font-weight:500;}
+.b-blue{background:rgba(0,120,212,.12);color:var(--win-blue-lt);border:1px solid rgba(0,120,212,.25);}
+.b-green{background:rgba(35,134,54,.12);color:var(--green-lt);border:1px solid rgba(35,134,54,.25);}
+.b-red{background:rgba(215,58,73,.12);color:var(--red-lt);border:1px solid rgba(215,58,73,.25);}
+.b-amber{background:rgba(212,147,10,.12);color:var(--amber-lt);border:1px solid rgba(212,147,10,.25);}
+.b-gray{background:rgba(110,118,129,.12);color:var(--text2);border:1px solid rgba(110,118,129,.25);}
+.b-purple{background:rgba(110,64,201,.12);color:var(--purple-lt);border:1px solid rgba(110,64,201,.25);}
+
+/* FORM INPUTS */
+.field{width:100%;padding:7px 10px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--rad);color:var(--text);font-family:var(--mono);font-size:12px;outline:none;transition:border-color .15s;}
+.field:focus{border-color:var(--win-blue);}
+.field-label{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;display:block;}
+select.field{cursor:pointer;}
+
+/* RULES TABLE */
+.rules-tbl{width:100%;border-collapse:collapse;font-size:11px;}
+.rules-tbl th{padding:7px 12px;background:var(--bg3);border-bottom:1px solid var(--border);text-align:left;font-size:10px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;position:sticky;top:0;z-index:2;}
+.rules-tbl td{padding:8px 12px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;vertical-align:middle;}
+.rules-tbl tr:hover td{background:rgba(255,255,255,.02);}
+.rules-tbl tr.selected td{background:rgba(0,120,212,.08)!important;}
+.rules-tbl tr.disabled td{opacity:.45;}
+.rule-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;}
+.tbl-wrap{border:1px solid var(--border);border-radius:var(--rad);overflow:hidden;max-height:340px;overflow-y:auto;}
+.tbl-wrap::-webkit-scrollbar{width:4px;}
+.tbl-wrap::-webkit-scrollbar-thumb{background:var(--border2);}
+
+/* RULE DETAIL PANEL */
+.rule-detail{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);overflow:hidden;}
+.rd-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg4);}
+.rd-tab{padding:8px 16px;font-size:11px;cursor:pointer;color:var(--text3);transition:all .12s;border-bottom:2px solid transparent;user-select:none;}
+.rd-tab:hover{color:var(--text2);}
+.rd-tab.active{color:var(--win-blue-lt);border-bottom-color:var(--win-blue);}
+.rd-body{padding:14px 16px;}
+.rd-row{display:flex;align-items:flex-start;gap:12px;padding:7px 0;border-bottom:1px solid var(--border);}
+.rd-row:last-child{border-bottom:none;}
+.rd-key{font-size:11px;color:var(--text2);width:160px;flex-shrink:0;}
+.rd-val{font-size:11px;color:var(--text-hi);font-family:var(--mono);flex:1;}
+
+/* SCENARIO CARDS */
+.scenario{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all .15s;}
+.scenario:hover{border-color:var(--border2);}
+.scenario.active{border-color:rgba(0,120,212,.4);background:rgba(0,120,212,.05);}
+.scenario.complete{border-color:rgba(35,134,54,.4);}
+.sc-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.sc-num{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text3);flex-shrink:0;transition:all .2s;}
+.scenario.complete .sc-num{background:var(--green);border-color:var(--green);color:#fff;}
+.scenario.active .sc-num{background:rgba(0,120,212,.2);border-color:var(--win-blue);color:var(--win-blue-lt);}
+.sc-title{font-size:12px;font-weight:600;color:var(--text-hi);}
+.sc-tag{font-size:9px;color:var(--text3);font-family:var(--mono);}
+.sc-desc{font-size:11px;color:var(--text3);line-height:1.6;margin-bottom:10px;}
+
+/* WIZARD STEPS */
+.wiz-step{display:flex;gap:12px;padding:10px 12px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--rad);margin-bottom:6px;transition:all .2s;}
+.wiz-step.done{border-color:rgba(35,134,54,.4);}
+.wiz-step.active-step{border-color:rgba(0,120,212,.4);}
+.wiz-num{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text3);flex-shrink:0;transition:all .2s;}
+.wiz-step.done .wiz-num{background:var(--green);border-color:var(--green);color:#fff;}
+.wiz-step.active-step .wiz-num{background:rgba(0,120,212,.15);border-color:var(--win-blue);color:var(--win-blue-lt);}
+.wiz-title{font-size:11px;font-weight:500;margin-bottom:2px;}
+.wiz-desc{font-size:10px;color:var(--text3);}
+
+/* IDS MONITOR */
+.ids-canvas-wrap{background:var(--bg);border:1px solid var(--border);border-radius:var(--rad);height:160px;position:relative;overflow:hidden;margin-bottom:14px;}
+#ids-canvas{position:absolute;inset:0;}
+.ids-log{background:var(--bg);border:1px solid var(--border);border-radius:var(--rad);height:200px;overflow-y:auto;padding:8px 12px;font-family:var(--mono);font-size:11px;}
+.ids-log::-webkit-scrollbar{width:3px;}
+.ids-log::-webkit-scrollbar-thumb{background:var(--border2);}
+.lline{margin-bottom:3px;line-height:1.7;}
+.lts{color:var(--text3);margin-right:6px;}
+.lalert{color:var(--red-lt);}
+.lwarn{color:var(--amber-lt);}
+.lok{color:var(--green-lt);}
+.linfo{color:var(--win-blue-lt);}
+
+/* ATTACK PANEL */
+.attack-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);padding:14px 16px;position:relative;overflow:hidden;}
+.attack-card::after{content:'';position:absolute;top:0;left:0;width:3px;height:100%;border-radius:2px 0 0 2px;}
+.attack-card.pod::after{background:var(--red-lt);}
+.attack-card.portscan::after{background:var(--amber-lt);}
+.attack-card.ids::after{background:var(--green-lt);}
+
+/* REFERENCE */
+.ref-section{margin-bottom:20px;}
+.ref-h2{font-size:14px;font-weight:600;color:var(--text-hi);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.ref-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px;}
+.ref-table th{padding:7px 12px;background:var(--bg3);border:1px solid var(--border);text-align:left;font-size:10px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.5px;}
+.ref-table td{padding:8px 12px;border:1px solid var(--border);font-size:11px;line-height:1.5;}
+.ref-table td strong{color:var(--text-hi);}
+.defense-layer{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:10px 14px;margin-bottom:6px;display:flex;align-items:flex-start;gap:10px;}
+.dl-num{width:24px;height:24px;border-radius:4px;background:rgba(0,120,212,.2);border:1px solid rgba(0,120,212,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--win-blue-lt);flex-shrink:0;}
+
+/* IP BLOCK WIZARD */
+.ip-wiz-step{padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);margin-bottom:8px;transition:all .2s;}
+.ip-wiz-step.current{border-color:rgba(0,120,212,.4);background:rgba(0,120,212,.04);}
+.ip-wiz-step.complete{border-color:rgba(35,134,54,.35);background:rgba(35,134,54,.04);}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rad2);padding:10px 16px;font-size:12px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9999;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;max-width:360px;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast-icon{font-size:16px;flex-shrink:0;}
+
+/* DIVIDER */
+.div{height:1px;background:var(--border);margin:14px 0;}
+
+/* STAT CARD */
+.stat-c{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);padding:12px 14px;}
+.stat-lbl{font-size:10px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.stat-val{font-size:22px;font-weight:700;font-family:var(--mono);}
+.stat-sub{font-size:10px;color:var(--text3);margin-top:3px;}
+
+/* DIALOG OVERLAY */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center;}
+.overlay.open{display:flex;}
+.dialog{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rad2);width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+.dialog::-webkit-scrollbar{width:4px;}
+.dialog::-webkit-scrollbar-thumb{background:var(--border2);}
+.dialog-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.dialog-title{font-size:13px;font-weight:600;color:var(--text-hi);flex:1;}
+.dialog-body{padding:18px;}
+.dialog-foot{padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="app-icon">🛡</div>
+  <div>
+    <div class="app-title">Windows Defender Firewall &amp; IDS Lab Simulator</div>
+    <div class="app-subtitle">Advanced Security — Windows 11 Pro · Lab Environment</div>
+  </div>
+  <div class="status-pill pill-on"><div class="pulse on"></div>Firewall Active</div>
+  <div class="status-pill pill-on" style="margin-left:6px"><div class="pulse on"></div>IDS Running</div>
+</div>
+
+<div class="app-body">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="nav-section">
+    <div class="nav-label">Overview</div>
+    <div class="nav-item active" data-pane="overview"><span class="nav-icon">🏠</span> Security Overview</div>
+    <div class="nav-item" data-pane="networks"><span class="nav-icon">🔒</span> Firewall &amp; Networks</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Firewall Rules</div>
+    <div class="nav-item" data-pane="inbound"><span class="nav-icon">📥</span> Inbound Rules</div>
+    <div class="nav-item" data-pane="outbound"><span class="nav-icon">📤</span> Outbound Rules</div>
+    <div class="nav-item" data-pane="scenarios"><span class="nav-icon">⚙</span> Lab Scenarios <span class="nav-badge" id="scene-badge">4</span></div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Intrusion Detection</div>
+    <div class="nav-item" data-pane="ids"><span class="nav-icon">🔍</span> IDS Monitor</div>
+    <div class="nav-item" data-pane="attacks"><span class="nav-icon">⚡</span> Attack Simulator</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Reference</div>
+    <div class="nav-item" data-pane="reference"><span class="nav-icon">📖</span> Limitations Guide</div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div style="font-size:10px;color:var(--text3);font-family:var(--mono);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Firewall Profiles</div>
+    <div class="fw-status-card">
+      <div class="fw-status-row">
+        <span class="fw-net-name">Domain</span>
+        <div class="fw-toggle on" id="toggle-domain" onclick="toggleNet('domain',this)"><div class="knob"></div></div>
+      </div>
+      <div class="fw-status-row">
+        <span class="fw-net-name">Private</span>
+        <div class="fw-toggle on" id="toggle-private" onclick="toggleNet('private',this)"><div class="knob"></div></div>
+      </div>
+      <div class="fw-status-row">
+        <span class="fw-net-name">Public</span>
+        <div class="fw-toggle on" id="toggle-public" onclick="toggleNet('public',this)"><div class="knob"></div></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<!-- ═══════════ PANE: OVERVIEW ═══════════ -->
+<div class="pane active" id="pane-overview">
+  <div class="pane-head">
+    <div class="ph-title">🛡 Windows Security — Overview</div>
+    <div class="ph-desc">Lab: Protocols and Ports · Windows Firewall with Advanced Security · IDS Monitoring</div>
+  </div>
+  <div class="pane-body">
+    <div class="grid-4 mb16">
+      <div class="stat-c"><div class="stat-lbl">Inbound Rules</div><div class="stat-val" id="ov-inbound" style="color:var(--win-blue-lt)">14</div><div class="stat-sub">active rules</div></div>
+      <div class="stat-c"><div class="stat-lbl">Outbound Rules</div><div class="stat-val" id="ov-outbound" style="color:var(--green-lt)">8</div><div class="stat-sub">active rules</div></div>
+      <div class="stat-c"><div class="stat-lbl">IDS Alerts</div><div class="stat-val" id="ov-alerts" style="color:var(--red-lt)">0</div><div class="stat-sub">last 5 min</div></div>
+      <div class="stat-c"><div class="stat-lbl">Blocked IPs</div><div class="stat-val" id="ov-blocked" style="color:var(--amber-lt)">1</div><div class="stat-sub">outbound block</div></div>
+    </div>
+    <div class="grid-3">
+      <div class="net-card domain on" onclick="showPane('networks')">
+        <div class="nc-icon">🏢</div>
+        <div class="nc-name">Domain Network</div>
+        <div class="nc-desc">Workplace networks requiring domain authentication.</div>
+        <div class="nc-status"><div class="pulse on" style="background:var(--green-lt);flex-shrink:0"></div><span style="color:var(--green-lt)">Windows Defender Firewall: On</span></div>
+      </div>
+      <div class="net-card private on" onclick="showPane('networks')">
+        <div class="nc-icon">🏠</div>
+        <div class="nc-name">Private Network</div>
+        <div class="nc-desc">Discoverable networks such as home or trusted LANs.</div>
+        <div class="nc-status"><div class="pulse on" style="background:var(--green-lt);flex-shrink:0"></div><span style="color:var(--green-lt)">Windows Defender Firewall: On</span></div>
+      </div>
+      <div class="net-card public on" onclick="showPane('networks')">
+        <div class="nc-icon">☕</div>
+        <div class="nc-name">Public Network</div>
+        <div class="nc-desc">Non-discoverable networks like coffee shops or airports.</div>
+        <div class="nc-status"><div class="pulse on" style="background:var(--green-lt);flex-shrink:0"></div><span style="color:var(--green-lt)">Windows Defender Firewall: On</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h"><div class="card-title">📋 Lab Quick Reference</div></div>
+      <div class="card-b">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:12px">
+            <div style="font-size:11px;font-weight:600;color:var(--win-blue-lt);margin-bottom:8px">🔬 Lab 1 — Protocols & Ports</div>
+            <div style="font-size:11px;color:var(--text3);line-height:1.7">
+              • Open Windows Defender Firewall with Advanced Security<br>
+              • Inspect Inbound Rules for Firefox (UDP + TCP)<br>
+              • Note: UDP = streaming; TCP = HTTP/HTTPS
+            </div>
+            <button class="btn btn-blue" style="margin-top:8px;font-size:10px" onclick="showPane('inbound')">Open Inbound Rules →</button>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:12px">
+            <div style="font-size:11px;font-weight:600;color:var(--amber-lt);margin-bottom:8px">⚙ Lab 2 — Firewall Advanced Security</div>
+            <div style="font-size:11px;color:var(--text3);line-height:1.7">
+              • Enable firewall on Domain / Private / Public<br>
+              • Configure 4 real-world scenarios<br>
+              • Block RDP, HTTP, outbound apps, KMS
+            </div>
+            <button class="btn btn-amber" style="margin-top:8px;font-size:10px" onclick="showPane('scenarios')">Open Scenarios →</button>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:12px">
+            <div style="font-size:11px;font-weight:600;color:var(--red-lt);margin-bottom:8px">🚫 Lab 3 — Configure Outbound Rules</div>
+            <div style="font-size:11px;color:var(--text3);line-height:1.7">
+              • Create custom outbound rule<br>
+              • Block IP: 66.29.132.195 (Jharkhand Cricket)<br>
+              • Enable / disable / verify rule
+            </div>
+            <button class="btn btn-red" style="margin-top:8px;font-size:10px" onclick="showPane('outbound')">Open Outbound Rules →</button>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:12px">
+            <div style="font-size:11px;font-weight:600;color:var(--green-lt);margin-bottom:8px">🔍 IDS Lab — Attack Detection</div>
+            <div style="font-size:11px;color:var(--text3);line-height:1.7">
+              • Ping of Death attack simulation<br>
+              • Port scanning with Nmap<br>
+              • Signature-based IDS detection
+            </div>
+            <button class="btn btn-green" style="margin-top:8px;font-size:10px" onclick="showPane('attacks')">Open IDS Lab →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PANE: NETWORKS ═══════════ -->
+<div class="pane" id="pane-networks">
+  <div class="pane-head">
+    <div class="ph-title">🔒 Firewall &amp; Network Protection</div>
+    <div class="ph-desc">Lab 2, Exercise 1: Enable or disable Windows Defender Firewall for each network profile</div>
+  </div>
+  <div class="pane-body">
+    <div style="background:rgba(0,120,212,.08);border:1px solid rgba(0,120,212,.25);border-radius:var(--rad);padding:12px 14px;margin-bottom:16px;font-size:11px;color:var(--win-blue-lt);line-height:1.7">
+      <strong>Lab Objective:</strong> Verify the Windows Defender Firewall is toggled <strong>On</strong> for all three network profiles. Click each profile card below to view its settings and toggle the firewall state.
+    </div>
+    <div id="net-cards-wrap" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px"></div>
+    <div class="card" id="net-detail-panel">
+      <div class="card-h"><div class="card-title" id="net-detail-title">Select a network profile above</div></div>
+      <div class="card-b" id="net-detail-body">
+        <div style="font-size:11px;color:var(--text3);text-align:center;padding:20px">Click a network profile card to see its configuration.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PANE: INBOUND RULES ═══════════ -->
+<div class="pane" id="pane-inbound">
+  <div class="pane-head">
+    <div class="ph-title">📥 Inbound Rules</div>
+    <div class="ph-desc">Lab 1: Inspect protocols and ports for application firewall rules</div>
+  </div>
+  <div class="pane-body">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <input class="field" id="inbound-search" type="text" placeholder="Filter rules…" style="max-width:260px" oninput="filterRules('inbound')">
+      <button class="btn btn-primary" onclick="openNewRuleDialog('inbound')">+ New Rule</button>
+      <button class="btn btn-ghost" onclick="filterRules('inbound')">Refresh</button>
+      <div style="margin-left:auto;font-size:10px;color:var(--text3);font-family:var(--mono)" id="inbound-count"></div>
+    </div>
+    <div class="tbl-wrap" style="max-height:280px">
+      <table class="rules-tbl">
+        <thead><tr><th></th><th>Name</th><th>Group</th><th>Profile</th><th>Action</th><th>Protocol</th><th>Local Port</th><th>Remote Port</th></tr></thead>
+        <tbody id="inbound-tbody"></tbody>
+      </table>
+    </div>
+    <div class="div"></div>
+    <div class="grid-2">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:8px">Rule Properties</div>
+        <div class="rule-detail" id="inbound-detail">
+          <div class="rd-tabs">
+            <div class="rd-tab active" onclick="switchTab('inbound','general')">General</div>
+            <div class="rd-tab" onclick="switchTab('inbound','protocols')">Protocols &amp; Ports</div>
+            <div class="rd-tab" onclick="switchTab('inbound','scope')">Scope</div>
+            <div class="rd-tab" onclick="switchTab('inbound','advanced')">Advanced</div>
+          </div>
+          <div class="rd-body" id="inbound-detail-body">
+            <div style="font-size:11px;color:var(--text3);text-align:center;padding:20px">Double-click a rule to view its properties</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:8px">Lab Notes — Protocols &amp; Ports</div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);padding:14px">
+          <div style="font-size:11px;color:var(--text2);line-height:1.8">
+            <div style="margin-bottom:8px"><span class="badge b-blue">UDP</span><span style="margin-left:8px;color:var(--text3)">User Datagram Protocol</span></div>
+            <div style="font-size:10px;color:var(--text3);margin-bottom:12px;line-height:1.6">UDP is <strong style="color:var(--text2)">faster</strong> but less reliable than TCP. Used for streaming media, DNS queries, VoIP, and real-time applications where speed matters more than guaranteed delivery.</div>
+            <div style="margin-bottom:8px"><span class="badge b-amber">TCP</span><span style="margin-left:8px;color:var(--text3)">Transmission Control Protocol</span></div>
+            <div style="font-size:10px;color:var(--text3);line-height:1.6">TCP is <strong style="color:var(--text2)">more reliable</strong> than UDP. Uses handshaking to guarantee delivery. HTTP (port 80) and HTTPS (port 443) use TCP. Required for web browsing and file transfers.</div>
+            <div class="div"></div>
+            <div style="font-size:10px;color:var(--amber-lt)">⚡ Lab Exercise: Select the Firefox rules below to compare their protocols</div>
+          </div>
+        </div>
+        <div style="margin-top:12px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);padding:14px">
+          <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:8px">Common Port Reference</div>
+          <table style="width:100%;border-collapse:collapse;font-size:10px;font-family:var(--mono)">
+            <tr><td style="padding:3px 0;color:var(--text3)">HTTP</td><td style="color:var(--amber-lt)">TCP 80</td></tr>
+            <tr><td style="padding:3px 0;color:var(--text3)">HTTPS</td><td style="color:var(--green-lt)">TCP 443</td></tr>
+            <tr><td style="padding:3px 0;color:var(--text3)">RDP</td><td style="color:var(--red-lt)">TCP 3389</td></tr>
+            <tr><td style="padding:3px 0;color:var(--text3)">DNS</td><td style="color:var(--win-blue-lt)">UDP/TCP 53</td></tr>
+            <tr><td style="padding:3px 0;color:var(--text3)">SSH</td><td style="color:var(--win-blue-lt)">TCP 22</td></tr>
+            <tr><td style="padding:3px 0;color:var(--text3)">FTP</td><td style="color:var(--purple-lt)">TCP 20/21</td></tr>
+            <tr><td style="padding:3px 0;color:var(--text3)">KMS</td><td style="color:var(--win-blue-lt)">TCP 1688</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PANE: OUTBOUND RULES ═══════════ -->
+<div class="pane" id="pane-outbound">
+  <div class="pane-head">
+    <div class="ph-title">📤 Outbound Rules</div>
+    <div class="ph-desc">Lab 3: Create outbound rule to block specific IP addresses</div>
+  </div>
+  <div class="pane-body">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <input class="field" id="outbound-search" type="text" placeholder="Filter rules…" style="max-width:260px" oninput="filterRules('outbound')">
+      <button class="btn btn-primary" onclick="openIPWizard()">+ New Rule (IP Block)</button>
+      <button class="btn btn-ghost" onclick="filterRules('outbound')">Refresh</button>
+      <div style="margin-left:auto;font-size:10px;color:var(--text3);font-family:var(--mono)" id="outbound-count"></div>
+    </div>
+    <div class="tbl-wrap" style="max-height:260px">
+      <table class="rules-tbl">
+        <thead><tr><th></th><th>Name</th><th>Group</th><th>Profile</th><th>Action</th><th>Protocol</th><th>Remote IP</th></tr></thead>
+        <tbody id="outbound-tbody"></tbody>
+      </table>
+    </div>
+    <div class="div"></div>
+    <div class="grid-2">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:8px">Lab 3: Block IP Wizard</div>
+        <div id="ip-wizard-panel">
+          <div style="background:rgba(212,147,10,.08);border:1px solid rgba(212,147,10,.25);border-radius:var(--rad);padding:10px 12px;margin-bottom:12px;font-size:11px;color:var(--amber-lt)">
+            <strong>Objective:</strong> Block outbound connections to IP <code style="background:var(--bg);padding:1px 5px;border-radius:3px">66.29.132.195</code> (Jharkhand State Cricket Association)
+          </div>
+          <div id="ip-wiz-steps"></div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="btn btn-primary" id="ip-wiz-next" onclick="advIPWiz()">Next Step →</button>
+            <button class="btn btn-ghost" onclick="resetIPWiz()">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:8px">Verify Block Rule</div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);padding:14px">
+          <div style="font-size:11px;color:var(--text2);margin-bottom:10px">Test if the IP block rule is working by simulating outbound connection attempts.</div>
+          <div style="margin-bottom:8px"><label class="field-label">Target IP Address</label>
+            <input class="field" id="verify-ip" type="text" value="66.29.132.195"></div>
+          <button class="btn btn-primary" onclick="verifyBlock()" style="margin-bottom:12px;width:100%">▶ Test Connection</button>
+          <div id="verify-result" style="font-family:var(--mono);font-size:11px;display:none"></div>
+        </div>
+        <div style="margin-top:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);padding:14px">
+          <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:8px">Rule Actions</div>
+          <div id="rule-actions-list" style="font-size:11px;color:var(--text3)">Select a rule in the table above to enable/disable or delete it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PANE: SCENARIOS ═══════════ -->
+<div class="pane" id="pane-scenarios">
+  <div class="pane-head">
+    <div class="ph-title">⚙ Lab 2 — Firewall Scenarios</div>
+    <div class="ph-desc">Exercise 2: Configure Windows Defender Firewall with Advanced Security for real-world use cases</div>
+  </div>
+  <div class="pane-body">
+    <div class="grid-2">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:10px">Select a Scenario</div>
+        <div id="scenario-list"></div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:10px">Configure Scenario</div>
+        <div id="scenario-config">
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad2);padding:20px;text-align:center;color:var(--text3);font-size:11px">Select a scenario from the left to begin configuration</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PANE: IDS MONITOR ═══════════ -->
+<div class="pane" id="pane-ids">
+  <div class="pane-head">
+    <div class="ph-title">🔍 IDS Monitor — Intrusion Detection System</div>
+    <div class="ph-desc">Real-time network traffic analysis and signature-based threat detection</div>
+  </div>
+  <div class="pane-body">
+    <div class="grid-4 mb16">
+      <div class="stat-c"><div class="stat-lbl">Packets Analyzed</div><div class="stat-val" id="ids-pkts" style="color:var(--win-blue-lt)">0</div></div>
+      <div class="stat-c"><div class="stat-lbl">Threats Detected</div><div class="stat-val" id="ids-threats" style="color:var(--red-lt)">0</div></div>
+      <div class="stat-c"><div class="stat-lbl">Alerts Raised</div><div class="stat-val" id="ids-raised" style="color:var(--amber-lt)">0</div></div>
+      <div class="stat-c"><div class="stat-lbl">Signatures Loaded</div><div class="stat-val" id="ids-sigs" style="color:var(--green-lt)">47</div></div>
+    </div>
+    <div class="card">
+      <div class="card-h">
+        <div class="card-title">Network Traffic — Packet Rate Monitor</div>
+        <div style="display:flex;gap:8px;margin-left:auto">
+          <button class="btn btn-green" onclick="startIDS()" id="ids-start-btn">▶ Start Monitor</button>
+          <button class="btn btn-ghost" onclick="stopIDS()" id="ids-stop-btn" disabled>■ Stop</button>
+        </div>
+      </div>
+      <div class="card-b" style="padding:10px">
+        <div class="ids-canvas-wrap"><canvas id="ids-canvas"></canvas></div>
+        <div style="display:flex;gap:16px;font-size:10px;font-family:var(--mono);color:var(--text3)">
+          <span style="color:var(--win-blue-lt)">■ Normal Traffic</span>
+          <span style="color:var(--amber-lt)">■ Port Scan</span>
+          <span style="color:var(--red-lt)">■ DoS/Attack</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h">
+        <div class="card-title">IDS Alert Log — Signature-Based Detection</div>
+        <button class="btn btn-ghost" onclick="clearIDSLog()" style="margin-left:auto;font-size:10px">Clear Log</button>
+      </div>
+      <div class="card-b" style="padding:10px">
+        <div class="ids-log" id="ids-log">
+          <div class="lline"><span class="lts">[boot]</span><span class="linfo">IDS Engine initialized. Signatures loaded: 47. Awaiting traffic…</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PANE: ATTACKS ═══════════ -->
+<div class="pane" id="pane-attacks">
+  <div class="pane-head">
+    <div class="ph-title">⚡ Attack Simulator — IDS Lab</div>
+    <div class="ph-desc">Simulate Ping of Death, Port Scan, and observe signature-based IDS detection responses</div>
+  </div>
+  <div class="pane-body">
+    <div style="background:rgba(215,58,73,.08);border:1px solid rgba(215,58,73,.25);border-radius:var(--rad);padding:10px 14px;margin-bottom:14px;font-size:11px;color:var(--red-lt)">
+      ⚠ <strong>Lab Simulation:</strong> All attacks shown here are simulated within this lab environment. No actual network traffic is generated. This demonstrates how a real IDS detects and logs these threats.
+    </div>
+    <div class="grid-3">
+      <div class="attack-card pod">
+        <div style="font-size:13px;font-weight:600;color:var(--text-hi);margin-bottom:6px">💀 Ping of Death</div>
+        <div style="font-size:10px;color:var(--text3);line-height:1.6;margin-bottom:12px">
+          Sends oversized ICMP packets (&gt;65,535 bytes) that cause target system buffer overflows and crashes. A classic DoS attack detected by ICMP size signature rules.
+        </div>
+        <div style="margin-bottom:10px">
+          <label class="field-label">Target IP</label>
+          <input class="field" id="pod-target" type="text" value="192.168.1.50">
+        </div>
+        <div style="margin-bottom:10px">
+          <label class="field-label">Packet Count</label>
+          <input class="field" id="pod-count" type="number" value="100" min="1" max="500">
+        </div>
+        <div id="pod-progress" style="display:none;margin-bottom:8px">
+          <div style="background:var(--border);border-radius:3px;height:5px;overflow:hidden">
+            <div id="pod-bar" style="height:100%;background:var(--red-lt);width:0%;transition:width .3s;border-radius:3px"></div>
+          </div>
+          <div style="font-size:10px;color:var(--red-lt);margin-top:4px;font-family:var(--mono)" id="pod-label">Sending packets…</div>
+        </div>
+        <button class="btn btn-red" onclick="simPoD()" id="pod-btn" style="width:100%">🚀 Launch Ping of Death</button>
+      </div>
+
+      <div class="attack-card portscan">
+        <div style="font-size:13px;font-weight:600;color:var(--text-hi);margin-bottom:6px">🔭 Port Scan (Nmap)</div>
+        <div style="font-size:10px;color:var(--text3);line-height:1.6;margin-bottom:12px">
+          Systematically probes target ports to map open services. IDS detects by identifying rapid sequential SYN packets to multiple ports from a single source.
+        </div>
+        <div style="margin-bottom:10px">
+          <label class="field-label">Target IP</label>
+          <input class="field" id="scan-target" type="text" value="192.168.1.1">
+        </div>
+        <div style="margin-bottom:10px">
+          <label class="field-label">Scan Type</label>
+          <select class="field" id="scan-type">
+            <option value="syn">SYN Stealth Scan (-sS)</option>
+            <option value="tcp">TCP Connect Scan (-sT)</option>
+            <option value="udp">UDP Scan (-sU)</option>
+            <option value="os">OS Detection (-O)</option>
+          </select>
+        </div>
+        <div id="scan-progress" style="display:none;margin-bottom:8px">
+          <div style="background:var(--border);border-radius:3px;height:5px;overflow:hidden">
+            <div id="scan-bar" style="height:100%;background:var(--amber-lt);width:0%;transition:width .3s;border-radius:3px"></div>
+          </div>
+          <div style="font-size:10px;color:var(--amber-lt);margin-top:4px;font-family:var(--mono)" id="scan-label">Scanning…</div>
+        </div>
+        <button class="btn btn-amber" onclick="simPortScan()" id="scan-btn" style="width:100%">🔍 Run Port Scan</button>
+        <div id="scan-results" style="margin-top:8px"></div>
+      </div>
+
+      <div class="attack-card ids">
+        <div style="font-size:13px;font-weight:600;color:var(--text-hi);margin-bottom:6px">🛡 IDS Signature Engine</div>
+        <div style="font-size:10px;color:var(--text3);line-height:1.6;margin-bottom:12px">
+          Signature-based detection matches packet patterns against known attack fingerprints. Effective against known threats; blind to zero-day exploits.
+        </div>
+        <div style="font-size:10px;font-weight:600;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Loaded Signatures</div>
+        <div id="sig-list" style="font-family:var(--mono);font-size:10px;max-height:120px;overflow-y:auto">
+        </div>
+        <div class="div" style="margin:8px 0"></div>
+        <button class="btn btn-green" style="width:100%;margin-bottom:5px" onclick="updateSigs()">↻ Update Signatures</button>
+        <button class="btn btn-ghost" style="width:100%" onclick="testSig()">Test Signature Match</button>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="card-h">
+        <div class="card-title">Real-Time IDS Detection Log</div>
+        <button class="btn btn-ghost" style="margin-left:auto;font-size:10px" onclick="clearAttackLog()">Clear</button>
+      </div>
+      <div class="card-b" style="padding:10px">
+        <div class="ids-log" id="attack-log">
+          <div class="lline"><span class="lts">[ready]</span><span class="linfo">IDS detection engine ready. Launch an attack simulation to observe real-time detection.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PANE: REFERENCE ═══════════ -->
+<div class="pane" id="pane-reference">
+  <div class="pane-head">
+    <div class="ph-title">📖 Limitations of Firewalls and IDS — Study Guide</div>
+    <div class="ph-desc">Reading: Understand the security gaps left by firewalls and intrusion detection systems</div>
+  </div>
+  <div class="pane-body">
+    <div class="grid-4 mb16">
+      <div class="stat-c" style="cursor:pointer" onclick="scrollToRef('fw-limits')"><div class="stat-lbl">Firewall Limits</div><div class="stat-val" style="color:var(--amber-lt);font-size:16px">5</div><div class="stat-sub">key weaknesses</div></div>
+      <div class="stat-c" style="cursor:pointer" onclick="scrollToRef('ids-limits')"><div class="stat-lbl">IDS Limits</div><div class="stat-val" style="color:var(--red-lt);font-size:16px">6</div><div class="stat-sub">key weaknesses</div></div>
+      <div class="stat-c" style="cursor:pointer" onclick="scrollToRef('defense')"><div class="stat-lbl">Defense Layers</div><div class="stat-val" style="color:var(--green-lt);font-size:16px">6</div><div class="stat-sub">recommended</div></div>
+      <div class="stat-c" style="cursor:pointer" onclick="scrollToRef('glossary')"><div class="stat-lbl">Key Terms</div><div class="stat-val" style="color:var(--win-blue-lt);font-size:16px">12</div><div class="stat-sub">in glossary</div></div>
+    </div>
+
+    <div class="ref-section" id="fw-limits">
+      <div class="ref-h2">🔥 1. Limitations of Firewalls</div>
+      <table class="ref-table">
+        <thead><tr><th>Limitation</th><th>Problem</th><th>Real-World Example</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge b-amber">Insider Threats</span></td><td>Regulate external access only; cannot prevent internal attacks</td><td>Malicious employee exfiltrates data from inside the perimeter</td></tr>
+          <tr><td><span class="badge b-red">APTs</span></td><td>Not designed to detect multi-stage, stealthy intrusions</td><td>Attacker uses stolen credentials, blends with normal traffic for months</td></tr>
+          <tr><td><span class="badge b-purple">Encrypted Traffic</span></td><td>Cannot inspect HTTPS/VPN content without SSL decryption</td><td>Malware communicates over HTTPS, bypassing content inspection</td></tr>
+          <tr><td><span class="badge b-gray">False Security</span></td><td>Over-reliance leaves other vulnerabilities unaddressed</td><td>Misconfigured rule opens unintended port; weak passwords exploited</td></tr>
+          <tr><td><span class="badge b-blue">Zero-Day</span></td><td>Depends on static rules; cannot block unknown attack methods</td><td>Novel exploit not yet in vendor signatures bypasses all rules</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ref-section" id="ids-limits">
+      <div class="ref-h2">🔍 2. Limitations of Intrusion Detection Systems</div>
+      <table class="ref-table">
+        <thead><tr><th>Limitation</th><th>Problem</th><th>Impact</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge b-amber">False Positives</span></td><td>Legitimate activity flagged as suspicious</td><td>Alert fatigue — real threats ignored amid noise</td></tr>
+          <tr><td><span class="badge b-gray">Passive Only</span></td><td>Detects and alerts; cannot block threats in real-time</td><td>DDoS generates alerts but network still saturated</td></tr>
+          <tr><td><span class="badge b-red">Evasion</span></td><td>Packet fragmentation, obfuscation, polymorphic malware</td><td>Payload split into harmless fragments; only malicious when reassembled</td></tr>
+          <tr><td><span class="badge b-purple">Encrypted Traffic</span></td><td>Cannot inspect TLS content</td><td>C2 server communication over HTTPS goes undetected</td></tr>
+          <tr><td><span class="badge b-blue">Zero-Day</span></td><td>Signature-based detection misses unknown threats</td><td>Novel web server exploit bypasses all signature rules</td></tr>
+          <tr><td><span class="badge b-gray">Resource Intensive</span></td><td>NIDS requires heavy resources at high traffic volumes</td><td>Busy data center NIDS drops packets, creating blind spots</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ref-section" id="defense">
+      <div class="ref-h2">🛡 3. Defense in Depth — Layered Security Architecture</div>
+      <div style="margin-bottom:12px">
+        <div class="defense-layer"><div class="dl-num">1</div><div><div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:3px">Perimeter Security</div><div style="font-size:10px;color:var(--text3)">Next-Generation Firewall (NGFW) · Intrusion Prevention System (IPS) · SSL/TLS Inspection</div></div></div>
+        <div class="defense-layer"><div class="dl-num">2</div><div><div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:3px">Network Security</div><div style="font-size:10px;color:var(--text3)">Network Segmentation (VLANs) · Network-based IDS/IPS · Network Access Control (NAC)</div></div></div>
+        <div class="defense-layer"><div class="dl-num">3</div><div><div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:3px">Host Security</div><div style="font-size:10px;color:var(--text3)">Host-based IDS/IPS · Endpoint Detection and Response (EDR) · Antivirus/Anti-malware</div></div></div>
+        <div class="defense-layer"><div class="dl-num">4</div><div><div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:3px">Application Security</div><div style="font-size:10px;color:var(--text3)">Web Application Firewall (WAF) · API Security · Runtime Application Self-Protection (RASP)</div></div></div>
+        <div class="defense-layer"><div class="dl-num">5</div><div><div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:3px">Data Security</div><div style="font-size:10px;color:var(--text3)">Data Loss Prevention (DLP) · Encryption · Backup and Recovery</div></div></div>
+        <div class="defense-layer"><div class="dl-num">6</div><div><div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:3px">Monitoring &amp; Analytics</div><div style="font-size:10px;color:var(--text3)">SIEM · User and Entity Behavior Analytics (UEBA) · Security Orchestration and Response (SOAR)</div></div></div>
+      </div>
+    </div>
+
+    <div class="ref-section" id="glossary">
+      <div class="ref-h2">📚 Key Terms Glossary</div>
+      <table class="ref-table">
+        <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Firewall</strong></td><td>Network security device that filters traffic based on predefined rules</td></tr>
+          <tr><td><strong>IDS</strong></td><td>Intrusion Detection System — monitors traffic, alerts on suspicious activity (passive)</td></tr>
+          <tr><td><strong>IPS</strong></td><td>Intrusion Prevention System — monitors AND actively blocks suspicious traffic</td></tr>
+          <tr><td><strong>APT</strong></td><td>Advanced Persistent Threat — stealthy, long-term attack maintaining unauthorized access</td></tr>
+          <tr><td><strong>Zero-Day Exploit</strong></td><td>Attack targeting a vulnerability unknown to the software vendor</td></tr>
+          <tr><td><strong>False Positive</strong></td><td>Legitimate activity incorrectly flagged as malicious</td></tr>
+          <tr><td><strong>Alert Fatigue</strong></td><td>Desensitization to security alerts due to excessive false positives</td></tr>
+          <tr><td><strong>Data Exfiltration</strong></td><td>Unauthorized transfer of data from an organization's systems</td></tr>
+          <tr><td><strong>WAF</strong></td><td>Web Application Firewall — specialized firewall for web applications (SQLi, XSS)</td></tr>
+          <tr><td><strong>SIEM</strong></td><td>Security Information and Event Management — aggregates and correlates security data</td></tr>
+          <tr><td><strong>UEBA</strong></td><td>User and Entity Behavior Analytics — ML-based anomaly detection</td></tr>
+          <tr><td><strong>SSL/TLS Inspection</strong></td><td>Decrypting and inspecting encrypted traffic to detect hidden threats</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-h2">✅ Check Your Understanding</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:12px">
+          <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:6px">Q1: Why can't a traditional firewall prevent insider threats?</div>
+          <textarea class="field" rows="3" placeholder="Type your answer here…" style="resize:none;font-family:var(--sans)"></textarea>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:12px">
+          <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:6px">Q2: What is "alert fatigue" and how does it affect security teams?</div>
+          <textarea class="field" rows="3" placeholder="Type your answer here…" style="resize:none;font-family:var(--sans)"></textarea>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:12px">
+          <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:6px">Q3: How do attackers use encryption to bypass security controls?</div>
+          <textarea class="field" rows="3" placeholder="Type your answer here…" style="resize:none;font-family:var(--sans)"></textarea>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:12px">
+          <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:6px">Q4: What is the difference between an IDS and an IPS?</div>
+          <textarea class="field" rows="3" placeholder="Type your answer here…" style="resize:none;font-family:var(--sans)"></textarea>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:12px;grid-column:span 2">
+          <div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:6px">Q5: Why are signature-based detection methods ineffective against zero-day exploits?</div>
+          <textarea class="field" rows="3" placeholder="Type your answer here…" style="resize:none;font-family:var(--sans)"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span class="toast-icon" id="t-icon">✓</span><span id="t-msg"></span></div>
+
+<!-- DIALOG: New Rule -->
+<div class="overlay" id="new-rule-dlg">
+  <div class="dialog">
+    <div class="dialog-head">
+      <div class="toast-icon">📋</div>
+      <div class="dialog-title">New Inbound Rule Wizard</div>
+      <button class="btn btn-ghost" onclick="closeDialog('new-rule-dlg')" style="padding:4px 8px;font-size:16px">×</button>
+    </div>
+    <div class="dialog-body">
+      <div style="margin-bottom:12px"><label class="field-label">Rule Type</label>
+        <select class="field" id="dlg-rule-type"><option>Port</option><option>Program</option><option>Predefined</option><option>Custom</option></select>
+      </div>
+      <div style="margin-bottom:12px"><label class="field-label">Protocol</label>
+        <select class="field" id="dlg-protocol"><option>TCP</option><option>UDP</option><option>Any</option></select>
+      </div>
+      <div style="margin-bottom:12px"><label class="field-label">Local Port</label>
+        <input class="field" id="dlg-port" type="text" value="All Ports" placeholder="80, 443, or All Ports"></div>
+      <div style="margin-bottom:12px"><label class="field-label">Action</label>
+        <select class="field" id="dlg-action"><option>Allow</option><option>Block</option><option>Allow if secure</option></select>
+      </div>
+      <div style="margin-bottom:12px"><label class="field-label">Rule Name</label>
+        <input class="field" id="dlg-name" type="text" placeholder="e.g., Block HTTP Inbound"></div>
+      <div style="margin-bottom:4px"><label class="field-label">Profile</label>
+        <select class="field" id="dlg-profile"><option>All</option><option>Domain</option><option>Private</option><option>Public</option></select>
+      </div>
+    </div>
+    <div class="dialog-foot">
+      <button class="btn btn-ghost" onclick="closeDialog('new-rule-dlg')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveNewRule()">Create Rule</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── UTILITIES ──
+function ts(){var d=new Date();return[d.getHours(),d.getMinutes(),d.getSeconds()].map(function(n){return('0'+n).slice(-2);}).join(':');}
+
+function toast(msg, type) {
+  type = type || 'ok';
+  var icons = {ok:'✓', err:'✕', warn:'⚠', info:'ℹ'};
+  var colors = {ok:'var(--green-lt)', err:'var(--red-lt)', warn:'var(--amber-lt)', info:'var(--win-blue-lt)'};
+  document.getElementById('t-icon').textContent = icons[type] || '✓';
+  document.getElementById('t-icon').style.color = colors[type] || 'var(--green-lt)';
+  document.getElementById('t-msg').textContent = msg;
+  var el = document.getElementById('toast');
+  el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); }, 3000);
+}
+
+function showPane(name) {
+  document.querySelectorAll('.pane').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+  document.getElementById('pane-' + name).classList.add('active');
+  var ni = document.querySelector('.nav-item[data-pane="'+name+'"]');
+  if (ni) ni.classList.add('active');
+}
+document.querySelectorAll('.nav-item').forEach(function(item){
+  item.addEventListener('click', function(){ showPane(this.dataset.pane); });
+});
+
+function closeDialog(id){ document.getElementById(id).classList.remove('open'); }
+function openDialog(id){ document.getElementById(id).classList.add('open'); }
+
+// ── NETWORK PROFILES ──
+var netStates = { domain: true, private: true, public: true };
+var netSelectedProfile = null;
+
+function toggleNet(name, el) {
+  netStates[name] = !netStates[name];
+  el.classList.toggle('on', netStates[name]);
+  el.classList.toggle('off', !netStates[name]);
+  if (netSelectedProfile === name) renderNetDetail(name);
+  toast((netStates[name] ? 'Firewall enabled' : 'Firewall disabled') + ' for ' + name + ' network', netStates[name] ? 'ok' : 'warn');
+  document.querySelector('.topbar .status-pill.pill-on').className = 'status-pill ' + ((netStates.domain||netStates.private||netStates.public) ? 'pill-on' : 'pill-off');
+  renderNetCards();
+}
+
+function renderNetCards() {
+  var profiles = [
+    {key:'domain', icon:'🏢', name:'Domain Network', desc:'Workplace networks. A computer must be part of the domain to communicate.'},
+    {key:'private', icon:'🏠', name:'Private Network', desc:'Discoverable networks such as home networks where trusted devices see each other.'},
+    {key:'public', icon:'☕', name:'Public Network', desc:'Non-discoverable. Used in coffee shops, airports. Devices cannot see each other.'},
+  ];
+  document.getElementById('net-cards-wrap').innerHTML = profiles.map(function(p){
+    var on = netStates[p.key];
+    return '<div class="net-card '+p.key+(on?' on':'')+'" onclick="selectNetProfile(\''+p.key+'\')">'
+      +'<div class="nc-icon">'+p.icon+'</div>'
+      +'<div class="nc-name">'+p.name+'</div>'
+      +'<div class="nc-desc" style="font-size:10px;color:var(--text3);line-height:1.5;margin-bottom:10px">'+p.desc+'</div>'
+      +'<div class="nc-status"><div class="pulse '+(on?'on':'off')+'" style="background:'+(on?'var(--green-lt)':'var(--red-lt)')+';flex-shrink:0"></div>'
+      +'<span style="color:'+(on?'var(--green-lt)':'var(--red-lt)')+'">Firewall: '+(on?'On':'Off')+'</span></div></div>';
+  }).join('');
+}
+
+function selectNetProfile(key) {
+  netSelectedProfile = key;
+  renderNetDetail(key);
+}
+
+function renderNetDetail(key) {
+  var names = {domain:'Domain', private:'Private', public:'Public'};
+  var icons = {domain:'🏢', private:'🏠', public:'☕'};
+  var on = netStates[key];
+  document.getElementById('net-detail-title').textContent = icons[key] + ' ' + names[key] + ' Network Settings';
+  document.getElementById('net-detail-body').innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">'
+    +'<div>'
+    +'<div style="font-size:11px;color:var(--text2);margin-bottom:12px">Windows Defender Firewall is currently <strong style="color:'+(on?'var(--green-lt)':'var(--red-lt)')+'">'+( on?'On':'Off')+'</strong> for the '+names[key]+' network profile.</div>'
+    +'<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">'
+    +'<div class="fw-toggle '+(on?'on':'off')+'" onclick="toggleNet(\''+key+'\',this)" id="detail-toggle-'+key+'"><div class="knob"></div></div>'
+    +'<span style="font-size:12px;color:var(--text)">Windows Defender Firewall</span></div>'
+    +'<div style="font-size:10px;color:var(--text3);background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:10px;line-height:1.7">'
+    +(key==='domain'?'Domain networks require computers to authenticate against an Active Directory domain controller. Firewall policies are typically managed centrally via Group Policy.':'')
+    +(key==='private'?'Private networks include home and small office networks. Devices on the same network can discover each other. Slightly more permissive than public profile.':'')
+    +(key==='public'?'Public networks (hotels, coffee shops, airports) are the most restrictive profile. Device discovery is disabled and most unsolicited inbound connections are blocked.':'')
+    +'</div></div>'
+    +'<div><div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:8px">Incoming Connections</div>'
+    +'<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--rad);padding:12px;font-size:11px;color:var(--text3);line-height:1.7;margin-bottom:10px">'
+    +'<label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:8px">'
+    +'<input type="checkbox" id="block-all-'+key+'" onchange="toast(\'Incoming connections setting updated for '+names[key]+'\')"> '
+    +'<span style="color:var(--text2)">Block all incoming connections<br><span style="font-size:10px;color:var(--text3)">including those typically allowed</span></span></label>'
+    +'<div style="font-size:10px;color:var(--amber-lt)">⚠ Note: Only enable this for maximum security scenarios.</div></div>'
+    +'<div style="font-size:11px;font-weight:600;color:var(--text-hi);margin-bottom:8px">Notifications</div>'
+    +'<label style="display:flex;align-items:center;gap:8px;font-size:11px;cursor:pointer">'
+    +'<input type="checkbox" checked onchange="toast(\'Notification setting updated\')"> <span style="color:var(--text2)">Notify me when Defender blocks a new app</span></label>'
+    +'</div></div>';
+  // sync sidebar toggle
+  var stgl = document.getElementById('toggle-'+key);
+  if (stgl) { stgl.classList.toggle('on', netStates[key]); stgl.classList.toggle('off', !netStates[key]); }
+}
+renderNetCards();
+
+// ── INBOUND RULES DATA ──
+var inboundRules = [
+  {name:'Firefox (UDP)', group:'Firefox', profile:'All', action:'Allow', proto:'UDP', localPort:'All Ports', remotePort:'All Ports', enabled:true, prog:'C:\\Program Files\\Mozilla Firefox\\firefox.exe', desc:'Firefox web browser - UDP traffic for multimedia streaming'},
+  {name:'Firefox (TCP)', group:'Firefox', profile:'All', action:'Allow', proto:'TCP', localPort:'All Ports', remotePort:'All Ports', enabled:true, prog:'C:\\Program Files\\Mozilla Firefox\\firefox.exe', desc:'Firefox web browser - TCP traffic for HTTP/HTTPS connections'},
+  {name:'Remote Desktop - User Mode (TCP-In)', group:'Remote Desktop', profile:'Domain,Private', action:'Allow', proto:'TCP', localPort:'3389', remotePort:'All Ports', enabled:true, prog:'System', desc:'Inbound rule for the Remote Desktop service'},
+  {name:'Remote Desktop - User Mode (UDP-In)', group:'Remote Desktop', profile:'Domain,Private', action:'Allow', proto:'UDP', localPort:'3389', remotePort:'All Ports', enabled:true, prog:'System', desc:'Inbound rule for Remote Desktop (UDP)'},
+  {name:'World Wide Web Services (HTTP Traffic-In)', group:'Web Server (IIS)', profile:'All', action:'Allow', proto:'TCP', localPort:'80', remotePort:'All Ports', enabled:true, prog:'System', desc:'Inbound rule for HTTP web server traffic'},
+  {name:'World Wide Web Services (HTTPS Traffic-In)', group:'Web Server (IIS)', profile:'All', action:'Allow', proto:'TCP', localPort:'443', remotePort:'All Ports', enabled:true, prog:'System', desc:'Inbound rule for HTTPS web server traffic'},
+  {name:'Key Management Service (TCP-In)', group:'Key Management Service', profile:'Domain,Private', action:'Allow', proto:'TCP', localPort:'1688', remotePort:'All Ports', enabled:true, prog:'System', desc:'Inbound rule for the Key Management Service'},
+  {name:'Core Networking - DNS (UDP-In)', group:'Core Networking', profile:'All', action:'Allow', proto:'UDP', localPort:'53', remotePort:'All Ports', enabled:true, prog:'%SystemRoot%\\system32\\svchost.exe', desc:'Inbound rule for DNS queries'},
+  {name:'Core Networking - DHCP (UDP-In)', group:'Core Networking', profile:'All', action:'Allow', proto:'UDP', localPort:'67-68', remotePort:'All Ports', enabled:true, prog:'System', desc:'DHCP client/server communication'},
+  {name:'File and Printer Sharing (Echo Request - ICMPv4-In)', group:'File and Printer Sharing', profile:'Domain,Private', action:'Allow', proto:'ICMPv4', localPort:'N/A', remotePort:'N/A', enabled:true, prog:'System', desc:'Echo request for network discovery'},
+  {name:'Cortana (Firewall exception)', group:'Cortana', profile:'All', action:'Allow', proto:'TCP', localPort:'All Ports', remotePort:'All Ports', enabled:false, prog:'%windir%\\SystemApps\\Microsoft.Windows.Cortana', desc:'Cortana digital assistant'},
+  {name:'mDNS (UDP-In)', group:'mDNS', profile:'All', action:'Allow', proto:'UDP', localPort:'5353', remotePort:'All Ports', enabled:true, prog:'%SystemRoot%\\system32\\svchost.exe', desc:'Multicast DNS for device discovery'},
+  {name:'Network Discovery (UPnP-In)', group:'Network Discovery', profile:'Private', action:'Allow', proto:'TCP', localPort:'2869', remotePort:'All Ports', enabled:true, prog:'System', desc:'UPnP device discovery'},
+  {name:'SSH Server (sshd)', group:'OpenSSH Server', profile:'All', action:'Allow', proto:'TCP', localPort:'22', remotePort:'All Ports', enabled:false, prog:'%SystemRoot%\\System32\\OpenSSH\\sshd.exe', desc:'Inbound rule for OpenSSH Server'},
+];
+
+var outboundRules = [
+  {name:'Block Jharkhand Cricket Site', group:'Custom IP Block', profile:'All', action:'Block', proto:'Any', remoteIP:'66.29.132.195', enabled:true, desc:'Block outbound access to Jharkhand State Cricket Association'},
+  {name:'Windows Update', group:'Windows Update', profile:'All', action:'Allow', proto:'TCP', remoteIP:'Any', enabled:true, desc:'Allow Windows Update outbound traffic'},
+  {name:'Microsoft Edge', group:'Microsoft Edge', profile:'All', action:'Allow', proto:'TCP', remoteIP:'Any', enabled:true, desc:'Microsoft Edge browser outbound'},
+  {name:'Windows Defender Antivirus', group:'Windows Security', profile:'All', action:'Allow', proto:'TCP', remoteIP:'Any', enabled:true, desc:'Defender cloud definition updates'},
+  {name:'Core Networking - DNS (UDP-Out)', group:'Core Networking', profile:'All', action:'Allow', proto:'UDP', remoteIP:'Any', enabled:true, desc:'Outbound DNS queries'},
+  {name:'Core Networking - DHCP (UDP-Out)', group:'Core Networking', profile:'All', action:'Allow', proto:'UDP', remoteIP:'Any', enabled:true, desc:'DHCP client requests'},
+  {name:'Remote Desktop - Shadow (TCP-Out)', group:'Remote Desktop', profile:'All', action:'Allow', proto:'TCP', remoteIP:'Any', enabled:true, desc:'Remote Desktop connection outbound'},
+  {name:'Block Notepad (Outbound)', group:'Application Block', profile:'All', action:'Block', proto:'Any', remoteIP:'Any', enabled:false, desc:'Block Notepad internet access (example)'},
+];
+
+var selectedInboundRule = null;
+var selectedOutboundRule = null;
+var inboundActiveTab = 'general';
+
+function renderRulesTable(type) {
+  var rules = type === 'inbound' ? inboundRules : outboundRules;
+  var search = document.getElementById(type + '-search').value.toLowerCase();
+  var filtered = rules.filter(function(r){ return r.name.toLowerCase().indexOf(search) >= 0 || r.group.toLowerCase().indexOf(search) >= 0; });
+  var cols = type === 'inbound'
+    ? function(r,i){ return '<td>'+r.proto+'</td><td>'+r.localPort+'</td><td>'+r.remotePort+'</td>'; }
+    : function(r,i){ return '<td>'+r.proto+'</td><td>'+(r.remoteIP||'Any')+'</td>'; };
+  var tbody = document.getElementById(type + '-tbody');
+  tbody.innerHTML = filtered.map(function(r,i){
+    var realI = rules.indexOf(r);
+    var dot = r.enabled ? 'var(--green-lt)' : 'var(--text3)';
+    var actionColor = r.action === 'Allow' ? 'var(--green-lt)' : r.action === 'Block' ? 'var(--red-lt)' : 'var(--amber-lt)';
+    var sel = (type === 'inbound' && selectedInboundRule === realI) || (type === 'outbound' && selectedOutboundRule === realI);
+    return '<tr class="'+(sel?'selected':'')+(r.enabled?'':' disabled')+'" ondblclick="selectRule(\''+type+'\','+realI+')" onclick="selectRule(\''+type+'\','+realI+')">'
+      +'<td><span class="rule-dot" style="background:'+dot+'"></span></td>'
+      +'<td style="color:var(--text-hi);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+r.name+'</td>'
+      +'<td style="color:var(--text3)">'+r.group+'</td>'
+      +'<td><span class="badge b-gray" style="font-size:9px">'+r.profile+'</span></td>'
+      +'<td><span style="color:'+actionColor+'">'+r.action+'</span></td>'
+      + cols(r, realI)
+      +'</tr>';
+  }).join('');
+  document.getElementById(type+'-count').textContent = filtered.length + ' / ' + rules.length + ' rules';
+}
+
+function filterRules(type){ renderRulesTable(type); }
+
+function selectRule(type, i) {
+  if (type === 'inbound') { selectedInboundRule = i; renderRuleDetail('inbound', i); }
+  else { selectedOutboundRule = i; renderOutboundActions(i); }
+  renderRulesTable(type);
+}
+
+function switchTab(type, tab) {
+  inboundActiveTab = tab;
+  document.querySelectorAll('#inbound-detail .rd-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('#inbound-detail .rd-tab').forEach(function(t){ if(t.textContent.toLowerCase().indexOf(tab)>=0) t.classList.add('active'); });
+  if (selectedInboundRule !== null) renderRuleDetail('inbound', selectedInboundRule);
+}
+
+function renderRuleDetail(type, i) {
+  var r = inboundRules[i];
+  var body = document.getElementById('inbound-detail-body');
+  if (inboundActiveTab === 'general') {
+    body.innerHTML = '<div class="rd-row"><div class="rd-key">Name</div><div class="rd-val" style="color:var(--text-hi)">'+r.name+'</div></div>'
+      +'<div class="rd-row"><div class="rd-key">Description</div><div class="rd-val" style="color:var(--text3);font-family:var(--sans);font-size:10px">'+r.desc+'</div></div>'
+      +'<div class="rd-row"><div class="rd-key">Action</div><div class="rd-val" style="color:'+(r.action==='Allow'?'var(--green-lt)':'var(--red-lt)')+'">'+r.action+'</div></div>'
+      +'<div class="rd-row"><div class="rd-key">Enabled</div><div class="rd-val">'+(r.enabled?'<span style="color:var(--green-lt)">Yes</span>':'<span style="color:var(--text3)">No</span>')+'</div></div>'
+      +'<div class="rd-row"><div class="rd-key">Program</div><div class="rd-val" style="font-size:10px;word-break:break-all">'+r.prog+'</div></div>'
+      +'<div style="margin-top:12px;display:flex;gap:8px">'
+      +'<button class="btn btn-'+(r.enabled?'amber':'green')+'" onclick="toggleInboundRule('+i+')">'+(r.enabled?'Disable Rule':'Enable Rule')+'</button>'
+      +'<button class="btn btn-red" onclick="deleteInboundRule('+i+')">Delete</button></div>';
+  } else if (inboundActiveTab === 'protocols') {
+    body.innerHTML = '<div style="background:rgba(0,120,212,.06);border:1px solid rgba(0,120,212,.2);border-radius:var(--rad);padding:10px 12px;margin-bottom:12px;font-size:10px;color:var(--win-blue-lt)">📋 <strong>Lab 1 Focus:</strong> Note the Protocol type and Port settings below. Compare Firefox UDP vs TCP rules.</div>'
+      +'<div class="rd-row"><div class="rd-key">Protocol Type</div><div class="rd-val"><span class="badge '+(r.proto==='TCP'?'b-amber':r.proto==='UDP'?'b-blue':'b-gray')+'">'+r.proto+'</span></div></div>'
+      +'<div class="rd-row"><div class="rd-key">Local Port</div><div class="rd-val">'+r.localPort+'</div></div>'
+      +'<div class="rd-row"><div class="rd-key">Remote Port</div><div class="rd-val">'+r.remotePort+'</div></div>'
+      +(r.proto==='UDP'?'<div style="background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:var(--rad);padding:10px;font-size:10px;color:var(--win-blue-lt);margin-top:10px">ℹ <strong>UDP</strong> is faster than TCP and is the protocol used in streaming music and videos, DNS, and VoIP.</div>':'')
+      +(r.proto==='TCP'?'<div style="background:rgba(212,147,10,.08);border:1px solid rgba(212,147,10,.2);border-radius:var(--rad);padding:10px;font-size:10px;color:var(--amber-lt);margin-top:10px">ℹ <strong>TCP</strong> is more reliable than UDP. HTTP and HTTPS use TCP. Guarantees delivery via acknowledgement handshaking.</div>':'');
+  } else if (inboundActiveTab === 'scope') {
+    body.innerHTML = '<div class="rd-row"><div class="rd-key">Local IP</div><div class="rd-val">Any</div></div>'
+      +'<div class="rd-row"><div class="rd-key">Remote IP</div><div class="rd-val">Any</div></div>'
+      +'<div class="rd-row"><div class="rd-key">Interface</div><div class="rd-val">All</div></div>';
+  } else if (inboundActiveTab === 'advanced') {
+    body.innerHTML = '<div class="rd-row"><div class="rd-key">Profile</div><div class="rd-val"><span class="badge b-gray">'+r.profile+'</span></div></div>'
+      +'<div class="rd-row"><div class="rd-key">Group</div><div class="rd-val">'+r.group+'</div></div>'
+      +'<div class="rd-row"><div class="rd-key">Edge Traversal</div><div class="rd-val">Defer to user</div></div>';
+  }
+}
+
+function toggleInboundRule(i){
+  inboundRules[i].enabled = !inboundRules[i].enabled;
+  toast('Rule ' + (inboundRules[i].enabled ? 'enabled' : 'disabled') + ': ' + inboundRules[i].name, 'ok');
+  renderRulesTable('inbound');
+  renderRuleDetail('inbound', i);
+}
+function deleteInboundRule(i){
+  if (!confirm('Delete rule "' + inboundRules[i].name + '"?')) return;
+  inboundRules.splice(i,1);
+  selectedInboundRule = null;
+  document.getElementById('inbound-detail-body').innerHTML = '<div style="font-size:11px;color:var(--text3);text-align:center;padding:20px">Select a rule</div>';
+  renderRulesTable('inbound');
+  toast('Rule deleted', 'ok');
+  document.getElementById('ov-inbound').textContent = inboundRules.filter(function(r){return r.enabled;}).length;
+}
+
+function renderOutboundActions(i){
+  var r = outboundRules[i];
+  document.getElementById('rule-actions-list').innerHTML = '<div style="font-size:12px;font-weight:600;color:var(--text-hi);margin-bottom:8px">'+r.name+'</div>'
+    +'<div style="font-size:10px;color:var(--text3);margin-bottom:10px">'+r.desc+'</div>'
+    +'<div style="display:flex;gap:8px;flex-wrap:wrap">'
+    +'<button class="btn btn-'+(r.enabled?'amber':'green')+'" onclick="toggleOutRule('+i+')">'+(r.enabled?'Disable Rule':'Enable Rule')+'</button>'
+    +'<button class="btn btn-red" onclick="deleteOutRule('+i+')">Delete</button></div>'
+    +'<div style="margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--text3)">'
+    +'Action: <span style="color:'+(r.action==='Block'?'var(--red-lt)':'var(--green-lt)')+'">'+r.action+'</span>'
+    +' · Status: <span style="color:'+(r.enabled?'var(--green-lt)':'var(--text3)')+'">'+( r.enabled?'Enabled':'Disabled')+'</span></div>';
+}
+function toggleOutRule(i){
+  outboundRules[i].enabled = !outboundRules[i].enabled;
+  toast('Rule ' + (outboundRules[i].enabled ? 'enabled' : 'disabled') + ': ' + outboundRules[i].name, 'ok');
+  renderRulesTable('outbound');
+  renderOutboundActions(i);
+}
+function deleteOutRule(i){
+  if (!confirm('Delete rule "' + outboundRules[i].name + '"?')) return;
+  outboundRules.splice(i,1);
+  selectedOutboundRule = null;
+  document.getElementById('rule-actions-list').innerHTML = 'Select a rule in the table above.';
+  renderRulesTable('outbound');
+  toast('Rule deleted', 'ok');
+  document.getElementById('ov-blocked').textContent = outboundRules.filter(function(r){return r.action==='Block'&&r.enabled;}).length;
+}
+
+// New Rule Dialog
+function openNewRuleDialog(type) { openDialog('new-rule-dlg'); }
+function saveNewRule(){
+  var name = document.getElementById('dlg-name').value;
+  if (!name) { toast('Enter a rule name', 'err'); return; }
+  inboundRules.push({
+    name:name, group:'Custom',
+    profile:document.getElementById('dlg-profile').value,
+    action:document.getElementById('dlg-action').value,
+    proto:document.getElementById('dlg-protocol').value,
+    localPort:document.getElementById('dlg-port').value,
+    remotePort:'All Ports', enabled:true,
+    prog:'All Programs', desc:'Custom rule created in lab'
+  });
+  closeDialog('new-rule-dlg');
+  renderRulesTable('inbound');
+  toast('Rule "'+name+'" created', 'ok');
+}
+
+// ── IP WIZARD ──
+var ipWizStep = 0;
+var IP_WIZ = [
+  {t:'Open Windows Firewall Advanced Settings', d:'Control Panel → System and Security → Windows Defender Firewall → Advanced Settings'},
+  {t:'Select Outbound Rules', d:'Click "Outbound Rules" in the left navigation pane'},
+  {t:'Create New Rule', d:'In the right Actions pane, click "New Rule…"'},
+  {t:'Select Custom Rule Type', d:'Select Custom → Next → All Programs → Next → keep defaults → Next'},
+  {t:'Add Remote IP Address', d:'Select "These IP Addresses" and click Add, then choose "This IP address or subnet"'},
+  {t:'Enter IP: 66.29.132.195', d:'Type 66.29.132.195 (Jharkhand State Cricket Association) → OK → Next'},
+  {t:'Set Action: Block', d:'Select "Block the connection" → Next → Next → Name the rule and click Finish'},
+];
+
+function renderIPWiz(){
+  var html = IP_WIZ.map(function(s,i){
+    var cls = i < ipWizStep ? 'complete' : i === ipWizStep ? 'current' : '';
+    return '<div class="ip-wiz-step '+cls+'">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">'
+      +'<div class="wiz-num" style="'+(i<ipWizStep?'background:var(--green);border-color:var(--green);color:#000':i===ipWizStep?'background:rgba(0,120,212,.15);border-color:var(--win-blue);color:var(--win-blue-lt)':'')+'">'+( i<ipWizStep?'✓':i+1)+'</div>'
+      +'<span style="font-size:11px;font-weight:500;color:var(--text-hi)">'+s.t+'</span></div>'
+      +'<div style="font-size:10px;color:var(--text3);padding-left:32px">'+s.d+'</div></div>';
+  }).join('');
+  var nextBtn = document.getElementById('ip-wiz-next');
+  if (ipWizStep >= IP_WIZ.length) {
+    html += '<div class="badge b-green" style="width:100%;justify-content:center;padding:7px;margin-top:8px;font-size:11px">✓ IP Block Rule Created Successfully!</div>';
+    if (nextBtn) { nextBtn.textContent = '✓ Complete'; nextBtn.disabled = true; }
+  } else {
+    if (nextBtn) { nextBtn.textContent = 'Next Step → (' + (ipWizStep+1) + '/' + IP_WIZ.length + ')'; nextBtn.disabled = false; }
+  }
+  document.getElementById('ip-wiz-steps').innerHTML = html;
+}
+
+function advIPWiz(){
+  if (ipWizStep < IP_WIZ.length) ipWizStep++;
+  renderIPWiz();
+  if (ipWizStep === IP_WIZ.length) {
+    outboundRules[0].enabled = true;
+    renderRulesTable('outbound');
+    document.getElementById('ov-blocked').textContent = outboundRules.filter(function(r){return r.action==='Block'&&r.enabled;}).length;
+    toast('✓ Outbound rule created: Block 66.29.132.195', 'ok');
+  }
+}
+function resetIPWiz(){ ipWizStep = 0; renderIPWiz(); document.getElementById('ip-wiz-next').disabled = false; }
+
+function openIPWizard(){ showPane('outbound'); }
+
+function verifyBlock(){
+  var ip = document.getElementById('verify-ip').value.trim();
+  var blocked = outboundRules.some(function(r){ return r.action === 'Block' && r.enabled && (r.remoteIP === ip || r.remoteIP === 'Any'); });
+  var res = document.getElementById('verify-result');
+  res.style.display = 'block';
+  if (blocked) {
+    res.innerHTML = '<div style="background:rgba(215,58,73,.1);border:1px solid rgba(215,58,73,.3);border-radius:var(--rad);padding:10px 12px">'
+      +'<div style="color:var(--red-lt);font-weight:600;margin-bottom:4px">⛔ CONNECTION BLOCKED</div>'
+      +'<div style="color:var(--text3);font-size:10px">Outbound connection to '+ip+' was blocked by Windows Defender Firewall rule.<br>Rule: "Block Jharkhand Cricket Site" — Action: Block</div></div>';
+    toast('Connection to ' + ip + ' is BLOCKED ✓', 'ok');
+  } else {
+    res.innerHTML = '<div style="background:rgba(35,134,54,.1);border:1px solid rgba(35,134,54,.3);border-radius:var(--rad);padding:10px 12px">'
+      +'<div style="color:var(--green-lt);font-weight:600;margin-bottom:4px">✓ CONNECTION ALLOWED</div>'
+      +'<div style="color:var(--text3);font-size:10px">No block rule active for '+ip+'. Traffic flows freely.<br>Complete the IP wizard to create a block rule.</div></div>';
+    toast('No block rule for ' + ip, 'warn');
+  }
+}
+
+// ── SCENARIOS ──
+var SCENARIOS = [
+  {
+    num:1, title:'Block Remote Desktop on Public Network', type:'Inbound',
+    desc:'Create an inbound rule that blocks all Remote Desktop Protocol (RDP) connections on the Public network profile. RDP uses TCP port 3389.',
+    tag:'Scenario 1 — Inbound Rules',
+    steps:[
+      {t:'Open Advanced Security', d:'Windows Defender Firewall with Advanced Security'},
+      {t:'Select Inbound Rules', d:'Click "Inbound Rules" in the left pane'},
+      {t:'New Inbound Rule', d:'Right-click Inbound Rules → New Rule'},
+      {t:'Select Port Type', d:'Choose "Port" → Next → TCP → Specific local ports: 3389 → Next'},
+      {t:'Block the Connection', d:'Select "Block the connection" → Next'},
+      {t:'Select Public Profile Only', d:'Uncheck Domain and Private; check only Public → Next'},
+      {t:'Name the Rule', d:'Name: "Block RDP Public" → Description → Finish'},
+    ]
+  },
+  {
+    num:2, title:'Block Outbound Traffic for Specified Applications', type:'Outbound',
+    desc:'Create an outbound rule to block specific applications (e.g., Notepad) from accessing the internet. Demonstrates application-level firewall control.',
+    tag:'Scenario 2 — Outbound Rules',
+    steps:[
+      {t:'Open Advanced Security', d:'Windows Defender Firewall with Advanced Security'},
+      {t:'Select Outbound Rules', d:'Click "Outbound Rules" in the left pane'},
+      {t:'New Outbound Rule', d:'Right-click Outbound Rules → New Rule'},
+      {t:'Select Program Type', d:'Choose "Program" → Next → Browse to application path → Next'},
+      {t:'Block the Connection', d:'Select "Block the connection" → Next'},
+      {t:'Select All Profiles', d:'Check Domain, Private, Public → Next'},
+      {t:'Name the Rule', d:'Name: "Block Notepad Outbound" → Finish'},
+    ]
+  },
+  {
+    num:3, title:'Block Web Server (HTTP) Traffic — Public Network', type:'Inbound',
+    desc:'Create an inbound rule to block all HTTP traffic (port 80) on the Public network profile to prevent unauthorized web server access from public networks.',
+    tag:'Scenario 3 — Inbound Rules',
+    steps:[
+      {t:'Open Advanced Security', d:'Windows Defender Firewall with Advanced Security'},
+      {t:'Select Inbound Rules', d:'Click "Inbound Rules" in the left pane'},
+      {t:'New Rule — Port', d:'Choose "Port" → TCP → Specific local ports: 80 → Next'},
+      {t:'Block the Connection', d:'Select "Block the connection" → Next'},
+      {t:'Select Public Profile Only', d:'Uncheck Domain and Private; check only Public → Next'},
+      {t:'Name the Rule', d:'Name: "Block HTTP Public" → Finish'},
+    ]
+  },
+  {
+    num:4, title:'Key Management Service — Allow Domain/Private, Deny Public', type:'Inbound',
+    desc:'Allow KMS connections (TCP 1688) on Domain and Private networks but explicitly deny them on Public networks. Demonstrates profile-specific access control.',
+    tag:'Scenario 4 — Inbound Rules',
+    steps:[
+      {t:'Open Advanced Security', d:'Windows Defender Firewall with Advanced Security'},
+      {t:'New Allow Rule for KMS', d:'Inbound Rules → New Rule → Port → TCP → 1688 → Allow → Domain + Private → Name: "Allow KMS Domain Private"'},
+      {t:'New Block Rule for KMS', d:'Inbound Rules → New Rule → Port → TCP → 1688 → Block → Public only → Name: "Block KMS Public"'},
+      {t:'Verify Rule Order', d:'Ensure block rule doesn\'t override allow rule — check rule priorities'},
+      {t:'Test on Each Profile', d:'Simulate connection from each network type to confirm expected behavior'},
+    ]
+  },
+];
+var activeScenario = null;
+var completedScenarios = {};
+var scenarioStepMap = {};
+
+function renderScenarios(){
+  document.getElementById('scenario-list').innerHTML = SCENARIOS.map(function(s){
+    var done = !!completedScenarios[s.num];
+    var active = activeScenario === s.num;
+    return '<div class="scenario '+(active?'active':'')+(done?' complete':'')+'" onclick="selectScenario('+s.num+')">'
+      +'<div class="sc-head"><div class="sc-num">'+s.num+'</div>'
+      +'<div><div class="sc-title">'+s.title+'</div>'
+      +'<div class="sc-tag"><span class="badge '+(s.type==='Inbound'?'b-blue':'b-amber')+'" style="font-size:9px">'+s.type+'</span> '+s.tag+'</div></div></div>'
+      +'<div class="sc-desc" style="font-size:10px;color:var(--text3)">'+s.desc+'</div>'
+      +(done?'<div class="badge b-green" style="font-size:9px">✓ Completed</div>':'')
+      +'</div>';
+  }).join('');
+  var remaining = SCENARIOS.length - Object.keys(completedScenarios).length;
+  document.getElementById('scene-badge').textContent = remaining;
+  if (remaining === 0) document.getElementById('scene-badge').style.display = 'none';
+}
+
+function selectScenario(num){
+  activeScenario = num;
+  if (!scenarioStepMap[num]) scenarioStepMap[num] = 0;
+  renderScenarios();
+  renderScenarioConfig(num);
+}
+
+function renderScenarioConfig(num){
+  var s = SCENARIOS.find(function(x){ return x.num === num; });
+  var step = scenarioStepMap[num] || 0;
+  var done = !!completedScenarios[num];
+  document.getElementById('scenario-config').innerHTML = '<div class="card" style="margin-bottom:0">'
+    +'<div class="card-h"><div class="card-title">'+s.title+'</div>'
+    +'<span class="badge '+(s.type==='Inbound'?'b-blue':'b-amber')+'">'+s.type+' Rule</span></div>'
+    +'<div class="card-b">'
+    +'<div style="font-size:11px;color:var(--text3);margin-bottom:12px;line-height:1.6">'+s.desc+'</div>'
+    +'<div id="sc-steps-'+num+'">'
+    +s.steps.map(function(st,i){
+      var cls = i < step ? 'done' : i === step ? 'active-step' : '';
+      return '<div class="wiz-step '+cls+'">'
+        +'<div class="wiz-num" style="'+(i<step?'background:var(--green);border-color:var(--green);color:#fff':i===step?'background:rgba(0,120,212,.15);border-color:var(--win-blue);color:var(--win-blue-lt)':'')+'">'+( i<step?'✓':i+1)+'</div>'
+        +'<div><div class="wiz-title">'+st.t+'</div><div class="wiz-desc">'+st.d+'</div></div></div>';
+    }).join('')
+    +'</div>'
+    +(done?'<div class="badge b-green" style="width:100%;justify-content:center;padding:7px;margin-top:8px;font-size:11px">✓ Scenario Completed!</div>':'')
+    +'<div style="display:flex;gap:8px;margin-top:12px">'
+    +'<button class="btn btn-primary" id="sc-next-'+num+'" onclick="advanceScenario('+num+')" '+(done?'disabled':'')+'>'+( done?'✓ Done':'Next Step →')+'</button>'
+    +'<button class="btn btn-ghost" onclick="resetScenario('+num+')">Reset</button>'
+    +(done?'':'<button class="btn btn-green" onclick="applyScenario('+num+')" style="margin-left:auto">▶ Apply Rule</button>')
+    +'</div></div></div>';
+}
+
+function advanceScenario(num){
+  var s = SCENARIOS.find(function(x){ return x.num === num; });
+  if (!scenarioStepMap[num]) scenarioStepMap[num] = 0;
+  if (scenarioStepMap[num] < s.steps.length) scenarioStepMap[num]++;
+  if (scenarioStepMap[num] >= s.steps.length) {
+    completedScenarios[num] = true;
+    applyScenario(num);
+  }
+  renderScenarios();
+  renderScenarioConfig(num);
+}
+function resetScenario(num){ scenarioStepMap[num] = 0; delete completedScenarios[num]; renderScenarios(); renderScenarioConfig(num); }
+function applyScenario(num){
+  var ruleNames = {1:'Block RDP Public', 2:'Block Notepad Outbound', 3:'Block HTTP Public', 4:'Allow KMS Domain/Private + Block KMS Public'};
+  var name = ruleNames[num];
+  if (num === 1) {
+    inboundRules.push({name:'Block RDP Public',group:'Remote Desktop',profile:'Public',action:'Block',proto:'TCP',localPort:'3389',remotePort:'All Ports',enabled:true,prog:'System',desc:'Block Remote Desktop on public network (Scenario 1)'});
+    renderRulesTable('inbound');
+  } else if (num === 2) {
+    outboundRules.push({name:'Block Notepad Outbound',group:'Application Block',profile:'All',action:'Block',proto:'Any',remoteIP:'Any',enabled:true,desc:'Block Notepad internet access (Scenario 2)'});
+    renderRulesTable('outbound');
+  } else if (num === 3) {
+    inboundRules.push({name:'Block HTTP Public',group:'Web Server',profile:'Public',action:'Block',proto:'TCP',localPort:'80',remotePort:'All Ports',enabled:true,prog:'System',desc:'Block HTTP on public network (Scenario 3)'});
+    renderRulesTable('inbound');
+  } else if (num === 4) {
+    inboundRules.push({name:'Allow KMS Domain/Private',group:'Key Management Service',profile:'Domain,Private',action:'Allow',proto:'TCP',localPort:'1688',remotePort:'All Ports',enabled:true,prog:'System',desc:'Allow KMS on domain and private (Scenario 4)'});
+    inboundRules.push({name:'Block KMS Public',group:'Key Management Service',profile:'Public',action:'Block',proto:'TCP',localPort:'1688',remotePort:'All Ports',enabled:true,prog:'System',desc:'Block KMS on public network (Scenario 4)'});
+    renderRulesTable('inbound');
+  }
+  document.getElementById('ov-inbound').textContent = inboundRules.filter(function(r){return r.enabled;}).length;
+  toast('✓ Scenario ' + num + ' rule applied: ' + name, 'ok');
+}
+renderScenarios();
+
+// ── IDS MONITOR ──
+var idsCanvas = document.getElementById('ids-canvas');
+var idsCtx = idsCanvas.getContext('2d');
+var idsData = []; for (var _=0;_<80;_++) idsData.push({v:0,type:'normal'});
+var idsRunning = false, idsInterval = null;
+var idsPktCount = 0, idsThreatCount = 0, idsAlertCount = 0;
+
+function resizeIDSCanvas(){
+  var w = idsCanvas.parentElement;
+  idsCanvas.width = w.clientWidth;
+  idsCanvas.height = w.clientHeight;
+  drawIDS();
+}
+
+function drawIDS(){
+  var W = idsCanvas.width, H = idsCanvas.height;
+  idsCtx.clearRect(0,0,W,H);
+  var mx = Math.max.apply(null, idsData.map(function(d){return d.v;}).concat([100]));
+  var bw = W / idsData.length;
+  idsData.forEach(function(d,i){
+    var bh = (d.v / mx) * (H - 20);
+    var col = d.type === 'pod' ? '#f85149' : d.type === 'scan' ? '#f0b429' : '#4da3e0';
+    idsCtx.fillStyle = col + (d.type === 'normal' ? '60' : 'a0');
+    idsCtx.fillRect(i*bw, H-bh, bw-1, bh);
+  });
+  idsCtx.setLineDash([4,4]); idsCtx.strokeStyle = '#30363d'; idsCtx.lineWidth = 1;
+  var bl = (30/mx)*(H-20);
+  idsCtx.beginPath(); idsCtx.moveTo(0,H-bl); idsCtx.lineTo(W,H-bl); idsCtx.stroke();
+  idsCtx.setLineDash([]);
+  idsCtx.fillStyle = '#6e7681'; idsCtx.font = '9px monospace'; idsCtx.fillText('baseline', 4, H-bl-3);
+}
+
+function startIDS(){
+  idsRunning = true;
+  document.getElementById('ids-start-btn').disabled = true;
+  document.getElementById('ids-stop-btn').disabled = false;
+  idsInterval = setInterval(function(){
+    var v = 20 + Math.random()*40;
+    idsData.shift(); idsData.push({v:Math.round(v), type:'normal'});
+    idsPktCount += Math.round(v/2);
+    document.getElementById('ids-pkts').textContent = idsPktCount.toLocaleString();
+    drawIDS();
+    if (Math.random() < 0.03) {
+      addIDSLog('Suspicious traffic pattern detected from 198.51.100.'+Math.floor(Math.random()*254), 'warn');
+    }
+  }, 600);
+  addIDSLog('IDS monitoring started. Analyzing network traffic…', 'info');
+  toast('IDS monitor started', 'ok');
+}
+
+function stopIDS(){
+  idsRunning = false;
+  clearInterval(idsInterval);
+  document.getElementById('ids-start-btn').disabled = false;
+  document.getElementById('ids-stop-btn').disabled = true;
+  addIDSLog('IDS monitoring stopped. Packets analyzed: ' + idsPktCount.toLocaleString(), 'info');
+  toast('IDS monitor stopped', 'ok');
+}
+
+function addIDSLog(msg, type){
+  var log = document.getElementById('ids-log');
+  var line = document.createElement('div');
+  line.className = 'lline';
+  var cls = type === 'warn' ? 'lwarn' : type === 'alert' ? 'lalert' : type === 'ok' ? 'lok' : 'linfo';
+  line.innerHTML = '<span class="lts">['+ts()+']</span><span class="'+cls+'">'+msg+'</span>';
+  log.appendChild(line);
+  log.scrollTop = log.scrollHeight;
+  document.getElementById('ov-alerts').textContent = parseInt(document.getElementById('ov-alerts').textContent) + (type==='alert'?1:0);
+}
+function clearIDSLog(){ document.getElementById('ids-log').innerHTML = '<div class="lline"><span class="lts">[cleared]</span><span class="linfo">Log cleared.</span></div>'; }
+
+// ── ATTACKS ──
+var SIGS = [
+  {id:'SIG-001', name:'Ping of Death (ICMP oversized)', type:'DoS', risk:'Critical'},
+  {id:'SIG-002', name:'SYN Flood Detection', type:'DoS', risk:'High'},
+  {id:'SIG-003', name:'Nmap SYN Stealth Scan', type:'Recon', risk:'High'},
+  {id:'SIG-004', name:'Port Sweep Detection', type:'Recon', risk:'Medium'},
+  {id:'SIG-005', name:'UDP Flood', type:'DoS', risk:'High'},
+  {id:'SIG-006', name:'ICMP Smurf Attack', type:'DoS', risk:'Critical'},
+  {id:'SIG-007', name:'Teardrop Attack (IP Fragment)', type:'Exploit', risk:'High'},
+  {id:'SIG-008', name:'Null Session Attack', type:'Exploit', risk:'Medium'},
+  {id:'SIG-009', name:'DNS Amplification', type:'DoS', risk:'High'},
+  {id:'SIG-010', name:'HTTP GET Flood', type:'DoS', risk:'Medium'},
+];
+
+document.getElementById('sig-list').innerHTML = SIGS.slice(0,6).map(function(s){
+  var color = s.risk === 'Critical' ? 'var(--red-lt)' : s.risk === 'High' ? 'var(--amber-lt)' : 'var(--green-lt)';
+  return '<div style="display:flex;align-items:center;gap:6px;padding:3px 0;border-bottom:1px solid var(--border)">'
+    +'<span style="width:6px;height:6px;border-radius:50%;background:'+color+';flex-shrink:0"></span>'
+    +'<span style="color:var(--text2);flex:1">'+s.name+'</span>'
+    +'<span style="color:var(--text3)">'+s.id+'</span></div>';
+}).join('');
+
+function addAttackLog(msg, type){
+  var log = document.getElementById('attack-log');
+  var line = document.createElement('div');
+  line.className = 'lline';
+  var cls = type === 'alert' ? 'lalert' : type === 'warn' ? 'lwarn' : type === 'ok' ? 'lok' : 'linfo';
+  line.innerHTML = '<span class="lts">['+ts()+']</span><span class="'+cls+'">'+msg+'</span>';
+  log.appendChild(line);
+  log.scrollTop = log.scrollHeight;
+  if (type === 'alert') {
+    idsThreatCount++;
+    idsAlertCount++;
+    document.getElementById('ids-threats').textContent = idsThreatCount;
+    document.getElementById('ids-raised').textContent = idsAlertCount;
+    document.getElementById('ov-alerts').textContent = parseInt(document.getElementById('ov-alerts').textContent||'0') + 1;
+  }
+}
+function clearAttackLog(){ document.getElementById('attack-log').innerHTML = '<div class="lline"><span class="lts">[cleared]</span><span class="linfo">Log cleared.</span></div>'; idsThreatCount = 0; idsAlertCount = 0; document.getElementById('ids-threats').textContent = 0; document.getElementById('ids-raised').textContent = 0; }
+
+function simPoD(){
+  var target = document.getElementById('pod-target').value || '192.168.1.50';
+  var count = parseInt(document.getElementById('pod-count').value) || 100;
+  var btn = document.getElementById('pod-btn');
+  btn.disabled = true;
+  document.getElementById('pod-progress').style.display = 'block';
+  addAttackLog('Ping of Death attack initiated → target: ' + target, 'warn');
+  addAttackLog('Sending ' + count + ' oversized ICMP packets (>65,535 bytes)…', 'warn');
+  var pct = 0;
+  var iv = setInterval(function(){
+    pct += Math.random() * 8;
+    if (pct >= 100) {
+      pct = 100;
+      clearInterval(iv);
+      document.getElementById('pod-bar').style.width = '100%';
+      document.getElementById('pod-label').textContent = 'Complete — ' + count + ' packets sent';
+      addAttackLog('★ ALERT [SIG-001] Ping of Death detected! ICMP packet size: 66,000 bytes from ' + target, 'alert');
+      addAttackLog('★ ALERT IDS Signature Match: SIG-001 (Ping of Death / ICMP oversized)', 'alert');
+      addAttackLog('IDS Response: Alert generated. Packet logged. Admin notified. (IDS cannot block — passive only)', 'info');
+      addAttackLog('NOTE: IDS limitation — detected but cannot prevent. Deploy IPS to actively block.', 'warn');
+      idsData.push({v:350 + Math.random()*200, type:'pod'}); idsData.shift();
+      drawIDS();
+      btn.disabled = false;
+      toast('⚠ Ping of Death detected by IDS!', 'warn');
+    }
+    document.getElementById('pod-bar').style.width = pct + '%';
+    var labels = ['Crafting oversized ICMP packets…','Sending to target host…','Target buffer overflow…','Crash induced…'];
+    document.getElementById('pod-label').textContent = labels[Math.floor(pct/26)] || 'Processing…';
+    idsPktCount += Math.round(count/20);
+    document.getElementById('ids-pkts').textContent = idsPktCount.toLocaleString();
+  }, 200);
+}
+
+function simPortScan(){
+  var target = document.getElementById('scan-target').value || '192.168.1.1';
+  var type = document.getElementById('scan-type').value;
+  var typeNames = {syn:'SYN Stealth Scan (-sS)', tcp:'TCP Connect (-sT)', udp:'UDP Scan (-sU)', os:'OS Detection (-O)'};
+  var btn = document.getElementById('scan-btn');
+  btn.disabled = true;
+  document.getElementById('scan-progress').style.display = 'block';
+  var pct = 0;
+  addAttackLog('Nmap '+typeNames[type]+' launched → target: '+target, 'warn');
+  addAttackLog('Sending SYN packets to ports 1–1024 of '+target, 'warn');
+  var openPorts = [22,80,135,139,443,445,3389].filter(function(){return Math.random()>.4;});
+  var iv = setInterval(function(){
+    pct += Math.random() * 6;
+    if (pct >= 100) {
+      pct = 100; clearInterval(iv);
+      document.getElementById('scan-bar').style.width = '100%';
+      document.getElementById('scan-label').textContent = 'Scan complete';
+      addAttackLog('★ ALERT [SIG-003] Port scan detected from single source probing multiple ports rapidly', 'alert');
+      addAttackLog('★ ALERT [SIG-004] Port sweep: SYN to 1024 ports in <2 seconds — signature matched', 'alert');
+      addAttackLog('IDS Detected open ports on '+target+': ' + openPorts.join(', '), 'info');
+      addAttackLog('IDS NOTE: Detection is passive. Consider deploying IPS to actively block scan traffic.', 'warn');
+      var scanHtml = '<div style="background:var(--bg4);border:1px solid var(--border);border-radius:var(--rad);padding:10px;font-family:var(--mono);font-size:10px;margin-top:8px">'
+        +'<div style="color:var(--text-hi);margin-bottom:6px">Nmap Scan Report for '+target+'</div>'
+        +openPorts.map(function(p){ var s = {22:'SSH',80:'HTTP',135:'msrpc',139:'netbios-ssn',443:'HTTPS',445:'smb',3389:'ms-wbt-server'}; return '<div style="color:var(--green-lt)">'+p+'/tcp  open  '+(s[p]||'unknown')+'</div>'; }).join('')
+        +'<div style="color:var(--text3);margin-top:4px">'+(1024-openPorts.length)+' closed ports not shown</div></div>';
+      document.getElementById('scan-results').innerHTML = scanHtml;
+      idsData.push({v:200+Math.random()*100, type:'scan'}); idsData.shift(); drawIDS();
+      btn.disabled = false;
+      toast('⚠ Port scan detected by IDS!', 'warn');
+    }
+    document.getElementById('scan-bar').style.width = pct + '%';
+    document.getElementById('scan-label').textContent = 'Scanning port ' + Math.floor(pct * 10.24) + ' of 1024…';
+  }, 300);
+}
+
+function updateSigs(){
+  var count = document.getElementById('ids-sigs').textContent;
+  var newCount = parseInt(count) + Math.floor(Math.random()*5) + 1;
+  document.getElementById('ids-sigs').textContent = newCount;
+  toast('Signature database updated: ' + newCount + ' signatures loaded', 'ok');
+  addAttackLog('Signature database updated to v' + (new Date().getFullYear()) + '-' + ('0'+(new Date().getMonth()+1)).slice(-2) + '. ' + newCount + ' signatures loaded.', 'ok');
+}
+function testSig(){
+  var tests = ['ICMP oversized → SIG-001 matched', 'SYN flood pattern → SIG-002 matched', 'Port sweep → SIG-004 matched'];
+  var t = tests[Math.floor(Math.random()*tests.length)];
+  addAttackLog('Signature test: ' + t, 'ok');
+  toast('Signature test passed: ' + t, 'ok');
+}
+
+function scrollToRef(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+
+// ── INIT ──
+renderRulesTable('inbound');
+renderRulesTable('outbound');
+renderIPWiz();
+window.addEventListener('resize', function(){ resizeIDSCanvas(); resizeFlowCanvas(); });
+resizeIDSCanvas();
+function resizeFlowCanvas(){ if(idsCanvas){ var w=idsCanvas.parentElement; idsCanvas.width=w.clientWidth; idsCanvas.height=w.clientHeight; drawIDS(); } }
+</script>
+</body>
+</html>

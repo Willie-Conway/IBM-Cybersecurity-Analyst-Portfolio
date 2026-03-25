@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CySA+ // Threat Operations Glossary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   ROOT TOKENS
+═══════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:         #020608;
+  --bg1:        #060d12;
+  --bg2:        #0a1520;
+  --bg3:        #0f1f30;
+  --panel:      #081018;
+  --cyan:       #00e5ff;
+  --cyan2:      #00b8cc;
+  --cyan-dim:   rgba(0,229,255,0.12);
+  --cyan-glow:  rgba(0,229,255,0.35);
+  --red:        #ff2244;
+  --amber:      #ffaa00;
+  --green:      #00ff88;
+  --purple:     #9d4edd;
+  --text0:      #d0eaf5;
+  --text1:      #6a9ab5;
+  --text2:      #2a4a5a;
+  --border:     rgba(0,229,255,0.1);
+  --border2:    rgba(0,229,255,0.25);
+  --mono:       'Share Tech Mono', monospace;
+  --body:       'Rajdhani', sans-serif;
+  --display:    'Orbitron', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text0);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+  cursor: crosshair;
+  overflow-x: hidden;
+}
+
+/* ── HEX GRID BACKGROUND ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(0,229,255,0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(157,78,221,0.04) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zM28 100L0 84V50l28 16 28-16v34L28 100z' fill='none' stroke='%2300e5ff' stroke-width='0.3' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── SCAN LINE ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.shell { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* ═══════════════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════════════ */
+.hdr {
+  padding: 48px 0 36px;
+  border-bottom: 1px solid var(--border2);
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.hdr::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0;
+  width: 200px; height: 1px;
+  background: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan);
+}
+
+.hdr-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--cyan2);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hdr-eyebrow::before {
+  content: '▶';
+  color: var(--red);
+  font-size: 8px;
+  animation: blink-red 1.4s step-end infinite;
+}
+
+@keyframes blink-red {
+  0%,100% { opacity: 1; } 50% { opacity: 0; }
+}
+
+.hdr-title {
+  font-family: var(--display);
+  font-size: clamp(26px, 5vw, 56px);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  margin-bottom: 16px;
+  color: #fff;
+  text-shadow: 0 0 40px rgba(0,229,255,0.3);
+}
+
+.hdr-title em { color: var(--cyan); font-style: normal; }
+
+.hdr-meta {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge-green  { border-color: var(--green);  color: var(--green); }
+.badge-amber  { border-color: var(--amber);  color: var(--amber); }
+.badge-red    { border-color: var(--red);    color: var(--red); }
+.badge-cyan   { border-color: var(--cyan);   color: var(--cyan); }
+.badge-purple { border-color: var(--purple); color: var(--purple); }
+
+.badge .dot {
+  width: 5px; height: 5px; border-radius: 50%; background: currentColor;
+  animation: pulse-dot 2s ease infinite;
+}
+
+@keyframes pulse-dot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.6); }
+}
+
+/* ═══════════════════════════════════════════════════
+   CONTROLS
+═══════════════════════════════════════════════════ */
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.search-wrap {
+  flex: 1;
+  min-width: 280px;
+  position: relative;
+}
+
+.search-prefix {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--cyan2);
+  pointer-events: none;
+}
+
+.search-wrap input {
+  width: 100%;
+  background: var(--bg1);
+  border: 1px solid var(--border2);
+  color: var(--text0);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 12px 14px 12px 48px;
+  outline: none;
+  letter-spacing: 0.05em;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+
+.search-wrap input::placeholder { color: var(--text2); }
+.search-wrap input:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 20px rgba(0,229,255,0.15), inset 0 0 20px rgba(0,229,255,0.03);
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.fbtn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text1);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  cursor: crosshair;
+  transition: all 0.15s;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  white-space: nowrap;
+}
+
+.fbtn:hover { border-color: var(--cyan2); color: var(--text0); }
+
+.fbtn.active {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: var(--bg);
+  font-weight: 600;
+  box-shadow: 0 0 16px rgba(0,229,255,0.4);
+}
+
+/* Domain color variants */
+.fbtn[data-filter="domain1"].active { background: var(--red); border-color: var(--red); box-shadow: 0 0 16px rgba(255,34,68,0.4); }
+.fbtn[data-filter="domain2"].active { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 16px rgba(255,170,0,0.4); color: #000; }
+
+/* ═══════════════════════════════════════════════════
+   STATS BAR
+═══════════════════════════════════════════════════ */
+.stats-bar {
+  display: flex;
+  gap: 0;
+  margin-bottom: 32px;
+  border: 1px solid var(--border);
+  background: var(--bg1);
+  overflow: hidden;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+
+.stat {
+  flex: 1;
+  padding: 14px 20px;
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+
+.stat:last-child { border-right: none; }
+
+.stat-num {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--cyan);
+  display: block;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-lbl {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+/* ═══════════════════════════════════════════════════
+   DOMAIN SECTION
+═══════════════════════════════════════════════════ */
+.domain-section { margin-bottom: 40px; }
+
+.domain-hdr {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding: 12px 18px;
+  background: var(--bg1);
+  border-left: 3px solid var(--cyan);
+  position: relative;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+}
+
+.domain-hdr.d2 { border-left-color: var(--amber); }
+
+.domain-num {
+  font-family: var(--display);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.domain-hdr.d2 .domain-num { color: var(--amber); }
+
+.domain-title {
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text0);
+}
+
+.domain-count {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text2);
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════════════════
+   GLOSSARY GRID
+═══════════════════════════════════════════════════ */
+.glos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: var(--border);
+}
+
+/* ═══════════════════════════════════════════════════
+   TERM CARD
+═══════════════════════════════════════════════════ */
+.term-card {
+  background: var(--bg1);
+  cursor: crosshair;
+  transition: background 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.term-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 2px; height: 0;
+  background: var(--cyan);
+  transition: height 0.25s ease;
+}
+
+.term-card:hover { background: var(--bg2); }
+.term-card:hover::before { height: 100%; }
+.term-card.open { background: var(--bg2); }
+.term-card.open::before { height: 100%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+
+.term-card[data-domain="domain2"]::before { background: var(--amber); }
+.term-card[data-domain="domain2"]:hover::before,
+.term-card[data-domain="domain2"].open::before { box-shadow: 0 0 10px var(--amber); }
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  user-select: none;
+}
+
+.card-icon {
+  width: 32px; height: 32px;
+  background: var(--cyan-dim);
+  border: 1px solid var(--border2);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  font-family: var(--mono);
+  color: var(--cyan2);
+  clip-path: polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px));
+}
+
+.term-card[data-domain="domain2"] .card-icon {
+  background: rgba(255,170,0,0.08);
+  border-color: rgba(255,170,0,0.25);
+  color: var(--amber);
+}
+
+.card-term-wrap { flex: 1; min-width: 0; }
+
+.card-term {
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text0);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  margin-bottom: 3px;
+}
+
+.card-abbr {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--cyan2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.term-card[data-domain="domain2"] .card-abbr { color: var(--amber); }
+
+.card-toggle {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text2);
+  transition: transform 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.term-card.open .card-toggle { transform: rotate(90deg); color: var(--cyan); }
+.term-card[data-domain="domain2"].open .card-toggle { color: var(--amber); }
+
+/* ── BODY ── */
+.card-body {
+  display: none;
+  padding: 0 18px 18px 62px;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.term-card.open .card-body { display: block; }
+
+.def-block, .ex-block {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.block-label {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan2);
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.block-label::before {
+  content: '';
+  display: inline-block;
+  width: 4px; height: 4px;
+  background: var(--cyan);
+  transform: rotate(45deg);
+}
+
+.term-card[data-domain="domain2"] .block-label { color: var(--amber); }
+.term-card[data-domain="domain2"] .block-label::before { background: var(--amber); }
+
+.def-text {
+  font-size: 13px;
+  color: var(--text1);
+  line-height: 1.75;
+  font-family: var(--body);
+}
+
+.ex-text {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--text1);
+  line-height: 1.75;
+  border-left: 2px solid var(--cyan-dim);
+  padding-left: 10px;
+}
+
+.term-card[data-domain="domain2"] .ex-text {
+  border-left-color: rgba(255,170,0,0.2);
+}
+
+/* ── GLITCH on open ── */
+@keyframes glitch {
+  0%   { clip-path: inset(0 0 95% 0); transform: translateX(-2px); }
+  20%  { clip-path: inset(20% 0 60% 0); transform: translateX(2px); }
+  40%  { clip-path: inset(50% 0 30% 0); transform: translateX(-1px); }
+  60%  { clip-path: inset(70% 0 10% 0); transform: translateX(1px); }
+  100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+}
+
+/* ── HIGHLIGHT ── */
+mark {
+  background: rgba(255,170,0,0.2);
+  color: var(--amber);
+  padding: 1px 2px;
+}
+
+/* ═══════════════════════════════════════════════════
+   EMPTY
+═══════════════════════════════════════════════════ */
+.empty-state {
+  display: none;
+  grid-column: 1 / -1;
+  padding: 60px;
+  text-align: center;
+}
+
+.empty-state.show { display: block; }
+
+.empty-state p {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text2);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.empty-state p::before { content: '// '; color: var(--red); }
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════ */
+footer {
+  margin-top: 60px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+footer span { color: var(--cyan2); }
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media (max-width: 700px) {
+  .glos-grid { grid-template-columns: 1fr; }
+  .stats-bar { flex-wrap: wrap; }
+  .stat { min-width: 50%; }
+  .hdr-title { font-size: 28px; }
+}
+
+@media (max-width: 420px) {
+  .card-body { padding-left: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<!-- ══ HEADER ══════════════════════════════════════ -->
+<header class="hdr">
+  <div class="hdr-eyebrow">CYSA+ CERTIFICATION PREP // THREAT OPERATIONS GLOSSARY</div>
+  <h1 class="hdr-title"><em>CYSA+</em><br>GLOSSARY</h1>
+  <p style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text1);max-width:600px;line-height:1.9;margin-bottom:16px;">
+    &gt; Initializing knowledge base...<br>
+    &gt; 2 domains loaded · 47 terms indexed · Interactive reference for CompTIA CySA+ exam preparation
+  </p>
+  <div class="hdr-meta">
+    <div class="badge badge-green"><div class="dot"></div> LIVE REFERENCE</div>
+    <div class="badge badge-red">DOMAIN 01 // SECURITY OPERATIONS</div>
+    <div class="badge badge-amber">DOMAIN 02 // VULNERABILITY MGMT</div>
+    <div class="badge badge-cyan">SEARCHABLE</div>
+  </div>
+</header>
+
+<!-- ══ CONTROLS ═══════════════════════════════════ -->
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-prefix">QUERY&gt;</span>
+    <input type="text" id="searchInput" placeholder="search terms, definitions, acronyms..." autocomplete="off" spellcheck="false">
+  </div>
+  <div class="filter-row">
+    <button class="fbtn active" data-filter="all">ALL</button>
+    <button class="fbtn" data-filter="domain1">DOMAIN 1</button>
+    <button class="fbtn" data-filter="domain2">DOMAIN 2</button>
+  </div>
+</div>
+
+<!-- ══ STATS ══════════════════════════════════════ -->
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-num" id="visibleCount">47</span>
+    <span class="stat-lbl">terms loaded</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">2</span>
+    <span class="stat-lbl">domains</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">34</span>
+    <span class="stat-lbl">domain 1 terms</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">13</span>
+    <span class="stat-lbl">domain 2 terms</span>
+  </div>
+</div>
+
+<!-- ══ DOMAIN 1 ════════════════════════════════════ -->
+<section class="domain-section" id="sec-domain1">
+  <div class="domain-hdr d1">
+    <div class="domain-num">DOMAIN 01</div>
+    <div class="domain-title">Security Operations</div>
+    <div class="domain-count" id="d1count">34 TERMS</div>
+  </div>
+  <div class="glos-grid" id="grid1">
+
+    <div class="term-card" data-domain="domain1" data-term="Advanced Persistent Threat" data-abbr="APT">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">APT</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Advanced Persistent Threat</div>
+          <div class="card-abbr">APT</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block">
+          <div class="block-label">Definition</div>
+          <div class="def-text">A type of cyber-attack where a threat actor gains unauthorized access to a network and remains undetected for an extended period, systematically exfiltrating data or preparing for a disruptive payload.</div>
+        </div>
+        <div class="ex-block">
+          <div class="block-label">Example</div>
+          <div class="ex-text">A state-sponsored group infiltrates a government agency's network and remains undetected for months while gathering sensitive intelligence.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Closed Source Intelligence">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">INT</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Closed Source Intelligence</div>
+          <div class="card-abbr">CLASSIFIED · RESTRICTED</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Collects and analyzes classified or restricted information primarily used by government entities. Unlike OSINT, access is controlled and requires appropriate clearances.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A government agency gathers sensitive information on potential threats from foreign adversaries to safeguard national security.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Cloud Access Security Broker" data-abbr="CASB">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">CASB</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Cloud Access Security Broker</div>
+          <div class="card-abbr">CASB</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A solution that acts as a gatekeeper between users and cloud services, providing visibility, control, and data protection. Enforces security policies across cloud-based apps.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">An organization deploys a third-party CASB to monitor and manage user access to cloud applications, ensuring security policies are enforced and sensitive data is protected.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Data Loss Prevention" data-abbr="DLP">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">DLP</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Data Loss Prevention</div>
+          <div class="card-abbr">DLP</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A security strategy that prevents unauthorized disclosure of sensitive data. DLP tools scan content in motion, at rest, and in use to detect and block policy violations.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">Software scans outgoing emails for credit card or SSN patterns and automatically blocks or encrypts content before it leaves the network perimeter.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Domain-Based Message Authentication Reporting Conformance" data-abbr="DMARC">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">DMARC</div>
+        <div class="card-term-wrap">
+          <div class="card-term">DMARC</div>
+          <div class="card-abbr">DOMAIN-BASED MSG AUTH, REPORTING & CONFORMANCE</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">An email authentication protocol that prevents email spoofing and phishing by verifying sender identity and aligning DKIM and SPF policies. Reports unauthorized use of a domain.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A company configures DMARC policies aligned with DKIM and SPF settings, preventing unauthorized use of their domain to send fraudulent emails.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Domain Keys Identifiable Mail" data-abbr="DKIM">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">DKIM</div>
+        <div class="card-term-wrap">
+          <div class="card-term">DomainKeys Identified Mail</div>
+          <div class="card-abbr">DKIM</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A security method allowing email senders to digitally sign their emails using a private key. Recipients verify authenticity via a public key published in DNS, detecting tampering in transit.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">An organization signs all outgoing emails so recipients can confirm the email came from an authorized sender and was not altered during transit.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Endpoint Detection and Response" data-abbr="EDR">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">EDR</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Endpoint Detection &amp; Response</div>
+          <div class="card-abbr">EDR</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A security solution that continuously monitors endpoints — computers, servers, and mobile devices — to detect, investigate, and respond to suspicious activity and potential threats in real time.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">Software deployed on employee computers monitors for unusual activity such as unauthorized file access attempts or system setting changes and triggers alerts automatically.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Federation">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">FED</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Federation</div>
+          <div class="card-abbr">IDENTITY FEDERATION</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Links multiple identity management systems across organizations, enabling secure access to various applications and services using a single set of credentials via trust agreements.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A user from one organization accesses an application hosted by a partner organization using their existing credentials, without creating a new account.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Hacktivists">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">HAK</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Hacktivists</div>
+          <div class="card-abbr">THREAT ACTOR TYPE</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Individuals or groups who use hacking techniques to promote a social or political cause. Motivated by ideology rather than financial gain; targets are chosen for symbolic impact.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A group hacks into a corporation's website and defaces it to protest its unethical business practices, drawing public attention.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Hashing">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">#</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Hashing</div>
+          <div class="card-abbr">CRYPTOGRAPHIC FUNCTION</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A one-way mathematical process transforming data of any size into a fixed-length output (hash value). Cannot be reversed; used for integrity checks, password storage, and digital signatures.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A website stores passwords in hashed form (e.g., bcrypt, SHA-256) so a database breach exposes hashes, not plaintext passwords.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Honeypot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">HNY</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Honeypot</div>
+          <div class="card-abbr">DECEPTION TECHNOLOGY</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A decoy system or network resource intentionally deployed to lure attackers. Collects intelligence on attacker tactics, techniques, and procedures (TTPs) without risk to production assets.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A company deploys a decoy server with intentionally vulnerable software, then monitors all interaction with it to map attacker behavior.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Indicators of Compromise" data-abbr="IoC">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">IoC</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Indicators of Compromise</div>
+          <div class="card-abbr">IoC</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Artifacts or patterns — such as IP addresses, file hashes, registry keys, or unusual traffic — that suggest a possible or active security breach or malicious activity within a system or network.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A security analyst detects unusual outbound network traffic to a known malicious IP address, indicating a possible malware infection or C2 beaconing.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Insider Threat">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">INS</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Insider Threat</div>
+          <div class="card-abbr">THREAT ACTOR TYPE</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A security risk posed by individuals within an organization — employees, contractors, or partners — who have authorized access and misuse it, whether maliciously or through negligence.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">An employee with authorized access to confidential data deliberately leaks it to a competitor for financial gain.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Intelligence Gathering">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">INTL</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Intelligence Gathering</div>
+          <div class="card-abbr">RECONNAISSANCE</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">The collection of information about a target system or organization to identify potential attack vectors, vulnerabilities, key personnel, and infrastructure prior to an attack or assessment.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A threat actor researches publicly available information about a company's network infrastructure and employees to prepare a targeted spear-phishing campaign.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Internal Network Pen Test">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">PEN</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Internal Network Pen Test</div>
+          <div class="card-abbr">PENETRATION TESTING</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A test that simulates behavior of malicious insiders or individuals with stolen credentials, seeking to exploit vulnerabilities from within the network perimeter.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A company hires ethical hackers to attempt accessing sensitive systems using stolen credentials and insider knowledge to find lateral movement paths.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Log Analysis">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">LOG</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Log Analysis</div>
+          <div class="card-abbr">FORENSICS · MONITORING</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Collecting and systematically reviewing log data from network devices, servers, and applications to identify anomalies, security events, performance issues, or evidence of compromise.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A security team examines web server access logs to identify brute-force login attempts, suspicious user agents, or SQL injection patterns.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Multifactor Authentication" data-abbr="MFA">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">MFA</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Multifactor Authentication</div>
+          <div class="card-abbr">MFA</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">An authentication method requiring users to verify identity with two or more independent factors: something you know (password), have (token/phone), or are (biometric).</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A user enters their password, then a time-based one-time code sent to their mobile device, before being granted access to a cloud application.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Nation-State Actor">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">NSA</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Nation-State Actor</div>
+          <div class="card-abbr">THREAT ACTOR TYPE</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A threat entity sponsored or directly controlled by a government, typically engaged in cyber espionage, intelligence collection, sabotage, or disruption of adversary operations. Highly resourced and sophisticated.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A foreign government conducts sustained cyber-operations to steal classified defense technology from another nation's aerospace contractors.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Open-Source Intelligence" data-abbr="OSINT">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">OSINT</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Open-Source Intelligence</div>
+          <div class="card-abbr">OSINT</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Collecting and analyzing publicly available data from internet sources — social media, forums, WHOIS records, job postings, and more — to gain actionable insights about targets or threats.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A security analyst uses Shodan, LinkedIn, and Maltego to map a target organization's exposed infrastructure and employee structure.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Operational Threat Intelligence">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">OTI</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Operational Threat Intelligence</div>
+          <div class="card-abbr">THREAT INTEL · OPERATIONAL</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Intelligence focused on current and emerging risks that could directly impact day-to-day organizational operations. Actionable data about ongoing campaigns, active threat actors, and live attack vectors.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">An organization monitors threat feeds for active ransomware campaigns targeting their specific industry vertical to proactively patch affected systems.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Organized Crime">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">ORG</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Organized Crime</div>
+          <div class="card-abbr">THREAT ACTOR TYPE</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Coordinated criminal groups leveraging cyber capabilities for financial gain through fraud, ransomware, data theft, and extortion. Often operate as professional enterprises with hierarchical structure.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A cybercriminal syndicate breaches a retailer's network, exfiltrates millions of payment card records, and sells them on dark web marketplaces.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Packet Capture">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">PCAP</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Packet Capture</div>
+          <div class="card-abbr">PCAP · PACKET SNIFFING</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Intercepting and recording raw network traffic for subsequent analysis, troubleshooting, or forensic investigation. Tools like Wireshark capture packets at the network interface level.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A network administrator uses Wireshark to capture and inspect all traffic on a segment to identify malicious C2 communications or data exfiltration patterns.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Personally Identifiable Information" data-abbr="PII">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">PII</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Personally Identifiable Information</div>
+          <div class="card-abbr">PII</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Any data that can identify an individual — name, SSN, DOB, address, biometrics, or account numbers. Protected by regulations such as GDPR, HIPAA, and CCPA.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A customer submits their full name, address, and payment card details during an online purchase — all of which constitute PII requiring protection.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Privileged Access Management" data-abbr="PAM">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">PAM</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Privileged Access Management</div>
+          <div class="card-abbr">PAM</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A security system that controls, monitors, and audits access to privileged accounts (administrator, root, service accounts). Enforces least-privilege, just-in-time access, and session recording.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">An IT admin requests temporary elevated access via a PAM vault, which verifies their identity with MFA, grants time-limited credentials, and records the entire session.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Public Key Infrastructure" data-abbr="PKI">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">PKI</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Public Key Infrastructure</div>
+          <div class="card-abbr">PKI</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A system of hardware, software, policies, and procedures that manages digital certificates and public-private key pairs, enabling secure communications, authentication, and non-repudiation.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A website uses a TLS certificate issued by a CA (Certificate Authority) to establish an encrypted HTTPS session between the browser and server.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Risk Management">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">RISK</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Risk Management</div>
+          <div class="card-abbr">GRC · GOVERNANCE</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">The process of identifying, assessing, and prioritizing potential threats to organizational assets, followed by coordinated application of controls to minimize, monitor, and manage risk probability and impact.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A security team conducts a risk assessment, identifies critical asset exposures, and implements mitigating controls prioritized by risk score (likelihood × impact).</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Sandboxing">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">SBX</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Sandboxing</div>
+          <div class="card-abbr">ISOLATION TECHNIQUE</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A security technique that isolates applications or code execution in a restricted environment, preventing potentially malicious programs from affecting the host system or network.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A suspicious email attachment is opened in an isolated VM environment and monitored for malicious behavior — network calls, file writes, registry changes — before delivery to the user.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Script Kiddie">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">SK</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Script Kiddie</div>
+          <div class="card-abbr">THREAT ACTOR TYPE</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">An unskilled attacker who uses pre-written hacking tools and exploit scripts without understanding the underlying technology. Relies on automated tools and publicly available exploits.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">An individual downloads a LOIC (Low Orbit Ion Cannon) tool from GitHub and uses it to launch a DDoS attack without understanding TCP/IP or network protocols.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Secure Access Secure Edge" data-abbr="SASE">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">SASE</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Secure Access Secure Edge</div>
+          <div class="card-abbr">SASE</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A cloud-based architecture converging network security and WAN capabilities into a single service. Combines SWG, CASB, FWaaS, ZTNA, and SD-WAN to secure distributed workforces.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">An enterprise replaces regional firewalls and backhauled VPNs with a SASE platform, applying consistent security policy to remote users accessing cloud apps.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Sender Policy Framework" data-abbr="SPF">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">SPF</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Sender Policy Framework</div>
+          <div class="card-abbr">SPF</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">An email validation technique that allows receiving mail servers to verify whether a sending server is authorized to send email on behalf of a given domain, using DNS TXT records.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A company publishes an SPF record in DNS designating only their authorized mail servers, causing spoofed emails from unauthorized IPs to fail authentication checks.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Single Sign-On" data-abbr="SSO">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">SSO</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Single Sign-On</div>
+          <div class="card-abbr">SSO</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">An access control method allowing users to authenticate once with a single credential set and gain access to multiple systems or applications without re-authenticating for each one.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">An employee logs into their corporate portal once and is automatically authenticated to email, HR systems, and collaboration tools throughout the session.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Software-Defined Networking" data-abbr="SDN">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">SDN</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Software-Defined Networking</div>
+          <div class="card-abbr">SDN</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A network architecture that separates the control plane from the data plane, allowing network behavior to be programmatically controlled via APIs. Enables dynamic, policy-driven network management.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A data center uses SDN to dynamically segment traffic during an incident, isolating a compromised host without physically reconfiguring switches.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Strategic Threat Intelligence">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">STI</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Strategic Threat Intelligence</div>
+          <div class="card-abbr">THREAT INTEL · STRATEGIC</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">High-level intelligence focused on identifying long-term threats and macro trends that could impact an organization's strategic goals. Consumed by executives and board-level stakeholders.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A CISO presents the board with a strategic threat assessment covering nation-state risks, regulatory shifts, and geopolitical cyber trends affecting the company's 3-year security roadmap.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Tactical Threat Intelligence">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">TTI</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Tactical Threat Intelligence</div>
+          <div class="card-abbr">THREAT INTEL · TACTICAL</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Intelligence focused on specific, near-term threats and the TTPs (tactics, techniques, procedures) used by threat actors, used to inform defensive configurations and incident response playbooks.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A SOC team analyzes MITRE ATT&CK patterns from recent attacks on peer organizations to harden detection rules and update firewall block lists.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Technical Threat Intelligence">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">TECH</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Technical Threat Intelligence</div>
+          <div class="card-abbr">THREAT INTEL · TECHNICAL</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Detailed technical data about specific threats: malware hashes, C2 IPs, exploit signatures, vulnerability CVEs. Consumed by security engineers for tool configuration and defensive tuning.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">An analyst reverse-engineers a malware sample to extract C2 domain IoCs and YARA signatures, then pushes them to EDR and SIEM platforms for automated detection.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Threat Actor">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">TA</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Threat Actor</div>
+          <div class="card-abbr">ADVERSARY CLASSIFICATION</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">An individual or group responsible for executing cyber attacks. Classified by motivation (financial, political, ideological), capability level, and attribution (nation-state, criminal, hacktivist, insider).</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A financially-motivated threat actor targets a healthcare provider with ransomware, encrypting patient data and demanding payment for the decryption key.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Threat Hunting">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">HUNT</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Threat Hunting</div>
+          <div class="card-abbr">PROACTIVE DETECTION</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A proactive, hypothesis-driven approach to finding threats already present in an environment before alerts are triggered. Uses analytics, behavioral baselines, and TTPs to discover stealthy attackers.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A threat hunter forms a hypothesis that an attacker may be using living-off-the-land techniques, then queries SIEM data for anomalous PowerShell execution patterns across the fleet.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="Threat Intelligence">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">TI</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Threat Intelligence</div>
+          <div class="card-abbr">CTI · CYBER THREAT INTEL</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Evidence-based knowledge about existing or emerging threats — including context, mechanisms, indicators, and actionable advice — that helps organizations understand and defend against attacks.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A company subscribes to a commercial CTI feed that provides real-time IoCs, threat actor profiles, and vulnerability intelligence to feed into their SIEM and SOAR platforms.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain1" data-term="User Behavior Analysis" data-abbr="UBA">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">UBA</div>
+        <div class="card-term-wrap">
+          <div class="card-term">User Behavior Analysis</div>
+          <div class="card-abbr">UBA / UEBA</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A security approach using machine learning and analytics to baseline normal user behavior and detect deviations that may indicate insider threats, account compromise, or privilege abuse.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A UEBA platform detects that an employee is accessing sensitive finance files at 2AM from an unfamiliar location and triggers an alert for SOC investigation.</div></div>
+      </div>
+    </div>
+
+  </div><!-- /grid1 -->
+</section>
+
+<!-- ══ DOMAIN 2 ════════════════════════════════════ -->
+<section class="domain-section" id="sec-domain2">
+  <div class="domain-hdr d2">
+    <div class="domain-num">DOMAIN 02</div>
+    <div class="domain-title">Vulnerability Management</div>
+    <div class="domain-count" id="d2count">13 TERMS</div>
+  </div>
+  <div class="glos-grid" id="grid2">
+
+    <div class="term-card" data-domain="domain2" data-term="Active Scanning">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">ACT</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Active Scanning</div>
+          <div class="card-abbr">VULN ASSESSMENT</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">The process of actively probing and interacting with target systems — sending packets, testing services, and enumerating responses — to uncover exploitable vulnerabilities and misconfigurations.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A penetration tester runs Nessus or OpenVAS against a network segment to enumerate open ports, running services, outdated software versions, and common CVEs.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain2" data-term="Adversary Emulation">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">ADV</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Adversary Emulation</div>
+          <div class="card-abbr">RED TEAM · PURPLE TEAM</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Replicating the exact TTPs of specific, known threat actors to evaluate how well security controls detect and respond to realistic attack scenarios. More targeted than generic penetration testing.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A red team executes an adversary emulation exercise based on APT29's documented techniques from the MITRE ATT&CK framework to evaluate the organization's detection coverage.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain2" data-term="Agent Scanning">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">AGT</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Agent Scanning</div>
+          <div class="card-abbr">HOST-BASED ASSESSMENT</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A vulnerability assessment method using lightweight software agents installed on endpoints to perform continuous, authenticated scanning and report local security posture, patches, and configuration status.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A security team deploys Tenable Nessus Agents on all workstations to provide real-time visibility into missing patches and configuration drift without requiring network-based scanning credentials.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain2" data-term="Agentless Scanning">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">AGTL</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Agentless Scanning</div>
+          <div class="card-abbr">NETWORK-BASED ASSESSMENT</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Vulnerability scanning performed over the network without requiring software agents on target systems. Uses network protocols, SNMP, SSH, or WMI to remotely query system state.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A company uses agentless scanning to assess cloud infrastructure and IoT devices where installing agents is impractical, using cloud provider APIs instead.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain2" data-term="Attack Surface Management">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">ASM</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Attack Surface Management</div>
+          <div class="card-abbr">ASM · EASM</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">Continuous identification, inventory, and reduction of all externally and internally accessible assets that could be exploited. Includes unknown assets, shadow IT, and digital supply chain components.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A security team uses an ASM platform to discover a forgotten developer portal exposed to the internet with outdated Apache and default credentials.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain2" data-term="Authentication">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">AUTH</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Authentication</div>
+          <div class="card-abbr">IDENTITY VERIFICATION</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">The process of verifying that an entity (user, device, or process) is who or what it claims to be, before granting access to systems or resources. Distinct from authorization (what access is granted).</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A web application challenges users with username + password (knowledge factor) plus a biometric scan (inherence factor) before granting access — multi-factor authentication.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain2" data-term="Broken Access Control">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">BAC</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Broken Access Control</div>
+          <div class="card-abbr">OWASP TOP 10 · A01</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A security flaw permitting unauthorized users to access restricted resources, perform actions beyond their privilege level, or view another user's data due to improper enforcement of access policies.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A web app exposes user records at /api/users/[id] without verifying the requesting user's ownership — allowing any authenticated user to view another user's private data by changing the ID.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain2" data-term="Bug Bounty">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">BB</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Bug Bounty</div>
+          <div class="card-abbr">VDP · CROWDSOURCED SECURITY</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A program offering financial rewards to external security researchers for responsibly discovering and reporting vulnerabilities in software or systems. Extends testing coverage beyond internal teams.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A tech company launches a HackerOne bug bounty program offering $10,000–$100,000 for critical RCE vulnerabilities in their production platform, attracting global security researchers.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain2" data-term="Compensating Control">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">CC</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Compensating Control</div>
+          <div class="card-abbr">RISK MITIGATION</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">An alternative security measure implemented when a primary control cannot be deployed due to technical, operational, or financial constraints. Must provide equivalent risk reduction as the original control.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A legacy medical device cannot be patched for a known CVE; the organization implements network segmentation and enhanced monitoring as compensating controls to reduce risk exposure.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain2" data-term="Common Vulnerabilities and Exposures" data-abbr="CVE">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">CVE</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Common Vulnerabilities &amp; Exposures</div>
+          <div class="card-abbr">CVE</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A public dictionary of standardized identifiers for known security vulnerabilities in software and hardware. Maintained by MITRE; each CVE provides a unique ID, description, and references for a specific flaw.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">CVE-2021-44228 (Log4Shell) identifies a critical RCE vulnerability in Apache Log4j 2, allowing analysts and administrators to quickly locate patches and mitigation guidance.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain2" data-term="Common Vulnerability Scoring System" data-abbr="CVSS">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">CVSS</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Common Vulnerability Scoring System</div>
+          <div class="card-abbr">CVSS</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">An open framework for communicating the characteristics and severity of software vulnerabilities via a numerical score (0–10). Considers attack vector, complexity, privileges required, user interaction, and impact.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A vulnerability with a CVSS score of 9.8 (Critical) is prioritized for immediate patching, while a score of 3.1 (Low) is scheduled for the next maintenance window.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain2" data-term="Patch Management">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">PTCH</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Patch Management</div>
+          <div class="card-abbr">VULNERABILITY REMEDIATION</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">The systematic process of acquiring, testing, and deploying software updates (patches) to fix vulnerabilities and improve system functionality, within defined SLA windows based on severity.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A SOC establishes a patch SLA: Critical (CVSS ≥9) patched within 24h, High within 7 days, Medium within 30 days. Automated tools deploy patches and report compliance.</div></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-domain="domain2" data-term="Threat Modeling">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon">TM</div>
+        <div class="card-term-wrap">
+          <div class="card-term">Threat Modeling</div>
+          <div class="card-abbr">SDLC SECURITY · STRIDE</div>
+        </div>
+        <div class="card-toggle">►</div>
+      </div>
+      <div class="card-body">
+        <div class="def-block"><div class="block-label">Definition</div><div class="def-text">A structured approach to identifying, categorizing, and prioritizing potential threats to a system during design. Common frameworks include STRIDE (Spoofing, Tampering, Repudiation, Info Disclosure, DoS, EoP) and PASTA.</div></div>
+        <div class="ex-block"><div class="block-label">Example</div><div class="ex-text">A development team applies STRIDE threat modeling to a new API gateway, identifying that the authentication endpoint is susceptible to spoofing and adding token validation as a mitigation.</div></div>
+      </div>
+    </div>
+
+  </div><!-- /grid2 -->
+</section>
+
+<div class="empty-state" id="emptyState">
+  <p>no matching terms found — clear search or change filter</p>
+</div>
+
+<footer>
+  <span>CYSA+ // THREAT OPS GLOSSARY</span>
+  <span style="color:var(--text2)">2 domains · 47 terms · interactive reference</span>
+  <span style="color:var(--text2)">comptia cysa+ exam prep</span>
+</footer>
+
+</div><!-- /shell -->
+
+<script>
+// ── TOGGLE CARD ─────────────────────────────────────
+function toggle(head) {
+  head.closest('.term-card').classList.toggle('open');
+}
+
+// ── FILTER ──────────────────────────────────────────
+document.querySelectorAll('.fbtn').forEach(btn => {
+  btn.addEventListener('click', function () {
+    document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    applyFilters();
+  });
+});
+
+function applyFilters() {
+  const cat    = document.querySelector('.fbtn.active').dataset.filter;
+  const term   = document.getElementById('searchInput').value.trim().toLowerCase();
+
+  let total = 0;
+
+  document.querySelectorAll('.term-card').forEach(card => {
+    const domain = card.dataset.domain;
+    const text   = (card.dataset.term + ' ' + card.dataset.abbr + ' ' + card.querySelector('.card-body')?.textContent).toLowerCase();
+
+    const catOk  = cat === 'all' || domain === cat;
+    const termOk = !term || text.includes(term);
+
+    if (catOk && termOk) {
+      card.style.display = '';
+      total++;
+      if (term.length > 1) {
+        highlightCard(card, term);
+        card.classList.add('open');
+      } else {
+        clearHighlight(card);
+      }
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  // Show/hide domain sections
+  ['domain1','domain2'].forEach(d => {
+    const sec  = document.getElementById('sec-' + d);
+    const vis  = sec ? [...sec.querySelectorAll('.term-card')].some(c => c.style.display !== 'none') : false;
+    if (sec) sec.style.display = (cat === 'all' || cat === d || vis) && vis ? '' : 'none';
+  });
+
+  document.getElementById('visibleCount').textContent = total;
+  document.getElementById('emptyState').classList.toggle('show', total === 0);
+}
+
+// ── HIGHLIGHT ───────────────────────────────────────
+function highlightCard(card, term) {
+  clearHighlight(card);
+  const walk = (node) => {
+    if (node.nodeType === 3) {
+      const idx = node.textContent.toLowerCase().indexOf(term);
+      if (idx >= 0) {
+        const span = document.createElement('span');
+        span.innerHTML = node.textContent.replace(
+          new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'),
+          '<mark>$1</mark>'
+        );
+        node.parentNode.replaceChild(span, node);
+      }
+    } else if (node.nodeType === 1 && !['SCRIPT','STYLE'].includes(node.tagName)) {
+      [...node.childNodes].forEach(walk);
+    }
+  };
+  [card.querySelector('.card-term'), card.querySelector('.def-text'), card.querySelector('.ex-text')].forEach(el => {
+    if (el) walk(el);
+  });
+}
+
+function clearHighlight(card) {
+  card.querySelectorAll('mark').forEach(m => {
+    m.replaceWith(document.createTextNode(m.textContent));
+  });
+  // Normalize text nodes
+  card.normalize();
+}
+
+// ── SEARCH ──────────────────────────────────────────
+document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+// ── KEYBOARD SHORTCUT ─────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+  if (e.key === 'Escape') {
+    document.getElementById('searchInput').value = '';
+    applyFilters();
+  }
+});
+
+// ── INITIAL COUNTS ──────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const d1 = document.querySelectorAll('[data-domain="domain1"]').length;
+  const d2 = document.querySelectorAll('[data-domain="domain2"]').length;
+  document.querySelector('.stat:nth-child(3) .stat-num').textContent = d1;
+  document.querySelector('.stat:nth-child(4) .stat-num').textContent = d2;
+  document.getElementById('visibleCount').textContent = d1 + d2;
+  document.getElementById('d1count').textContent = d1 + ' TERMS';
+  document.getElementById('d2count').textContent = d2 + ' TERMS';
+});
+</script>
+</body>
+</html>
