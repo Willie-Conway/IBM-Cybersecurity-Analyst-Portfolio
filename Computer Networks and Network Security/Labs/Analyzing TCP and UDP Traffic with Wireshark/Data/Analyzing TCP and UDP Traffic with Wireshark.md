@@ -239,7 +239,7 @@ Look for UDP packets in the packet list:
 
 ![UDP packets in Wireshark]
 
-![alt text](../Screenshots/UDP packets in Wireshark.png)
+![alt text](<../Screenshots/UDP packets in Wireshark.png>)
 
 ### Step 5: Examine UDP Header Details
 
@@ -259,7 +259,7 @@ Look for UDP packets in the packet list:
 
 ![UDP header details]
 
-![alt text](../Screenshots/UDP header details.png)
+![alt text](<../Screenshots/UDP header details.png>)
 
 ### Step 6: Compare TCP vs UDP
 
@@ -281,7 +281,7 @@ Look for UDP packets in the packet list:
 
 Save the file as `Wireshark_UDP.png`
 
-![alt text](../Screenshots/Compare TCP vs UDP.png)
+![alt text](<../Screenshots/Compare TCP vs UDP.png>)
 
 ## Exercise 3: Analyze Specific Port Traffic
 
@@ -295,7 +295,7 @@ In this exercise, you will filter traffic by specific ports to focus on particul
 
 ![HTTP filter applied]
 
-![alt text](../Screenshots/HTTP filter applied.png)
+![alt text](<../Screenshots/HTTP filter applied.png>)
 
 ### Step 2: Filter HTTPS Traffic (Port 443)
 
@@ -305,6 +305,8 @@ In this exercise, you will filter traffic by specific ports to focus on particul
 
 ![HTTPS filter applied]
 
+![alt text](<../Screenshots/HTTPS filter applied.png>)
+
 ### Step 3: Filter DNS Traffic (Port 53)
 
 1. Start a new capture
@@ -312,6 +314,8 @@ In this exercise, you will filter traffic by specific ports to focus on particul
 3. Apply display filter: `udp.port == 53`
 
 ![DNS filter applied]
+
+![alt text](<../Screenshots/DNS filter applied.png>)
 
 ### Step 4: Filter by IP Address
 
