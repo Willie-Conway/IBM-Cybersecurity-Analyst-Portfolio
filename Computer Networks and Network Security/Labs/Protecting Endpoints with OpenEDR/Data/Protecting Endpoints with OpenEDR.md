@@ -1,6 +1,5 @@
 ![alt text](../Screenshots/Xcitium.jpg)
 
-
 # Lab: Protecting Endpoints with OpenEDR
 
 **Estimated Time:** 45 minutes
@@ -87,7 +86,7 @@ In this task, you will create a free OpenEDR account and configure multifactor a
 
 ![alt text](<../Screenshots/Get Started for Free button.jpg>)
 
-2. Enter your information to create a free account:
+1. Enter your information to create a free account:
 
 | Field                      | Information                                                               |
 | :------------------------- | :------------------------------------------------------------------------ |
@@ -101,7 +100,7 @@ In this task, you will create a free OpenEDR account and configure multifactor a
 
 ![alt text](<../Screenshots/Account creation form_2.png>)
 
-3. Click **Create Account** or **Sign Up**
+1. Click **Create Account** or **Sign Up**
 
 ### Step 3: Set Up Multifactor Authentication (MFA)
 
@@ -112,6 +111,8 @@ After creating your account, Xcitium will prompt you to set up multifactor authe
 3. The authenticator app will generate a six-digit verification code
 
 ![MFA setup QR code]
+
+![alt text](<../Screenshots/MFA setup QR code.png>)
 
 4. Type or enter this code in the **Enter Verification Code** field on your browser window
 5. Click **Pair Authenticator**
