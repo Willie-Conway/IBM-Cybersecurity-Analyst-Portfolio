@@ -119,7 +119,17 @@ After creating your account, Xcitium will prompt you to set up multifactor authe
 
 ![MFA verification code entry]
 
+![alt text](<../Screenshots/MFA verification code entry.jpg>)
+
 **Note:** You might see an optional **Set Secret Questions** window. This lab does not require that you complete this task. Select **Skip** to bypass this task.
+
+![alt text](<../Screenshots/Set Secret Questions window.png>)
+
+![alt text](<../Screenshots/Secret Questions.png>)
+
+
+![alt text](<../Screenshots/Complete Secret Questions.png>)
+
 
 ### Step 4: Complete Welcome Setup
 
@@ -128,6 +138,14 @@ After creating your account, Xcitium will prompt you to set up multifactor authe
 
 ![Welcome screen]
 
+![alt text](<../Screenshots/Welcome screen.png>)
+
+![alt text](<../Screenshots/Deploy EDR.png>)
+
+
+![alt text](<../Screenshots/You're Ready window.png>)
+
+
 ### Step 5: Take Screenshot
 
 Take a screenshot showing:
@@ -135,6 +153,9 @@ Take a screenshot showing:
 - The OpenEDR dashboard after successful login
 
 Save the file as `OpenEDR_Dashboard.png`
+
+
+![alt text](../Screenshots/OpenEDR_Dashboard.png)
 
 ---
 
@@ -147,6 +168,12 @@ In this task, you will download and install the OpenEDR agent on an endpoint dev
 1. From the OpenEDR dashboard, locate and click **Endpoint Management** or **Add Endpoint**
 
 ![Endpoint Management option]
+
+![alt text](<../Screenshots/Select Device Management.png>)
+
+
+![alt text](<../Screenshots/Device Management.png>)
+
 
 ### Step 2: Select Operating System
 
@@ -161,6 +188,8 @@ In this task, you will download and install the OpenEDR agent on an endpoint dev
 | **iOS**     | Download from Apple App Store           |
 
 ![OS selection screen]
+
+![alt text](<../Screenshots/OS selection screen.png>)
 
 ### Step 3: Download the Agent
 
@@ -178,6 +207,8 @@ In this task, you will download and install the OpenEDR agent on an endpoint dev
 5. Click **Install**
 
 ![Windows installer]
+
+![alt text](<../Screenshots/Windows installer.png>)
 
 **For macOS:**
 
@@ -213,6 +244,8 @@ During installation, you may be prompted to register the endpoint:
 3. You should see your newly added endpoint listed
 
 ![Endpoint list showing registered device]
+
+![alt text](<../Screenshots/Endpoint list showing registered device.png>)
 
 ### Step 7: Take Screenshot
 
