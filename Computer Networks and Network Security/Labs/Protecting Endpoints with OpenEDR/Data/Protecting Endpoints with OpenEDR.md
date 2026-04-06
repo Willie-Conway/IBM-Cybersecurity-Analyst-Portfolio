@@ -77,11 +77,15 @@ In this task, you will create a free OpenEDR account and configure multifactor a
 
 ![OpenEDR homepage]
 
+![alt text](<../Screenshots/OpenEDR homepage_2.png>)
+
 ### Step 2: Create Free Account
 
 1. Click **Get Started for Free** (or **Sign Up**)
 
 ![Get Started for Free button]
+
+![alt text](<../Screenshots/Get Started for Free button.jpg>)
 
 2. Enter your information to create a free account:
 
@@ -94,6 +98,8 @@ In this task, you will create a free OpenEDR account and configure multifactor a
 | **Confirm Password** | Re-enter your password                                                    |
 
 ![Account creation form]
+
+![alt text](<../Screenshots/Account creation form_2.png>)
 
 3. Click **Create Account** or **Sign Up**
 
