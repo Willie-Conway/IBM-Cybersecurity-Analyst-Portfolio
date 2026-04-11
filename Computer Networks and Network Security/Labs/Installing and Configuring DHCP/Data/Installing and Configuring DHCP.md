@@ -192,6 +192,8 @@ Now you can see the DHCP server listed under **Roles and Server Groups** in the 
 
 ![DHCP server in dashboard]
 
+![alt text](<../Screenshots/DHCP server in dashboard.png>)
+
 #### Step 16: Complete DHCP Configuration
 
 1. Click **DHCP** in Server Manager
@@ -199,6 +201,8 @@ Now you can see the DHCP server listed under **Roles and Server Groups** in the 
 3. Click **Complete DHCP configuration**
 
 ![Complete DHCP configuration alert]
+
+![alt text](<../Screenshots/Complete DHCP configuration alert.png>)
 
 ---
 
@@ -211,6 +215,8 @@ Now you can see the DHCP server listed under **Roles and Server Groups** in the 
 
 ![DHCP Post-Installation Wizard]
 
+![alt text](<../Screenshots/DHCP Post-Installation Wizard.png>)
+
 #### Step 18: Authorize DHCP Server
 
 1. Select **Use the following user credentials**
@@ -218,6 +224,8 @@ Now you can see the DHCP server listed under **Roles and Server Groups** in the 
 3. Click **Commit** or **Next**
 
 ![Authorize DHCP server]
+
+![alt text](<../Screenshots/Authorize DHCP server.png>)
 
 **Note:** In a domain environment, DHCP servers must be authorized in Active Directory. In a workgroup environment (like this lab), this step may be skipped.
 
@@ -227,6 +235,8 @@ Now you can see the DHCP server listed under **Roles and Server Groups** in the 
 2. Click **Close**
 
 ![DHCP configuration complete]
+
+![alt text](<../Screenshots/DHCP configuration complete.png>)
 
 ---
 
@@ -240,6 +250,8 @@ Now that the DHCP server is installed, you will create a scope of IPv4 addresses
 2. Select **DHCP** from the dropdown menu
 
 ![Tools menu with DHCP selected]
+
+![alt text](<../Screenshots/Tools menu with DHCP selected.png>)
 
 #### Step 21: Expand DHCP Server
 
