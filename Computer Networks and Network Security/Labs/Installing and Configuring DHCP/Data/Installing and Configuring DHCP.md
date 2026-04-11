@@ -496,6 +496,9 @@ If you have a client computer on the same network, you can test DHCP functionali
 
 ---
 
+<video controls src="Installing and Configuring DHCP.mp4" title="Installing and Configuring DHCP"></video>
+
+
 ## Key Takeaways
 
 | Concept                   | Description                                                  |
