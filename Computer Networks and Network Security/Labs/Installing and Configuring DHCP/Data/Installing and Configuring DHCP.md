@@ -1,6 +1,5 @@
 ![alt text](../Screenshots/servermgr.png)
 
-
 # Lab: Installing and Configuring DHCP
 
 **Estimated time needed:** 20 minutes
@@ -64,11 +63,17 @@ In this exercise, you will install and configure the DHCP server role on Windows
 
 ![Start menu with Server Manager selected]
 
+![alt text](<../Screenshots/Start menu with Server Manager selected.png>)
+
+![alt text](<../Screenshots/Open Server Manager.png>)
+
 #### Step 2: Add Roles and Features
 
 1. In Server Manager, click **Add roles and features** from the dashboard or from the **Manage** menu
 
 ![Add roles and features option]
+
+![alt text](<../Screenshots/Add roles and features option.png>)
 
 #### Step 3: Begin the Wizard
 
@@ -77,12 +82,16 @@ In this exercise, you will install and configure the DHCP server role on Windows
 
 ![Add Roles and Features Wizard - Before You Begin]
 
+![alt text](<../Screenshots/Add Roles and Features Wizard - Before You Begin.png>)
+
 #### Step 4: Select Installation Type
 
 1. Select **Role-based or feature-based installation**
 2. Click **Next**
 
 ![Installation type selection]
+
+![alt text](<../Screenshots/Role-based or feature-based installation.png>)
 
 #### Step 5: Select Destination Server
 
@@ -92,12 +101,16 @@ In this exercise, you will install and configure the DHCP server role on Windows
 
 ![Select destination server]
 
+![alt text](<../Screenshots/Select destination server.png>)
+
 #### Step 6: Select DHCP Server Role
 
 1. Check the box next to **DHCP Server**
 2. Click **Next**
 
 ![Select DHCP Server role]
+
+![alt text](<../Screenshots/Select DHCP Server role.png>)
 
 #### Step 7: Add Required Features
 

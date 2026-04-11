@@ -255,6 +255,8 @@ Take a screenshot showing:
 
 Save the file as `OpenEDR_Endpoint_Added.png`
 
+![alt text](<../Screenshots/Enrollment Link.jpg>)
+
 ---
 
 ## Task 3: Locate Endpoint Data in the Xcitium Cloud Manager
@@ -430,6 +432,7 @@ Take a screenshot showing:
 - The scan results (clean or showing any detected threats)
 
 Save the file as `OpenEDR_Scan_Results.png`
+
 
 ---
 
