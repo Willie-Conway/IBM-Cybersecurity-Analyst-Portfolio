@@ -119,6 +119,8 @@ In this exercise, you will install and configure the DHCP server role on Windows
 
 ![Add Features dialog]
 
+![alt text](<../Screenshots/Add Features dialog.png>)
+
 **Required features added automatically:**
 
 - Remote Server Administration Tools
@@ -133,6 +135,8 @@ You may receive a **Validation Results** error because you are working in an edu
 
 ![Validation Results - Continue]
 
+![alt text](<../Screenshots/Validation Results - Continue.png>)
+
 #### Step 9: Continue Wizard
 
 1. Click **Next**
@@ -145,9 +149,15 @@ You may receive a **Validation Results** error because you are working in an edu
 
 ![Select additional features]
 
+![alt text](<../Screenshots/Select additional features.png>)
+
 #### Step 11: Confirm Installation
 
 1. Click **Next** to proceed to the confirmation page
+   
+![alt text](<../Screenshots/Keep the default .NET Framework 4.7 Features.png>)
+
+![alt text](../Screenshots/DHCP_Server.png)
 
 #### Step 12: Install
 
@@ -156,6 +166,8 @@ You may receive a **Validation Results** error because you are working in an edu
 
 ![Confirm installation selections]
 
+![alt text](<../Screenshots/Confirm installation selections.png>)
+
 #### Step 13: Monitor Installation
 
 1. It could take a few minutes for the installation to complete
@@ -163,12 +175,16 @@ You may receive a **Validation Results** error because you are working in an edu
 
 ![Installation progress]
 
+![alt text](<../Screenshots/Installation progress.png>)
+
 #### Step 14: Installation Complete
 
 1. Upon completion, the status message will change to **Installation succeeded**
 2. Click **Close**
 
 ![Installation succeeded]
+
+![alt text](<../Screenshots/Installation succeeded.png>)
 
 #### Step 15: Verify DHCP Server in Dashboard
 
