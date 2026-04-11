@@ -261,10 +261,18 @@ Now that the DHCP server is installed, you will create a scope of IPv4 addresses
 
 ![New Scope option]
 
+![alt text](<../Screenshots/New Scope option.png>)
+
+![alt text](<../Screenshots/Scope name entry.png>)
+
+![alt text](<../Screenshots/IPv4 and select New Scope.png>)
+
 #### Step 22: New Scope Wizard - Welcome
 
 1. The **New Scope Wizard** opens
 2. Click **Next**
+
+![alt text](<../Screenshots/New Scope Wizard - Welcome.png>)
 
 #### Step 23: Scope Name
 
@@ -273,6 +281,8 @@ Now that the DHCP server is installed, you will create a scope of IPv4 addresses
 3. Click **Next**
 
 ![Scope name entry]
+
+![alt text](<../Screenshots/Scope name entry.png>)
 
 #### Step 24: IP Address Range
 
