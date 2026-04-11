@@ -56,13 +56,19 @@ Understanding protocols and ports is essential for network security:
 
 ![Search icon on taskbar]
 
+![alt text](<../Screenshots/Search icon on taskbar.png>)
+
 2. Type the word **defender** in the search bar
 
 ![Search bar with "defender" typed]
 
+![alt text](<../Screenshots/Search bar with defender typed.png>)
+
 3. Select **Windows Defender Firewall with Advanced Security** from the search results
 
 ![Windows Defender Firewall with Advanced Security selected]
+
+![alt text](<../Screenshots/Windows Defender Firewall with Advanced Security selected.png>)
 
 ### Step 2: Explore the Interface
 
@@ -76,11 +82,15 @@ The **Windows Defender Firewall with Advanced Security** window opens. Notice th
 
 ![Windows Defender Firewall with Advanced Security window]
 
+![alt text](<../Screenshots/Windows Defender Firewall with Advanced Security window.png>)
+
 ### Step 3: Select Inbound Rules
 
 1. In the left navigation pane, click **Inbound Rules**
 
 ![Inbound Rules selected]
+
+![alt text](<../Screenshots/Inbound Rules selected.png>)
 
 The center pane now displays a list of all inbound firewall rules on your system.
 
@@ -91,6 +101,8 @@ The center pane now displays a list of all inbound firewall rules on your system
 3. If multiple Firefox rules exist, select the first one
 
 ![Firefox rule in Inbound Rules list]
+
+
 
 ### Step 5: Open Rule Properties
 
@@ -103,6 +115,8 @@ The center pane now displays a list of all inbound firewall rules on your system
 1. In the properties window, select the **Protocols and Ports** tab
 
 ![Protocols and Ports tab]
+
+![alt text](<../Screenshots/Protocols and Ports tab.png>)
 
 ### Step 7: Examine Protocol Type
 
@@ -120,6 +134,8 @@ On the Protocols and Ports tab, you will see:
 - Firefox uses UDP for WebRTC (Real-Time Communication) for video/audio calls and streaming
 
 ![Protocol type set to UDP]
+
+![alt text](<../Screenshots/Protocol type set to UDP.png>)
 
 ### Step 8: Examine Local Port Setting
 
