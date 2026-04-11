@@ -225,6 +225,10 @@ nslookup google.com
 
 ![nslookup failing after rule applied]
 
+![alt text](<../Screenshots/nslookup failing after rule applied.png>)
+
+![alt text](<../Screenshots/DNS Rule Block google.com.png>)
+
 **Method 2: Using Web Browser**
 
 1. Open a web browser
@@ -236,6 +240,7 @@ nslookup google.com
 ```cmd
 ipconfig /flushdns
 ```
+![alt text](<../Screenshots/flush your DNS cache for immediate effect.png>)
 
 ---
 
@@ -252,9 +257,13 @@ Since blocking DNS traffic will prevent internet access, it's important to disab
 
 ![Disable Rule option]
 
+![alt text](<../Screenshots/Disable Rule option.png>)
+
 The rule will remain in the list but will show a gray icon, indicating it is disabled.
 
 ![Disabled rule showing gray icon]
+
+![alt text](<../Screenshots/Disabled rule showing gray icon.png>)
 
 ### Option 2: Delete the Rule
 
@@ -273,6 +282,10 @@ nslookup google.com
 2. The DNS lookup should succeed, returning IP addresses
 
 ![nslookup working after rule disabled]
+
+![alt text](<../Screenshots/nslookup working after rule disabled.png>)
+
+![alt text](<../Screenshots/DNS Rule Disabled google.com.png>)
 
 ---
 
@@ -354,6 +367,8 @@ When outbound rule blocks UDP port 53:
 | **Internet still works after rule** | Browser may use DoH (DNS over HTTPS) – block port 443 as well        |
 
 ---
+
+<video controls src="DNS Filtering.mp4" title="DNS Filtering"></video>
 
 ## Key Takeaways
 
