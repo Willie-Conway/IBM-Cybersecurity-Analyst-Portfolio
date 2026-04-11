@@ -1,4 +1,3 @@
-
 ![alt text](<../Screenshots/Windows Defender.png>)
 
 # Lab: DNS Filtering
@@ -69,17 +68,23 @@ In this lab, we will block standard DNS traffic on **UDP port 53**.
 
 ![Start menu with Control Panel highlighted]
 
+![alt text](<../Screenshots/Start menu with Control Panel highlighted.jpg>)
+
 ### Step 2: Access System and Security
 
 1. In Control Panel, click on **System and Security**
 
 ![Control Panel with System and Security highlighted]
 
+![alt text](<../Screenshots/Control Panel with System and Security highlighted.jpg>)
+
 ### Step 3: Open Windows Defender Firewall
 
 1. Click on **Windows Defender Firewall**
 
 ![System and Security with Windows Defender Firewall highlighted]
+
+![alt text](<../Screenshots/System and Security with Windows Defender Firewall highlighted.jpg>)
 
 ---
 
@@ -91,9 +96,13 @@ In this lab, we will block standard DNS traffic on **UDP port 53**.
 
 ![Windows Defender Firewall with Advanced settings highlighted]
 
+![alt text](<../Screenshots/Windows Defender Firewall with Advanced settings highlighted.jpg>)
+
 This opens the **Windows Defender Firewall with Advanced Security** console.
 
 ![Windows Defender Firewall with Advanced Security window]
+
+![alt text](<../Screenshots/Windows Defender Firewall with Advanced Security window.jpg>)
 
 ### Step 5: Select Outbound Rules
 
@@ -101,11 +110,15 @@ This opens the **Windows Defender Firewall with Advanced Security** console.
 
 ![Outbound Rules selected in left pane]
 
+![alt text](<../Screenshots/Outbound Rules selected in left pane.jpg>)
+
 ### Step 6: Start New Rule Wizard
 
 1. In the right Actions pane, click **New Rule...**
 
 ![New Rule option in Actions pane]
+
+![alt text](<../Screenshots/New Rule option in Actions pane.jpg>)
 
 ### Step 7: Select Rule Type
 
@@ -113,6 +126,8 @@ This opens the **Windows Defender Firewall with Advanced Security** console.
 2. Click **Next**
 
 ![New Outbound Rule Wizard - Rule Type selection with Port selected]
+
+![alt text](<../Screenshots/New Outbound Rule Wizard - Rule Type selection with Port selected.jpg>)
 
 ### Step 8: Configure Protocol and Ports
 
@@ -123,6 +138,8 @@ This opens the **Windows Defender Firewall with Advanced Security** console.
 
 ![Protocol and Ports configuration - UDP port 53]
 
+![alt text](<../Screenshots/Protocol and Ports configuration - UDP port 53.jpg>)
+
 **Explanation:** DNS primarily uses UDP port 53 for standard queries. By blocking outbound traffic on this port, we prevent DNS resolution.
 
 ### Step 9: Specify Action
@@ -131,6 +148,8 @@ This opens the **Windows Defender Firewall with Advanced Security** console.
 2. Click **Next**
 
 ![Action selection - Block the connection]
+
+![alt text](<../Screenshots/Action selection - Block the connection.jpg>)
 
 ### Step 10: Specify Profile
 
@@ -141,6 +160,8 @@ This opens the **Windows Defender Firewall with Advanced Security** console.
 2. Click **Next**
 
 ![Profile selection with all three profiles checked]
+
+![alt text](<../Screenshots/Profile selection with all three profiles checked.jpg>)
 
 **Profile Explanation:**
 
@@ -158,6 +179,8 @@ This opens the **Windows Defender Firewall with Advanced Security** console.
 
 ![Rule naming - Block DNS Traffic]
 
+![alt text](<../Screenshots/Rule naming - Block DNS Traffic.jpg>)
+
 ---
 
 ## Task 3: Verify the New Outbound Rule
@@ -167,6 +190,8 @@ This opens the **Windows Defender Firewall with Advanced Security** console.
 1. In the Outbound Rules list, scroll to find your new rule: **Block DNS Traffic**
 
 ![Outbound Rules list showing Block DNS Traffic rule]
+
+![alt text](<../Screenshots/Outbound Rules list showing Block DNS Traffic rule.jpg>)
 
 ### Step 13: Verify Rule Properties
 
