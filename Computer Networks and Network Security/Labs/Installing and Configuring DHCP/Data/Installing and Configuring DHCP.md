@@ -300,6 +300,8 @@ Configure the IP address range for your network:
 
 ![IP address range configuration]
 
+![alt text](<../Screenshots/IP address range configuration.png>)
+
 #### Step 25: Add Exclusions
 
 You need to create an exclusion for the six printers that have static IP addresses.
@@ -322,6 +324,8 @@ You need to create an exclusion for the six printers that have static IP address
 
 ![Add exclusions]
 
+![alt text](<../Screenshots/Add exclusions.png>)
+
 **Alternative:** If your printers use different IP addresses, adjust the exclusion range accordingly (e.g., 192.168.1.200-192.168.1.205).
 
 #### Step 26: Lease Duration
@@ -332,6 +336,8 @@ You need to create an exclusion for the six printers that have static IP address
 2. Click **Next**
 
 ![Lease duration settings]
+
+![alt text](<../Screenshots/Lease duration settings.png>)
 
 **Lease Duration Explained:**
 
@@ -345,6 +351,8 @@ You need to create an exclusion for the six printers that have static IP address
 
 ![DHCP options selection]
 
+![alt text](<../Screenshots/DHCP options selection.png>)
+
 #### Step 28: Router (Default Gateway)
 
 1. Enter the **IP address** of your router/default gateway
@@ -353,6 +361,8 @@ You need to create an exclusion for the six printers that have static IP address
 3. Click **Next**
 
 ![Router configuration]
+
+![alt text](<../Screenshots/Router configuration.png>)
 
 #### Step 29: Domain Name and DNS Servers
 
@@ -364,12 +374,16 @@ You need to create an exclusion for the six printers that have static IP address
 
 ![DNS configuration]
 
+![alt text](<../Screenshots/DNS configuration.png>)
+
 #### Step 30: WINS Servers
 
 1. WINS (Windows Internet Name Service) is typically not needed
 2. Click **Next** to skip this step
 
 ![WINS configuration]
+
+![alt text](<../Screenshots/WINS configuration.png>)
 
 #### Step 31: Activate Scope
 
@@ -378,11 +392,15 @@ You need to create an exclusion for the six printers that have static IP address
 
 ![Activate scope]
 
+![alt text](<../Screenshots/Activate scope.png>)
+
 #### Step 32: Complete Scope Wizard
 
 1. Click **Finish** to complete the New Scope Wizard
 
 ![Scope wizard complete]
+
+![alt text](<../Screenshots/Scope wizard complete.png>)
 
 ---
 
@@ -397,6 +415,8 @@ You need to create an exclusion for the six printers that have static IP address
    - **Scope Options** – Shows configured options
 
 ![DHCP scope displayed]
+
+![alt text](<../Screenshots/DHCP scope displayed.png>)
 
 #### Step 34: Verify Exclusion Range
 
