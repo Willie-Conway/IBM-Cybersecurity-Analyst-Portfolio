@@ -153,6 +153,8 @@ Look at the **Local port** field:
 
 ![Local port set to All Ports]
 
+![alt text](<../Screenshots/Local port set to All Ports.png>)
+
 ### Step 9: Examine Remote Port Setting
 
 Look at the **Remote port** field:
@@ -160,6 +162,9 @@ Look at the **Remote port** field:
 | Field                 | Value     | Explanation                          |
 | :-------------------- | :-------- | :----------------------------------- |
 | **Remote port** | All Ports | The rule applies to all remote ports |
+
+![alt text](<../Screenshots/Determine the Protocol type and Local port for SNMP Trap Service(UDP In).png>)
+
 
 ### Step 10: Close the Properties Window
 
@@ -243,6 +248,9 @@ Explore other inbound rules to see different protocol and port configurations:
 | Protocols and Ports Tab | `WDF_Protocols_Ports.png` | Firefox rule properties showing UDP and All Ports |
 
 ---
+
+<video controls src="Determine Protocols and Ports for Various Inbound Rules Used in Windows Defender.mp4" title="Determine Protocols and Ports for Various Inbound Rules Used in Windows Defender"></video>
+
 
 ## Key Takeaways
 
