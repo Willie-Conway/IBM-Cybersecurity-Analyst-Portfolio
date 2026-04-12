@@ -50,11 +50,15 @@ In this exercise we will review Windows Defender Firewall configuration.
 
 ![Windows Start menu with Windows Security selected]
 
+![alt text](<../Screenshots/Windows Start menu with Windows Security selected.png>)
+
 ### Step 2: Access Firewall & Network Protection
 
 1. Click **Firewall & network protection**
 
 ![Security at a glance window with Firewall & network protection selected]
+
+![alt text](<../Screenshots/Security at a glance window with Firewall & network protection selected.png>)
 
 ### Step 3: Understand Network Profiles
 
@@ -68,11 +72,15 @@ Here you will see the firewall status for three network profiles:
 
 ![Firewall & network protection window showing three network profiles]
 
+![alt text](<../Screenshots/Firewall & network protection window showing three network profiles.png>)
+
 ### Step 4: Review Domain Network Settings
 
 1. Click **Domain network**
 
 ![Domain network highlighted]
+
+![alt text](<../Screenshots/Domain network highlighted.png>)
 
 2. Verify that **Windows Defender Firewall** is toggled to **On**
 3. Observe the option **Incoming connections**. If you need to block all incoming domain network traffic, including traffic that is typically allowed, you can activate this option.
@@ -85,16 +93,22 @@ Here you will see the firewall status for three network profiles:
 
 ![Domain network details with firewall toggle On]
 
+![alt text](<../Screenshots/Domain network details with firewall toggle On.png>)
+
 ### Step 5: Review Private Network Settings
 
 1. Click **Private network**
 
 ![Private network highlighted]
 
+![alt text](<../Screenshots/Private network highlighted.png>)
+
 2. Verify that **Windows Defender Firewall** is toggled to **On**
 3. Click the **back arrow** button to return
 
 ![Private network details]
+
+![alt text](<../Screenshots/Private network details.png>)
 
 ### Step 6: Review Public Network Settings
 
@@ -102,10 +116,14 @@ Here you will see the firewall status for three network profiles:
 
 ![Public network highlighted]
 
+![alt text](<../Screenshots/Public network highlighted.png>)
+
 2. Verify that **Windows Defender Firewall** is toggled to **On**
 3. Click the **back arrow** button to return
 
 ![Public network details]
+
+![alt text](<../Screenshots/Public network details.png>)
 
 ### Step 7: Allow an App Through Firewall
 
@@ -113,15 +131,21 @@ Here you will see the firewall status for three network profiles:
 
 ![Allow an app through firewall highlighted]
 
+![alt text](<../Screenshots/Allow an app through firewall highlighted.png>)
+
 2. Scroll to locate **Google Chrome** or **Mozilla Firefox**
 3. Observe the current configuration – note which networks each app is allowed on
 
 ![Allowed apps list showing Firefox permitted on Private network only]
 
+![alt text](<../Screenshots/Allowed apps list showing Firefox permitted on Private network only.png>)
+
 4. To allow an app on the Public network, click the **Public** box next to the app to add a checkmark
 5. Click **OK** to save changes
 
 ![Allowing Mozilla Firefox on public network]
+
+![alt text](<../Screenshots/Allowing Mozilla Firefox on public network.png>)
 
 ---
 
@@ -134,6 +158,8 @@ The first exercise used the consumer-friendly version of Windows Defender Firewa
 1. From the **Firewall & network protection** window, click **Advanced settings** in the left pane
 
 ![Advanced settings highlighted]
+
+![alt text](<../Screenshots/Advanced settings highlighted.png>)
 
 2. This opens the **Windows Defender Firewall with Advanced Security** window
 
@@ -150,6 +176,8 @@ The console is organized into three main sections:
 
 ![Windows Defender Firewall with Advanced Security interface]
 
+![alt text](<../Screenshots/Windows Defender Firewall with Advanced Security interface.png>)
+
 **Note:** Rules with a green checkmark are enabled; rules with a red circle indicate blocking rules.
 
 ---
@@ -165,12 +193,16 @@ Remote Desktop allows remote connection and control of a computer. Blocking it o
 
 ![Inbound Rules with New Rule option]
 
+![alt text](<../Screenshots/Inbound Rules with New Rule option.png>)
+
 ### Step 2: Select Rule Type
 
 1. Select **Port**
 2. Click **Next**
 
 ![Select Rule Type - Port selected]
+
+![alt text](<../Screenshots/Select Rule Type - Port selected.png>)
 
 ### Step 3: Specify Port
 
@@ -180,12 +212,16 @@ Remote Desktop allows remote connection and control of a computer. Blocking it o
 
 ![Specify Port - TCP port 3389]
 
+![alt text](<../Screenshots/Specify Port - TCP port 3389.png>)
+
 ### Step 4: Specify Action
 
 1. Select **Block the connection**
 2. Click **Next**
 
 ![Action - Block the connection selected]
+
+![alt text](<../Screenshots/Action - Block the connection selected.png>)
 
 ### Step 5: Select Profile
 
@@ -195,6 +231,8 @@ Remote Desktop allows remote connection and control of a computer. Blocking it o
 
 ![Profile - Only Public selected]
 
+![alt text](<../Screenshots/Profile - Only Public selected.png>)
+
 ### Step 6: Name the Rule
 
 1. Enter a name: **Block Remote Desktop on Public Network**
@@ -203,12 +241,16 @@ Remote Desktop allows remote connection and control of a computer. Blocking it o
 
 ![Name the rule - Block Remote Desktop on Public Network]
 
+![alt text](<../Screenshots/Name the rule - Block Remote Desktop on Public Network.png>)
+
 ### Step 7: Verify the Rule
 
 1. Click **Inbound Rules**
 2. Verify the new rule is enabled (red circle indicates blocking rule)
 
 ![New rule displayed in Inbound Rules list with red circle]
+
+![alt text](<../Screenshots/New rule displayed in Inbound Rules list with red circle.png>)
 
 ---
 
@@ -223,12 +265,16 @@ Creating outbound rules to restrict applications from sending data over the inte
 
 ![Outbound Rules with New Rule option]
 
+![alt text](<../Screenshots/Outbound Rules with New Rule option.png>)
+
 ### Step 2: Choose Rule Type
 
 1. Select **Program**
 2. Click **Next**
 
 ![Rule Type - Program selected]
+
+![alt text](<../Screenshots/Rule Type - Program selected.png>)
 
 ### Step 3: Specify Program Path
 
@@ -242,6 +288,8 @@ Creating outbound rules to restrict applications from sending data over the inte
 - Click **Open**
 
 ![Program path selection for Chrome]
+
+![alt text](<../Screenshots/Program path selection for Chrome.png>)
 
 3. Click **Next**
 
@@ -262,6 +310,8 @@ Creating outbound rules to restrict applications from sending data over the inte
 3. Click **Finish**
 
 ![Name the rule - Block Chrome Internet Access]
+
+![alt text](<../Screenshots/Name the rule - Block Chrome Internet Access.png>)
 
 ### Step 7: Verify the Rule
 
@@ -293,6 +343,8 @@ Blocking HTTP traffic when connected to a public network ensures web server serv
 
 ![Specify Port - TCP port 80]
 
+![alt text](<../Screenshots/Specify Port - TCP port 80.png>)
+
 ### Step 4: Specify Action
 
 1. Select **Block the connection**
@@ -305,6 +357,11 @@ Blocking HTTP traffic when connected to a public network ensures web server serv
 3. Click **Next**
 
 ![Profile - Only Public selected]
+
+![alt text](<../Screenshots/Profile - Only Public selected.png>)
+
+
+
 
 ### Step 6: Name the Rule
 
@@ -325,12 +382,16 @@ KMS (Key Management Service) is used to activate Microsoft products within organ
 
 ![Key Management Service inbound rule in list]
 
+![alt text](<../Screenshots/Key Management Service inbound rule in list.png>)
+
 ### Step 2: Examine KMS Rule Properties
 
 1. Double-click the **Key Management Service (TCP-In)** rule
 2. Review the **General** tab (name, description, action)
 
 ![Key Management Service Properties - General tab]
+
+![alt text](<../Screenshots/Key Management Service Properties - General tab.png>)
 
 ### Step 3: Modify Profile Settings
 
@@ -339,10 +400,14 @@ KMS (Key Management Service) is used to activate Microsoft products within organ
 
 ![Advanced tab showing all three profiles selected]
 
+![alt text](<../Screenshots/Advanced tab showing all three profiles selected.png>)
+
 3. Click **Public** to remove the checkmark
 4. Click **Apply**, then **OK**
 
 ![Public profile removed - only Domain and Private selected]
+
+
 
 ### Step 4: Create Blocking Rule for Public Network
 
@@ -352,6 +417,8 @@ KMS (Key Management Service) is used to activate Microsoft products within organ
 
 ![Copy and paste to create new rule]
 
+![alt text](<../Screenshots/Copy and paste to create new rule.png>)
+
 ### Step 5: Configure the New Rule to Block
 
 1. Double-click the new **Key Management Service (TCP-In)** rule
@@ -359,6 +426,8 @@ KMS (Key Management Service) is used to activate Microsoft products within organ
 3. Click **Apply**
 
 ![New rule - Block the connection selected]
+
+![alt text](<../Screenshots/New rule - Block the connection selected.png>)
 
 ### Step 6: Set Profile for Blocking Rule
 
@@ -368,6 +437,8 @@ KMS (Key Management Service) is used to activate Microsoft products within organ
 4. Click **OK**
 
 ![Advanced tab - Only Public selected for blocking rule]
+
+
 
 ### Step 7: Enable Both Rules
 
