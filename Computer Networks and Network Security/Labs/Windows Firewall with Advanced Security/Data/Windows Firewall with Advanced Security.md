@@ -469,6 +469,9 @@ Observe the rule status indicators:
 
 ---
 
+
+<video controls src="Windows Firewall with Advanced Security (1).mp4" title="Windows Firewall with Advanced Security"></video>
+
 ## Key Takeaways
 
 | Principle                       | Description                                                                |
