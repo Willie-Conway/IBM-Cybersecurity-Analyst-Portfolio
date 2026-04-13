@@ -75,15 +75,21 @@ There are two ways to open Control Panel:
 
 ![Control Panel in Start menu]
 
+![alt text](<../Screenshots/Control Panel in Start menu.png>)
+
 ### Step 2: Navigate to Windows Defender Firewall
 
 1. In Control Panel, click **System and Security**
 
 ![System and Security in Control Panel]
 
+![alt text](<../Screenshots/System and Security in Control Panel.png>)
+
 2. Click **Windows Defender Firewall**
 
 ![Windows Defender Firewall in System and Security]
+
+![alt text](<../Screenshots/Windows Defender Firewall in System and Security.png>)
 
 ---
 
@@ -190,6 +196,8 @@ Note the IP address(es) returned. Websites may have multiple IP addresses.
 3. Click **Add** to add the IP address
 
 ![Add IP address button]
+
+![alt text](<../Screenshots/Add IP address button.jpg>)
 
 
 1. In the **IP Address** dialog:
