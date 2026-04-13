@@ -410,6 +410,9 @@ This method blocks by domain name but is system-wide and doesn't require firewal
 
 ---
 
+<video controls src="Configuring Firewalls in Microsoft Windows.mp4" title="Configuring Firewalls in Microsoft Windows"></video>
+
+
 ## Key Takeaways
 
 | Concept                       | Description                                            |
