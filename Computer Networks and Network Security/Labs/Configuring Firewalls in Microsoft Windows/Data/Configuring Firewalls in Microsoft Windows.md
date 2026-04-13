@@ -95,17 +95,23 @@ There are two ways to open Control Panel:
 
 ![Windows Defender Firewall with Advanced settings highlighted]
 
+![alt text](<../Screenshots/Windows Defender Firewall with Advanced settings highlighted.jpg>)
+
 ### Step 4: Select Outbound Rules
 
 1. In the left navigation pane, click **Outbound Rules**
 
 ![Outbound Rules selected]
 
+![alt text](<../Screenshots/Outbound Rules selected.jpg>)
+
 ### Step 5: Start New Rule Wizard
 
 1. In the right Actions pane, click **New Rule...**
 
 ![New Rule option in Actions pane]
+
+![alt text](<../Screenshots/New Rule option in Actions pane.jpg>)
 
 ---
 
@@ -118,6 +124,8 @@ There are two ways to open Control Panel:
 
 ![Rule Type - Custom selected]
 
+![alt text](<../Screenshots/Rule Type - Custom selected.jpg>)
+
 ### Step 7: Select All Programs
 
 1. Select **All programs**
@@ -125,12 +133,16 @@ There are two ways to open Control Panel:
 
 ![Program selection - All programs]
 
+![alt text](<../Screenshots/Program selection - All programs.jpg>)
+
 ### Step 8: Configure Protocol and Ports
 
 1. Keep the default onscreen parameters (protocol type: Any)
 2. Click **Next**
 
 ![Protocol and Ports - default settings]
+
+![alt text](<../Screenshots/Protocol and Ports - default settings.jpg>)
 
 **Explanation:** We're leaving protocol and ports as "Any" because we want to block all traffic to the specific IP address, regardless of protocol or port.
 
@@ -173,21 +185,29 @@ Note the IP address(es) returned. Websites may have multiple IP addresses.
 
 ![Scope configuration with These IP addresses selected]
 
+![alt text](<../Screenshots/Scope configuration with These IP addresses selected.jpg>)
+
 3. Click **Add** to add the IP address
 
 ![Add IP address button]
 
-4. In the **IP Address** dialog:
+
+1. In the **IP Address** dialog:
    - Select **This IP address or subnet**
    - Enter the IP address of the website (e.g., `103.xxx.xxx.xxx`)
    - Click **OK**
 
 ![Add IP address dialog]
 
+![alt text](<../Screenshots/Add IP address dialog.jpg>)
+
+
 5. If the website has multiple IP addresses, add them all
 6. Click **Next**
 
 ![IP addresses added to scope]
+
+![alt text](<../Screenshots/IP addresses added to scope.jpg>)
 
 ### Step 11: Specify Action
 
@@ -195,6 +215,8 @@ Note the IP address(es) returned. Websites may have multiple IP addresses.
 2. Click **Next**
 
 ![Action - Block the connection]
+
+![alt text](<../Screenshots/Action - Block the connection.jpg>)
 
 ### Step 12: Specify Profile
 
@@ -206,6 +228,8 @@ Note the IP address(es) returned. Websites may have multiple IP addresses.
 
 ![Profile selection with all three profiles checked]
 
+![alt text](<../Screenshots/Profile selection with all three profiles checked.jpg>)
+
 ### Step 13: Name the Rule
 
 1. Enter a name for the rule: **Block CricJharkhand Website**
@@ -213,6 +237,8 @@ Note the IP address(es) returned. Websites may have multiple IP addresses.
 3. Click **Finish**
 
 ![Rule naming - Block CricJharkhand Website]
+
+![alt text](<../Screenshots/Rule naming - Block CricJharkhand Website.jpg>)
 
 ---
 
@@ -223,6 +249,8 @@ Note the IP address(es) returned. Websites may have multiple IP addresses.
 1. In the Outbound Rules list, scroll to find your new rule: **Block CricJharkhand Website**
 
 ![Outbound Rules list showing new rule]
+
+![alt text](<../Screenshots/Outbound Rules list showing new rule.jpg>)
 
 ### Step 15: Verify Rule Properties
 
@@ -244,6 +272,8 @@ Verify that the rule shows:
 
 ![Browser showing blocked website]
 
+![alt text](<../Screenshots/Browser showing blocked website.jpg>)
+
 3. If the website loads, verify that:
    - The IP address was correct
    - The rule is enabled
@@ -261,6 +291,8 @@ ping www.cricjharkhand.org
 
 ![Ping failing to blocked IP]
 
+![alt text](<../Screenshots/Ping failing to blocked IP.jpg>)
+
 ---
 
 ## Task 6: Enable and Disable Firewall Rules
@@ -273,6 +305,8 @@ ping www.cricjharkhand.org
 4. Select **Disable Rule**
 
 ![Disable Rule option]
+
+![alt text](<../Screenshots/Disable Rule option.jpg>)
 
 The rule will remain in the list but will show a gray icon, indicating it is disabled.
 
