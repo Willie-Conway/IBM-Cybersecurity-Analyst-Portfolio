@@ -571,7 +571,7 @@ Take screenshots of:
 
 ![alt text](<../Screenshots/Analyze the detection ouput.png>)
 
-
+![alt text](<../Screenshots/Nmap - ZenMap.png>)
 ---
 
 ## IDS Evasion Techniques (Optional Reading)
@@ -604,6 +604,9 @@ Take screenshots of:
 | Created lab report                            | ☐        |
 
 ---
+
+<video controls src="Intrusion Detection Systems.mp4" title="Intrusion Detection Systems"></video>
+
 
 ## Key Takeaways
 
