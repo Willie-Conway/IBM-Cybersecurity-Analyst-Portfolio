@@ -74,6 +74,8 @@ Verify that Python 3.x is installed on your system. If Python is not already ins
 
 ![Python installer with Customize installation selected]
 
+![alt text](<../Screenshots/Python installer with Customize installation selected.png>)
+
 #### Step 3: Select Optional Features
 
 On the Optional Features window, select the following options:
@@ -88,6 +90,8 @@ On the Optional Features window, select the following options:
 
 ![Python Optional Features]
 
+![alt text](<../Screenshots/Python Optional Features.png>)
+
 Click **Next**
 
 #### Step 4: Advanced Options
@@ -101,6 +105,8 @@ On the Advanced Options window, select the following options:
 | ☑**Add Python to environment variables**         | Important for command-line access |
 
 ![Python Advanced Options]
+
+![alt text](<../Screenshots/Python Advanced Options.png>)
 
 Click **Install**
 
@@ -141,6 +147,8 @@ Wait for the installation to complete.
 
 ![pip install scapy output]
 
+![alt text](<../Screenshots/pip install scapy output.png>)
+
 #### Step 3: Verify Scapy Installation
 
 ```cmd
@@ -161,6 +169,8 @@ python -c "import scapy; print(scapy.__version__)"
 
 ![Nmap download page]
 
+![alt text](<../Screenshots/Nmap download page.png>)
+
 #### Step 2: Install Nmap
 
 1. Verify that you have administrator privileges for the computer
@@ -169,6 +179,8 @@ python -c "import scapy; print(scapy.__version__)"
 4. Select **Run as administrator**
 
 ![Run as administrator for Nmap installer]
+
+![alt text](<../Screenshots/Run as administrator for Nmap installer.png>)
 
 5. Follow the installation wizard:
    - Accept the license agreement
@@ -555,6 +567,10 @@ Take screenshots of:
 1. **Ping of Death script output** – Save as `Ping_of_Death_Output.png`
 2. **Port scan detector output** – Save as `Port_Scan_Detector_Output.png`
 3. **Nmap scan results** – Save as `Nmap_Scan_Results.png`
+
+
+![alt text](<../Screenshots/Analyze the detection ouput.png>)
+
 
 ---
 
