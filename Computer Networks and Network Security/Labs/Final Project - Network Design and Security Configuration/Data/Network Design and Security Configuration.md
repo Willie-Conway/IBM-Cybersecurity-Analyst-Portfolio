@@ -91,6 +91,8 @@ For this lab, we'll use **Draw.io**.
 
 ![Router and switch placed on canvas]
 
+![alt text](<../Screenshots/Router and switch placed on canvas.jpg>)
+
 ### Step 4: Connect Router to Switch
 
 1. Select the **Connector** tool from the toolbar (or use the line shape)
@@ -110,6 +112,8 @@ For this lab, we'll use **Draw.io**.
 - Add three rectangles labeled with each department name
 
 ![Three subnets placed below switch]
+
+![alt text](<../Screenshots/TechSafe_ Ltd_network_diagram.drawio (2).png>)
 
 ### Step 6: Connect Subnets to Switch
 
@@ -193,6 +197,9 @@ You are working with a fixed IP address of **198.51.100.0/24**. The network is d
 
 Your task is to calculate each department's subnet addresses and subnet masks based on their specified IP address ranges and save that information into a text-based table for later use.
 
+![alt text](<../Screenshots/Calculate Subnet Address for Each Department.png>)
+
+
 ---
 
 ## Understanding Subnet Calculation
@@ -207,9 +214,14 @@ The **subnet address** is the first address in the range (network address).
 | Sales          | 198.51.100.65 – 198.51.100.126  | 198.51.100.64  |
 | IT             | 198.51.100.129 – 198.51.100.190 | 198.51.100.128 |
 
+
 ### Step 2: Calculate Subnet Mask for Each Department
 
 The subnet mask determines the network size. To find the mask, calculate how many addresses are in each range.
+
+Visit: https://www.vultr.com/resources/subnet-calculator/
+
+![alt text](<../Screenshots/IPv4 Subnet Calculator - Vultr.png>)
 
 **Administration:**
 
@@ -271,6 +283,8 @@ Create a table with the following information:
 2. Take a screenshot of the table
 3. Save the screenshot as **`Task2_Screenshot1.png`**
 
+![alt text](<../Screenshots/Subnet Table.png>)
+
 ---
 
 # Task 3: Configure Windows Firewall Rules
@@ -293,17 +307,25 @@ A screenshot showing the newly created inbound rule in Windows Defender Firewall
 
 ![Windows Defender Firewall with Advanced Security in search]
 
+![alt text](<../Screenshots/Windows Defender Firewall with Advanced Security in search.png>)
+
+![alt text](<../Screenshots/Advanced Settings .png>)
+
 ### Step 2: Select Inbound Rules
 
 1. In the left navigation pane, click **Inbound Rules**
 
 ![Inbound Rules selected]
 
+![alt text](<../Screenshots/Inbound Rules selected.png>)
+
 ### Step 3: Create New Rule
 
 1. In the right Actions pane, click **New Rule...**
 
 ![New Rule option]
+
+![alt text](<../Screenshots/New Rule option.png>)
 
 ### Step 4: Select Rule Type
 
@@ -319,12 +341,16 @@ A screenshot showing the newly created inbound rule in Windows Defender Firewall
 
 ![Port configuration with TCP port 3389]
 
+![alt text](<../Screenshots/Port configuration with TCP port 3389.png>)
+
 ### Step 6: Specify Action
 
 1. Select **Block the connection**
 2. Click **Next**
 
 ![Block the connection selected]
+
+![alt text](<../Screenshots/Block the connection selected.png>)
 
 ### Step 7: Select Profile
 
@@ -333,12 +359,16 @@ A screenshot showing the newly created inbound rule in Windows Defender Firewall
 
 ![Profile selection with only Public checked]
 
+![alt text](<../Screenshots/Profile selection with only Public checked.png>)
+
 ### Step 8: Name the Rule
 
 1. Enter a name: **Block RDP on Public Network**
 2. Click **Finish**
 
 ![Rule naming]
+
+![alt text](<../Screenshots/Rule naming.png>)
 
 ### Step 9: Verify the Rule
 
@@ -349,6 +379,8 @@ A screenshot showing the newly created inbound rule in Windows Defender Firewall
    - **Profile:** Public
 
 ![Inbound Rules list showing new rule]
+
+![alt text](<../Screenshots/Inbound Rules list showing new rule.png>)
 
 ### Step 10: Take Screenshot
 
@@ -389,6 +421,8 @@ Address:  93.184.216.34
 Note the IP address (for this example, we'll use `93.184.216.34`).
 
 ![nslookup command output]
+
+![alt text](<../Screenshots/nslookup command output.png>)
 
 ### Step 2: Open Windows Defender Firewall with Advanced Security
 
