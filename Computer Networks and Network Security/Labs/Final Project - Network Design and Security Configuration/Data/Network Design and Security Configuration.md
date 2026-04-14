@@ -429,6 +429,8 @@ Note the IP address (for this example, we'll use `93.184.216.34`).
 1. Open **Windows Defender Firewall with Advanced Security**
 2. In the left pane, click **Outbound Rules**
 
+![alt text](<../Screenshots/Outbound Rules list.png>)
+
 ### Step 3: Create New Rule
 
 1. In the right Actions pane, click **New Rule...**
@@ -440,10 +442,14 @@ Note the IP address (for this example, we'll use `93.184.216.34`).
 
 ![Custom rule type selected]
 
+![alt text](<../Screenshots/Custom rule type selected.png>)
+
 ### Step 5: Configure Program
 
 1. Select **All programs**
 2. Click **Next**
+
+![alt text](<../Screenshots/Select All programs.png>)
 
 ### Step 6: Configure Protocol and Ports
 
@@ -458,6 +464,8 @@ Note the IP address (for this example, we'll use `93.184.216.34`).
 
 ![Scope configuration with These IP addresses selected]
 
+![alt text](<../Screenshots/Scope configuration with These IP addresses selected.png>)
+
 4. In the Add IP Address dialog:
    - Select **This IP address or subnet**
    - Enter the IP address: `93.184.216.34`
@@ -465,12 +473,18 @@ Note the IP address (for this example, we'll use `93.184.216.34`).
 
 ![Add IP address dialog]
 
+![alt text](<../Screenshots/Add IP address dialog.png>)
+
+![alt text](<../Screenshots/Added IP address.png>)
+
 5. Click **Next**
 
 ### Step 8: Specify Action
 
 1. Select **Block the connection**
 2. Click **Next**
+
+![alt text](<../Screenshots/Select Block the connection.png>)
 
 ### Step 9: Specify Profile
 
@@ -482,12 +496,16 @@ Note the IP address (for this example, we'll use `93.184.216.34`).
 
 ![Profile selection with all three checked]
 
+![alt text](<../Screenshots/Profile selection with all three checked.png>)
+
 ### Step 10: Name the Rule
 
 1. Enter a name: **Block Social Media DNS**
 2. Click **Finish**
 
 ![Rule naming]
+
+![alt text](<../Screenshots/Rule naming.png>)
 
 ### Step 11: Verify the Rule
 
@@ -498,6 +516,8 @@ Note the IP address (for this example, we'll use `93.184.216.34`).
    - **Profile:** Domain, Private, Public
 
 ![Outbound Rules list showing new rule]
+
+![alt text](<../Screenshots/Outbound Rules list showing new rule.png>)
 
 ### Step 12: Take Screenshot
 
