@@ -84,6 +84,10 @@ SELECT * FROM FilmLocations;
 
 ![FilmLocations table preview]
 
+![alt text](<../Screenshots/FilmLocations table preview.png>)
+
+
+
 ### Column Attribute Descriptions
 
 | Column                      | Description                                          |
@@ -134,6 +138,8 @@ All columns and rows from the FilmLocations table
 
 ![SELECT all columns result]
 
+![alt text](<../Screenshots/SELECT all columns result.gif>)
+
 ---
 
 #### Example 2: Retrieve Specific Columns
@@ -159,6 +165,8 @@ Title                    | ReleaseYear
 ```
 
 ![SELECT specific columns result]
+
+![alt text](<../Screenshots/Retrieve Specific Columns.png>)
 
 ---
 

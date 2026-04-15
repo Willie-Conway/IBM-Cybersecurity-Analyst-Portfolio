@@ -63,6 +63,8 @@ The Car Dealership database is designed to keep track of automobile sales in a c
 
 ```
 
+![alt text](../Screenshots/Database_Schema.jpg)
+
 ### Tables and Their Attributes
 
 | Table (Entity) | Attributes (Columns) |
