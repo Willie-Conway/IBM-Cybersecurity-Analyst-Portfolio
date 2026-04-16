@@ -83,7 +83,7 @@ SELECT * FROM FilmLocations;
 
 ![FilmLocations table preview]
 
-![alt text](../Screenshots/FilmLocations table preview.png)
+![alt text](<../Screenshots/FilmLocations table preview.png>)
 
 ### Column Attribute Descriptions
 
@@ -135,7 +135,7 @@ All columns and rows from the FilmLocations table
 
 ![SELECT all columns result]
 
-![alt text](../Screenshots/SELECT all columns result.gif)
+![alt text](<../Screenshots/SELECT specific columns result.gif>)
 
 ---
 
@@ -163,9 +163,9 @@ Title                    | ReleaseYear
 
 ![SELECT specific columns result]
 
-![alt text](../Screenshots/Retrieve Specific Columns.png)
+![alt text](<../Screenshots/Retrieve Specific Columns.png>)
 
-![alt text](../Screenshots/SELECT specific columns result.gif)
+![alt text](<../Screenshots/SELECT specific columns result.gif>)
 
 ---
 
@@ -195,9 +195,9 @@ Title                    | ReleaseYear | Locations
 
 ![SELECT with WHERE clause result]
 
-![alt text](../Screenshots/SELECT with WHERE Clause.png)
+![alt text](<../Screenshots/SELECT with WHERE Clause.png>)
 
-![alt text](../Screenshots/SELECT with WHERE clause result.gif)
+![alt text](<../Screenshots/SELECT with WHERE clause result.gif>)
 
 ---
 
@@ -277,6 +277,12 @@ Title                    | ReleaseYear | Locations
 
 </details>
 
+
+![alt text](<../Screenshots/Retrieve the names of all films released in the 20th century and before.png>)
+
+
+![alt text](../Screenshots/Solution_2.gif)
+
 ---
 
 #### Problem 3
@@ -311,6 +317,12 @@ Title        | ProductionCompany | Locations | ReleaseYear
 ```
 
 </details>
+
+
+
+![alt text](<../Screenshots/Retrieve the names, production company names.png>)
+
+![alt text](../Screenshots/Solution_3.gif)
 
 ---
 
