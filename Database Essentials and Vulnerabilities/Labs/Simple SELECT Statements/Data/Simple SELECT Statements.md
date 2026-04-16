@@ -1,6 +1,5 @@
 ![alt text](../Screenshots/datasette-logo.png)
 
-
 # Lab: Simple SELECT Statements — Querying the San Francisco Film Locations Database
 
 **Estimated time:** 20 minutes
@@ -11,9 +10,9 @@
 
 After completing this lab you'll be able to use the SELECT statement, one of the most commonly used statements in SQL (Structured Query Language), to query and retrieve data from a database.
 
-| Objective | Description |
-|:----------|:------------|
-| **Query a database** | Write and execute SQL queries against a database |
+| Objective                       | Description                                                         |
+| :------------------------------ | :------------------------------------------------------------------ |
+| **Query a database**      | Write and execute SQL queries against a database                    |
 | **Retrieve data records** | Select data from one or more tables according to specified criteria |
 
 ---
@@ -84,9 +83,7 @@ SELECT * FROM FilmLocations;
 
 ![FilmLocations table preview]
 
-![alt text](<../Screenshots/FilmLocations table preview.png>)
-
-
+![alt text](../Screenshots/FilmLocations table preview.png)
 
 ### Column Attribute Descriptions
 
@@ -138,7 +135,7 @@ All columns and rows from the FilmLocations table
 
 ![SELECT all columns result]
 
-![alt text](<../Screenshots/SELECT all columns result.gif>)
+![alt text](../Screenshots/SELECT all columns result.gif)
 
 ---
 
@@ -166,7 +163,9 @@ Title                    | ReleaseYear
 
 ![SELECT specific columns result]
 
-![alt text](<../Screenshots/Retrieve Specific Columns.png>)
+![alt text](../Screenshots/Retrieve Specific Columns.png)
+
+![alt text](../Screenshots/SELECT specific columns result.gif)
 
 ---
 
@@ -195,6 +194,10 @@ Title                    | ReleaseYear | Locations
 ```
 
 ![SELECT with WHERE clause result]
+
+![alt text](../Screenshots/SELECT with WHERE Clause.png)
+
+![alt text](../Screenshots/SELECT with WHERE clause result.gif)
 
 ---
 
@@ -234,6 +237,10 @@ FunFacts                                          | Locations
 ```
 
 </details>
+
+![alt text](<../Screenshots/Retrieve the fun facts and filming locations of all films.png>)
+
+![alt text](../Screenshots/Solution_1.gif)
 
 ---
 
@@ -406,6 +413,4 @@ These skills are fundamental to working with databases and form the foundation f
 
 ---
 
-
 *Last updated: January 2026*
-
