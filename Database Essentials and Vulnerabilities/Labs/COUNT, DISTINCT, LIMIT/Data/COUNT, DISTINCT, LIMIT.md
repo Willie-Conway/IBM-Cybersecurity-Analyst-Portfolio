@@ -61,6 +61,8 @@ SELECT * FROM FilmLocations;
 
 ![FilmLocations table preview]
 
+![alt text](<../../Simple SELECT Statements/Screenshots/FilmLocations table preview.png>)
+
 ---
 
 ## Exercise 1: COUNT
@@ -88,6 +90,10 @@ COUNT(*)
 ```
 
 ![COUNT all rows result]
+
+![alt text](<../Screenshots/Count with WHERE Clause.png>)
+
+![alt text](<../Screenshots/COUNT all rows result.gif>)
 
 ### Step 2: Count with WHERE Clause
 
