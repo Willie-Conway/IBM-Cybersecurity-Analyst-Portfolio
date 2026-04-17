@@ -117,6 +117,10 @@ COUNT(Locations)
 
 ![COUNT with WHERE clause result]
 
+![alt text](<../Screenshots/Count with WHERE Clause.jpg>)
+
+![alt text](<../Screenshots/COUNT with WHERE clause result.gif>)
+
 ### Step 3: Practice Exercises on COUNT
 
 Now, let's practice creating and running some COUNT related queries.
