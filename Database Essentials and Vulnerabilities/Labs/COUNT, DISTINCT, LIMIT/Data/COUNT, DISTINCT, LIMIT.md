@@ -330,6 +330,12 @@ Title                    | ReleaseYear
 ```
 </details>
 
+
+![alt text](<../Screenshots/Retrieve the name of all unique films released in the 21st century and onwards.png>)
+
+
+![alt text](<../Screenshots/Solution 3_1.gif>)
+
 ---
 
 #### Problem 3.2
@@ -360,6 +366,11 @@ Director     | Title
 ```
 </details>
 
+
+![alt text](<../Screenshots/Retrieve the names of all the directors and their distinct films.png>)
+
+![alt text](<../Screenshots/Solution 3_2.gif>)
+
 ---
 
 #### Problem 3.3
@@ -389,6 +400,11 @@ COUNT(DISTINCT Distributor)
 [number of distinct distributors]
 ```
 </details>
+
+
+![alt text](<../Screenshots/Retrieve the number of distributors distinctly who distributed films.png>)
+
+![alt text](<../Screenshots/Solution 3_3.gif>)
 
 ---
 
