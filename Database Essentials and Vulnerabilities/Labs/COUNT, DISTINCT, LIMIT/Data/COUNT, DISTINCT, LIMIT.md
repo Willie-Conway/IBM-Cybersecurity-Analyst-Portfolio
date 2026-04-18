@@ -192,6 +192,8 @@ COUNT(*)
 ![alt text](<../Screenshots/Retrieve the number of films shot at Russian Hill.png>)
 
 
+![alt text](<../Screenshots/Solution 3.2.gif>)
+
 ---
 
 #### Problem 3.3
@@ -221,6 +223,11 @@ COUNT(*)
 [number of films released before 1950]
 ```
 </details>
+
+
+![alt text](<../Screenshots/Retrieve the number of rows having a release year older than 1950 from the (FilmLocations) table.png>)
+
+![alt text](<../Screenshots/Solution 3.3.gif>)
 
 ---
 
@@ -256,6 +263,12 @@ Title
 ```
 
 ![DISTINCT titles result]
+
+![alt text](<../Screenshots/DISTINCT titles result.png>)
+
+
+![alt text](<../Screenshots/DISTINCT titles result.gif>)
+
 
 ### Step 2: COUNT DISTINCT with WHERE Clause
 
