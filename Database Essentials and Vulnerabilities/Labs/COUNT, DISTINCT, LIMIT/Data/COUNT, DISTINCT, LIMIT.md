@@ -292,6 +292,10 @@ COUNT(DISTINCT ReleaseYear)
 
 ![COUNT DISTINCT result]
 
+![alt text](<../Screenshots/COUNT DISTINCT result.png>)
+
+![alt text](<../Screenshots/COUNT DISTINCT result.gif>)
+
 ### Step 3: Practice Exercises on DISTINCT
 
 Now, let's practice creating and running some DISTINCT related queries.
