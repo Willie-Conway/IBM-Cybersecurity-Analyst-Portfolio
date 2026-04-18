@@ -155,6 +155,10 @@ COUNT(Locations)
 ```
 </details>
 
+![alt text](<../Screenshots/Retrieve the number of locations of the films which are directed by Woody Allen.png>)
+
+![alt text](<../Screenshots/Solution 3.1.gif>)
+
 ---
 
 #### Problem 3.2
@@ -184,6 +188,9 @@ COUNT(*)
 [number of films shot at Russian Hill]
 ```
 </details>
+
+![alt text](<../Screenshots/Retrieve the number of films shot at Russian Hill.png>)
+
 
 ---
 
