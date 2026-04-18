@@ -439,6 +439,11 @@ SELECT * FROM FilmLocations LIMIT 25;
 
 ![LIMIT 25 result]
 
+![alt text](<../Screenshots/Retrieve First 25 Rows.png>)
+
+![alt text](<../Screenshots/LIMIT 25 result.gif>)
+
+
 ### Step 2: LIMIT with OFFSET
 
 **Problem:** Retrieve the first 15 rows from the "FilmLocations" table starting from row 11.
@@ -458,6 +463,11 @@ SELECT * FROM FilmLocations LIMIT 15 OFFSET 10;
 ```
 
 ![LIMIT with OFFSET result]
+
+![alt text](<../Screenshots/LIMIT with OFFSET.png>)
+
+![alt text](<../Screenshots/LIMIT with OFFSET result.gif>)
+
 
 ### Step 3: Practice Exercises on LIMIT
 
