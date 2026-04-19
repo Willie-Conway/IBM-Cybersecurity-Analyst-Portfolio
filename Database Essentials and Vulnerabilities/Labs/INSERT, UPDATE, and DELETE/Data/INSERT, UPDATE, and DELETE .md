@@ -235,7 +235,7 @@ VALUES (105, 'David', 'Wilson', 'Biology', '2023-10-01');
 </details>
 
 
-![alt text](<Problem 5.1.png>)
+![alt text](<../Screenshots/Problem 5.1.png>)
 
 ![alt text](<../Screenshots/Solution 5.1.gif>)
 
