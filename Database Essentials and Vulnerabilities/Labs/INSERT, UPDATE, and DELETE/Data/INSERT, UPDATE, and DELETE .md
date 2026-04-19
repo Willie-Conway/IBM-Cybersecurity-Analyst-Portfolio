@@ -86,6 +86,10 @@ SELECT * FROM Instructor;
 
 ![Instructor table preview]
 
+![alt text](<../Screenshots/Instructor table preview.png>)
+
+![alt text](<../Screenshots/Instructor table preview.gif>)
+
 ### Sample Instructor Table Structure
 
 | Column               | Description                             |
@@ -130,6 +134,12 @@ Query executed successfully. 1 row affected.
 ```
 
 ![INSERT single row result]
+
+![alt text](<../Screenshots/INSERT single row result.png>)
+
+![alt text](<INSERT single row result.gif>)
+
+![alt text](../Screenshots/Query_Solution_1.gif)
 
 ### Step 2: Verify the Insert
 
@@ -178,6 +188,12 @@ Query executed successfully. 3 rows affected.
 ```
 
 ![INSERT multiple rows result]
+
+![alt text](<../Screenshots/Verify the Insert.png>)
+
+
+![alt text](<../Screenshots/Instructor table preview.gif>)
+
 
 ### Step 4: Verify the Inserts
 
