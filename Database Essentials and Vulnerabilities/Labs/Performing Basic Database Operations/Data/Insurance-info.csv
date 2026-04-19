@@ -1,0 +1,11 @@
+﻿PolicyID,ExpiryDate,State,Region,ConstructionType,Business
+10042,1/2/2022,NY,East,Masonry,Apartment
+10081,1/21/2021,NY,East,Frame,Farming
+10075,6/25/2022,OH,Central,Masonry,Medical
+10123,1/25/2021,WI,Midwest,Masonry,Service
+10019,3/23/2021,OH,Central,Frame,Office 
+10132,1/19/2021,NJ,East,Masonry,Organization
+10466,4/3/2021,NJ,East,Frame,Hospitality
+11088,1/5/2021,NY,East,Frame,Retail
+12091,1/31/2022,IL,Midwest,Masonry,Apartment
+14202,2/4/2021,NY,East,Masonry,Construction

@@ -90,6 +90,8 @@ In this exercise, you will create a new database and table to store the insuranc
 
 ![phpMyAdmin home screen]
 
+![alt text](<../Screenshots/phpMyAdmin home screen.png>)
+
 ### Step 2: Create a New Database
 
 1. Click on the **New** button in the left sidebar
@@ -108,6 +110,24 @@ Database created successfully.
 ```
 
 ![Create database]
+
+![alt text](<../Screenshots/Create database.png>)
+
+![alt text](<../Screenshots/Importing data.png>)
+
+![alt text](<../Screenshots/Imported insurance data.png>)
+
+![alt text](<../Screenshots/Review the Source Code.png>)
+
+![alt text](<../Screenshots/Review query output for policy.png>)
+
+![alt text](<../Screenshots/Write the SQL Statement.png>)
+
+![alt text](<../Screenshots/Review query output for inurance database.png>)
+
+![alt text](<../Screenshots/Policy table that have Masonry construction.png>)
+
+
 
 ### Step 3: Select the Database
 
