@@ -311,6 +311,10 @@ Query executed successfully. 1 row affected.
 
 ![UPDATE single column result]
 
+![alt text](<../Screenshots/Update a Single Column.png>)
+
+![alt text](<../Screenshots/UPDATE single column result.gif>)
+
 ### Step 2: Verify the Update
 
 ```sql
@@ -352,6 +356,10 @@ Query executed successfully. 1 row affected.
 
 ![UPDATE multiple columns result]
 
+![alt text](<../Screenshots/UPDATE multiple columns result.png>)
+
+
+
 ### Step 4: Verify the Update
 
 ```sql
@@ -390,6 +398,8 @@ Query executed successfully. 2 rows affected.
 
 ![UPDATE multiple rows result]
 
+![alt text](<../Screenshots/UPDATE multiple columns result.gif>)
+
 ### Step 6: Verify the Update
 
 ```sql
@@ -424,6 +434,10 @@ WHERE ID = 103;
 
 </details>
 
+![alt text](<../Screenshots/Problem 7.1.png>)
+
+![alt text](<../Screenshots/Solution 7.1.gif>)
+
 ---
 
 #### Problem 7.2
@@ -450,6 +464,10 @@ WHERE ID = 104;
 ```
 
 </details>
+
+![alt text](<../Screenshots/Problem 7.2.png>)
+
+![alt text](<../Screenshots/Solution 7.2.gif>)
 
 ---
 
@@ -510,6 +528,10 @@ Query executed successfully. 1 row affected.
 ```
 
 ![DELETE single row result]
+
+![alt text](<../Screenshots/Delete a Single Row.png>)
+
+![alt text](<DELETE single row result.gif>)
 
 ### Step 2: Verify the Delete
 
@@ -578,6 +600,10 @@ WHERE ID = 106;
 ```
 
 </details>
+
+![alt text](<../Screenshots/Problem 5.3.png>)
+
+![alt text](<../Screenshots/Solution 5.3.gif>)
 
 ---
 
