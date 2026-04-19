@@ -503,6 +503,11 @@ Title
 ```
 </details>
 
+![alt text](<../Screenshots/Retrieve the name of first 50 films distinctly.png>)
+
+
+![alt text](<../Screenshots/first 50 unique film titles.gif>)
+
 ---
 
 #### Problem 3.2
@@ -533,6 +538,10 @@ Title
 ```
 </details>
 
+![alt text](<../Screenshots/Retrieve first 10 film names distinctly released in 2015.png>)
+
+![alt text](<../Screenshots/first 10 unique film titles from 2015.gif>)
+
 ---
 
 #### Problem 3.3
@@ -562,6 +571,10 @@ Title
 [films 6-8 from the 2015 results]
 ```
 </details>
+
+![alt text](<../Screenshots/films 6-8 from the 2015 results.png>)
+
+![alt text](<../Screenshots/films 6-8 from the 2015 results.gif>)
 
 ---
 
