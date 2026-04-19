@@ -531,7 +531,7 @@ Query executed successfully. 1 row affected.
 
 ![alt text](<../Screenshots/Delete a Single Row.png>)
 
-![alt text](<DELETE single row result.gif>)
+![alt text](<../Screenshots/DELETE single row result.gif>)
 
 ### Step 2: Verify the Delete
 
