@@ -127,6 +127,16 @@ Database created successfully.
 
 ![alt text](<../Screenshots/Policy table that have Masonry construction.png>)
 
+![alt text](<../Screenshots/Display the records from the Policy table that have Masonry construction.png>)
+
+![alt text](<../Screenshots/Write the SQL Code .png>)
+
+![alt text](<../Screenshots/Review the query output_for_the_East.png>)
+
+![alt text](<../Screenshots/Insert a row into the Policy table.png>)
+
+![alt text](<../Screenshots/Insert a row into the Policy table.jpg>)
+
 
 
 ### Step 3: Select the Database
