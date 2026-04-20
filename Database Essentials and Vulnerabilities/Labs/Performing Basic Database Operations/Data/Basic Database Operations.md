@@ -145,6 +145,8 @@ Database created successfully.
 
 ![alt text](<../Screenshots/Delete the table Policy from the database.png>)
 
+![alt text](<../Screenshots/Delete the table Policy from the database_2.png>)
+
 ### Step 3: Select the Database
 
 Click on the `insurance_db` database in the left sidebar to select it.
