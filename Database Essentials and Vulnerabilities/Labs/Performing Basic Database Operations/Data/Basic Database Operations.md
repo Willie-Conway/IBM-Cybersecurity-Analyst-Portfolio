@@ -137,7 +137,11 @@ Database created successfully.
 
 ![alt text](<../Screenshots/Insert a row into the Policy table.jpg>)
 
+![alt text](<../Screenshots/Delete the record for PolicyID 100329.png>)
 
+![alt text](<../Screenshots/Delete From Policy.png>)
+
+![alt text](<../Screenshots/There are now 9 records in the table.png>)
 
 ### Step 3: Select the Database
 
