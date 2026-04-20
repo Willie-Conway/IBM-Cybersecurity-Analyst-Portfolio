@@ -143,6 +143,8 @@ Database created successfully.
 
 ![alt text](<../Screenshots/There are now 9 records in the table.png>)
 
+![alt text](<../Screenshots/Delete the table Policy from the database.png>)
+
 ### Step 3: Select the Database
 
 Click on the `insurance_db` database in the left sidebar to select it.
