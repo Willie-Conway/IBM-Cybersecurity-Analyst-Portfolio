@@ -1,4 +1,3 @@
-
 ![alt text](<../Screenshots/PhpMyAdmin_logo (1).png>)
 
 # Lab: Basic Database Operations — Create, Populate, and Query a Database
@@ -11,14 +10,14 @@
 
 After completing this lab you'll be able to use phpMyAdmin with MySQL to perform basic database operations. You'll also be able to demonstrate the skills needed to create, populate, and query a database using SQL commands.
 
-| Objective | Description |
-|:----------|:------------|
-| **Create and populate** | Create a database and table, then import data to populate it |
+| Objective                      | Description                                                       |
+| :----------------------------- | :---------------------------------------------------------------- |
+| **Create and populate**  | Create a database and table, then import data to populate it      |
 | **Execute SQL commands** | Perform basic database operations using Structured Query Language |
-| **Retrieve data** | Use simple SELECT statements to retrieve data from tables |
-| **Filter data** | Learn how to filter data output using WHERE statements |
-| **Add and remove data** | Use INSERT and DELETE statements to modify table data |
-| **Remove tables** | Use DROP statements to remove tables from a database |
+| **Retrieve data**        | Use simple SELECT statements to retrieve data from tables         |
+| **Filter data**          | Learn how to filter data output using WHERE statements            |
+| **Add and remove data**  | Use INSERT and DELETE statements to modify table data             |
+| **Remove tables**        | Use DROP statements to remove tables from a database              |
 
 ---
 
@@ -26,21 +25,22 @@ After completing this lab you'll be able to use phpMyAdmin with MySQL to perform
 
 ### Basic SQL Commands
 
-| Command | Purpose | Syntax Example |
-|:--------|:--------|:---------------|
-| **CREATE DATABASE** | Creates a new database | `CREATE DATABASE database_name;` |
-| **CREATE TABLE** | Creates a new table | `CREATE TABLE table_name (column1 datatype, column2 datatype);` |
-| **SELECT** | Retrieves data from tables | `SELECT column1, column2 FROM table_name;` |
-| **WHERE** | Filters data based on conditions | `SELECT * FROM table_name WHERE condition;` |
-| **INSERT** | Adds new rows to a table | `INSERT INTO table_name VALUES (value1, value2);` |
-| **DELETE** | Removes rows from a table | `DELETE FROM table_name WHERE condition;` |
-| **DROP TABLE** | Removes a table from the database | `DROP TABLE table_name;` |
+| Command                   | Purpose                           | Syntax Example                                                    |
+| :------------------------ | :-------------------------------- | :---------------------------------------------------------------- |
+| **CREATE DATABASE** | Creates a new database            | `CREATE DATABASE database_name;`                                |
+| **CREATE TABLE**    | Creates a new table               | `CREATE TABLE table_name (column1 datatype, column2 datatype);` |
+| **SELECT**          | Retrieves data from tables        | `SELECT column1, column2 FROM table_name;`                      |
+| **WHERE**           | Filters data based on conditions  | `SELECT * FROM table_name WHERE condition;`                     |
+| **INSERT**          | Adds new rows to a table          | `INSERT INTO table_name VALUES (value1, value2);`               |
+| **DELETE**          | Removes rows from a table         | `DELETE FROM table_name WHERE condition;`                       |
+| **DROP TABLE**      | Removes a table from the database | `DROP TABLE table_name;`                                        |
 
 ---
 
 ## Tools Needed
 
 **MySQL** - A free, open source relational database system that offers:
+
 - Command line interface (MySQL CLI)
 - Third-party web interface (phpMyAdmin)
 
@@ -48,9 +48,9 @@ After completing this lab you'll be able to use phpMyAdmin with MySQL to perform
 
 ### Two Components of the SN Labs Cloud IDE
 
-| Component | Location | Purpose |
-|:----------|:---------|:--------|
-| **Instructions** | Left side of screen | Steps to follow to complete the lab |
+| Component                   | Location             | Purpose                                              |
+| :-------------------------- | :------------------- | :--------------------------------------------------- |
+| **Instructions**      | Left side of screen  | Steps to follow to complete the lab                  |
 | **Tools & Terminals** | Right side of screen | Menus, terminals, and tools to execute lab exercises |
 
 ---
@@ -59,23 +59,23 @@ After completing this lab you'll be able to use phpMyAdmin with MySQL to perform
 
 The dataset used in this lab is a single **Open Document Spreadsheet file (.ods)** that contains:
 
-| Attribute | Value |
-|:----------|:------|
-| **Rows** | 10 rows |
-| **Columns** | 6 columns |
-| **Content** | Fictitious customer demographics and insurance policy data |
-| **Filename** | `Insurance-info.ods` |
+| Attribute          | Value                                                      |
+| :----------------- | :--------------------------------------------------------- |
+| **Rows**     | 10 rows                                                    |
+| **Columns**  | 6 columns                                                  |
+| **Content**  | Fictitious customer demographics and insurance policy data |
+| **Filename** | `Insurance-info.ods`                                     |
 
 ### Dataset Columns
 
-| Column | Description |
-|:-------|:------------|
+| Column               | Description                         |
+| :------------------- | :---------------------------------- |
 | **CustomerID** | Unique identifier for each customer |
-| **FirstName** | Customer's first name |
-| **LastName** | Customer's last name |
-| **Age** | Customer's age |
-| **PolicyType** | Type of insurance policy |
-| **Premium** | Annual premium amount |
+| **FirstName**  | Customer's first name               |
+| **LastName**   | Customer's last name                |
+| **Age**        | Customer's age                      |
+| **PolicyType** | Type of insurance policy            |
+| **Premium**    | Annual premium amount               |
 
 ---
 
@@ -89,6 +89,7 @@ In this exercise, you will create a new database and table to store the insuranc
 2. Log in with your credentials (if required)
 
 ![phpMyAdmin home screen]
+
 
 ![alt text](<../Screenshots/phpMyAdmin home screen.png>)
 
@@ -112,40 +113,6 @@ Database created successfully.
 ![Create database]
 
 ![alt text](<../Screenshots/Create database.png>)
-
-![alt text](<../Screenshots/Importing data.png>)
-
-![alt text](<../Screenshots/Imported insurance data.png>)
-
-![alt text](<../Screenshots/Review the Source Code.png>)
-
-![alt text](<../Screenshots/Review query output for policy.png>)
-
-![alt text](<../Screenshots/Write the SQL Statement.png>)
-
-![alt text](<../Screenshots/Review query output for inurance database.png>)
-
-![alt text](<../Screenshots/Policy table that have Masonry construction.png>)
-
-![alt text](<../Screenshots/Display the records from the Policy table that have Masonry construction.png>)
-
-![alt text](<../Screenshots/Write the SQL Code .png>)
-
-![alt text](<../Screenshots/Review the query output_for_the_East.png>)
-
-![alt text](<../Screenshots/Insert a row into the Policy table.png>)
-
-![alt text](<../Screenshots/Insert a row into the Policy table.jpg>)
-
-![alt text](<../Screenshots/Delete the record for PolicyID 100329.png>)
-
-![alt text](<../Screenshots/Delete From Policy.png>)
-
-![alt text](<../Screenshots/There are now 9 records in the table.png>)
-
-![alt text](<../Screenshots/Delete the table Policy from the database.png>)
-
-![alt text](<../Screenshots/Delete the table Policy from the database_2.png>)
 
 ### Step 3: Select the Database
 
@@ -183,6 +150,10 @@ CREATE TABLE customers (
 | **PolicyType** | VARCHAR(50)     | Type of insurance policy                 |
 | **Premium**    | DECIMAL(10,2)   | Annual premium amount (2 decimal places) |
 
+![alt text](<../Screenshots/Create the Customers Table.png>)
+
+![alt text](<../Screenshots/Create the Customers Table_executed.png>)
+
 ### Step 5: Verify Table Creation
 
 ```sql
@@ -196,6 +167,8 @@ Tables_in_insurance_db
 ---------------------
 customers
 ```
+
+![alt text](<../Screenshots/Show tables.png>)
 
 ---
 
@@ -232,6 +205,10 @@ INSERT INTO customers (CustomerID, FirstName, LastName, Age, PolicyType, Premium
 VALUES (5, 'David', 'Wilson', 31, 'Auto', 1150.00);
 ```
 
+![alt text](<../Screenshots/Insert Individual Rows.png>)
+
+![alt text](<../Screenshots/Insert Individual Rows_executed.png>)
+
 ### Step 2: Insert Multiple Rows at Once
 
 ```sql
@@ -243,6 +220,10 @@ VALUES
     (9, 'Robert', 'Jackson', 44, 'Auto', 1300.00),
     (10, 'Maria', 'White', 29, 'Life', 875.00);
 ```
+
+![alt text](<../Screenshots/Insert Multiple Rows at Once.png>)
+
+![alt text](<../Screenshots/Insert Multiple Rows at Once_executed.png>)
 
 ### Step 3: Verify Data Insertion
 
@@ -650,7 +631,7 @@ In this hands-on lab, you have:
 
 ---
 
-## Congratulations!
+## Congratulations
 
 You have successfully completed the **Basic Database Operations** lab. You now know how to:
 
@@ -665,7 +646,4 @@ These skills are fundamental to working with relational databases and form the f
 
 ---
 
-
 *Last updated: January 2026*
-
-
