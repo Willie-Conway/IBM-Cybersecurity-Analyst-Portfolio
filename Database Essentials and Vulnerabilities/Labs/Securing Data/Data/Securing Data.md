@@ -1,5 +1,5 @@
 
-![alt text](../Screenshots/MySQL-Logo.png)
+![alt text](<../Screenshots/PhpMyAdmin_logo (1).png>)
 
 # Lab: Securing Data — Encryption, Hashing, Masking, and Access Control
 
@@ -58,6 +58,10 @@ Make sure you have a database created. If not, create one with the following com
 CREATE DATABASE my_database;
 ```
 
+![alt text](<../Screenshots/Ensure a Database Exists.png>)
+
+![alt text](<../Screenshots/Ensure a Database Exists_executed.png>)
+
 ### Step 2: Select the Database
 
 Use the `USE` command to select the database you want to work with:
@@ -65,6 +69,8 @@ Use the `USE` command to select the database you want to work with:
 ```sql
 USE my_database;
 ```
+
+![alt text](<../Screenshots/Select the Database.png>)
 
 ---
 
@@ -84,6 +90,10 @@ CREATE TABLE sensitive_data (
     encrypted_data VARBINARY(255)
 );
 ```
+
+![alt text](<../Screenshots/Create the Encrypted Data Table.png>)
+
+![alt text](<../Screenshots/Create the Encrypted Data Table_executed.png>)
 
 **Explanation:** This creates a table named `sensitive_data` with an `id` column and an `encrypted_data` column to store encrypted information. The `VARBINARY` data type is used because encrypted data is binary.
 
