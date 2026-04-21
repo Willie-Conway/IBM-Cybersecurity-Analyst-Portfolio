@@ -248,6 +248,8 @@ CustomerID | FirstName | LastName  | Age | PolicyType | Premium
 10         | Maria     | White     | 29  | Life       | 875.00
 ```
 
+![alt text](<../Screenshots/Verify Data Insertion.png>)
+
 ---
 
 ## Exercise 3: Retrieve Data Using SELECT Statements
@@ -259,6 +261,8 @@ In this exercise, you will use SELECT statements to retrieve data from the custo
 ```sql
 SELECT * FROM customers;
 ```
+
+![alt text](<../Screenshots/Select All Columns.png>)
 
 ### Step 2: Select Specific Columns
 
@@ -283,6 +287,8 @@ Robert    | Jackson   | 1300.00
 Maria     | White     | 875.00
 ```
 
+![alt text](<../Screenshots/Select Specific Columns.png>)
+
 ### Step 3: Use WHERE to Filter Data
 
 **Problem:** Retrieve all customers with Auto insurance.
@@ -300,6 +306,8 @@ CustomerID | FirstName | LastName | Age | PolicyType | Premium
 5          | David     | Wilson   | 31  | Auto       | 1150.00
 9          | Robert    | Jackson  | 44  | Auto       | 1300.00
 ```
+
+![alt text](<../Screenshots/Use WHERE to Filter Data.png>)
 
 ### Step 4: Use Comparison Operators
 
@@ -322,6 +330,8 @@ Lisa      | Martinez  | 1950.00
 Patricia  | Thomas    | 4500.00
 ```
 
+![alt text](<../Screenshots/Use Comparison Operators.png>)
+
 ### Step 5: Use Multiple Conditions with AND
 
 **Problem:** Retrieve customers under 40 years old with Life insurance.
@@ -339,6 +349,8 @@ CustomerID | FirstName | LastName | Age | PolicyType | Premium
 3          | Michael   | Brown    | 28  | Life       | 950.00
 10         | Maria     | White    | 29  | Life       | 875.00
 ```
+
+![alt text](<../Screenshots/Use Multiple Conditions with AND.png>)
 
 ### Step 6: Use Multiple Conditions with OR
 
@@ -360,6 +372,8 @@ Emily     | Davis     | Health
 Lisa      | Martinez  | Home
 Patricia  | Thomas    | Health
 ```
+
+![alt text](<../Screenshots/Use Multiple Conditions with OR.png>)
 
 ---
 
@@ -383,11 +397,16 @@ INSERT INTO customers (CustomerID, FirstName, LastName, Age, PolicyType, Premium
 VALUES (11, 'Charles', 'Lee', 52, 'Auto', 1400.00);
 ```
 
+![alt text](<../Screenshots/Insert a New Row.png>)
+
 ### Step 2: Verify the Insert
 
 ```sql
 SELECT * FROM customers WHERE CustomerID = 11;
 ```
+
+![alt text](<../Screenshots/Verify the Insert_1.png>)
+
 
 ### Step 3: Delete a Specific Row
 
@@ -396,6 +415,10 @@ SELECT * FROM customers WHERE CustomerID = 11;
 ```sql
 DELETE FROM customers WHERE CustomerID = 11;
 ```
+
+![alt text](<../Screenshots/Delete a Specific Row.png>)
+
+![alt text](<../Screenshots/DELETE customer.png>)
 
 ### Step 4: Verify the Delete
 
@@ -409,6 +432,8 @@ SELECT * FROM customers WHERE CustomerID = 11;
 (empty result set)
 ```
 
+![alt text](<../Screenshots/Customer Deleted.png>)
+
 ### Step 5: Delete Rows Based on Conditions
 
 **Problem:** Delete all customers with Health insurance.
@@ -416,6 +441,8 @@ SELECT * FROM customers WHERE CustomerID = 11;
 ```sql
 DELETE FROM customers WHERE PolicyType = 'Health';
 ```
+
+![alt text](<../Screenshots/Delete Rows Based on Conditions.png>)
 
 ### Step 6: Verify the Delete
 
@@ -428,6 +455,8 @@ SELECT * FROM customers WHERE PolicyType = 'Health';
 ```
 (empty result set)
 ```
+
+![alt text](<../Screenshots/Verify the Delete.png>)
 
 ---
 
@@ -443,6 +472,8 @@ In this exercise, you will use the DROP TABLE statement to remove a table from t
 DROP TABLE customers;
 ```
 
+![alt text](<../Screenshots/Drop the Customers Table.png>)
+
 ### Step 2: Verify the Table is Removed
 
 ```sql
@@ -456,6 +487,8 @@ Tables_in_insurance_db
 ---------------------
 (empty set)
 ```
+
+![alt text](<../Screenshots/Verify the Table is Removed.png>)
 
 ---
 
@@ -493,6 +526,10 @@ INSERT INTO claims VALUES
 
 </details>
 
+![alt text](<../Screenshots/Create and Populate a New Table.png>)
+
+![alt text](<../Screenshots/Create and Populate a New Table_executed.png>)
+
 ---
 
 ### Problem 2: Filter Data with WHERE
@@ -509,6 +546,9 @@ WHERE Premium BETWEEN 1000 AND 2000;
 
 </details>
 
+
+![alt text](<../Screenshots/Filter Data with WHERE.png>)
+
 ---
 
 ### Problem 3: Delete with Conditions
@@ -523,6 +563,8 @@ DELETE FROM customers WHERE Age > 60;
 ```
 
 </details>
+
+![alt text](<../Screenshots/Delete with Conditions.png>)
 
 ---
 
