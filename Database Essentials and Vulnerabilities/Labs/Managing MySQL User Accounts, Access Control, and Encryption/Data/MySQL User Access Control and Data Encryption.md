@@ -72,6 +72,17 @@ In this exercise, you will learn how to create a user account and grant appropri
 
 ![alt text](<../Screenshots/phpMyAdmin home screen_.png>)
 
+3. Create **world** database.
+
+![alt text](<../Screenshots/Create world database.png>)
+
+
+4. Import the world database script `world_mysql_script_full.sql`.
+
+![alt text](<../Screenshots/Import world database sql script.png>)
+
+![alt text](<../Screenshots/Successfully imported world database script.png>)
+
 ### Step 2: Navigate to User Accounts
 
 1. Go to **Home** > **User accounts** tab
@@ -149,6 +160,8 @@ You will modify privileges of the user `db_owner` so that this user cannot updat
 
 ![Edit privileges option]
 
+![alt text](<../Screenshots/Edit privileges option.png>)
+
 ### Step 2: Select Database
 
 1. Under the **Database** sub-tab
@@ -157,6 +170,10 @@ You will modify privileges of the user `db_owner` so that this user cannot updat
 
 ![Select world database]
 
+![alt text](<../Screenshots/Select database.png>)
+
+![alt text](<../Screenshots/Select world database.png>)
+
 ### Step 3: Grant Database-Specific Privileges
 
 1. Under **Database-specific privileges**
@@ -164,6 +181,8 @@ You will modify privileges of the user `db_owner` so that this user cannot updat
 3. Click **Go** at the bottom
 
 ![Database-specific privileges]
+
+![alt text](<../Screenshots/Database-specific privileges.png>)
 
 ### Step 4: Switch to Table-Specific Privileges
 
