@@ -104,6 +104,12 @@ INSERT INTO sensitive_data (encrypted_data)
 VALUES (AES_ENCRYPT('Sensitive Data', 'encryption_key'));
 ```
 
+![alt text](<../Screenshots/Insert Encrypted Data.png>)
+
+![alt text](<../Screenshots/Insert Encrypted Data_executed.png>)
+
+
+
 **Explanation:** The `AES_ENCRYPT` function encrypts the data 'Sensitive Data' using the key 'encryption_key'. The result is stored as binary data.
 
 ### Step 3: Retrieve and Decrypt Data
@@ -112,6 +118,8 @@ VALUES (AES_ENCRYPT('Sensitive Data', 'encryption_key'));
 SELECT id, AES_DECRYPT(encrypted_data, 'encryption_key') AS decrypted_data
 FROM sensitive_data;
 ```
+![alt text](<../Screenshots/Retrieve and Decrypt Data.png>)
+
 
 **Explanation:** To decrypt, `AES_DECRYPT` is used with the same encryption key to convert the binary data back to its original plaintext form.
 
@@ -131,6 +139,10 @@ VALUES (AES_ENCRYPT('Sensitive Data', @key_str));
 SELECT id, AES_DECRYPT(encrypted_data, @key_str) AS decrypted_data
 FROM sensitive_data;
 ```
+
+![alt text](<../Screenshots/Using a Hashed Encryption Key (More Secure).png>)
+
+![alt text](<../Screenshots/Using a Hashed Encryption Key (More Secure)_executed.png>)
 
 ---
 
@@ -152,6 +164,11 @@ CREATE TABLE users (
 );
 ```
 
+![alt text](<../Screenshots/Create the Users Table.png>)
+
+![alt text](<../Screenshots/Create the Users Table_executed.png>)
+
+
 **Explanation:** This creates a table named `users` with `id`, `username`, and `password_hash` columns to store user information and hashed passwords.
 
 ### Step 2: Insert a Hashed Password
@@ -160,6 +177,8 @@ CREATE TABLE users (
 INSERT INTO users (username, password_hash)
 VALUES ('user1', SHA2('password123', 256));
 ```
+
+![alt text](<../Screenshots/Insert a Hashed Password.png>)
 
 **Explanation:** The `SHA2` function hashes the password 'password123' using the SHA-256 algorithm (256-bit output). The hashed password is stored in the `password_hash` column.
 
@@ -170,6 +189,8 @@ SELECT username
 FROM users
 WHERE username = 'user1' AND password_hash = SHA2('password123', 256);
 ```
+
+![alt text](<../Screenshots/Verify a Hashed Password (Login Validation).png>)
 
 **Explanation:** To verify, the same hashing function is applied to the input password. If the hashes match, the credentials are valid.
 
