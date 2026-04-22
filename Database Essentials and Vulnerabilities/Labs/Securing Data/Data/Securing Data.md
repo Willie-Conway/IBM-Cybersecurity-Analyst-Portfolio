@@ -217,6 +217,10 @@ WHERE username = 'user1'
   AND password_hash = SHA2(CONCAT('password123', salt), 256);
 ```
 
+![alt text](<../Screenshots/Adding Salt for Additional Security.png>)
+
+![alt text](<../Screenshots/Adding Salt for Additional Security_executed.png>)
+
 ---
 
 ## Exercise 3: Data Masking — Obscuring Sensitive Information
@@ -239,6 +243,10 @@ CREATE TABLE employees (
 );
 ```
 
+![alt text](<../Screenshots/Create the Employees Table.png>)
+
+![alt text](<../Screenshots/Create the Employees Table_executed.png>)
+
 ### Step 2: Insert Sample Data
 
 ```sql
@@ -246,6 +254,8 @@ INSERT INTO employees (ssn, phone, email, credit_card) VALUES
 ('123-45-6789', '555-123-4567', 'john.doe@example.com', '4111-1111-1111-1111'),
 ('987-65-4321', '555-987-6543', 'jane.smith@example.com', '5500-0000-0000-0004');
 ```
+
+![alt text](<../Screenshots/Insert Sample Data.png>)
 
 ### Step 3: Mask SSN (Social Security Number)
 
@@ -266,6 +276,8 @@ XXX-XX-6789
 XXX-XX-4321
 ```
 
+![alt text](<../Screenshots/Mask SSN (Social Security Number).png>)
+
 ### Step 4: Mask Phone Numbers
 
 ```sql
@@ -282,6 +294,8 @@ masked_phone
 XXX-XXX-4567
 XXX-XXX-6543
 ```
+
+![alt text](<../Screenshots/Mask Phone Numbers.png>)
 
 ### Step 5: Mask Email Addresses
 
@@ -300,6 +314,8 @@ j***@example.com
 j***@example.com
 ```
 
+![alt text](<../Screenshots/Mask Email Addresses.png>)
+
 ### Step 6: Mask Credit Card Numbers
 
 ```sql
@@ -316,6 +332,8 @@ masked_card
 XXXX-XXXX-XXXX-1111
 XXXX-XXXX-XXXX-0004
 ```
+
+![alt text](<../Screenshots/Mask Credit Card Numbers.png>)
 
 ---
 
@@ -338,12 +356,19 @@ CREATE TABLE token_mapping (
 );
 ```
 
+![alt text](<../Screenshots/Create Token Mapping Table.png>)
+
+![alt text](<../Screenshots/Create Token Mapping Table_executed.png>)
+
+
 ### Step 2: Create Function to Generate Token
 
 ```sql
 -- Generate a random token
 SET @token = MD5(RAND());
 ```
+
+![alt text](<../Screenshots/Create Function to Generate Token.png>)
 
 ### Step 3: Insert and Tokenize Data
 
@@ -366,6 +391,8 @@ CREATE TABLE customer_data (
 INSERT INTO customer_data (customer_name, ssn_token)
 VALUES ('John Doe', @token);
 ```
+
+![alt text](<../Screenshots/Insert and Tokenize Data.png>)
 
 ### Step 4: Retrieve Original Data (Authorized Only)
 
