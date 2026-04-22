@@ -403,6 +403,8 @@ FROM customer_data cd
 JOIN token_mapping tm ON cd.ssn_token = tm.token;
 ```
 
+![alt text](<../Screenshots/Retrieve Original Data (Authorized Only).png>)
+
 ---
 
 ## Exercise 5: Role-Based Access Control (RBAC)
@@ -423,6 +425,9 @@ CREATE ROLE 'app_user';
 CREATE ROLE 'app_viewer';
 ```
 
+![alt text](<../Screenshots/Create Roles.png>)
+
+
 ### Step 2: Grant Privileges to Roles
 
 ```sql
@@ -435,11 +440,14 @@ GRANT SELECT, INSERT, UPDATE ON my_database.users TO 'app_manager';
 
 -- User role: read-only on employees, full on own data
 GRANT SELECT ON my_database.employees TO 'app_user';
-GRANT SELECT, INSERT, UPDATE ON my_database.user_preferences TO 'app_user';
+GRANT SELECT, INSERT, UPDATE ON my_database.users TO 'app_user';
 
 -- Viewer role: read-only on non-sensitive data
 GRANT SELECT (id, username) ON my_database.users TO 'app_viewer';
 ```
+
+![alt text](<../Screenshots/Grant Privileges to Roles.png>)
+
 
 ### Step 3: Create Users and Assign Roles
 
@@ -460,6 +468,9 @@ SET DEFAULT ROLE 'app_user' TO 'bob'@'localhost';
 SET DEFAULT ROLE 'app_viewer' TO 'charlie'@'localhost';
 ```
 
+![alt text](<../Screenshots/Create Users and Assign Roles.png>)
+
+
 ### Step 4: Verify Role Assignments
 
 ```sql
@@ -469,6 +480,8 @@ SHOW GRANTS FOR 'alice'@'localhost';
 -- Show roles assigned to a user
 SELECT * FROM mysql.default_roles WHERE USER = 'alice';
 ```
+
+![alt text](<../Screenshots/Verify Role Assignments.png>)
 
 ### Step 5: Create Views for Column-Level Security
 
@@ -484,6 +497,8 @@ FROM employees;
 -- Grant access to the view instead of the base table
 GRANT SELECT ON my_database.employees_public TO 'app_viewer';
 ```
+
+![alt text](<../Screenshots/Create Views for Column-Level Security.png>)
 
 ---
 
