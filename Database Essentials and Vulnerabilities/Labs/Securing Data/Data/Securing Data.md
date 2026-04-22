@@ -534,6 +534,8 @@ FROM customer_cards;
 
 </details>
 
+![alt text](<../Screenshots/Implement Encryption.png>)
+
 ---
 
 ### Exercise 2: Implement Password Hashing with Salt
@@ -570,6 +572,8 @@ WHERE username = 'john_doe'
 
 </details>
 
+![alt text](<../Screenshots/Implement Password Hashing with Salt.png>)
+
 ---
 
 ### Exercise 3: Create Role-Based Access
@@ -580,24 +584,28 @@ WHERE username = 'john_doe'
 <summary>✅ Solution</summary>
 
 ```sql
--- Create a view without salary
-CREATE VIEW employee_analyst AS
-SELECT id, name, department, hire_date
-FROM employees;
-
 -- Create role
-CREATE ROLE 'data_analyst';
+CREATE ROLE IF NOT EXISTS 'data_analyst';
 
--- Grant access to the view
+-- Create safe view
+CREATE OR REPLACE VIEW my_database.employee_analyst AS
+SELECT 
+    id,
+    email
+FROM my_database.employees;
+
+-- Grant access ONLY to the view
 GRANT SELECT ON my_database.employee_analyst TO 'data_analyst';
 
 -- Create user and assign role
-CREATE USER 'analyst1'@'localhost' IDENTIFIED BY 'AnalystPass123';
+CREATE USER IF NOT EXISTS 'analyst1'@'localhost' IDENTIFIED BY 'AnalystPass123';
 GRANT 'data_analyst' TO 'analyst1'@'localhost';
 SET DEFAULT ROLE 'data_analyst' TO 'analyst1'@'localhost';
 ```
 
 </details>
+
+![alt text](<../Screenshots/Create Role-Based Access.png>)
 
 ---
 
