@@ -184,6 +184,8 @@ You will modify privileges of the user `db_owner` so that this user cannot updat
 
 ![alt text](<../Screenshots/Database-specific privileges.png>)
 
+![alt text](<../Screenshots/Database-specific privileges_executed.png>)
+
 ### Step 4: Switch to Table-Specific Privileges
 
 1. Switch to the **Table** sub-tab
@@ -191,6 +193,8 @@ You will modify privileges of the user `db_owner` so that this user cannot updat
 3. Click **Go**
 
 ![Select city table]
+
+![alt text](<../Screenshots/Select city table.png>)
 
 ### Step 5: Configure Table-Specific Privileges
 
@@ -210,6 +214,10 @@ Under **Table-specific privileges**, configure access to columns of the `city` t
 3. Ensure other columns are not selected
 
 ![Table-specific privileges configuration]
+
+![alt text](<../Screenshots/Table-specific privileges configuration.png>)
+
+![alt text](<../Screenshots/Table-specific privileges configuration_executed.png>)
 
 ### Step 6: Save Changes
 
@@ -243,6 +251,8 @@ You will implement encryption and decryption of a column in the `world` database
 
 ![MySQL CLI button]
 
+![alt text](<../Screenshots/MySQL CLI button.png>)
+
 ### Step 2: Hash the Passphrase
 
 First, you will need to hash your passphrase with a specific hash length using a hash function from the SHA-2 family.
@@ -261,11 +271,15 @@ SET @key_str = SHA2('My secret passphrase', 512);
 
 ![Hash passphrase command]
 
+![alt text](<../Screenshots/Hash passphrase command.png>)
+
 ### Step 3: Connect to the Database
 
 ```sql
 USE world;
 ```
+
+![alt text](<../Screenshots/Connect to the Database.png>)
 
 ### Step 4: View the Current Table
 
@@ -279,6 +293,8 @@ SELECT * FROM countrylanguage LIMIT 5;
 
 ![countrylanguage table before encryption]
 
+![alt text](<../Screenshots/countrylanguage table before encryption.png>)
+
 ### Step 5: Modify Column Data Type
 
 To encrypt the `Percentage` column, first convert the data in the column into binary byte strings of length 255:
@@ -289,6 +305,8 @@ MODIFY COLUMN Percentage varbinary(255);
 ```
 
 ![Modify column data type]
+
+![alt text](<../Screenshots/Modify column data type.png>)
 
 ### Step 6: Encrypt the Column
 
@@ -303,6 +321,8 @@ SET Percentage = AES_ENCRYPT(Percentage, @key_str);
 
 ![Encrypt column command]
 
+![alt text](<../Screenshots/Encrypt column command.png>)
+
 ### Step 7: Verify Encryption
 
 Check if the column was successfully encrypted:
@@ -314,6 +334,8 @@ SELECT * FROM countrylanguage LIMIT 5;
 **Expected Result:** The data in the `Percentage` column is now encrypted and completely illegible.
 
 ![Encrypted data shown as binary]
+
+![alt text](<../Screenshots/Encrypted data shown as binary.png>)
 
 ### Step 8: Decrypt the Data
 
@@ -329,6 +351,8 @@ FROM countrylanguage;
 **Note:** Since AES is symmetric, the same key is used for both encryption and decryption.
 
 ![Decrypted data output]
+
+![alt text](<../Screenshots/Decrypted data output.png>)
 
 ---
 
