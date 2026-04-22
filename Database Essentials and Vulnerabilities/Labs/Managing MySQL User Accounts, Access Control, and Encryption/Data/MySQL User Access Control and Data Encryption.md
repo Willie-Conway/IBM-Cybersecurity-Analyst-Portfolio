@@ -70,12 +70,16 @@ In this exercise, you will learn how to create a user account and grant appropri
 
 ![phpMyAdmin home screen]
 
+![alt text](<../Screenshots/phpMyAdmin home screen_.png>)
+
 ### Step 2: Navigate to User Accounts
 
 1. Go to **Home** > **User accounts** tab
 2. Click **Add user account**
 
 ![User accounts tab]
+
+![alt text](<../Screenshots/User accounts tab.png>)
 
 ### Step 3: Create New User
 
@@ -88,10 +92,14 @@ Fill in the following information:
 | **Password** | [Create a strong password] |
 | **Re-type** | [Same password] |
 
+![alt text](<../Screenshots/Fill the Login Information.png>)
+
 ### Step 4: Grant Database Privileges
 
 1. Under **Database for user account**, select **Create database with same name and grant all privileges**
 2. This automatically creates a database named `db_owner` and grants all privileges on it
+
+![alt text](<../Screenshots/Grant Database Privileges.png>)
 
 ### Step 5: Grant Global Privileges (Optional)
 
@@ -110,6 +118,10 @@ Select the following global privileges if needed:
 2. Verify that the user appears in the User accounts list
 
 ![User created successfully]
+
+![alt text](<../Screenshots/User created successfully.png>)
+
+![alt text](<../Screenshots/User created successfully_executed.png>)
 
 ### Step 7: Verify User Creation
 
