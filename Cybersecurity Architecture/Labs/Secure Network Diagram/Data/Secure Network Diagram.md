@@ -1,6 +1,4 @@
-
-![alt text](../Screenshots/vplogo_300.png)
-
+![alt text](<../Screenshots/vplogo_300.png>)
 
 # Hands-on Lab: Secure Network Diagram
 
@@ -22,13 +20,13 @@ The Board of Directors has tasked you with overhauling and enhancing the securit
 
 After completing this lab, you will be able to:
 
-| # | Objective |
-|---|-----------|
-| 1 | Create a secure network infrastructure diagram |
+| # | Objective                                                            |
+| - | -------------------------------------------------------------------- |
+| 1 | Create a secure network infrastructure diagram                       |
 | 2 | Identify and add critical security components to an existing network |
-| 3 | Design a DMZ with proper segmentation |
-| 4 | Place firewalls at appropriate boundaries |
-| 5 | Add intrusion detection capabilities |
+| 3 | Design a DMZ with proper segmentation                                |
+| 4 | Place firewalls at appropriate boundaries                            |
+| 5 | Add intrusion detection capabilities                                 |
 
 ---
 
@@ -47,6 +45,7 @@ For the purposes of this exercise, you will use a web-based online diagramming t
 #### Step 1: Navigate to Visual Paradigm
 
 Open your web browser and go to:
+
 ```
 https://online.visual-paradigm.com/
 ```
@@ -66,9 +65,12 @@ Locate and click the **Sign up** button on the homepage.
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+![alt text](<../Screenshots/Click Sign Up.png>)
+
 #### Step 3: Select Free Edition
 
 On the Sign-up page:
+
 - Accept the default selection: **Use the Free Edition**
 - Enter a valid email address
 - Click **Sign Up**
@@ -87,9 +89,14 @@ On the Sign-up page:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+![alt text](<../Screenshots/Select Free Edition.png>)
+
+![alt text](<../Screenshots/CAPTCHA verification.png>)
+
 #### Step 4: Access Your Workspace
 
 On the **Welcome to Visual Paradigm!** page:
+
 - Click the **Visit your Visual Paradigm workspace** link
 
 #### Step 5: Home Page Display
@@ -111,6 +118,8 @@ The **Visual Paradigm Online** page will be displayed, showing the main dashboar
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+![alt text](<../Screenshots/Home Page Display.png>)
+
 ---
 
 ## Exercise 2: Review the Existing Network Architecture
@@ -120,6 +129,10 @@ The IT team has shared the diagram of the existing network setup. You need to an
 ### Step 1: Download the Existing Network Diagram
 
 Right-click the link provided in your course materials and select **Save link as…** to download the file containing the existing network diagram. Save the file in a relevant folder on your computer.
+
+![alt text](<../Screenshots/Download the Existing Network Diagram.png>)
+
+![alt text](../Screenshots/crnew.png)
 
 ### Step 2: Import the Downloaded File in Visual Paradigm Online
 
@@ -150,18 +163,24 @@ Right-click the link provided in your course materials and select **Save link as
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+![alt text](<../Screenshots/Import or Open.png>)
+
+![alt text](<../Screenshots/Select the Device.png>)
+
+![alt text](<../Screenshots/Choose the file.png>)
+
 ### Existing Network Components
 
 After importing, the network diagram will display the following components in the current (insecure) layout:
 
-| Component | Symbol | Current Location |
-|-----------|--------|-------------------|
-| **ISP (Internet Service Provider)** | ☁️ Cloud | Internet connection point |
-| **Modem** | 📟 Device | Between ISP and router |
-| **External Router** | 📡 Router | Between modem and switch |
-| **Internal Switch** | 🔌 Switch | Connecting all internal devices |
-| **Wireless Router** | 📶 Wi-Fi | Connected to switch |
-| **LAN (Local Area Network)** | 💻 Computers | Connected to switch |
+| Component                                 | Symbol       | Current Location                |
+| ----------------------------------------- | ------------ | ------------------------------- |
+| **ISP (Internet Service Provider)** | ☁️ Cloud   | Internet connection point       |
+| **Modem**                           | 📟 Device    | Between ISP and router          |
+| **External Router**                 | 📡 Router    | Between modem and switch        |
+| **Internal Switch**                 | 🔌 Switch    | Connecting all internal devices |
+| **Wireless Router**                 | 📶 Wi-Fi     | Connected to switch             |
+| **LAN (Local Area Network)**        | 💻 Computers | Connected to switch             |
 
 ### Current Insecure Diagram (Conceptual)
 
@@ -203,17 +222,19 @@ After importing, the network diagram will display the following components in th
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+![alt text](<../Screenshots/Current Insecure Diagram (Conceptual).png>)
+
 ### Explore Visual Paradigm Online
 
 Take a moment to familiarize yourself with the tool:
 
-| Feature | Location | Function |
-|---------|----------|----------|
-| **Network Icons** | Left toolbar (search bar) | Find firewall, cloud, server shapes |
-| **Text Tool** | Left toolbar | Add labels and annotations |
-| **Image Tool** | Left toolbar | Add custom images |
-| **Diagram Shapes** | Left toolbar | Basic shapes (rectangles, circles, arrows) |
-| **Layer Management** | Right-click shape → Order → Send to Back | Control shape visibility |
+| Feature                    | Location                                   | Function                                   |
+| -------------------------- | ------------------------------------------ | ------------------------------------------ |
+| **Network Icons**    | Left toolbar (search bar)                  | Find firewall, cloud, server shapes        |
+| **Text Tool**        | Left toolbar                               | Add labels and annotations                 |
+| **Image Tool**       | Left toolbar                               | Add custom images                          |
+| **Diagram Shapes**   | Left toolbar                               | Basic shapes (rectangles, circles, arrows) |
+| **Layer Management** | Right-click shape → Order → Send to Back | Control shape visibility                   |
 
 ---
 
@@ -230,6 +251,7 @@ A **DMZ (Demilitarized Zone)** is a separate network segment that sits between t
 #### Task: Add DMZ to the Diagram
 
 Add a DMZ to the network that should include:
+
 - **Web Server** (for public website)
 - **DNS Server** (for domain name resolution)
 
@@ -293,14 +315,15 @@ The DMZ should be **separated from the internal LAN** by firewalls.
 
 #### Why Two Firewalls?
 
-| Firewall | Location | Purpose |
-|----------|----------|---------|
-| **External Firewall** | Between Internet and DMZ | Filters all incoming traffic from the internet |
+| Firewall                    | Location                     | Purpose                                        |
+| --------------------------- | ---------------------------- | ---------------------------------------------- |
+| **External Firewall** | Between Internet and DMZ     | Filters all incoming traffic from the internet |
 | **Internal Firewall** | Between DMZ and Internal LAN | Controls traffic entering the internal network |
 
 #### Task: Add Firewalls
 
 Add two firewalls to the network:
+
 1. One to filter **external traffic** (between Internet and DMZ)
 2. One to filter **internal traffic** (between DMZ and Internal LAN)
 
@@ -387,6 +410,7 @@ An **Intrusion Detection System (IDS)** monitors network traffic for suspicious 
 #### Task: Add IDS
 
 Add an IDS to the network that will:
+
 - Monitor internal network traffic
 - Provide alerts for any malicious activities detected
 
@@ -482,34 +506,34 @@ Add an IDS to the network that will:
 
 ## Final Secure Network Diagram Components Summary
 
-| Component | Symbol | Location | Purpose |
-|-----------|--------|----------|---------|
-| **External Firewall** | ▭ Firewall | Internet ↔ DMZ | Filters incoming internet traffic |
-| **DMZ** | ┌─ dashed ─┐ | Between firewalls | Hosts public-facing services |
-| **Web Server** | 🖥️ Server | Inside DMZ | Hosts public website |
-| **DNS Server** | 🖥️ Server | Inside DMZ | Resolves domain names |
-| **Internal Firewall** | ▭ Firewall | DMZ ↔ Internal | Controls internal access |
-| **Switch** | 🔌 Switch | Internal zone | Connects internal devices |
-| **IDS** | 📊 IDS | Internal zone (monitoring) | Detects and alerts on threats |
-| **Internal Servers** | 🖥️ Server | Internal zone | Internal applications/data |
-| **Workstations** | 💻 PC | Internal zone | Employee computers |
-| **Wireless Router** | 📶 Wi-Fi | Internal zone | Wi-Fi access |
-| **Wi-Fi Devices** | 📱 Devices | Wireless network | Mobile devices |
+| Component                   | Symbol           | Location                   | Purpose                           |
+| --------------------------- | ---------------- | -------------------------- | --------------------------------- |
+| **External Firewall** | ▭ Firewall      | Internet ↔ DMZ            | Filters incoming internet traffic |
+| **DMZ**               | ┌─ dashed ─┐ | Between firewalls          | Hosts public-facing services      |
+| **Web Server**        | 🖥️ Server      | Inside DMZ                 | Hosts public website              |
+| **DNS Server**        | 🖥️ Server      | Inside DMZ                 | Resolves domain names             |
+| **Internal Firewall** | ▭ Firewall      | DMZ ↔ Internal            | Controls internal access          |
+| **Switch**            | 🔌 Switch        | Internal zone              | Connects internal devices         |
+| **IDS**               | 📊 IDS           | Internal zone (monitoring) | Detects and alerts on threats     |
+| **Internal Servers**  | 🖥️ Server      | Internal zone              | Internal applications/data        |
+| **Workstations**      | 💻 PC            | Internal zone              | Employee computers                |
+| **Wireless Router**   | 📶 Wi-Fi         | Internal zone              | Wi-Fi access                      |
+| **Wi-Fi Devices**     | 📱 Devices       | Wireless network           | Mobile devices                    |
 
 ---
 
 ## Before vs. After: Security Comparison
 
-| Security Aspect | BEFORE (Insecure) | AFTER (Secure) |
-|-----------------|-------------------|----------------|
-| **Firewalls** | None | Dual firewalls (External + Internal) |
-| **Web Server Location** | Internal network | DMZ |
-| **DNS Server** | Not present | DMZ |
-| **DMZ** | Not present | Added between firewalls |
-| **IDS/IPS** | None | IDS monitoring internal traffic |
-| **Network Segmentation** | Flat network | Segmented (Internet, DMZ, Internal) |
-| **Internal Traffic Filtering** | None | Internal firewall controls |
-| **Threat Detection** | None | IDS with alerts |
+| Security Aspect                      | BEFORE (Insecure) | AFTER (Secure)                       |
+| ------------------------------------ | ----------------- | ------------------------------------ |
+| **Firewalls**                  | None              | Dual firewalls (External + Internal) |
+| **Web Server Location**        | Internal network  | DMZ                                  |
+| **DNS Server**                 | Not present       | DMZ                                  |
+| **DMZ**                        | Not present       | Added between firewalls              |
+| **IDS/IPS**                    | None              | IDS monitoring internal traffic      |
+| **Network Segmentation**       | Flat network      | Segmented (Internet, DMZ, Internal)  |
+| **Internal Traffic Filtering** | None              | Internal firewall controls           |
+| **Threat Detection**           | None              | IDS with alerts                      |
 
 ---
 
@@ -517,13 +541,13 @@ Add an IDS to the network that will:
 
 Add these text annotations to your diagram:
 
-| Annotation | Location | Text |
-|------------|----------|------|
-| **External Firewall Rule** | Near External Firewall | "Rule: Allow HTTPS (443) and DNS (53) only. Block all other inbound traffic." |
+| Annotation                       | Location               | Text                                                                                   |
+| -------------------------------- | ---------------------- | -------------------------------------------------------------------------------------- |
+| **External Firewall Rule** | Near External Firewall | "Rule: Allow HTTPS (443) and DNS (53) only. Block all other inbound traffic."          |
 | **Internal Firewall Rule** | Near Internal Firewall | "Rule: Allow only DMZ → Internal responses. Block direct DMZ → Internal initiation." |
-| **DMZ Purpose** | Inside DMZ box | "Public-facing services isolated from internal network" |
-| **IDS Function** | Near IDS | "Monitors all internal traffic. Alerts security team of suspicious patterns." |
-| **Encryption Note** | Near Web Server | "All web traffic encrypted with TLS 1.3" |
+| **DMZ Purpose**            | Inside DMZ box         | "Public-facing services isolated from internal network"                                |
+| **IDS Function**           | Near IDS               | "Monitors all internal traffic. Alerts security team of suspicious patterns."          |
+| **Encryption Note**        | Near Web Server        | "All web traffic encrypted with TLS 1.3"                                               |
 
 ---
 
@@ -549,56 +573,58 @@ Add a legend to your completed diagram:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+![alt text](<../Screenshots/Security Diagram.png>)
+
 ---
 
 ## Completion Checklist
 
-| Task | Completed |
-|------|-----------|
-| **Exercise 1: Setup** | ☐ |
-| Signed up for Visual Paradigm Free Edition | ☐ |
-| Accessed Visual Paradigm workspace | ☐ |
-| **Exercise 2: Review Existing Diagram** | ☐ |
-| Downloaded existing network diagram | ☐ |
-| Imported diagram into Visual Paradigm | ☐ |
-| Explored tool features (icons, shapes, layering) | ☐ |
-| **Exercise 3: Build Secure Network** | ☐ |
-| Added DMZ zone to diagram | ☐ |
-| Added Web Server inside DMZ | ☐ |
-| Added DNS Server inside DMZ | ☐ |
-| Added External Firewall (Internet ↔ DMZ) | ☐ |
-| Added Internal Firewall (DMZ ↔ Internal) | ☐ |
-| Added IDS monitoring internal traffic | ☐ |
-| Added security annotations | ☐ |
-| Added legend | ☐ |
-| **Final Review** | ☐ |
-| Saved the completed diagram | ☐ |
-| Exported diagram as PNG/PDF | ☐ |
+| Task                                             | Completed |
+| ------------------------------------------------ | --------- |
+| **Exercise 1: Setup**                      | ☐        |
+| Signed up for Visual Paradigm Free Edition       | ☐        |
+| Accessed Visual Paradigm workspace               | ☐        |
+| **Exercise 2: Review Existing Diagram**    | ☐        |
+| Downloaded existing network diagram              | ☐        |
+| Imported diagram into Visual Paradigm            | ☐        |
+| Explored tool features (icons, shapes, layering) | ☐        |
+| **Exercise 3: Build Secure Network**       | ☐        |
+| Added DMZ zone to diagram                        | ☐        |
+| Added Web Server inside DMZ                      | ☐        |
+| Added DNS Server inside DMZ                      | ☐        |
+| Added External Firewall (Internet ↔ DMZ)        | ☐        |
+| Added Internal Firewall (DMZ ↔ Internal)        | ☐        |
+| Added IDS monitoring internal traffic            | ☐        |
+| Added security annotations                       | ☐        |
+| Added legend                                     | ☐        |
+| **Final Review**                           | ☐        |
+| Saved the completed diagram                      | ☐        |
+| Exported diagram as PNG/PDF                      | ☐        |
 
 ---
 
 ## Troubleshooting Tips
 
-| Issue | Solution |
-|-------|----------|
-| **Can't find firewall icon** | Use search bar in left toolbar and type "firewall" |
-| **Web server hidden behind DMZ box** | Right-click web server → Order → Send to Back |
-| **Can't move shapes** | Click and drag; ensure shape is selected first |
-| **Lost diagram changes** | Visual Paradigm auto-saves; check version history |
-| **Can't add IDS** | Search for "server" and label it as IDS, or search "intrusion" |
+| Issue                                      | Solution                                                       |
+| ------------------------------------------ | -------------------------------------------------------------- |
+| **Can't find firewall icon**         | Use search bar in left toolbar and type "firewall"             |
+| **Web server hidden behind DMZ box** | Right-click web server → Order → Send to Back                |
+| **Can't move shapes**                | Click and drag; ensure shape is selected first                 |
+| **Lost diagram changes**             | Visual Paradigm auto-saves; check version history              |
+| **Can't add IDS**                    | Search for "server" and label it as IDS, or search "intrusion" |
 
 ---
 
 ## Key Takeaways
 
-| Concept | Description |
-|---------|-------------|
-| **DMZ** | A separate network segment for public-facing services |
-| **Dual Firewalls** | External + Internal firewalls create defense-in-depth |
+| Concept                        | Description                                                  |
+| ------------------------------ | ------------------------------------------------------------ |
+| **DMZ**                  | A separate network segment for public-facing services        |
+| **Dual Firewalls**       | External + Internal firewalls create defense-in-depth        |
 | **Network Segmentation** | Separating networks by trust level (Internet, DMZ, Internal) |
-| **IDS** | Monitors traffic and alerts on suspicious activity |
-| **Web Server Placement** | Always in DMZ, never in internal network |
-| **DNS Server Placement** | Public DNS in DMZ for external resolution |
+| **IDS**                  | Monitors traffic and alerts on suspicious activity           |
+| **Web Server Placement** | Always in DMZ, never in internal network                     |
+| **DNS Server Placement** | Public DNS in DMZ for external resolution                    |
 
 ---
 
@@ -606,16 +632,16 @@ Add a legend to your completed diagram:
 
 In this hands-on lab, you have:
 
-| Activity | Completed |
-|----------|-----------|
-| Set up a free Visual Paradigm account | ☐ |
-| Imported an existing insecure network diagram | ☐ |
-| Analyzed the security flaws in the current setup | ☐ |
-| Added a DMZ with Web Server and DNS Server | ☐ |
-| Added an External Firewall between Internet and DMZ | ☐ |
-| Added an Internal Firewall between DMZ and Internal network | ☐ |
-| Added an IDS for internal threat detection | ☐ |
-| Created a complete secure network architecture diagram | ☐ |
+| Activity                                                    | Completed |
+| ----------------------------------------------------------- | --------- |
+| Set up a free Visual Paradigm account                       | ☐        |
+| Imported an existing insecure network diagram               | ☐        |
+| Analyzed the security flaws in the current setup            | ☐        |
+| Added a DMZ with Web Server and DNS Server                  | ☐        |
+| Added an External Firewall between Internet and DMZ         | ☐        |
+| Added an Internal Firewall between DMZ and Internal network | ☐        |
+| Added an IDS for internal threat detection                  | ☐        |
+| Created a complete secure network architecture diagram      | ☐        |
 
 ---
 
@@ -632,6 +658,7 @@ You have successfully completed the **Hands-on Lab: Secure Network Diagram**. Yo
 - Create professional security architecture diagrams
 
 These skills are essential for:
+
 - Security professionals designing secure networks
 - IT administrators implementing defense-in-depth
 - Network architects planning infrastructure upgrades
@@ -641,9 +668,9 @@ These skills are essential for:
 
 ## Additional Resources
 
-| Resource | URL |
-|----------|-----|
-| **Visual Paradigm Online** | https://online.visual-paradigm.com/ |
-| **Visual Paradigm Tutorials** | https://online.visual-paradigm.com/tutorials/ |
-| **Network Diagram Templates** | https://online.visual-paradigm.com/diagrams/templates/ |
-| **NIST Network Security Guidelines** | https://csrc.nist.gov |
+| Resource                                   | URL                                                    |
+| ------------------------------------------ | ------------------------------------------------------ |
+| **Visual Paradigm Online**           | https://online.visual-paradigm.com/                    |
+| **Visual Paradigm Tutorials**        | https://online.visual-paradigm.com/tutorials/          |
+| **Network Diagram Templates**        | https://online.visual-paradigm.com/diagrams/templates/ |
+| **NIST Network Security Guidelines** | https://csrc.nist.gov                                  |
