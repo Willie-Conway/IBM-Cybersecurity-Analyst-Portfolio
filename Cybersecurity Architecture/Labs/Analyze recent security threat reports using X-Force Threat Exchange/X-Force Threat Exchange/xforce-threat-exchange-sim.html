@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X-Force Threat Exchange — Simulation</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg0: #080c12;
+    --bg1: #0d1520;
+    --bg2: #111d2e;
+    --bg3: #162338;
+    --bg4: #1c2d44;
+    --border: rgba(56, 139, 255, 0.12);
+    --border-bright: rgba(56, 139, 255, 0.3);
+    --amber: #f59e0b;
+    --amber-dim: rgba(245, 158, 11, 0.15);
+    --red: #ef4444;
+    --red-dim: rgba(239, 68, 68, 0.12);
+    --green: #22c55e;
+    --green-dim: rgba(34, 197, 94, 0.12);
+    --blue: #3b82f6;
+    --blue-dim: rgba(59, 130, 246, 0.12);
+    --cyan: #06b6d4;
+    --text-primary: #e2e8f0;
+    --text-secondary: #8fa3bf;
+    --text-muted: #4a6880;
+    --accent: #1d6fe8;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg0);
+    color: var(--text-primary);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--bg1);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    margin-right: 32px;
+    letter-spacing: 0.02em;
+  }
+  .logo-icon {
+    width: 30px;
+    height: 30px;
+    background: var(--amber);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .logo span { color: var(--amber); }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { background: var(--bg3); color: var(--text-primary); }
+  .nav-btn.active { background: var(--blue-dim); color: var(--blue); }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .pulse-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+    50% { opacity: 0.8; box-shadow: 0 0 0 4px rgba(34,197,94,0); }
+  }
+  .live-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+  .user-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid var(--border-bright);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    color: var(--cyan);
+  }
+
+  /* LAYOUT */
+  .app-layout { display: flex; height: calc(100vh - 56px); }
+  .sidebar {
+    width: 240px;
+    background: var(--bg1);
+    border-right: 1px solid var(--border);
+    padding: 16px 0;
+    flex-shrink: 0;
+    overflow-y: auto;
+  }
+  .main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+  }
+
+  .sidebar-section { margin-bottom: 4px; }
+  .sidebar-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    padding: 8px 16px 4px;
+    text-transform: uppercase;
+  }
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 400;
+    background: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+    width: 100%;
+    text-align: left;
+    font-family: var(--sans);
+  }
+  .sidebar-item:hover { background: var(--bg2); color: var(--text-primary); }
+  .sidebar-item.active {
+    background: var(--blue-dim);
+    border-left-color: var(--blue);
+    color: var(--blue);
+  }
+  .sidebar-icon { font-size: 15px; flex-shrink: 0; }
+  .sidebar-badge {
+    margin-left: auto;
+    background: var(--red-dim);
+    color: var(--red);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 10px;
+    border: 1px solid rgba(239,68,68,0.2);
+  }
+  .sidebar-badge.blue { background: var(--blue-dim); color: var(--blue); border-color: rgba(59,130,246,0.2); }
+
+  /* PANELS */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .card-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--text-primary);
+    text-transform: uppercase;
+  }
+  .card-body { padding: 18px; }
+
+  /* STAT GRID */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .stat-card.amber::before { background: var(--amber); }
+  .stat-card.red::before { background: var(--red); }
+  .stat-card.green::before { background: var(--green); }
+  .stat-card.blue::before { background: var(--blue); }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .stat-value {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-card.amber .stat-value { color: var(--amber); }
+  .stat-card.red .stat-value { color: var(--red); }
+  .stat-card.green .stat-value { color: var(--green); }
+  .stat-card.blue .stat-value { color: var(--blue); }
+  .stat-delta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .stat-delta .up { color: var(--red); }
+  .stat-delta .dn { color: var(--green); }
+
+  /* GRID LAYOUTS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-7-5 { display: grid; grid-template-columns: 7fr 5fr; gap: 16px; margin-bottom: 16px; }
+
+  /* THREAT FEED */
+  .threat-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    animation: fadeIn 0.3s ease;
+  }
+  .threat-item:last-child { border-bottom: none; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  .threat-severity {
+    flex-shrink: 0;
+    width: 58px;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+  .sev-critical { background: rgba(239,68,68,0.18); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+  .sev-high { background: rgba(245,158,11,0.15); color: var(--amber); border: 1px solid rgba(245,158,11,0.25); }
+  .sev-medium { background: rgba(59,130,246,0.12); color: var(--blue); border: 1px solid rgba(59,130,246,0.2); }
+  .sev-low { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+  .threat-content { flex: 1; min-width: 0; }
+  .threat-title { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 3px; }
+  .threat-meta {
+    display: flex;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .threat-type { color: var(--cyan); }
+  .threat-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    border: 1px solid;
+  }
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #1557c0; }
+  .btn-ghost {
+    background: transparent;
+    border-color: var(--border-bright);
+    color: var(--text-secondary);
+  }
+  .btn-ghost:hover { background: var(--bg3); color: var(--text-primary); }
+  .btn-danger {
+    background: var(--red-dim);
+    border-color: rgba(239,68,68,0.3);
+    color: var(--red);
+  }
+  .btn-danger:hover { background: rgba(239,68,68,0.2); }
+  .btn-xs { padding: 3px 8px; font-size: 11px; }
+
+  /* SEARCH BAR */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    transition: border-color 0.15s;
+  }
+  .search-bar:focus-within { border-color: var(--blue); }
+  .search-bar input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+  .search-bar input::placeholder { color: var(--text-muted); }
+  .search-icon { color: var(--text-muted); font-size: 16px; }
+
+  /* TABLE */
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .data-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--bg2); }
+  .data-table .mono { font-family: var(--mono); font-size: 12px; }
+
+  /* TAGS */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-right: 4px;
+  }
+  .tag-malware { background: rgba(239,68,68,0.14); color: var(--red); }
+  .tag-phishing { background: rgba(245,158,11,0.14); color: var(--amber); }
+  .tag-botnet { background: rgba(168,85,247,0.14); color: #a855f7; }
+  .tag-vuln { background: rgba(59,130,246,0.14); color: var(--blue); }
+  .tag-apt { background: rgba(239,68,68,0.2); color: #ff6b6b; border: 1px solid rgba(239,68,68,0.3); }
+  .tag-scan { background: rgba(6,182,212,0.12); color: var(--cyan); }
+
+  /* RISK METER */
+  .risk-meter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .risk-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--bg3);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .risk-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+  .risk-fill.critical { background: var(--red); }
+  .risk-fill.high { background: var(--amber); }
+  .risk-fill.medium { background: var(--blue); }
+  .risk-fill.low { background: var(--green); }
+  .risk-score {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 28px;
+    text-align: right;
+  }
+
+  /* REPUTATION LOOKUP */
+  .lookup-tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 20px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px;
+  }
+  .lookup-tab {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+  }
+  .lookup-tab.active { background: var(--bg4); color: var(--text-primary); }
+  .lookup-tab:hover:not(.active) { color: var(--text-secondary); }
+
+  .result-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 16px;
+  }
+  .result-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .verdict-badge {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  .verdict-malicious { background: rgba(239,68,68,0.18); color: var(--red); border: 2px solid rgba(239,68,68,0.4); }
+  .verdict-suspicious { background: rgba(245,158,11,0.15); color: var(--amber); border: 2px solid rgba(245,158,11,0.35); }
+  .verdict-clean { background: var(--green-dim); color: var(--green); border: 2px solid rgba(34,197,94,0.3); }
+  .verdict-unknown { background: var(--bg3); color: var(--text-muted); border: 2px solid var(--border); }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .result-field label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 3px;
+  }
+  .result-field .val {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-primary);
+  }
+  .result-field .val.red { color: var(--red); }
+  .result-field .val.amber { color: var(--amber); }
+  .result-field .val.green { color: var(--green); }
+  .result-field .val.cyan { color: var(--cyan); }
+
+  /* REPORT CARDS */
+  .report-card {
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .report-card:hover { border-color: var(--border-bright); background: var(--bg2); }
+  .report-card.expanded { border-color: var(--blue); }
+  .report-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 10px; }
+  .report-category {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+  .report-meta { flex: 1; }
+  .report-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+  .report-subtitle { font-size: 12px; color: var(--text-muted); }
+  .report-stats {
+    display: flex;
+    gap: 20px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .report-stat { text-align: center; }
+  .report-stat-val { font-family: var(--mono); font-size: 18px; font-weight: 600; }
+  .report-stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .report-detail {
+    display: none;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .report-card.expanded .report-detail { display: block; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 20px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px; top: 4px; bottom: 4px;
+    width: 1px;
+    background: var(--border);
+  }
+  .timeline-item { position: relative; margin-bottom: 16px; }
+  .timeline-dot {
+    position: absolute;
+    left: -17px; top: 4px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 2px solid var(--bg0);
+  }
+  .timeline-time {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+  .timeline-content { font-size: 13px; color: var(--text-secondary); }
+
+  /* GEO MAP PLACEHOLDER */
+  .world-map {
+    background: var(--bg2);
+    border-radius: 8px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .map-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--red);
+    animation: mapPulse 2s infinite;
+  }
+  @keyframes mapPulse {
+    0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.6); }
+    70% { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+    100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+  }
+
+  /* COLLECTIONS */
+  .collection-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .collection-item:last-child { border-bottom: none; }
+  .coll-icon {
+    width: 36px; height: 36px;
+    border-radius: 6px;
+    background: var(--blue-dim);
+    border: 1px solid rgba(59,130,246,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.04em;
+  }
+
+  /* SPARKLINE-like bars */
+  .mini-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 30px;
+  }
+  .mini-bar {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    background: var(--blue);
+    opacity: 0.6;
+    min-width: 4px;
+    transition: opacity 0.15s;
+  }
+  .mini-bar:hover { opacity: 1; }
+
+  /* INTEL CATEGORIES */
+  .intel-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid;
+    margin: 3px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .intel-pill:hover { opacity: 0.85; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg0); }
+  ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--bg1);
+    border: 1px solid var(--border-bright);
+    border-radius: 10px;
+    width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .modal-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-title { font-family: var(--mono); font-size: 14px; font-weight: 600; }
+  .modal-close {
+    background: none; border: none; color: var(--text-muted);
+    cursor: pointer; font-size: 20px; line-height: 1;
+  }
+  .modal-close:hover { color: var(--text-primary); }
+  .modal-body { padding: 20px; }
+
+  /* NOTIFICATION */
+  .notif {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    background: var(--bg2);
+    border: 1px solid var(--border-bright);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-primary);
+    z-index: 300;
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+    max-width: 280px;
+  }
+  .notif.show { transform: translateX(0); }
+
+  /* SCORE RING */
+  .score-ring {
+    position: relative;
+    width: 80px; height: 80px;
+    flex-shrink: 0;
+  }
+  .score-ring svg { transform: rotate(-90deg); }
+  .score-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .score-num { font-family: var(--mono); font-size: 18px; font-weight: 700; }
+  .score-sub { font-family: var(--mono); font-size: 9px; color: var(--text-muted); }
+
+  .chip {
+    display: inline-block;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin: 2px;
+  }
+
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">⬡</div>
+    X-FORCE <span>EXCHANGE</span>
+  </div>
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showPanel('dashboard', this)">Dashboard</button>
+    <button class="nav-btn" onclick="showPanel('reports', this)">Threat Reports</button>
+    <button class="nav-btn" onclick="showPanel('lookup', this)">Reputation Lookup</button>
+    <button class="nav-btn" onclick="showPanel('vulnerabilities', this)">Vulnerabilities</button>
+    <button class="nav-btn" onclick="showPanel('collections', this)">Collections</button>
+    <button class="nav-btn" onclick="showPanel('glossary', this)">Glossary</button>
+  </nav>
+  <div class="header-right">
+    <div class="pulse-dot"></div>
+    <span class="live-badge">LIVE FEED</span>
+    <div class="user-avatar">GU</div>
+  </div>
+</header>
+
+<div class="app-layout">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Intelligence</div>
+    <button class="sidebar-item active" onclick="showPanel('dashboard', null, this)">
+      <span class="sidebar-icon">📊</span> Overview
+    </button>
+    <button class="sidebar-item" onclick="showPanel('reports', null, this)">
+      <span class="sidebar-icon">📋</span> Reports
+      <span class="sidebar-badge">12</span>
+    </button>
+    <button class="sidebar-item" onclick="showPanel('lookup', null, this)">
+      <span class="sidebar-icon">🔍</span> Lookup
+    </button>
+    <button class="sidebar-item" onclick="showPanel('vulnerabilities', null, this)">
+      <span class="sidebar-icon">🛡</span> Vulnerabilities
+      <span class="sidebar-badge">3</span>
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">My Workspace</div>
+    <button class="sidebar-item" onclick="showPanel('collections', null, this)">
+      <span class="sidebar-icon">📁</span> Collections
+      <span class="sidebar-badge blue">5</span>
+    </button>
+    <button class="sidebar-item" onclick="showPanel('glossary', null, this)">
+      <span class="sidebar-icon">📖</span> Glossary
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Threat Categories</div>
+    <button class="sidebar-item" onclick="filterFeed('malware')">
+      <span class="sidebar-icon" style="color:var(--red)">◉</span> Malware
+    </button>
+    <button class="sidebar-item" onclick="filterFeed('phishing')">
+      <span class="sidebar-icon" style="color:var(--amber)">◉</span> Phishing
+    </button>
+    <button class="sidebar-item" onclick="filterFeed('botnet')">
+      <span class="sidebar-icon" style="color:#a855f7">◉</span> Botnets
+    </button>
+    <button class="sidebar-item" onclick="filterFeed('apt')">
+      <span class="sidebar-icon" style="color:#ff6b6b">◉</span> APT Groups
+    </button>
+    <button class="sidebar-item" onclick="filterFeed('scanning')">
+      <span class="sidebar-icon" style="color:var(--cyan)">◉</span> Scanning
+    </button>
+  </div>
+  <div style="padding: 16px; margin-top: auto; border-top: 1px solid var(--border);">
+    <div class="sidebar-label" style="padding: 0 0 8px;">Threat Level</div>
+    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 12px; text-align: center;">
+      <div style="font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--amber);">HIGH</div>
+      <div style="font-family: var(--mono); font-size: 10px; color: var(--text-muted); margin-top: 2px;">GLOBAL ALERT</div>
+      <div class="risk-meter" style="margin-top: 8px;">
+        <div class="risk-bar"><div class="risk-fill high" style="width:72%"></div></div>
+        <div class="risk-score" style="color:var(--amber)">7.2</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<!-- ═══════════════ DASHBOARD PANEL ═══════════════ -->
+<div id="panel-dashboard" class="panel active">
+  <!-- Stats Row -->
+  <div class="stat-grid">
+    <div class="stat-card red">
+      <div class="stat-label">Active Threats</div>
+      <div class="stat-value" id="stat-threats">2,847</div>
+      <div class="stat-delta">Past 24h: <span class="up">+14%</span></div>
+    </div>
+    <div class="stat-card amber">
+      <div class="stat-label">Malicious IPs</div>
+      <div class="stat-value">48.2K</div>
+      <div class="stat-delta">Flagged today: <span class="up">+2,341</span></div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Reports Shared</div>
+      <div class="stat-value">1.4M</div>
+      <div class="stat-delta">Community: <span class="dn">+892</span></div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-label">Vulnerabilities</div>
+      <div class="stat-value">316</div>
+      <div class="stat-delta">Critical: <span class="up">28</span></div>
+    </div>
+  </div>
+
+  <div class="grid-7-5">
+    <!-- Live Feed -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Live Threat Feed</span>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div class="pulse-dot"></div>
+          <button class="btn btn-ghost btn-xs" onclick="pauseFeed(this)">Pause</button>
+          <button class="btn btn-ghost btn-xs" onclick="showAllPanel()">View All</button>
+        </div>
+      </div>
+      <div class="card-body" style="padding: 12px 18px;">
+        <div id="threat-feed"></div>
+      </div>
+    </div>
+
+    <!-- Threat Distribution -->
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Threat Distribution</span>
+        </div>
+        <div class="card-body" style="padding:14px 18px;">
+          <div style="position:relative;width:100%;height:200px;">
+            <canvas id="threatDonut" role="img" aria-label="Donut chart of threat types. Malware 34%, Phishing 22%, Botnet 18%, Scanning 14%, APT 12%.">Malware 34%, Phishing 22%, Botnet 18%, Scanning 14%, APT 12%.</canvas>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+            <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-secondary)"><span style="width:10px;height:10px;border-radius:2px;background:#ef4444;display:inline-block;"></span>Malware 34%</span>
+            <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-secondary)"><span style="width:10px;height:10px;border-radius:2px;background:#f59e0b;display:inline-block;"></span>Phishing 22%</span>
+            <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-secondary)"><span style="width:10px;height:10px;border-radius:2px;background:#a855f7;display:inline-block;"></span>Botnet 18%</span>
+            <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-secondary)"><span style="width:10px;height:10px;border-radius:2px;background:#06b6d4;display:inline-block;"></span>Scanning 14%</span>
+            <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-secondary)"><span style="width:10px;height:10px;border-radius:2px;background:#ff6b6b;display:inline-block;"></span>APT 12%</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Top Source Countries</span>
+        </div>
+        <div class="card-body" style="padding:12px 18px;">
+          <div id="country-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Weekly Trend -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Weekly Threat Volume</span>
+        <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">Last 7 days</span>
+      </div>
+      <div class="card-body">
+        <div style="position:relative;width:100%;height:160px;">
+          <canvas id="trendLine" role="img" aria-label="Line chart showing weekly threat volume over 7 days with an upward trend.">Weekly threats: Mon 1800, Tue 2200, Wed 1900, Thu 2800, Fri 3100, Sat 2600, Sun 2847.</canvas>
+        </div>
+      </div>
+    </div>
+    <!-- Top Malware Families -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Top Malware Families</span>
+      </div>
+      <div class="card-body">
+        <div id="malware-families"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ REPORTS PANEL ═══════════════ -->
+<div id="panel-reports" class="panel">
+  <div class="section-header">
+    <div>
+      <div class="section-title">X-Force Threat Analysis Reports</div>
+      <div style="color:var(--text-muted);font-size:12px;margin-top:2px;">Latest intelligence compiled by IBM X-Force research team</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <select style="background:var(--bg2);border:1px solid var(--border);color:var(--text-secondary);padding:6px 10px;border-radius:6px;font-size:12px;font-family:var(--sans);">
+        <option>All Categories</option>
+        <option>Malware</option>
+        <option>APT</option>
+        <option>Vulnerability</option>
+      </select>
+      <button class="btn btn-primary btn-xs" onclick="showNotif('Report submitted to community!')">+ Submit Report</button>
+    </div>
+  </div>
+  <div id="reports-list"></div>
+</div>
+
+<!-- ═══════════════ LOOKUP PANEL ═══════════════ -->
+<div id="panel-lookup" class="panel">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Reputation Lookup</div>
+      <div style="color:var(--text-muted);font-size:12px;margin-top:2px;">Check IP address, URL, file hash, or domain reputation</div>
+    </div>
+  </div>
+
+  <div class="lookup-tabs">
+    <button class="lookup-tab active" onclick="setLookupTab('ip', this)">IP Address</button>
+    <button class="lookup-tab" onclick="setLookupTab('url', this)">URL / Domain</button>
+    <button class="lookup-tab" onclick="setLookupTab('hash', this)">File Hash</button>
+    <button class="lookup-tab" onclick="setLookupTab('vuln', this)">CVE Lookup</button>
+  </div>
+
+  <div class="search-bar">
+    <span class="search-icon" id="lookup-placeholder-icon">🌐</span>
+    <input type="text" id="lookup-input" placeholder="Enter IP address (e.g. 185.220.101.47)" onkeydown="if(event.key==='Enter')doLookup()">
+    <button class="btn btn-primary" onclick="doLookup()">Lookup →</button>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;" id="sample-queries">
+    <span style="font-size:12px;color:var(--text-muted);margin-right:4px;">Try:</span>
+  </div>
+
+  <div id="lookup-result" style="display:none;"></div>
+</div>
+
+<!-- ═══════════════ VULNERABILITIES PANEL ═══════════════ -->
+<div id="panel-vulnerabilities" class="panel">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Vulnerability Intelligence</div>
+      <div style="color:var(--text-muted);font-size:12px;margin-top:2px;">CVSS-scored vulnerabilities with exploit intelligence</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <span class="tag tag-malware" style="font-size:11px;">28 Critical</span>
+      <span class="tag tag-phishing" style="font-size:11px;">84 High</span>
+    </div>
+  </div>
+  <div id="vuln-list"></div>
+</div>
+
+<!-- ═══════════════ COLLECTIONS PANEL ═══════════════ -->
+<div id="panel-collections" class="panel">
+  <div class="section-header">
+    <div>
+      <div class="section-title">My Collections</div>
+      <div style="color:var(--text-muted);font-size:12px;margin-top:2px;">Saved threat intelligence and watchlists</div>
+    </div>
+    <button class="btn btn-primary btn-xs" onclick="showNotif('New collection created!')">+ New Collection</button>
+  </div>
+  <div id="collections-list"></div>
+</div>
+
+<!-- ═══════════════ GLOSSARY PANEL ═══════════════ -->
+<div id="panel-glossary" class="panel">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Security Glossary</div>
+      <div style="color:var(--text-muted);font-size:12px;margin-top:2px;">Detection, response, access management & network security terms</div>
+    </div>
+  </div>
+  <div class="search-bar" style="margin-bottom:16px;">
+    <span class="search-icon">🔍</span>
+    <input type="text" placeholder="Search glossary terms..." oninput="filterGlossary(this.value)">
+  </div>
+  <div id="glossary-content"></div>
+</div>
+
+</main>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif"></div>
+
+<script>
+const THREATS = [
+  { sev:'CRITICAL', title:'Emotet Botnet Resurgence — 47 new C2 nodes detected', type:'botnet', time:'2 min ago', ioc:'185.220.101.47', region:'EU' },
+  { sev:'HIGH', title:'Spear-phishing campaign targeting financial sector (TA505)', type:'phishing', time:'8 min ago', ioc:'malicious-invoice.xyz', region:'NA' },
+  { sev:'CRITICAL', title:'REvil ransomware variant with new evasion techniques', type:'malware', time:'15 min ago', ioc:'SHA256: a3f7c9...', region:'APAC' },
+  { sev:'HIGH', title:'Large-scale port scanning from Tor exit nodes — 2,847 IPs', type:'scanning', time:'22 min ago', ioc:'Multiple IPs', region:'Global' },
+  { sev:'MEDIUM', title:'Lazarus Group infrastructure update — new proxy layer', type:'apt', time:'31 min ago', ioc:'104.21.67.83', region:'APAC' },
+  { sev:'CRITICAL', title:'Log4Shell exploit attempts spiking — CVE-2021-44228', type:'malware', time:'38 min ago', ioc:'45.142.212.100', region:'Global' },
+  { sev:'HIGH', title:'BEC campaign impersonating C-level executives at 200+ firms', type:'phishing', time:'45 min ago', ioc:'exec-reply.com', region:'NA' },
+  { sev:'MEDIUM', title:'Mirai variant targeting IoT routers with default credentials', type:'botnet', time:'1h ago', ioc:'192.168.x.x/14', region:'EU' },
+  { sev:'LOW', title:'Credential stuffing attack on SaaS login portals', type:'scanning', time:'1h 20min ago', ioc:'Multiple', region:'Global' },
+  { sev:'HIGH', title:'APT41 deploying new backdoor against defense contractors', type:'apt', time:'2h ago', ioc:'update-srv.net', region:'NA' },
+];
+
+const COUNTRIES = [
+  { name:'China', count:18420, pct:32 },
+  { name:'Russia', count:12800, pct:22 },
+  { name:'United States', count:9800, pct:17 },
+  { name:'Brazil', count:5600, pct:10 },
+  { name:'India', count:4200, pct:7 },
+  { name:'Netherlands', count:3100, pct:5 },
+  { name:'Germany', count:2700, pct:5 },
+];
+
+const MALWARE_FAMILIES = [
+  { name:'Emotet', count:8432, delta:'+23%', sev:'critical' },
+  { name:'TrickBot', count:6218, delta:'+11%', sev:'high' },
+  { name:'REvil/Sodinokibi', count:4890, delta:'+38%', sev:'critical' },
+  { name:'Cobalt Strike', count:3721, delta:'+5%', sev:'high' },
+  { name:'QakBot', count:2944, delta:'+17%', sev:'high' },
+];
+
+const REPORTS = [
+  {
+    id: 1, icon:'🔴', iconBg:'rgba(239,68,68,0.12)', category:'APT Campaign',
+    title:'Operation ShadowHammer 2.0 — Supply Chain Attack Targeting APAC Defense',
+    subtitle:'IBM X-Force Research · Published Apr 24, 2026 · TLP:AMBER',
+    tlp: 'AMBER', tags:['apt','malware','supply-chain'],
+    indicators: 42, victims: 18, cvss: '9.1',
+    summary:'A sophisticated nation-state actor has compromised software update mechanisms of three defense-sector vendors across Japan, South Korea, and Australia. The campaign uses a modular implant dubbed "GHOST-HAMMER" featuring anti-analysis techniques and encrypted C2 over HTTPS.',
+    iocs:['185.220.101.47','update-defense.net','sha256:a3f7c9d8e1...','sha256:bc829fe3d2...'],
+    timeline:[
+      { time:'Apr 22 03:14 UTC', event:'Initial compromise of build server via CVE-2024-3400' },
+      { time:'Apr 22 09:42 UTC', event:'Trojanized update package signed and distributed to 1,847 endpoints' },
+      { time:'Apr 23 16:18 UTC', event:'C2 beacon established from 18 victim organizations' },
+      { time:'Apr 24 08:00 UTC', event:'IBM X-Force notifies affected vendors and government CERTs' },
+    ]
+  },
+  {
+    id: 2, icon:'🟡', iconBg:'rgba(245,158,11,0.12)', category:'Ransomware',
+    title:'BlackMatter Ransomware: New Encryptor Variant Bypasses EDR Solutions',
+    subtitle:'IBM X-Force Threat Intelligence · Published Apr 23, 2026 · TLP:WHITE',
+    tlp: 'WHITE', tags:['malware','ransomware','edr-bypass'],
+    indicators: 31, victims: 94, cvss: '8.8',
+    summary:'BlackMatter operators have deployed a new encryptor variant that exploits a kernel driver vulnerability to terminate EDR processes before initiating encryption. The variant targets ESXi hypervisors and uses intermittent encryption to evade behavioral detection.',
+    iocs:['91.108.4.77','blackmatter-pay.onion','sha256:f8e29bcd44...'],
+    timeline:[
+      { time:'Apr 21 22:00 UTC', event:'First observed in the wild targeting healthcare sector' },
+      { time:'Apr 22 14:30 UTC', event:'94 organizations impacted across 12 countries' },
+      { time:'Apr 23 09:00 UTC', event:'Ransom demands averaging $4.2M per victim' },
+    ]
+  },
+  {
+    id: 3, icon:'🔵', iconBg:'rgba(59,130,246,0.12)', category:'Vulnerability',
+    title:'Critical Apache Struts RCE — CVE-2026-1941 Actively Exploited in the Wild',
+    subtitle:'IBM X-Force Vulnerability Research · Published Apr 22, 2026 · TLP:WHITE',
+    tlp: 'WHITE', tags:['vuln','rce','apache'],
+    indicators: 17, victims: 340, cvss: '9.8',
+    summary:'A critical remote code execution vulnerability in Apache Struts 2 (versions 2.5.0–2.5.32) is being mass-exploited. Proof-of-concept code is publicly available and threat actors are deploying web shells and cryptocurrency miners within 4 hours of server exposure.',
+    iocs:['CVE-2026-1941','45.142.212.100','103.27.202.81'],
+    timeline:[
+      { time:'Apr 20 00:00 UTC', event:'Vulnerability silently disclosed to Apache' },
+      { time:'Apr 21 11:00 UTC', event:'Patch released: Struts 2.5.33' },
+      { time:'Apr 21 15:00 UTC', event:'Mass exploitation begins — 340 confirmed victims' },
+    ]
+  },
+  {
+    id: 4, icon:'🟠', iconBg:'rgba(251,146,60,0.12)', category:'Phishing',
+    title:'TA505 QR Code Phishing Campaign Targeting Fortune 500 Executives',
+    subtitle:'IBM X-Force Research · Published Apr 21, 2026 · TLP:GREEN',
+    tlp: 'GREEN', tags:['phishing','bec','qr-code'],
+    indicators: 28, victims: 67, cvss: '6.5',
+    summary:'TA505 is conducting a targeted spear-phishing campaign using QR codes embedded in PDFs to redirect victims to credential-harvesting pages that bypass multi-factor authentication using adversary-in-the-middle proxies.',
+    iocs:['secure-docusign-verify.com','qr-auth-portal.net','104.21.67.83'],
+    timeline:[
+      { time:'Apr 18 08:00 UTC', event:'Campaign first observed via email telemetry' },
+      { time:'Apr 19 12:00 UTC', event:'67 executives across Finance and Tech sectors targeted' },
+      { time:'Apr 21 09:00 UTC', event:'Phishing domains sinkholed by IBM X-Force' },
+    ]
+  },
+];
+
+const VULNS = [
+  { cve:'CVE-2026-1941', product:'Apache Struts 2', cvss:9.8, type:'RCE', status:'Exploited', patch:'Available' },
+  { cve:'CVE-2026-0823', product:'Palo Alto PAN-OS', cvss:9.3, type:'Auth Bypass', status:'Exploited', patch:'Available' },
+  { cve:'CVE-2025-44228', product:'VMware ESXi 8.x', cvss:9.1, type:'Privilege Esc.', status:'PoC Public', patch:'Available' },
+  { cve:'CVE-2025-3400', product:'GlobalProtect VPN', cvss:10.0, type:'RCE', status:'Exploited', patch:'Available' },
+  { cve:'CVE-2026-2183', product:'Citrix ADC', cvss:8.8, type:'SSRF', status:'PoC Public', patch:'In Progress' },
+  { cve:'CVE-2026-1090', product:'Fortinet FortiOS', cvss:8.6, type:'Path Traversal', status:'Reported', patch:'Available' },
+  { cve:'CVE-2025-9844', product:'Microsoft Exchange', cvss:8.2, type:'SSRF → RCE', status:'Exploited', patch:'Available' },
+  { cve:'CVE-2026-0341', product:'OpenSSH 9.x', cvss:7.8, type:'Memory Corruption', status:'PoC Public', patch:'In Progress' },
+];
+
+const COLLECTIONS = [
+  { icon:'🎯', name:'APT Watchlist Q2 2026', desc:'Tracked nation-state actor indicators', items:47, updated:'2h ago', color:'var(--red)' },
+  { icon:'🏥', name:'Healthcare Sector Threats', desc:'Ransomware and data theft campaigns', items:31, updated:'1d ago', color:'var(--amber)' },
+  { icon:'🌐', name:'Infrastructure IOCs', desc:'Critical infrastructure threat indicators', items:89, updated:'4h ago', color:'var(--blue)' },
+  { icon:'🔐', name:'Credential Theft Campaign', desc:'Active phishing and credential harvesting', items:23, updated:'3d ago', color:'var(--cyan)' },
+  { icon:'📧', name:'BEC Intelligence Feed', desc:'Business email compromise actors', items:15, updated:'5d ago', color:'#a855f7' },
+];
+
+const GLOSSARY_TERMS = [
+  { term:'Case Management', def:'Allows organizations to track, manage, and resolve cybersecurity incidents.', cat:'Detection & Response' },
+  { term:'EDR (Endpoint Detection & Response)', def:'Software designed to automatically protect end users, endpoint devices, and IT assets against cyber threats that bypass antivirus software.', cat:'Detection & Response' },
+  { term:'XDR (Extended Detection & Response)', def:'An open cybersecurity architecture that integrates security tools and unifies security operations across all security layers including users, endpoints, email, and cloud workloads.', cat:'Detection & Response' },
+  { term:'SIEM', def:'Security Information and Event Management — a security solution that helps organizations recognize and address potential security threats before they disrupt business operations.', cat:'Detection & Response' },
+  { term:'SOAR', def:'Security Orchestration, Automation and Response — helps security teams integrate security tools, automate repetitive tasks, and optimize incident response.', cat:'Detection & Response' },
+  { term:'Threat Hunting', def:'A proactive approach to identifying previously unknown or ongoing non-remediated threats within an organization\'s network.', cat:'Detection & Response' },
+  { term:'Mean Time to Contain (MTTC)', def:'Time taken to fix and repair the system from an attack after identification.', cat:'Metrics' },
+  { term:'Mean Time to Identify (MTTI)', def:'Tracks the number of business hours between an alert trigger and the start of investigation.', cat:'Metrics' },
+  { term:'IAM (Identity Access Management)', def:'A cybersecurity discipline that manages user identities and access permissions — ensuring the right users have right access at the right time.', cat:'Access Management' },
+  { term:'PAM (Privileged Access Management)', def:'Keeps business secure by managing privileged accounts that have elevated permissions to critical systems.', cat:'Access Management' },
+  { term:'SSO (Single Sign-On)', def:'An authentication scheme enabling users to log in once and gain access to multiple related applications without logging in again.', cat:'Access Management' },
+  { term:'Zero Trust', def:'A security framework requiring all users, inside or outside the network perimeter, to be authenticated and continuously validated.', cat:'Access Management' },
+  { term:'DMZ (Demilitarized Zone)', def:'A network configuration with multiple firewalls that adds protection layers between a corporate intranet and a public network like the Internet.', cat:'Network Security' },
+  { term:'WAF (Web Application Firewall)', def:'Helps protect web applications by filtering and monitoring HTTP traffic between a web application and the internet.', cat:'Network Security' },
+  { term:'IDS/IPS', def:'Intrusion Detection/Prevention Systems — monitor network traffic for suspicious activity and can automatically block detected threats.', cat:'Network Security' },
+  { term:'VPN (Virtual Private Network)', def:'Allows secure extension of a private intranet over the internet framework with authentication and data encryption.', cat:'Network Security' },
+  { term:'DevSecOps', def:'Development, Security, and Operations — automates security integration at every phase of the software development lifecycle.', cat:'Application Security' },
+  { term:'DAST', def:'Dynamic Application Security Testing — black-box method testing live web applications from an attacker\'s perspective.', cat:'Application Security' },
+  { term:'SAST', def:'Static Application Security Testing — security testing performed without executing the target application.', cat:'Application Security' },
+  { term:'OWASP Top 10', def:'The Open Web Application Security Project\'s standard awareness document listing the most critical security risks to web applications.', cat:'Application Security' },
+];
+
+const SAMPLE_QUERIES = {
+  ip: ['185.220.101.47', '45.142.212.100', '8.8.8.8', '104.21.67.83'],
+  url: ['malicious-invoice.xyz', 'google.com', 'secure-login-bank.tk', 'github.com'],
+  hash: ['a3f7c9d8e1f2b3c4d5e6f7a8b9c0d1e2', 'f8e29bcd44a1b2c3d4e5f6a7b8c9d0e1', '44d88612fea8a8f36de82e1278abb02f'],
+  vuln: ['CVE-2026-1941', 'CVE-2025-44228', 'CVE-2026-0823'],
+};
+
+const IP_DATA = {
+  '185.220.101.47': { verdict:'malicious', score:9.4, country:'Germany', org:'Tor Exit Node', type:'Tor Exit', reports:1847, categories:['C2','Botnet','Scanning'], lastSeen:'2 min ago', firstSeen:'Jan 2024', asn:'AS24940', ports:'80,443,9001' },
+  '45.142.212.100': { verdict:'malicious', score:8.7, country:'Netherlands', org:'Frantech Solutions', type:'VPS/Proxy', reports:923, categories:['Exploit','Scanning'], lastSeen:'38 min ago', firstSeen:'Mar 2025', asn:'AS59642', ports:'80,443,8080' },
+  '104.21.67.83': { verdict:'suspicious', score:4.2, country:'United States', org:'Cloudflare Inc', type:'CDN', reports:12, categories:['Hosting'], lastSeen:'1h ago', firstSeen:'Oct 2024', asn:'AS13335', ports:'80,443' },
+  '8.8.8.8': { verdict:'clean', score:0.1, country:'United States', org:'Google LLC', type:'DNS Server', reports:0, categories:['Legitimate'], lastSeen:'Active', firstSeen:'2009', asn:'AS15169', ports:'53' },
+};
+
+const URL_DATA = {
+  'malicious-invoice.xyz': { verdict:'malicious', score:9.8, category:'Phishing/Malware', registrar:'Namecheap', created:'2026-04-18', ip:'185.220.101.47', malwareFamily:'Emotet', detections:34 },
+  'secure-login-bank.tk': { verdict:'malicious', score:9.6, category:'Phishing', registrar:'.TK Domain', created:'2026-04-20', ip:'92.118.37.102', malwareFamily:'Credential Theft', detections:28 },
+  'google.com': { verdict:'clean', score:0.0, category:'Search Engine', registrar:'MarkMonitor', created:'1997-09-15', ip:'142.250.80.46', malwareFamily:'None', detections:0 },
+  'github.com': { verdict:'clean', score:0.0, category:'Code Repository', registrar:'MarkMonitor', created:'2007-10-09', ip:'140.82.113.4', malwareFamily:'None', detections:0 },
+};
+
+const HASH_DATA = {
+  'a3f7c9d8e1f2b3c4d5e6f7a8b9c0d1e2': { verdict:'malicious', score:9.7, name:'GHOST-HAMMER.exe', type:'PE32 Executable', size:'245 KB', family:'APT Implant', packer:'UPX', detections:'28/72 AV engines', compiled:'Apr 21 2026', tlp:'AMBER' },
+  'f8e29bcd44a1b2c3d4e5f6a7b8c9d0e1': { verdict:'malicious', score:9.2, name:'blackmatter_enc.exe', type:'PE32+ Executable', size:'892 KB', family:'BlackMatter Ransomware', packer:'Custom', detections:'41/72 AV engines', compiled:'Apr 19 2026', tlp:'WHITE' },
+  '44d88612fea8a8f36de82e1278abb02f': { verdict:'clean', score:0.0, name:'eicar_test.com', type:'EICAR Test File', size:'68 B', family:'Test File', packer:'None', detections:'0/72 AV engines', compiled:'N/A', tlp:'WHITE' },
+};
+
+let feedPaused = false;
+let feedInterval;
+let currentLookupType = 'ip';
+
+function showPanel(name, navBtn, sideBtn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  if (navBtn) {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    navBtn.classList.add('active');
+  }
+  if (sideBtn) {
+    document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
+    sideBtn.classList.add('active');
+  }
+}
+
+function showAllPanel() { showPanel('reports', document.querySelectorAll('.nav-btn')[1]); }
+
+function renderFeed(filter) {
+  const feed = document.getElementById('threat-feed');
+  if (!feed) return;
+  const items = filter ? THREATS.filter(t => t.type === filter) : THREATS.slice(0, 6);
+  feed.innerHTML = items.map(t => `
+    <div class="threat-item">
+      <span class="threat-severity sev-${t.sev.toLowerCase()}">${t.sev}</span>
+      <div class="threat-content">
+        <div class="threat-title">${t.title}</div>
+        <div class="threat-meta">
+          <span class="threat-type">${t.type.toUpperCase()}</span>
+          <span>${t.ioc}</span>
+          <span>${t.time}</span>
+          <span style="color:var(--text-muted)">${t.region}</span>
+        </div>
+      </div>
+      <div class="threat-actions">
+        <button class="btn btn-ghost btn-xs" onclick="showNotif('Added to collection!')">+ Save</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterFeed(type) {
+  showPanel('dashboard');
+  renderFeed(type);
+}
+
+function pauseFeed(btn) {
+  feedPaused = !feedPaused;
+  btn.textContent = feedPaused ? 'Resume' : 'Pause';
+  if (feedPaused) { clearInterval(feedInterval); }
+  else { startFeedRotation(); }
+}
+
+let feedIndex = 0;
+function startFeedRotation() {
+  feedInterval = setInterval(() => {
+    if (feedPaused) return;
+    feedIndex = (feedIndex + 1) % THREATS.length;
+    renderFeed(null);
+  }, 8000);
+}
+
+function renderCountries() {
+  const el = document.getElementById('country-list');
+  if (!el) return;
+  el.innerHTML = COUNTRIES.map(c => `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <span style="font-size:12px;color:var(--text-secondary);min-width:100px;">${c.name}</span>
+      <div class="risk-bar" style="flex:1;">
+        <div class="risk-fill high" style="width:${c.pct * 3}%;background:var(--amber);"></div>
+      </div>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted);min-width:38px;text-align:right;">${c.count.toLocaleString()}</span>
+    </div>
+  `).join('');
+}
+
+function renderMalwareFamilies() {
+  const el = document.getElementById('malware-families');
+  if (!el) return;
+  el.innerHTML = MALWARE_FAMILIES.map((m, i) => `
+    <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted);min-width:16px;">${i+1}</span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:2px;">${m.name}</div>
+        <div class="risk-meter">
+          <div class="risk-bar">
+            <div class="risk-fill ${m.sev}" style="width:${Math.round(m.count/8432*100)}%"></div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:var(--mono);font-size:12px;color:var(--text-primary);">${m.count.toLocaleString()}</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--red);">${m.delta}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderReports() {
+  const el = document.getElementById('reports-list');
+  if (!el) return;
+  el.innerHTML = REPORTS.map(r => `
+    <div class="report-card" id="report-${r.id}" onclick="toggleReport(${r.id})">
+      <div class="report-header">
+        <div class="report-category" style="background:${r.iconBg}">${r.icon}</div>
+        <div class="report-meta">
+          <div class="report-title">${r.title}</div>
+          <div class="report-subtitle">${r.subtitle}</div>
+          <div style="margin-top:6px;">
+            ${r.tags.map(t => `<span class="tag tag-${t==='vuln'?'vuln':t==='phishing'?'phishing':t==='botnet'?'botnet':t==='apt'?'apt':t==='malware'?'malware':'scan'}">${t}</span>`).join('')}
+            <span style="display:inline-block;padding:2px 8px;border-radius:4px;font-family:var(--mono);font-size:10px;background:rgba(6,182,212,0.1);color:var(--cyan);margin-left:4px;">TLP:${r.tlp}</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-shrink:0;">
+          <button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();showNotif('Report saved to collections!')">Save</button>
+          <button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();showNotif('Report shared!')">Share</button>
+        </div>
+      </div>
+      <div class="report-stats">
+        <div class="report-stat">
+          <div class="report-stat-val" style="color:var(--red)">${r.indicators}</div>
+          <div class="report-stat-lbl">IOCs</div>
+        </div>
+        <div class="report-stat">
+          <div class="report-stat-val" style="color:var(--amber)">${r.victims}</div>
+          <div class="report-stat-lbl">Victims</div>
+        </div>
+        <div class="report-stat">
+          <div class="report-stat-val" style="color:${parseFloat(r.cvss)>=9?'var(--red)':parseFloat(r.cvss)>=7?'var(--amber)':'var(--blue)'}">${r.cvss}</div>
+          <div class="report-stat-lbl">CVSS</div>
+        </div>
+      </div>
+      <div class="report-detail">
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;line-height:1.7;">${r.summary}</p>
+        <div class="grid-2" style="margin-bottom:16px;">
+          <div>
+            <div style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:8px;">Key IOCs</div>
+            ${r.iocs.map(ioc => `<div class="chip">${ioc}</div>`).join('')}
+          </div>
+          <div>
+            <div style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:8px;">Timeline</div>
+            <div class="timeline">
+              ${r.timeline.map(t => `
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-time">${t.time}</div>
+                  <div class="timeline-content">${t.event}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-primary btn-xs" onclick="event.stopPropagation();showNotif('Full report opened in new context!')">Full Report</button>
+          <button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();showNotif('IOCs exported!')">Export IOCs</button>
+          <button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();showNotif('Added to watchlist!')">Add to Watchlist</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleReport(id) {
+  const card = document.getElementById('report-' + id);
+  card.classList.toggle('expanded');
+}
+
+function renderVulns() {
+  const el = document.getElementById('vuln-list');
+  if (!el) return;
+  const cvssColor = s => s >= 9 ? 'var(--red)' : s >= 7 ? 'var(--amber)' : s >= 4 ? 'var(--blue)' : 'var(--green)';
+  el.innerHTML = `
+    <div class="card">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>CVE ID</th>
+            <th>Product</th>
+            <th>CVSS Score</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Patch</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${VULNS.map(v => `
+            <tr>
+              <td class="mono" style="color:var(--cyan);cursor:pointer;" onclick="showNotif('Loading CVE details...')">${v.cve}</td>
+              <td>${v.product}</td>
+              <td>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div class="risk-bar" style="width:60px;">
+                    <div class="risk-fill" style="width:${v.cvss*10}%;background:${cvssColor(v.cvss)};"></div>
+                  </div>
+                  <span style="font-family:var(--mono);font-size:12px;color:${cvssColor(v.cvss)};font-weight:600;">${v.cvss}</span>
+                </div>
+              </td>
+              <td><span class="tag tag-vuln">${v.type}</span></td>
+              <td style="color:${v.status==='Exploited'?'var(--red)':v.status==='PoC Public'?'var(--amber)':'var(--green)'};">${v.status}</td>
+              <td style="color:${v.patch==='Available'?'var(--green)':'var(--amber)'};">${v.patch}</td>
+              <td><button class="btn btn-ghost btn-xs" onclick="showNotif('CVE-${v.cve} added to watchlist!')">Track</button></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderCollections() {
+  const el = document.getElementById('collections-list');
+  if (!el) return;
+  el.innerHTML = `
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-body">
+        ${COLLECTIONS.map(c => `
+          <div class="collection-item">
+            <div class="coll-icon" style="background:${c.color}22;border-color:${c.color}33;color:${c.color};">${c.icon}</div>
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:2px;">${c.name}</div>
+              <div style="font-size:12px;color:var(--text-muted);">${c.desc}</div>
+            </div>
+            <div style="text-align:right;margin-right:12px;">
+              <div style="font-family:var(--mono);font-size:14px;font-weight:600;color:${c.color};">${c.items}</div>
+              <div style="font-size:11px;color:var(--text-muted);">items</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:11px;color:var(--text-muted);">Updated ${c.updated}</div>
+              <div style="margin-top:4px;display:flex;gap:4px;justify-content:flex-end;">
+                <button class="btn btn-ghost btn-xs" onclick="showNotif('Collection opened!')">Open</button>
+                <button class="btn btn-ghost btn-xs" onclick="showNotif('Sharing link copied!')">Share</button>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Watchlist Alerts</span></div>
+      <div class="card-body">
+        <p style="color:var(--text-muted);font-size:13px;">Set up alerts for new intelligence matching your saved IOCs, threat actors, or vulnerability tags.</p>
+        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+          ${['Emotet activity','APT41 IOCs','Apache Struts vulns','Ransomware targeting healthcare'].map(w => `
+            <div style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;display:flex;align-items:center;gap:8px;">
+              <div class="pulse-dot" style="width:6px;height:6px;flex-shrink:0;"></div>
+              <span style="font-size:12px;">${w}</span>
+              <button style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;" onclick="showNotif('Alert removed!')">×</button>
+            </div>
+          `).join('')}
+          <button class="btn btn-ghost btn-xs" onclick="showNotif('New alert created!')">+ Add Alert</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+let glossaryAll = [...GLOSSARY_TERMS];
+function renderGlossary(terms) {
+  const el = document.getElementById('glossary-content');
+  if (!el) return;
+  const categories = [...new Set(terms.map(t => t.cat))];
+  el.innerHTML = categories.map(cat => `
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">${cat}</span>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <table class="data-table">
+          <tbody>
+            ${terms.filter(t => t.cat === cat).map(t => `
+              <tr>
+                <td style="width:220px;font-weight:500;color:var(--text-primary);font-size:13px;">${t.term}</td>
+                <td style="font-size:13px;color:var(--text-secondary);line-height:1.6;">${t.def}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterGlossary(q) {
+  const filtered = q ? glossaryAll.filter(t =>
+    t.term.toLowerCase().includes(q.toLowerCase()) ||
+    t.def.toLowerCase().includes(q.toLowerCase())
+  ) : glossaryAll;
+  renderGlossary(filtered);
+}
+
+function setLookupTab(type, btn) {
+  currentLookupType = type;
+  document.querySelectorAll('.lookup-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const input = document.getElementById('lookup-input');
+  const icon = document.getElementById('lookup-placeholder-icon');
+  const hints = { ip:'Enter IP address (e.g. 185.220.101.47)', url:'Enter URL or domain (e.g. malicious-invoice.xyz)', hash:'Enter file hash (MD5/SHA256)', vuln:'Enter CVE ID (e.g. CVE-2026-1941)' };
+  const icons = { ip:'🌐', url:'🔗', hash:'#️⃣', vuln:'🛡' };
+  input.placeholder = hints[type];
+  icon.textContent = icons[type];
+  input.value = '';
+  document.getElementById('lookup-result').style.display = 'none';
+  renderSampleQueries();
+}
+
+function renderSampleQueries() {
+  const el = document.getElementById('sample-queries');
+  if (!el) return;
+  const samples = SAMPLE_QUERIES[currentLookupType] || [];
+  el.innerHTML = '<span style="font-size:12px;color:var(--text-muted);margin-right:4px;">Try:</span>' +
+    samples.map(s => `<button class="btn btn-ghost btn-xs" onclick="quickLookup('${s}')">${s}</button>`).join('');
+}
+
+function quickLookup(val) {
+  document.getElementById('lookup-input').value = val;
+  doLookup();
+}
+
+function doLookup() {
+  const val = document.getElementById('lookup-input').value.trim();
+  if (!val) return;
+  const result = document.getElementById('lookup-result');
+  result.style.display = 'block';
+  if (currentLookupType === 'ip') renderIPResult(val);
+  else if (currentLookupType === 'url') renderURLResult(val);
+  else if (currentLookupType === 'hash') renderHashResult(val);
+  else if (currentLookupType === 'vuln') renderVulnResult(val);
+}
+
+function renderIPResult(ip) {
+  const data = IP_DATA[ip] || { verdict:'unknown', score:0, country:'Unknown', org:'Unknown', type:'Unknown', reports:0, categories:[], lastSeen:'N/A', firstSeen:'N/A', asn:'Unknown', ports:'N/A' };
+  const el = document.getElementById('lookup-result');
+  const scoreColor = data.score >= 7 ? 'var(--red)' : data.score >= 4 ? 'var(--amber)' : 'var(--green)';
+  el.innerHTML = `
+    <div class="result-card">
+      <div class="result-header">
+        <div>
+          <div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--text-primary);">${ip}</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">${data.org} · ${data.country}</div>
+        </div>
+        <span class="verdict-badge verdict-${data.verdict}">${data.verdict.toUpperCase()}</span>
+        <div class="score-ring">
+          <svg width="80" height="80">
+            <circle cx="40" cy="40" r="32" fill="none" stroke="var(--bg3)" stroke-width="6"/>
+            <circle cx="40" cy="40" r="32" fill="none" stroke="${scoreColor}" stroke-width="6"
+              stroke-dasharray="${Math.round(2 * Math.PI * 32)}" stroke-dashoffset="${Math.round(2 * Math.PI * 32 * (1 - data.score/10))}"
+              stroke-linecap="round"/>
+          </svg>
+          <div class="score-text">
+            <div class="score-num" style="color:${scoreColor}">${data.score}</div>
+            <div class="score-sub">RISK</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-grid">
+        <div class="result-field"><label>ASN</label><div class="val cyan">${data.asn}</div></div>
+        <div class="result-field"><label>IP Type</label><div class="val">${data.type}</div></div>
+        <div class="result-field"><label>Country</label><div class="val">${data.country}</div></div>
+        <div class="result-field"><label>Open Ports</label><div class="val">${data.ports}</div></div>
+        <div class="result-field"><label>First Seen</label><div class="val">${data.firstSeen}</div></div>
+        <div class="result-field"><label>Last Seen</label><div class="val">${data.lastSeen}</div></div>
+        <div class="result-field"><label>Reports</label><div class="val ${data.reports>0?'red':''}">${data.reports.toLocaleString()} reports</div></div>
+        <div class="result-field"><label>Categories</label><div class="val">${data.categories.map(c => `<span class="chip">${c}</span>`).join('')}</div></div>
+      </div>
+      <div class="divider"></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost btn-xs" onclick="showNotif('IP added to watchlist!')">+ Watchlist</button>
+        <button class="btn btn-ghost btn-xs" onclick="showNotif('Report submitted!')">Report</button>
+        <button class="btn btn-danger btn-xs" onclick="showNotif('IP blocked in firewall ruleset!')">Block IP</button>
+      </div>
+    </div>`;
+}
+
+function renderURLResult(url) {
+  const data = URL_DATA[url] || { verdict:'unknown', score:0, category:'Unknown', registrar:'Unknown', created:'Unknown', ip:'Unknown', malwareFamily:'None', detections:0 };
+  const el = document.getElementById('lookup-result');
+  const scoreColor = data.score >= 7 ? 'var(--red)' : data.score >= 4 ? 'var(--amber)' : 'var(--green)';
+  el.innerHTML = `
+    <div class="result-card">
+      <div class="result-header">
+        <div>
+          <div style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--text-primary);">${url}</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">${data.category}</div>
+        </div>
+        <span class="verdict-badge verdict-${data.verdict}">${data.verdict.toUpperCase()}</span>
+        <div class="score-ring">
+          <svg width="80" height="80">
+            <circle cx="40" cy="40" r="32" fill="none" stroke="var(--bg3)" stroke-width="6"/>
+            <circle cx="40" cy="40" r="32" fill="none" stroke="${scoreColor}" stroke-width="6"
+              stroke-dasharray="${Math.round(2 * Math.PI * 32)}" stroke-dashoffset="${Math.round(2 * Math.PI * 32 * (1 - data.score/10))}"
+              stroke-linecap="round"/>
+          </svg>
+          <div class="score-text">
+            <div class="score-num" style="color:${scoreColor}">${data.score}</div>
+            <div class="score-sub">RISK</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-grid">
+        <div class="result-field"><label>Registrar</label><div class="val">${data.registrar}</div></div>
+        <div class="result-field"><label>Created</label><div class="val">${data.created}</div></div>
+        <div class="result-field"><label>Resolved IP</label><div class="val cyan">${data.ip}</div></div>
+        <div class="result-field"><label>Malware Family</label><div class="val ${data.malwareFamily!=='None'?'red':''}">${data.malwareFamily}</div></div>
+        <div class="result-field"><label>AV Detections</label><div class="val ${data.detections>0?'red':''}">${data.detections} engines</div></div>
+      </div>
+      <div class="divider"></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost btn-xs" onclick="showNotif('URL added to blocklist!')">Block URL</button>
+        <button class="btn btn-ghost btn-xs" onclick="showNotif('Saved to collection!')">+ Save</button>
+      </div>
+    </div>`;
+}
+
+function renderHashResult(hash) {
+  const data = HASH_DATA[hash] || { verdict:'unknown', score:0, name:'Unknown', type:'Unknown', size:'Unknown', family:'Unknown', packer:'Unknown', detections:'0/72', compiled:'Unknown', tlp:'WHITE' };
+  const el = document.getElementById('lookup-result');
+  const scoreColor = data.score >= 7 ? 'var(--red)' : data.score >= 4 ? 'var(--amber)' : 'var(--green)';
+  el.innerHTML = `
+    <div class="result-card">
+      <div class="result-header">
+        <div>
+          <div style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--text-primary);word-break:break-all;">${hash}</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">${data.name}</div>
+        </div>
+        <span class="verdict-badge verdict-${data.verdict}">${data.verdict.toUpperCase()}</span>
+        <div class="score-ring">
+          <svg width="80" height="80">
+            <circle cx="40" cy="40" r="32" fill="none" stroke="var(--bg3)" stroke-width="6"/>
+            <circle cx="40" cy="40" r="32" fill="none" stroke="${scoreColor}" stroke-width="6"
+              stroke-dasharray="${Math.round(2 * Math.PI * 32)}" stroke-dashoffset="${Math.round(2 * Math.PI * 32 * (1 - data.score/10))}"
+              stroke-linecap="round"/>
+          </svg>
+          <div class="score-text">
+            <div class="score-num" style="color:${scoreColor}">${data.score}</div>
+            <div class="score-sub">RISK</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-grid">
+        <div class="result-field"><label>File Type</label><div class="val">${data.type}</div></div>
+        <div class="result-field"><label>Size</label><div class="val">${data.size}</div></div>
+        <div class="result-field"><label>Malware Family</label><div class="val ${data.family!=='Test File'&&data.family!=='Unknown'?'red':''}">${data.family}</div></div>
+        <div class="result-field"><label>Packer</label><div class="val">${data.packer}</div></div>
+        <div class="result-field"><label>AV Detections</label><div class="val ${data.score>0?'red':''}">${data.detections}</div></div>
+        <div class="result-field"><label>Compiled</label><div class="val">${data.compiled}</div></div>
+        <div class="result-field"><label>TLP Level</label><div class="val cyan">TLP:${data.tlp}</div></div>
+      </div>
+      <div class="divider"></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-ghost btn-xs" onclick="showNotif('Hash added to blocklist!')">Block Hash</button>
+        <button class="btn btn-ghost btn-xs" onclick="showNotif('Full sandbox report opened!')">Sandbox Report</button>
+      </div>
+    </div>`;
+}
+
+function renderVulnResult(cve) {
+  const vuln = VULNS.find(v => v.cve === cve) || null;
+  const el = document.getElementById('lookup-result');
+  if (!vuln) {
+    el.innerHTML = `<div class="result-card" style="text-align:center;padding:40px;"><div style="font-size:32px;margin-bottom:12px;">🔍</div><div style="color:var(--text-secondary);">No data found for <span style="font-family:var(--mono);color:var(--cyan);">${cve}</span>. Try CVE-2026-1941 or CVE-2025-44228.</div></div>`;
+    return;
+  }
+  const cvssColor = vuln.cvss >= 9 ? 'var(--red)' : vuln.cvss >= 7 ? 'var(--amber)' : 'var(--blue)';
+  el.innerHTML = `
+    <div class="result-card">
+      <div class="result-header">
+        <div>
+          <div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--text-primary);">${vuln.cve}</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:2px;">${vuln.product} · ${vuln.type}</div>
+        </div>
+        <span class="verdict-badge verdict-${vuln.status==='Exploited'?'malicious':vuln.status==='PoC Public'?'suspicious':'unknown'}">${vuln.status.toUpperCase()}</span>
+        <div class="score-ring">
+          <svg width="80" height="80">
+            <circle cx="40" cy="40" r="32" fill="none" stroke="var(--bg3)" stroke-width="6"/>
+            <circle cx="40" cy="40" r="32" fill="none" stroke="${cvssColor}" stroke-width="6"
+              stroke-dasharray="${Math.round(2 * Math.PI * 32)}" stroke-dashoffset="${Math.round(2 * Math.PI * 32 * (1 - vuln.cvss/10))}"
+              stroke-linecap="round"/>
+          </svg>
+          <div class="score-text">
+            <div class="score-num" style="color:${cvssColor}">${vuln.cvss}</div>
+            <div class="score-sub">CVSS</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-grid">
+        <div class="result-field"><label>Vulnerability Type</label><div class="val">${vuln.type}</div></div>
+        <div class="result-field"><label>Affected Product</label><div class="val">${vuln.product}</div></div>
+        <div class="result-field"><label>Exploit Status</label><div class="val ${vuln.status==='Exploited'?'red':'amber'}">${vuln.status}</div></div>
+        <div class="result-field"><label>Patch Availability</label><div class="val ${vuln.patch==='Available'?'green':'amber'}">${vuln.patch}</div></div>
+      </div>
+      <div class="divider"></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-primary btn-xs" onclick="showNotif('CVE added to tracking!')">Track CVE</button>
+        <button class="btn btn-ghost btn-xs" onclick="showNotif('Vulnerability report opened!')">Details</button>
+      </div>
+    </div>`;
+}
+
+function showNotif(msg) {
+  const el = document.getElementById('notif');
+  el.textContent = '✓ ' + msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function initCharts() {
+  const donutCtx = document.getElementById('threatDonut');
+  if (donutCtx) {
+    new Chart(donutCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Malware','Phishing','Botnet','Scanning','APT'],
+        datasets: [{
+          data: [34, 22, 18, 14, 12],
+          backgroundColor: ['#ef4444','#f59e0b','#a855f7','#06b6d4','#ff6b6b'],
+          borderColor: '#0d1520',
+          borderWidth: 3,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        cutout: '68%',
+        plugins: { legend: { display: false } }
+      }
+    });
+  }
+  const lineCtx = document.getElementById('trendLine');
+  if (lineCtx) {
+    new Chart(lineCtx, {
+      type: 'line',
+      data: {
+        labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+        datasets: [{
+          label: 'Threats',
+          data: [1800, 2200, 1900, 2800, 3100, 2600, 2847],
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59,130,246,0.08)',
+          borderWidth: 2,
+          tension: 0.4,
+          fill: true,
+          pointBackgroundColor: '#3b82f6',
+          pointRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: 'rgba(56,139,255,0.08)' }, ticks: { color: '#4a6880', font: { family: 'IBM Plex Mono', size: 11 } } },
+          y: { grid: { color: 'rgba(56,139,255,0.08)' }, ticks: { color: '#4a6880', font: { family: 'IBM Plex Mono', size: 11 } } }
+        }
+      }
+    });
+  }
+}
+
+// Counter animation for stats
+function animateCounter(el, target) {
+  let start = 0;
+  const duration = 1200;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start = Math.min(start + step, target);
+    el.textContent = Math.round(start).toLocaleString();
+    if (start >= target) clearInterval(timer);
+  }, 16);
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  renderFeed();
+  renderCountries();
+  renderMalwareFamilies();
+  renderReports();
+  renderVulns();
+  renderCollections();
+  renderGlossary(GLOSSARY_TERMS);
+  renderSampleQueries();
+  setTimeout(initCharts, 100);
+  startFeedRotation();
+  const statEl = document.getElementById('stat-threats');
+  if (statEl) setTimeout(() => animateCounter(statEl, 2847), 300);
+});
+</script>
+</body>
+</html>
