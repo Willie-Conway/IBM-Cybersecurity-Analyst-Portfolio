@@ -414,6 +414,8 @@ Below is a complete text-based representation of what your final diagram should 
                         └─────────────────────────────────────────┘
 ```
 
+![alt text](<../Screenshots/SECURITY ARCHITECTURE DIAGRAM_ E-Commerce Web Application.png>)
+
 ---
 
 ## Exercise 4: Common Security Architecture Patterns

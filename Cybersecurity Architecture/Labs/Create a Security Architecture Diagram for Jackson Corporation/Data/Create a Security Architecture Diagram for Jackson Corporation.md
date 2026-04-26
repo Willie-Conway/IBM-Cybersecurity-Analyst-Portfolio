@@ -393,7 +393,11 @@ Below is a comprehensive text-based security architecture diagram for Jackson Co
     Syslog (514) = Log Collection
 ```
 
+
+![alt text](<../Screenshots/JACKSON CORPORATION - SECURITY ARCHITECTURE DIAGRAM.png>)
+
 ---
+
 
 ## Guiding Questions as You Draw
 
