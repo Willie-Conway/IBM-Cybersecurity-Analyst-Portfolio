@@ -1,3 +1,5 @@
+![alt text](../Screenshots/DrawIO.png)
+
 # Hands-on Lab: Create a Security Architecture Diagram
 
 **Estimated time needed:** 30 minutes
