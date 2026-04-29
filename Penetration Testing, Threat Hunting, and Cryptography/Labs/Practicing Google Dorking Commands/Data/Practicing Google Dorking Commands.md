@@ -92,7 +92,7 @@ To identify outdated technologies or practices that may present vulnerabilities 
 
 ![Google Chrome homepage]
 
-![alt text](../Screenshots/Google Chrome homepage.png)
+![alt text](<../Screenshots/Google Chrome homepage.png>)
 
 ### Step 2: Ensure Search Bar is Empty
 
@@ -109,7 +109,7 @@ artificial intelligence before:2015-01-01
 
 ![Before operator search]
 
-![alt text](../Screenshots/Google Dorking before operator.png)
+![alt text](<../Screenshots/Before operator search.png>)
 
 ### Step 4: Press Enter and Examine Results
 
@@ -122,9 +122,9 @@ artificial intelligence before:2015-01-01
 - Deprecated frameworks or software versions
 - Historical security vulnerabilities in older systems
 
-![Before operator results]
+![After operator results]
 
-![alt text](../Screenshots/Before operator results.png)
+![alt text](<../Screenshots/After operator results.gif>)
 
 ### Step 5: Practice with Different Queries
 
@@ -135,6 +135,7 @@ security vulnerability before:2010-01-01
 outdated software before:2015-06-01
 flash player vulnerabilities before:2017-01-01
 ```
+![alt text](<../Screenshots/Practice with Different Queries.gif>)
 
 ---
 
@@ -159,7 +160,7 @@ filetype:pdf climate change
 
 ![Filetype operator search]
 
-![alt text](../Screenshots/Filetype operator search.png)
+![alt text](<../Screenshots/Filetype operator search.png>)
 
 ### Step 3: Press Enter and Examine Results
 
@@ -174,7 +175,7 @@ filetype:pdf climate change
 
 ![Filetype operator results]
 
-![alt text](../Screenshots/Filetype operator results.png)
+![alt text](<../Screenshots/Filetype operator results.gif>)
 
 ### Step 4: Practice with Sensitive File Types
 
@@ -190,7 +191,7 @@ Try these commands to find potentially sensitive files:
 
 ![Sensitive filetype searches]
 
-![alt text](../Screenshots/Sensitive filetype searches.png)
+![alt text](<../Screenshots/Sensitive filetype searches.gif>)
 
 ---
 
@@ -215,7 +216,7 @@ intext:benefits meditation
 
 ![Intext operator search]
 
-![alt text](../Screenshots/Intext operator search.png)
+![alt text](<../Screenshots/Intext operator search.png>)
 
 ### Step 3: Press Enter and Examine Results
 
