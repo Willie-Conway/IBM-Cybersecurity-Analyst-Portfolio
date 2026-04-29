@@ -1,3 +1,5 @@
+![alt text](<../Screenshots/SecureBank.png>)
+
 # Final Project: Part 2 - Secure Information Using Symmetric Encryption
 
 **Estimated time needed:** 30 minutes
