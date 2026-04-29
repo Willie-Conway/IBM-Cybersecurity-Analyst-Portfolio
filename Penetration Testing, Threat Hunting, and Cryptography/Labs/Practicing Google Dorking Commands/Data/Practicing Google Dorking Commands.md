@@ -1,4 +1,4 @@
-![alt text](<../Screenshots/Google_Dork.png>)
+![alt text](../Screenshots/Google_Dork.png)
 
 # Lab: Practicing Google Dorking Commands
 
@@ -135,6 +135,7 @@ security vulnerability before:2010-01-01
 outdated software before:2015-06-01
 flash player vulnerabilities before:2017-01-01
 ```
+
 ![alt text](<../Screenshots/Practice with Different Queries.gif>)
 
 ---
@@ -231,7 +232,7 @@ intext:benefits meditation
 
 ![Intext operator results]
 
-![alt text](../Screenshots/Intext operator results.png)
+![alt text](<../Screenshots/Intext operator results.gif>)
 
 ### Step 4: Practice with Security-Focused Queries
 
@@ -268,7 +269,7 @@ link:https://www.wikipedia.org
 
 ![Link operator search]
 
-![alt text](../Screenshots/Link operator search.png)
+![alt text](<../Screenshots/Link operator search.png>)
 
 ### Step 3: Press Enter and Examine Results
 
@@ -318,7 +319,7 @@ inanchor:download now
 
 ![Inanchor operator search]
 
-![alt text](../Screenshots/Inanchor operator search.png)
+![alt text](<../Screenshots/Inanchor operator search.png>)
 
 ### Step 3: Press Enter and Examine Results
 
@@ -333,7 +334,7 @@ inanchor:download now
 
 ![Inanchor operator results]
 
-![alt text](../Screenshots/Inanchor operator results.png)
+![alt text](<../Screenshots/Inanchor operator results.png>)
 
 ### Step 4: Practice with Login Anchor Texts
 
@@ -368,7 +369,7 @@ data * analysis
 
 ![Wildcard operator search]
 
-![alt text](../Screenshots/Wildcard operator search.png)
+![alt text](<../Screenshots/Wildcard operator search.png>)
 
 ### Step 3: Press Enter and Examine Results
 
@@ -383,7 +384,7 @@ data * analysis
 
 ![Wildcard operator results]
 
-![alt text](../Screenshots/Wildcard operator results.png)
+![alt text](<../Screenshots/Wildcard operator results.png>)
 
 ### Step 4: Practice with Security Wildcards
 
@@ -418,7 +419,7 @@ apple -fruit -pie -recipe
 
 ![Exclusion operator search]
 
-![alt text](../Screenshots/Exclusion operator search.png)
+![alt text](<../Screenshots/Exclusion operator search.png>)
 
 ### Step 3: Press Enter and Examine Results
 
@@ -433,7 +434,7 @@ apple -fruit -pie -recipe
 
 ![Exclusion operator results]
 
-![alt text](../Screenshots/Exclusion operator results.png)
+![alt text](<../Screenshots/Exclusion operator results.png>)
 
 ### Step 4: Practice with Security Exclusions
 
@@ -462,7 +463,7 @@ site:example.com filetype:xlsx "confidential"
 
 ![Combined operators - site and filetype]
 
-![alt text](../Screenshots/Combined operators site filetype.png)
+![alt text](<../Screenshots/Combined operators site filetype.png>)
 
 ### Step 2: Try Combined Search - Directory Listings
 
@@ -474,7 +475,7 @@ intitle:"index of" "parent directory" -inurl:apache -inurl:nginx
 
 ![Combined operators - directory listings]
 
-![alt text](../Screenshots/Combined operators directory listings.png)
+![alt text](<../Screenshots/Combined operators directory listings.png>)
 
 ### Step 3: Try Combined Search - Admin Panels
 
@@ -486,7 +487,7 @@ inurl:admin intext:username filetype:php
 
 ![Combined operators - admin panels]
 
-![alt text](../Screenshots/Combined operators admin panels.png)
+![alt text](<../Screenshots/Combined operators admin panels.png>)
 
 ### Step 4: Try Combined Search - Exposed API Keys
 
@@ -498,7 +499,7 @@ filetype:env "DB_PASSWORD" -git -github
 
 ![Combined operators - API keys]
 
-![alt text](../Screenshots/Combined operators API keys.png)
+![alt text](<../Screenshots/Combined operators API keys.png>)
 
 ---
 
@@ -528,7 +529,7 @@ Your custom dork: _____________________________________________________________
 
 ![Custom dork results]
 
-![alt text](../Screenshots/Custom dork results.png)
+![alt text](<../Screenshots/Custom dork results.png>)
 
 ---
 
