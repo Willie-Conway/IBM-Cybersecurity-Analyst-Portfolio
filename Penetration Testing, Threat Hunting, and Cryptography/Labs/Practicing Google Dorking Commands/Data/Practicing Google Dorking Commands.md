@@ -1,4 +1,4 @@
-![alt text](../Screenshots/Google_Dork.png)
+![alt text](<../Screenshots/Google_Dork.png>)
 
 # Lab: Practicing Google Dorking Commands
 
@@ -286,7 +286,7 @@ link:https://www.wikipedia.org
 
 ![Link operator results]
 
-![alt text](../Screenshots/Link operator results.png)
+![alt text](<../Screenshots/Link operator results.gif>)
 
 > **Note:** The `link:` operator has limited functionality in modern Google search. It may return fewer results than expected.
 
@@ -321,7 +321,7 @@ inanchor:download now
 
 ![Inanchor operator search]
 
-![alt text](../Screenshots/Inanchor operator search.png)
+![alt text](<../Screenshots/Inanchor operator search.png>)
 
 ### Step 3: Press Enter and Examine Results
 
@@ -336,7 +336,7 @@ inanchor:download now
 
 ![Inanchor operator results]
 
-![alt text](../Screenshots/Inanchor operator results.png)
+![alt text](<../Screenshots/Inanchor operator results.gif>)
 
 ### Step 4: Practice with Login Anchor Texts
 
@@ -347,7 +347,7 @@ inanchor:"sign in"
 inanchor:"admin login"
 inanchor:"click here"
 ```
-
+![alt text](<../Screenshots/Inanchor operator click here.gif>)
 ---
 
 ## Task 6: Using Wildcards
@@ -371,7 +371,7 @@ data * analysis
 
 ![Wildcard operator search]
 
-![alt text](../Screenshots/Wildcard operator search.png)
+![alt text](<../Screenshots/Wildcard operator search.png>)
 
 ### Step 3: Press Enter and Examine Results
 
@@ -386,7 +386,7 @@ data * analysis
 
 ![Wildcard operator results]
 
-![alt text](../Screenshots/Wildcard operator results.png)
+![alt text](<../Screenshots/Wildcard operator results.gif>)
 
 ### Step 4: Practice with Security Wildcards
 
@@ -421,7 +421,7 @@ apple -fruit -pie -recipe
 
 ![Exclusion operator search]
 
-![alt text](../Screenshots/Exclusion operator search.png)
+![alt text](<../Screenshots/Exclusion operator search.png>)
 
 ### Step 3: Press Enter and Examine Results
 
@@ -436,7 +436,7 @@ apple -fruit -pie -recipe
 
 ![Exclusion operator results]
 
-![alt text](../Screenshots/Exclusion operator results.png)
+![alt text](<../Screenshots/Exclusion operator results.gif>)
 
 ### Step 4: Practice with Security Exclusions
 
