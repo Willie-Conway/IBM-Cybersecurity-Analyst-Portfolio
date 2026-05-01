@@ -347,8 +347,6 @@ inanchor:"sign in"
 inanchor:"admin login"
 inanchor:"click here"
 ```
-![alt text](<../Screenshots/Inanchor operator click here.gif>)
----
 
 ## Task 6: Using Wildcards
 
@@ -434,7 +432,7 @@ apple -fruit -pie -recipe
 - Ability to filter out noise and focus on relevant content
 - More precise targeting of search results
 
-![Exclusion operator results]
+1. ![Exclusion operator results]
 
 ![alt text](<../Screenshots/Exclusion operator results.gif>)
 
@@ -446,6 +444,8 @@ Try these commands:
 java -coffee -island -script
 security -guard -camera -blanket
 ```
+
+![alt text](<../Screenshots/Exclusion operator results security.gif>)
 
 ---
 
@@ -465,7 +465,9 @@ site:example.com filetype:xlsx "confidential"
 
 ![Combined operators - site and filetype]
 
-![alt text](../Screenshots/Combined operators site filetype.png)
+![alt text](<../Screenshots/Combined operators - site and filetype.png>)
+
+![alt text](<../Screenshots/Combined operators - site and filetype.gif>)
 
 ### Step 2: Try Combined Search - Directory Listings
 
@@ -475,9 +477,9 @@ Type the following command:
 intitle:"index of" "parent directory" -inurl:apache -inurl:nginx
 ```
 
-![Combined operators - directory listings]
+1. ![Combined operators - directory listings]
 
-![alt text](../Screenshots/Combined operators directory listings.png)
+![alt text](<../Screenshots/Combined operators directory listings.png>)
 
 ### Step 3: Try Combined Search - Admin Panels
 
@@ -489,7 +491,7 @@ inurl:admin intext:username filetype:php
 
 ![Combined operators - admin panels]
 
-![alt text](../Screenshots/Combined operators admin panels.png)
+![alt text](<../Screenshots/Combined operators - admin panels.gif>)
 
 ### Step 4: Try Combined Search - Exposed API Keys
 
@@ -501,7 +503,7 @@ filetype:env "DB_PASSWORD" -git -github
 
 ![Combined operators - API keys]
 
-![alt text](../Screenshots/Combined operators API keys.png)
+![alt text](<../Screenshots/Combined operators - API keys.gif>)
 
 ---
 
