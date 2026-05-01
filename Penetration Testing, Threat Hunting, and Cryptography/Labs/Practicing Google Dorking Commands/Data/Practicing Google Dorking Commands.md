@@ -479,7 +479,7 @@ intitle:"index of" "parent directory" -inurl:apache -inurl:nginx
 
 1. ![Combined operators - directory listings]
 
-![alt text](<../Screenshots/Combined operators directory listings.png>)
+![alt text](<../Screenshots/Combined operators - directory listings_.gif>)
 
 ### Step 3: Try Combined Search - Admin Panels
 
