@@ -1,4 +1,4 @@
-![alt text](<../Screenshots/Pentest_Tools.png>)
+![alt text](../Screenshots/Pentest_Tools.png)
 
 # Lab: Port Scanning with Pen-test Tools
 
@@ -110,7 +110,7 @@ https://pentest-tools.com
 
 ![Pentest-tools homepage]
 
-![alt text](../Screenshots/Pentest-tools homepage.png)
+![alt text](<../Screenshots/Pentest-tools homepage.gif>)
 
 ### Step 2: Click Login
 
@@ -119,7 +119,7 @@ https://pentest-tools.com
 
 ![Login button]
 
-![alt text](../Screenshots/Login button.png)
+![alt text](<../Screenshots/Login button.png>)
 
 ### Step 3: Create a New Account
 
@@ -128,7 +128,7 @@ https://pentest-tools.com
 
 ![Need an account link]
 
-![alt text](../Screenshots/Need an account link.png)
+![alt text](<../Screenshots/Need an account link.png>)
 
 ### Step 4: Accept Terms and Conditions
 
@@ -138,7 +138,7 @@ https://pentest-tools.com
 
 ![Sign up form]
 
-![alt text](../Screenshots/Sign up form.png)
+![alt text](<../Screenshots/Sign up form.png>)
 
 ### Step 5: Complete Registration
 
@@ -153,7 +153,7 @@ After logging in, you will see the Pentest-tools.com dashboard.
 
 ![Dashboard]
 
-![alt text](../Screenshots/Dashboard.png)
+![alt text](<../Screenshots/Dashboard.gif>)
 
 ---
 
@@ -167,7 +167,7 @@ In this exercise, you will perform a port scan on a target system. For this lab,
 
 ![New Scan button]
 
-![alt text](../Screenshots/New Scan button.png)
+![alt text](<../Screenshots/New Scan button.png>)
 
 ### Step 2: Select Port Scan Tool
 
@@ -176,7 +176,7 @@ In this exercise, you will perform a port scan on a target system. For this lab,
 
 ![Port Scan selection]
 
-![alt text](../Screenshots/Port Scan selection.png)
+![alt text](<../Screenshots/Port Scan selection.png>)
 
 ### Step 3: Configure Port Scan Settings
 
@@ -206,7 +206,7 @@ In this exercise, you will perform a port scan on a target system. For this lab,
 
 ![Port scan configuration]
 
-![alt text](../Screenshots/Port scan configuration.png)
+![alt text](<../Screenshots/Port scan configuration.png>)
 
 ### Step 4: Start the Scan
 
@@ -215,7 +215,7 @@ In this exercise, you will perform a port scan on a target system. For this lab,
 
 ![Scan in progress]
 
-![alt text](../Screenshots/Scan in progress.png)
+![alt text](<../Screenshots/Scan in progress.png>)
 
 ### Step 5: Review Port Scan Results
 
@@ -254,7 +254,7 @@ Closed:        950
 
 ![Port scan results]
 
-![alt text](../Screenshots/Port scan results.png)
+![alt text](<../Screenshots/Port scan results.gif>)
 
 ### Step 6: Analyze the Results
 
@@ -297,7 +297,9 @@ _________________________________________________________________________
 
 ![Export results]
 
-![alt text](../Screenshots/Export results.png)
+![alt text](<../Screenshots/Export results.gif>)
+
+![alt text](../Screenshots/Port_Scanner_Results.png)
 
 ---
 
