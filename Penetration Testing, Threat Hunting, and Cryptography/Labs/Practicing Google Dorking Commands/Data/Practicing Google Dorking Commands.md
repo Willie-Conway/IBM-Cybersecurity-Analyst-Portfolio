@@ -533,7 +533,7 @@ Your custom dork: _____________________________________________________________
 
 ![Custom dork results]
 
-![alt text](../Screenshots/Custom dork results.png)
+![alt text](<../Screenshots/Custom dork results.gif>)
 
 ---
 
