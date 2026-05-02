@@ -299,7 +299,7 @@ _________________________________________________________________________
 
 ![alt text](<../Screenshots/Export results.gif>)
 
-![alt text](../Screenshots/Port_Scanner_Results.png)
+![alt text](<../Screenshots/Port_Scanner_Results.png>)
 
 ---
 
@@ -307,9 +307,13 @@ _________________________________________________________________________
 
 In this exercise, you will perform a vulnerability scan on a website. This scan checks for common web application vulnerabilities including OWASP Top 10 risks.
 
+![alt text](<../Screenshots/Perform a Website Scan.png>)
+
 ### Step 1: Start a New Scan
 
 1. Click on **New Scan** at the top of the page
+
+![alt text](<../Screenshots/Start a New Scan.png>)
 
 ### Step 2: Select Website Scanner
 
@@ -318,7 +322,11 @@ In this exercise, you will perform a vulnerability scan on a website. This scan 
 
 ![Website scanner selection]
 
-![alt text](../Screenshots/Website scanner selection.png)
+![alt text](<../Screenshots/Select Website Scanner.png>)
+
+![alt text](<../Screenshots/Website scanner selection.png>)
+
+![alt text](<../Screenshots/Website scanner selection.jpg>)
 
 ### Step 3: Configure Website Scan Settings
 
@@ -342,7 +350,9 @@ In this exercise, you will perform a vulnerability scan on a website. This scan 
 
 ![Website scan configuration]
 
-![alt text](../Screenshots/Website scan configuration.png)
+![alt text](<../Screenshots/Copy Website scan configuration.png>)
+
+![alt text](<../Screenshots/Website scan configuration.png>)
 
 ### Step 4: Start the Scan
 
@@ -351,7 +361,7 @@ In this exercise, you will perform a vulnerability scan on a website. This scan 
 
 ![Website scan progress]
 
-![alt text](../Screenshots/Website scan progress.png)
+![alt text](<../Screenshots/Website scan progress.png>)
 
 ### Step 5: Review Website Scan Results
 
@@ -401,7 +411,7 @@ DETAILED FINDINGS:
 
 ![Website scan results]
 
-![alt text](../Screenshots/Website scan results.png)
+![alt text](<../Screenshots/Website scan results.jpg>)
 
 ### Step 6: Interpret the Findings
 
@@ -447,7 +457,9 @@ _________________________________________________________________________
 
 ![Generate report]
 
-![alt text](../Screenshots/Generate report.png)
+![alt text](<../Screenshots/Generate report.png>)
+
+![alt text](<../Screenshots/Website_Scanner_Result.png>)
 
 ---
 
