@@ -1,4 +1,4 @@
-![alt text](../Screenshots/Pentest_Tools.png)
+![alt text](<../Screenshots/Pentest_Tools.png>)
 
 # Lab: Port Scanning with Pen-test Tools
 
@@ -489,7 +489,7 @@ Pentest-tools.com offers many additional tools. Explore these as time permits:
 
 ![Subdomain scanner]
 
-![alt text](../Screenshots/Subdomain scanner.png)
+![alt text](<../Screenshots/Subdomain scanner.png>)
 
 ### Step 2: Try a WHOIS Lookup
 
@@ -500,7 +500,9 @@ Pentest-tools.com offers many additional tools. Explore these as time permits:
 
 ![WHOIS lookup]
 
-![alt text](../Screenshots/WHOIS lookup.png)
+![alt text](<../Screenshots/WHOIS lookup.png>)
+
+
 
 ---
 
