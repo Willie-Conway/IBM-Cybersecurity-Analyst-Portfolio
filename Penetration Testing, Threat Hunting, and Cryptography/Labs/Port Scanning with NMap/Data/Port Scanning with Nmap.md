@@ -81,7 +81,7 @@ In this exercise, you will download and run a Kali Linux Docker container.
 
 ![New terminal]
 
-![alt text](../Screenshots/New terminal.png)
+![alt text](<../Screenshots/New terminal.png>)
 
 ### Step 2: Download the Dockerfile
 
@@ -93,7 +93,7 @@ curl https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/9yTdNwJz
 
 ![Download Dockerfile]
 
-![alt text](../Screenshots/Download Dockerfile.png)
+![alt text](<../Screenshots/Download Dockerfile.png>)
 
 **What this does:** Downloads a pre-configured Dockerfile that contains instructions for building a Kali Linux container with Nmap and other tools.
 
@@ -107,7 +107,7 @@ docker build . -t kalilinux
 
 ![Build Docker image]
 
-![alt text](../Screenshots/Build Docker image.png)
+![alt text](<../Screenshots/Build Docker image.png>)
 
 **What this does:** Creates a Docker image named `kalilinux` based on the Dockerfile you downloaded. This may take a few minutes as it downloads the base Kali Linux image.
 
@@ -121,7 +121,7 @@ docker run --tty --interactive kalilinux
 
 ![Run Kali Linux container]
 
-![alt text](../Screenshots/Run Kali Linux container.png)
+![alt text](<../Screenshots/Run Kali Linux container.png>)
 
 **What this does:** Starts an interactive virtual Kali Linux environment. Your terminal prompt will change to the Kali Linux shell.
 
@@ -156,7 +156,7 @@ apt-get update
 
 ![apt-get update]
 
-![alt text](../Screenshots/apt-get update.png)
+![alt text](<../Screenshots/apt-get update.png>)
 
 **What this does:** Updates the list of available packages and their versions from the Kali Linux repositories.
 
@@ -170,7 +170,7 @@ apt-get install -y nmap
 
 ![Install Nmap]
 
-![alt text](../Screenshots/Install Nmap.png)
+![alt text](<../Screenshots/Install Nmap.png>)
 
 **What this does:** Downloads and installs Nmap and its dependencies. The `-y` flag automatically answers "yes" to any prompts.
 
@@ -196,7 +196,7 @@ nmap --version
 
 ![Nmap version]
 
-![alt text](../Screenshots/Nmap version.png)
+![alt text](<../Screenshots/Nmap_version.png>)
 
 **Expected output:** Nmap version information (e.g., `Nmap version 7.94`)
 
@@ -216,7 +216,7 @@ nmap scanme.nmap.org
 
 ![Basic Nmap scan]
 
-![alt text](../Screenshots/Basic Nmap scan.png)
+![alt text](<../Screenshots/Basic Nmap scan.png>)
 
 **What this does:** Performs a default SYN scan on the target, scanning the 1000 most common ports.
 
@@ -296,7 +296,7 @@ nmap -p 22,80 scanme.nmap.org
 
 ![Scan specific ports]
 
-![alt text](../Screenshots/Scan specific ports.png)
+![alt text](<../Screenshots/Scan specific ports.png>)
 
 ### Step 2: Service Version Detection
 
@@ -308,7 +308,10 @@ nmap -sV scanme.nmap.org
 
 ![Service version detection]
 
-![alt text](../Screenshots/Service version detection.png)
+![alt text](<../Screenshots/Service version detection.png>)
+
+![alt text](<../Screenshots/useradd John.png>)
+
 
 **Why this matters:** Knowing the exact version helps identify known vulnerabilities.
 
@@ -322,7 +325,7 @@ nmap -F scanme.nmap.org
 
 ![Fast scan]
 
-![alt text](../Screenshots/Fast scan.png)
+![alt text](<../Screenshots/Fast scan.png>)
 
 ### Step 4: OS Detection
 
@@ -334,7 +337,7 @@ nmap -O scanme.nmap.org
 
 ![OS detection]
 
-![alt text](../Screenshots/OS detection.png)
+![alt text](<../Screenshots/OS detection.png>)
 
 **Note:** OS detection requires root privileges and may not always be accurate.
 
@@ -348,7 +351,7 @@ nmap -A scanme.nmap.org
 
 ![Aggressive scan]
 
-![alt text](../Screenshots/Aggressive scan.png)
+![alt text](<../Screenshots/Aggressive scan.png>)
 
 **Warning:** Aggressive scans generate more network traffic and are more likely to be detected by intrusion detection systems.
 
@@ -425,7 +428,7 @@ exit
 
 ![Exit container]
 
-![alt text](../Screenshots/Exit container.png)
+![alt text](<../Screenshots/Exit container.png>)
 
 ### Step 2: Remove the Container (Optional)
 
