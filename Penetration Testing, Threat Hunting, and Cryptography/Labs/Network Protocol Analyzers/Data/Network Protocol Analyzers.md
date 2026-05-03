@@ -1,4 +1,4 @@
-![alt text](<../Screenshots/Wireshark.png>)
+![alt text](../Screenshots/Wireshark.png)
 
 # Hands-on Lab: Network Protocol Analyzers
 
@@ -207,7 +207,12 @@ Follow the installation wizard steps:
 
 ![Installation complete]
 
-![alt text](../Screenshots/Install_Complete.png)
+![alt text](<../Screenshots/Install_Complete.png>)
+
+![alt text](<../Screenshots/USB Capture.png>)
+
+![alt text](<../Screenshots/After installation.png>)
+
 
 ### Step 7: Launch Wireshark
 
@@ -218,6 +223,8 @@ After installation, launch Wireshark using one of these methods:
 | **Desktop shortcut** | Double-click the Wireshark icon on your desktop |
 | **Start Menu**       | Click Start → Wireshark → Wireshark           |
 | **Run command**      | Press Win+R, type `wireshark`, press Enter    |
+
+![alt text](<../Screenshots/Finished_Installation.png>)
 
 ![Launch Wireshark]
 
