@@ -74,7 +74,9 @@ In this task, you will download and install Nmap with Zenmap on your Windows sys
 
 ![Web browser opened]
 
-![alt text](../Screenshots/Web browser opened.png)
+![alt text](<../Screenshots/open Web browser.png>)
+
+![alt text](<../Screenshots/Web browser opened.png>)
 
 ### Step 2: Navigate to Nmap Download Page
 
@@ -88,7 +90,7 @@ https://nmap.org/download
 
 ![Nmap download page]
 
-![alt text](../Screenshots/Nmap download page.png)
+![alt text](<../Screenshots/Nmap download page.png>)
 
 ### Step 3: Select Your Operating System
 
@@ -106,7 +108,7 @@ https://nmap.org/download
 
 ![Select Windows OS]
 
-![alt text](../Screenshots/Select Windows OS.png)
+![alt text](<../Screenshots/Select Windows OS.png>)
 
 ### Step 4: Download the Installer
 
@@ -115,7 +117,7 @@ https://nmap.org/download
 
 ![Download Windows installer]
 
-![alt text](../Screenshots/Download Windows installer.png)
+![alt text](<../Screenshots/Download Windows installer.png>)
 
 ### Step 5: Run the Installer
 
@@ -133,7 +135,7 @@ https://nmap.org/download
 
 ![Run installer]
 
-![alt text](../Screenshots/Run installer.png)
+![alt text](<../Screenshots/Run installer.png>)
 
 ### Step 6: Complete Installation
 
@@ -153,7 +155,7 @@ https://nmap.org/download
 
 ![Installation wizard]
 
-![alt text](../Screenshots/Installation wizard.png)
+![alt text](<../Screenshots/Installation wizard.png>)
 
 ### Step 7: Launch Zenmap
 
@@ -168,7 +170,7 @@ https://nmap.org/download
 
 ![Launch Zenmap]
 
-![alt text](../Screenshots/Launch Zenmap.png)
+![alt text](<../Screenshots/Launch Zenmap.png>)
 
 ---
 
@@ -239,7 +241,7 @@ In this task, you will perform a basic scan using Zenmap.
 
 ![Enter target]
 
-![alt text](../Screenshots/Enter target.png)
+![alt text](<../Screenshots/Enter target.png>)
 
 ### Step 2: Select Scan Profile
 
@@ -248,7 +250,7 @@ In this task, you will perform a basic scan using Zenmap.
 
 ![Select profile]
 
-![alt text](../Screenshots/Select profile.png)
+![alt text](<../Screenshots/Select profile.png>)
 
 ### Step 3: Review the Command
 
@@ -273,7 +275,7 @@ nmap -T4 -A -v scanme.nmap.org
 
 ![Scan in progress]
 
-![alt text](../Screenshots/Scan in progress.png)
+![alt text](<../Screenshots/Scan in progress.png>)
 
 ### Step 5: Review Scan Results
 
@@ -298,7 +300,7 @@ Nmap done: 1 IP address (1 host up) scanned in 8.42 seconds
 
 ![Scan results]
 
-![alt text](../Screenshots/Scan results.png)
+![alt text](<../Screenshots/Scan results.png>)
 
 ---
 
@@ -330,7 +332,11 @@ Zenmap includes several pre-configured scan profiles:
 
 ![Quick scan]
 
-![alt text](../Screenshots/Quick scan.png)
+![alt text](<../Screenshots/Quick scan.png>)
+
+![alt text](../Screenshots/scanme_beginscan_alt.png)
+
+![alt text](../Screenshots/scanme_nmapoutput_alt.png)
 
 **Step 2: Compare Results**
 
@@ -377,7 +383,7 @@ Click the **Topology** tab to see a visual representation of the network:
 
 ![Topology tab]
 
-![alt text](../Screenshots/Topology tab.png)
+![alt text](<../Screenshots/Topology tab.png>)
 
 ### Step 3: Explore the Host Details Tab
 
@@ -388,6 +394,8 @@ Click the **Host Details** tab to see detailed information about each host:
 | **OS Detection**        | Operating system guessed by Nmap     |
 | **Ports**               | List of all scanned ports and states |
 | **Host Script Results** | Output from NSE scripts              |
+
+![alt text](<../Screenshots/Host details.png>)
 
 ### Step 4: Explore the Scans Tab
 
@@ -407,7 +415,7 @@ Click the **Scans** tab to:
 
 ![New profile]
 
-![alt text](../Screenshots/New profile.png)
+![alt text](<../Screenshots/New profile.png>)
 
 ### Step 2: Configure Profile Settings
 
@@ -436,7 +444,7 @@ Try scanning your own computer:
 
 ![Localhost scan]
 
-![alt text](../Screenshots/Localhost scan.png)
+![alt text](<../Screenshots/Localhost scan.png>)
 
 ---
 
@@ -448,7 +456,7 @@ Try scanning your own computer:
 
 ![Save output]
 
-![alt text](../Screenshots/Save output.png)
+![alt text](<../Screenshots/Save output.png>)
 
 2. Choose file location and name
 3. Select format:
@@ -468,7 +476,9 @@ Try scanning your own computer:
 
 ![Compare scans]
 
-![alt text](../Screenshots/Compare scans.png)
+![alt text](<../Screenshots/Compare scans.png>)
+
+
 
 ---
 
