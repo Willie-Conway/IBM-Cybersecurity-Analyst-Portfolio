@@ -1,3 +1,6 @@
+
+![alt text](<../Screenshots/Jackson_Corp_Logo.png>)
+
 # Final Project: Recommendations to Improve Network Security
 
 **Estimated time needed:** 40 minutes

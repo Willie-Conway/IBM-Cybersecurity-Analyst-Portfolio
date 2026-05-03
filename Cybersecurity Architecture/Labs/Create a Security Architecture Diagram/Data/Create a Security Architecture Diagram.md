@@ -1,3 +1,4 @@
+![alt text](<../Screenshots/DrawIO.png>)
 
 # Create a Security Architecture Diagram
 

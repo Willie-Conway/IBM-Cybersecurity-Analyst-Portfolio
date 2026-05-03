@@ -1,3 +1,5 @@
+![alt text](<../Screenshots/X-Force.jpeg>)
+
 # Hands-on Lab: Review Security Threat Reports using X-Force Threat Exchange
 
 **Estimated time needed:** 15 minutes

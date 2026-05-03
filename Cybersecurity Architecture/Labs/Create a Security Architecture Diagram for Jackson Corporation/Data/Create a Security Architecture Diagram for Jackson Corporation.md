@@ -1,3 +1,6 @@
+
+![alt text](<../Screenshots/Jackson_Corp_Logo.png>)
+
 # [Optional] Lab: Create a Security Architecture Diagram for Jackson Corporation
 
 **Estimated time needed:** 30 minutes
