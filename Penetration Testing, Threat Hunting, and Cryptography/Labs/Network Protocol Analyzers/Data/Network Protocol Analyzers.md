@@ -226,6 +226,8 @@ After installation, launch Wireshark using one of these methods:
 
 ![alt text](<../Screenshots/Finished_Installation.png>)
 
+![alt text](<../Screenshots/Completed_Installation_Wireshark.png>)
+
 ![Launch Wireshark]
 
 ![alt text](../Screenshots/Launch_Wireshark.png)
@@ -277,7 +279,7 @@ When Wireshark launches, you will see the **Welcome Screen** with a list of avai
 
 ![Start capture button]
 
-![alt text](../Screenshots/Start_Capture.png)
+![alt text](<../Screenshots/Start_Capture.png>)
 
 ### Step 3: Generate Network Traffic
 
