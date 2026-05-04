@@ -360,7 +360,7 @@ Or search for "octocat/Hello-World" in GitHub.
 
 ![Octocat Hello World repo]
 
-![alt text](../Screenshots/Octocat_Repo.png)
+![alt text](<../Screenshots/Octocat_Repo.png>)
 
 ### Step 2: Click Fork
 
@@ -368,7 +368,7 @@ Or search for "octocat/Hello-World" in GitHub.
 
 ![Fork button]
 
-![alt text](../Screenshots/Fork_Button.png)
+![alt text](<../Screenshots/Fork_Button.png>)
 
 ### Step 3: Configure Fork
 
@@ -380,7 +380,7 @@ Or search for "octocat/Hello-World" in GitHub.
 
 ![Fork configuration]
 
-![alt text](../Screenshots/Fork_Config.png)
+![alt text](<../Screenshots/Fork_Config.png>)
 
 ### Step 4: View Your Fork
 
@@ -392,7 +392,7 @@ After forking, you will be taken to your copy of the repository:
 
 ![Forked repository]
 
-![alt text](../Screenshots/Forked_Repo.png)
+![alt text](<../Screenshots/Forked_Repo.png>)
 
 ### Why Fork a Repository?
 
