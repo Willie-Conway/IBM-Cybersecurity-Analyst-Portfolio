@@ -78,7 +78,7 @@ https://exchange.xforce.ibmcloud.com/
 
 ![X-Force Exchange homepage]
 
-![alt text](../Screenshots/XForce_Homepage_Lab.png)
+![alt text](<../Screenshots/XForce_Homepage_Lab.png>)
 
 ### Step 2: Explore the Homepage Sections
 
@@ -94,7 +94,7 @@ Take a few moments to explore the homepage. You will notice different sections:
 
 ![X-Force homepage sections]
 
-![alt text](../Screenshots/XForce_Sections.png)
+![alt text](<../Screenshots/XForce_Sections.png>)
 
 ### Step 3: Navigation Options
 
@@ -140,7 +140,7 @@ Emotet
 
 ![Malware search]
 
-![alt text](../Screenshots/Malware_Search.png)
+![alt text](<../Screenshots/Malware_Search.png>)
 
 ### Step 3: Search for an IP Address
 
@@ -154,7 +154,7 @@ Try searching for an IP address to check its reputation:
 
 ![IP search]
 
-![alt text](../Screenshots/IP_Search.png)
+![alt text](<../Screenshots/IP_Search.png>)
 
 ---
 
@@ -247,7 +247,7 @@ CVE-2024-28757
 
 ![CVE search]
 
-![alt text](../Screenshots/CVE_Search.png)
+![alt text](<../Screenshots/CVE_Search.png>)
 
 ### Step 2: Select a CVE Report
 
@@ -267,7 +267,7 @@ CVE-2024-28757
 
 ![CVE report details]
 
-![alt text](../Screenshots/CVE_Report_Details.png)
+![alt text](<../Screenshots/CVE_Report_Details.png>)
 
 ### Step 4: Analyze a Sample CVE Report
 
