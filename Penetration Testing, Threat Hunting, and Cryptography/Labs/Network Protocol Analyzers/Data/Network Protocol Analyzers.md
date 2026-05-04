@@ -516,7 +516,7 @@ Use logical operators to combine filters:
 
 ![Combined filters]
 
-![alt text](../Screenshots/Combined_Filters.png)
+![alt text](<../Screenshots/Combined_Filters.png>)
 
 ---
 
@@ -562,7 +562,7 @@ The "Follow TCP Stream" feature reconstructs an entire TCP conversation, making 
 
 ![Follow TCP Stream]
 
-![alt text](../Screenshots/Follow_TCP_Stream.png)
+![alt text](<../Screenshots/Follow_TCP_Stream.png>)
 
 ### Step 3: Analyze the Stream
 
@@ -604,7 +604,7 @@ The TCP Stream window opens, showing the complete conversation:
 
 ![TCP Stream window]
 
-![alt text](../Screenshots/TCP_Stream_Window.png)
+![alt text](<../Screenshots/TCP_Stream_Window.png>)
 
 ### Step 4: Close the Stream Window
 
