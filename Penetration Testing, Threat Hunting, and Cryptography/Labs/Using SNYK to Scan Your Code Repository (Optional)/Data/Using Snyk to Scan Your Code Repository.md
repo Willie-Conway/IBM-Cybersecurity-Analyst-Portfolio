@@ -283,7 +283,7 @@ After the scan completes, you will see a dashboard with:
 
 ![Scan results]
 
-![alt text](../Screenshots/Scan_Results.png)
+![alt text](<../Screenshots/Scan_Results.png>)
 
 ### Step 2: Understand Severity Levels
 
@@ -312,7 +312,7 @@ Click on any vulnerability to see details:
 
 ![Vulnerability details]
 
-![alt text](../Screenshots/Vulnerability_Details.png)
+![alt text](<../Screenshots/Vulnerability_Details.png>)
 
 ### Step 4: Review Open Source Vulnerabilities
 
