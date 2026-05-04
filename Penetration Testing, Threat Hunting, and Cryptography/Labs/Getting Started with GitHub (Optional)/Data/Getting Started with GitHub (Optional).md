@@ -164,7 +164,7 @@ A **repository** (or "repo") is where GitHub stores your project files and their
 
 ![Create repository button]
 
-![alt text](../Screenshots/Create_Repository.png)
+![alt text](<../Screenshots/Create_Repository.png>)
 
 ### Step 2: Configure Repository Settings
 
@@ -192,7 +192,7 @@ Fill out the repository information:
 
 ![Repository creation form]
 
-![alt text](../Screenshots/Repo_Creation_Form.png)
+![alt text](<../Screenshots/Repo_Creation_Form.png>)
 
 ### Step 3: Create Repository
 
@@ -201,7 +201,7 @@ Fill out the repository information:
 
 ![Create repository button final]
 
-![alt text](../Screenshots/Create_Repo_Final.png)
+![alt text](<../Screenshots/Create_Repo_Final.png>)
 
 ### Step 4: View Your Repository
 
@@ -221,7 +221,7 @@ The home page for your newly created repository is displayed. You can manage you
 
 ![Repository home page]
 
-![alt text](../Screenshots/Repo_Home_Page.png)
+![alt text](<../Screenshots/Repo_Home_Page.png>)
 
 ---
 
