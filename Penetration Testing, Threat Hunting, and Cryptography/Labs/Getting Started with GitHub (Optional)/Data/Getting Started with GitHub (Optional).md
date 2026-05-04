@@ -234,7 +234,7 @@ The home page for your newly created repository is displayed. You can manage you
 
 ![Add file button]
 
-![alt text](../Screenshots/Add_File.png)
+![alt text](<../Screenshots/Add_File.png>)
 
 ### Step 2: Create a Markdown File
 
@@ -277,7 +277,7 @@ You will create a file in **Markdown** format (`.md` extension). Markdown is a l
 
 ![Create new file screen]
 
-![alt text](../Screenshots/Create_New_File.png)
+![alt text](<../Screenshots/Create_New_File.png>)
 
 ### Step 3: Commit the File
 
@@ -293,7 +293,7 @@ Click **Commit new file**
 
 ![Commit new file]
 
-![alt text](../Screenshots/Commit_New_File.png)
+![alt text](<../Screenshots/Commit_New_File.png>)
 
 ### Step 4: View Committed File
 
@@ -305,7 +305,7 @@ After committing, you will see:
 
 ![Repository with new file]
 
-![alt text](../Screenshots/Repo_With_New_File.png)
+![alt text](<../Screenshots/Repo_With_New_File.png>)
 
 ### Step 5: Edit an Existing File
 
@@ -314,7 +314,7 @@ After committing, you will see:
 
 ![Edit file button]
 
-![alt text](../Screenshots/Edit_File.png)
+![alt text](<../Screenshots/Edit_File.png>)
 
 3. Add more content to your notes:
 
@@ -336,7 +336,9 @@ The edit workflow is:
 
 ![Commit changes edit]
 
-![alt text](../Screenshots/Commit_Changes.png)
+![alt text](<../Screenshots/Edit_Changes.png>)
+
+![alt text](<../Screenshots/Commit_Changes.png>)
 
 ---
 
