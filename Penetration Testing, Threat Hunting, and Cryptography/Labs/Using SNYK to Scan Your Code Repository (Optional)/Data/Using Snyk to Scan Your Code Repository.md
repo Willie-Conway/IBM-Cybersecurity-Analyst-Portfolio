@@ -385,7 +385,9 @@ Snyk can automatically create pull requests to fix vulnerabilities:
 
 ![Fix PR]
 
-![alt text](../Screenshots/Fix_PR.png)
+![alt text](<../Screenshots/Snyk_Cloud_Rules_Database.png>)
+
+![alt text](<../Screenshots/Fix_PR.png>)
 
 ### Method 2: Manual Fix
 
@@ -422,7 +424,7 @@ If a vulnerability is not applicable to your use case:
 
 ![Snyk dashboard]
 
-![alt text](../Screenshots/Snyk_Dashboard.png)
+![alt text](<../Screenshots/Snyk_Dashboard.png>)
 
 ### Connecting Additional Integrations
 
