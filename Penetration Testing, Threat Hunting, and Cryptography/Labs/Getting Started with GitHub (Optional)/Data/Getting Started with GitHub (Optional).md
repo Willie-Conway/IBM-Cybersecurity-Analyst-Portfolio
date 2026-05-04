@@ -79,7 +79,7 @@ https://github.com/join
 
 ![GitHub join page]
 
-![alt text](../Screenshots/GitHub_Join.png)
+![alt text](<../Screenshots/GitHub_Join.png>)
 
 ### Step 2: Complete the Sign-Up Form
 
@@ -95,7 +95,7 @@ On the **Join GitHub** page, provide the requested information:
 
 ![GitHub sign up form]
 
-![alt text](../Screenshots/GitHub_Signup_Form.png)
+![alt text](<../Screenshots/GitHub_Signup_Form.png>)
 
 ### Step 3: Submit and Verify
 
@@ -105,7 +105,7 @@ On the **Join GitHub** page, provide the requested information:
 
 ![GitHub verification]
 
-![alt text](../Screenshots/GitHub_Verify.png)
+![alt text](<../Screenshots/GitHub_Verify.png>)
 
 ### Step 4: Enter Launch Code
 
@@ -115,7 +115,7 @@ On the **Join GitHub** page, provide the requested information:
 
 ![Launch code verification]
 
-![alt text](../Screenshots/Launch_Code.png)
+![alt text](<../Screenshots/Launch_Code.png>)
 
 **Email example:**
 
@@ -134,7 +134,7 @@ Your verification code is: 123456
 
 ![Skip personalization]
 
-![alt text](../Screenshots/Skip_Personalization.png)
+![alt text](<../Screenshots/Skip_Personalization.png>)
 
 ### Step 6: GitHub Dashboard
 
@@ -149,7 +149,7 @@ The **GitHub dashboard** is displayed. From here you can:
 
 ![GitHub dashboard]
 
-![alt text](../Screenshots/GitHub_Dashboard.png)
+![alt text](<../Screenshots/GitHub_Dashboard.png>)
 
 ---
 
