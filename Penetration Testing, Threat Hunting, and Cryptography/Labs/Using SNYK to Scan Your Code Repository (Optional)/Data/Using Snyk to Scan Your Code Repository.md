@@ -61,7 +61,9 @@ https://github.com/bitnami/containers
 
 ![Fork repository]
 
-![alt text](../Screenshots/Fork_Repository_Snyk.png)
+![alt text](<../Screenshots/Fork_Repository_Snyk.png>)
+
+![alt text](<../Screenshots/Bitnami_Containers.png>)
 
 ---
 
@@ -119,7 +121,7 @@ https://app.snyk.io/login
 
 ![Snyk login page]
 
-![alt text](../Screenshots/Snyk_Login.png)
+![alt text](<../Screenshots/Snyk_Login.png>)
 
 ### Step 2: Click "Login with GitHub"
 
@@ -128,7 +130,7 @@ https://app.snyk.io/login
 
 ![Login with GitHub]
 
-![alt text](../Screenshots/Login_With_GitHub.png)
+![alt text](<../Screenshots/Login_With_GitHub.png>)
 
 ### Step 3: Authenticate with GitHub
 
@@ -143,7 +145,7 @@ https://app.snyk.io/login
 
 ![GitHub login]
 
-![alt text](../Screenshots/GitHub_Login.png)
+![alt text](<../Screenshots/GitHub_Login.png>)
 
 ### Step 4: Authorize Snyk
 
@@ -163,7 +165,7 @@ Provide permission and authorize Snyk to use your GitHub credentials.
 
 ![Authorize Snyk]
 
-![alt text](../Screenshots/Authorize_Snyk.png)
+![alt text](<../Screenshots/Authorize_Snyk.png>)
 
 ### Step 5: Skip Subscription (First Time Login)
 
@@ -174,7 +176,10 @@ The first time you log in, Snyk will ask if you want to subscribe for informatio
 
 ![Skip subscription]
 
-![alt text](../Screenshots/Skip_Subscription.png)
+![alt text](<../Screenshots/Skip_Subscription.png>)
+
+
+![alt text](../Screenshots/Choose_Integration.png)
 
 ---
 
