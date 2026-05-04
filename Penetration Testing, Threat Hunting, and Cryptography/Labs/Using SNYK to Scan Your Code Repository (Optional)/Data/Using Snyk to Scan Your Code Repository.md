@@ -179,8 +179,17 @@ The first time you log in, Snyk will ask if you want to subscribe for informatio
 ![alt text](<../Screenshots/Skip_Subscription.png>)
 
 
-![alt text](../Screenshots/Choose_Integration.png)
+![alt text](<../Screenshots/Choose_Integration.png>)
 
+![alt text](<../Screenshots/Set_Permissions.png>)
+
+![alt text](<../Screenshots/Authenticate_GitHub.png>)
+
+![alt text](<../Screenshots/Authorize_Application.png>)
+
+![alt text](<../Screenshots/Confirm_Access.png>)
+
+![alt text](<../Screenshots/Import_Repository.png>)
 ---
 
 ## Part 2: Adding a Repository to Snyk
@@ -193,7 +202,7 @@ After logging in, you will see the Snyk dashboard. Now you need to add a reposit
 
 ![Add project]
 
-![alt text](../Screenshots/Add_Project.png)
+![alt text](<../Screenshots/Add_Project.png>)
 
 ### Step 2: Select GitHub Integration
 
@@ -202,7 +211,7 @@ After logging in, you will see the Snyk dashboard. Now you need to add a reposit
 
 ![Select GitHub]
 
-![alt text](../Screenshots/Select_GitHub_Integration.png)
+![alt text](<../Screenshots/Select_GitHub_Integration.png>)
 
 ### Step 3: Choose a Repository to Scan
 
@@ -224,7 +233,7 @@ You will see a list of your GitHub repositories:
 
 ![Choose repository]
 
-![alt text](../Screenshots/Choose_Repository.png)
+![alt text](<../Screenshots/Choose_Repository.png>)
 
 ### Step 4: Wait for Import
 
@@ -235,7 +244,7 @@ Snyk will import your repository and begin scanning:
 
 ![Importing repository]
 
-![alt text](../Screenshots/Importing_Repo.png)
+![alt text](<../Screenshots/Importing_Repo.png>)
 
 ---
 
