@@ -207,12 +207,11 @@ Follow the installation wizard steps:
 
 ![Installation complete]
 
-![alt text](<../Screenshots/Install_Complete.png>)
+![alt text](../Screenshots/Install_Complete.png)
 
-![alt text](<../Screenshots/USB Capture.png>)
+![alt text](../Screenshots/USB Capture.png)
 
-![alt text](<../Screenshots/After installation.png>)
-
+![alt text](../Screenshots/After installation.png)
 
 ### Step 7: Launch Wireshark
 
@@ -224,9 +223,9 @@ After installation, launch Wireshark using one of these methods:
 | **Start Menu**       | Click Start → Wireshark → Wireshark           |
 | **Run command**      | Press Win+R, type `wireshark`, press Enter    |
 
-![alt text](<../Screenshots/Finished_Installation.png>)
+![alt text](../Screenshots/Finished_Installation.png)
 
-![alt text](<../Screenshots/Completed_Installation_Wireshark.png>)
+![alt text](../Screenshots/Completed_Installation_Wireshark.png)
 
 ![Launch Wireshark]
 
@@ -279,7 +278,7 @@ When Wireshark launches, you will see the **Welcome Screen** with a list of avai
 
 ![Start capture button]
 
-![alt text](<../Screenshots/Start_Capture.png>)
+![alt text](../Screenshots/Start_Capture.png)
 
 ### Step 3: Generate Network Traffic
 
@@ -454,9 +453,9 @@ Type the following filters in the **Display Filter** bar and press **Enter**:
 | `icmp` | ICMP (ping) traffic              |
 | `arp`  | ARP (address resolution) traffic |
 
-![Filter for TCP]
+![Filter for UDP]
 
-![alt text](../Screenshots/Filter_TCP.png)
+![alt text](<../Screenshots/Filter_UDP.png>)
 
 ### Step 2: Filter for Specific Ports
 
