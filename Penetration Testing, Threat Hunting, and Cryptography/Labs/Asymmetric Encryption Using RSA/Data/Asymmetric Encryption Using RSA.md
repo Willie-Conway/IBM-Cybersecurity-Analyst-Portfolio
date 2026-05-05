@@ -102,7 +102,9 @@ Asymmetric encryption uses **two different keys** for encryption and decryption:
 
 ![Open new terminal]
 
-![alt text](../Screenshots/Open_New_Terminal.png)
+![alt text](<../Screenshots/Open_New_Terminal.png>)
+
+
 
 ### Step 2: Verify Terminal is Ready
 
@@ -110,7 +112,7 @@ After clicking **New Terminal**, a terminal window will open. You will enter all
 
 ![Terminal ready]
 
-![alt text](../Screenshots/Terminal_Ready_RSA.png)
+![alt text](<../Screenshots/Terminal_Ready_RSA.png>)
 
 ### Step 3: Verify OpenSSL Installation
 
@@ -128,7 +130,7 @@ OpenSSL 3.0.2 15 Mar 2022 (Library: OpenSSL 3.0.2 15 Mar 2022)
 
 ![OpenSSL version]
 
-![alt text](../Screenshots/OpenSSL_Version_RSA.png)
+![alt text](<../Screenshots/OpenSSL_Version_RSA.png>)
 
 ---
 
@@ -169,7 +171,7 @@ The output shows random noise as OpenSSL gathers entropy to generate a cryptogra
 
 ![Generate private key]
 
-![alt text](../Screenshots/Generate_Private_Key.png)
+![alt text](<../Screenshots/Generate_Private_Key.png>)
 
 ### Verify Private Key
 
@@ -182,6 +184,9 @@ ls -la private_key.pem
 ```
 -rw-r--r-- 1 user user 1679 Apr 28 10:00 private_key.pem
 ```
+
+![alt text](<../Screenshots/Verify_Private_Key.png>)
+
 
 ### View Private Key Contents
 
@@ -200,7 +205,7 @@ zFYX+oXJhQYiMqyKq2nqXe7pQJ... (more lines) ...
 
 ![View private key]
 
-![alt text](../Screenshots/View_Private_Key.png)
+![alt text](<../Screenshots/View_Private_Key.png>)
 
 **What the PEM format means:**
 
