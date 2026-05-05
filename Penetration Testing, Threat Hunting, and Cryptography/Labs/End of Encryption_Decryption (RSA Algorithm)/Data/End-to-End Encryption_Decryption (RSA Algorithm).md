@@ -1,4 +1,4 @@
-![alt text](<../Screenshots/Cryptool.png>)
+![alt text](../Screenshots/Cryptool.png)
 
 # Lab: End-to-End Encryption/Decryption (RSA Algorithm)
 
@@ -86,7 +86,7 @@ https://www.cryptool.org/en/
 
 ![CrypTool website]
 
-![alt text](../Screenshots/CrypTool_Website_RSA.png)
+![alt text](<../Screenshots/CrypTool_Website_RSA.png>)
 
 ### Step 2: Navigate to Download Page
 
@@ -109,7 +109,9 @@ https://www.cryptool.org/en/ct2/
 
 ![Download CrypTool 2 RSA]
 
-![alt text](../Screenshots/Download_CrypTool2_RSA.png)
+![alt text](<../Screenshots/Download_CrypTool2_RSA.png>)
+
+![alt text](<../Screenshots/CT2 Downloads_CrypTool_2_page.png>)
 
 ### Step 4: Install CrypTool 2.1 on Windows
 
@@ -140,7 +142,9 @@ After installation, launch CrypTool 2.1 using one of these methods:
 
 ![CrypTool launch RSA]
 
-![alt text](../Screenshots/CrypTool_Launch_RSA.png)
+![alt text](<../Screenshots/CrypTool_Launch_RSA.png>)
+
+
 
 ---
 
@@ -152,7 +156,7 @@ Launch the application. The main window will appear:
 
 ![CrypTool main window RSA]
 
-![alt text](../Screenshots/CrypTool_Main_RSA.png)
+![alt text](<../Screenshots/CrypTool_Main_RSA.png>)
 
 ### Step 2: Create a New Template
 
@@ -161,7 +165,8 @@ Launch the application. The main window will appear:
 
 ![New template RSA]
 
-![alt text](../Screenshots/CrypTool_New_RSA.png)
+
+![alt text](<../Screenshots/CrypTool_New_RSA.jpg>)
 
 ### Step 3: Select Encryption/Decryption
 
@@ -171,6 +176,10 @@ Launch the application. The main window will appear:
 ![Select Encryption/Decryption]
 
 ![alt text](../Screenshots/Select_Encryption_Decryption.png)
+
+![alt text](<../Screenshots/Select_Modern_Encryption_Decryption.png>)
+
+![alt text](<../Screenshots/Select_Asymmetric_Encryption_Decryption.png>)
 
 ### Step 4: Choose RSA Algorithm
 
