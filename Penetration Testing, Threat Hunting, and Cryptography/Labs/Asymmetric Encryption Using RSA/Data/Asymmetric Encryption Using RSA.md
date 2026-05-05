@@ -244,7 +244,7 @@ writing RSA key
 
 ![Generate public key]
 
-![alt text](../Screenshots/Generate_Public_Key.png)
+![alt text](<../Screenshots/Generate_Public_Key.png>)
 
 ### Verify Public Key
 
@@ -257,6 +257,8 @@ ls -la public_key.pem
 ```
 -rw-r--r-- 1 user user 451 Apr 28 10:00 public_key.pem
 ```
+
+![alt text](<../Screenshots/Verify_Public_Key.png>)
 
 ### View Public Key Contents
 
@@ -275,7 +277,7 @@ yYUQlBZB... (more lines) ...
 
 ![View public key]
 
-![alt text](../Screenshots/View_Public_Key.png)
+![alt text](<../Screenshots/View_Public_Key.png>)
 
 ### Understanding Key Differences
 
@@ -310,7 +312,7 @@ Confidential: SecureBank financial data for Q4 2024
 
 ![Create confidential file]
 
-![alt text](../Screenshots/Create_Confidential_File.png)
+![alt text](<../Screenshots/Create_Confidential_File.png>)
 
 ### Alternative: Create Multi-line File
 
@@ -322,6 +324,8 @@ Transaction Amount: $10,000
 Date: 2024-04-28
 EOF
 ```
+
+![alt text](<../Screenshots/Create_Multi-line_File.png>)
 
 ---
 
@@ -338,6 +342,9 @@ RSA encryption has a size limitation. With a 2048-bit key, you can only encrypt 
 ```bash
 openssl rsautl -encrypt -inkey public_key.pem -pubin -in confidential.txt -out confidential.enc
 ```
+
+![alt text](<../Screenshots/Important_Limitation.png>)
+
 
 ### Command Breakdown
 
@@ -360,7 +367,7 @@ openssl pkeyutl -encrypt -pubin -inkey public_key.pem -in confidential.txt -out 
 
 ![Encrypt file]
 
-![alt text](../Screenshots/Encrypt_File_RSA.png)
+![alt text](<../Screenshots/Encrypt_File_RSA.png>)
 
 ### Verify Encrypted File
 
@@ -377,6 +384,8 @@ ls -la confidential*
 
 Notice the encrypted file is **larger** (256 bytes) than the original (56 bytes) due to RSA padding.
 
+![alt text](<../Screenshots/Verify_Encrypted_File_2.png>)
+
 ### View Encrypted Content (Binary)
 
 ```bash
@@ -391,7 +400,7 @@ The encrypted file will appear as **gibberish** (binary data):
 
 ![View encrypted file]
 
-![alt text](../Screenshots/View_Encrypted_File.png)
+![alt text](<../Screenshots/View_Encrypted_File.png>)
 
 ### View in Hex Format (Optional)
 
@@ -421,6 +430,8 @@ openssl rsautl -decrypt -inkey private_key.pem -in confidential.enc -out confide
 | `-in confidential.enc`        | Input file (encrypted)            |
 | `-out confidential.decrypted` | Output file (decrypted plaintext) |
 
+![alt text](<../Screenshots/Decrypt_the_Encrypted_File_Using_RSA_Private_Key.png>)
+
 ### Alternative for Newer OpenSSL Versions
 
 ```bash
@@ -431,7 +442,7 @@ openssl pkeyutl -decrypt -inkey private_key.pem -in confidential.enc -out confid
 
 ![Decrypt file]
 
-![alt text](../Screenshots/Decrypt_File_RSA.png)
+![alt text](<../Screenshots/Decrypt_File_RSA.png>)
 
 ### Verify Decrypted Content
 
@@ -447,7 +458,7 @@ Confidential: SecureBank financial data for Q4 2024
 
 ![View decrypted file]
 
-![alt text](../Screenshots/View_Decrypted_File.png)
+![alt text](<../Screenshots/View_Decrypted_File.png>)
 
 ### Verify Original and Decrypted Match
 
@@ -486,6 +497,8 @@ openssl rsautl -decrypt -inkey private_key.pem -in symmetric.key.enc -out symmet
 # Step 5: Decrypt large file with recovered symmetric key
 openssl enc -d -aes-256-cbc -in large_file.enc -out large_file.dec -pass file:symmetric.key.dec
 ```
+
+![alt text](<../Screenshots/Command_for_Hybrid_Encryption.png>)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -538,6 +551,8 @@ rm -f confidential.enc
 ```bash
 ls -la
 ```
+
+![alt text](<../Screenshots/List_Remaining_Files.png>)
 
 ---
 
