@@ -338,6 +338,8 @@ openssl enc -d -aes-256-cbc -in test_file.enc -out test_file.decrypted -pass fil
 | `-out test_file.decrypted` | Output file (decrypted plaintext)  |
 | `-pass file:aes_key.key`   | Same key used for encryption       |
 
+![alt text](<../Screenshots/Basic_AES_Decryption_Command.png>)
+
 ### Alternative: Decrypt Base64 Encrypted File
 
 If you used the `-a` flag during encryption:
@@ -349,6 +351,8 @@ openssl enc -d -aes-256-cbc -a -in test_file_base64.enc -out test_file_base64.de
 ![AES decryption]
 
 ![alt text](../Screenshots/AES_Decryption.png)
+
+![alt text](<../Screenshots/AES_Decryption.png>)
 
 ### Verify Decrypted Content
 
@@ -364,7 +368,7 @@ This is a sample file for AES encryption lab.
 
 ![Verify decrypted AES]
 
-![alt text](../Screenshots/Verify_Decrypted_AES.png)
+![alt text](<../Screenshots/Verify_Decrypted_AES.png>)
 
 ### Verify Original and Decrypted Match
 
@@ -443,6 +447,8 @@ echo "File 2: Financial records" > file2.txt
 echo "File 3: Employee information" > file3.txt
 ```
 
+![alt text](<../Screenshots/Create_Multiple_Test_Files.png>)
+
 ### Encrypt All .txt Files
 
 ```bash
@@ -456,6 +462,8 @@ done
 ```bash
 ls -la *.enc
 ```
+
+![alt text](<../Screenshots/Verify_Encrypted_Files.png>)
 
 ---
 
