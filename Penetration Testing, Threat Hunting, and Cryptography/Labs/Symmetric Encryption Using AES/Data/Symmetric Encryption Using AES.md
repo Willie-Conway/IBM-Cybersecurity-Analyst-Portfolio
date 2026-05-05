@@ -102,7 +102,7 @@ After completing this lab, you will be able to:
 
 ![Open new terminal AES]
 
-![alt text](../Screenshots/Open_New_Terminal_AES.png)
+![alt text](<../Screenshots/Open_New_Terminal_AES.png>)
 
 ### Step 2: Click New Terminal
 
@@ -110,7 +110,7 @@ After clicking **New Terminal**, a terminal window will open. You will enter all
 
 ![Terminal ready AES]
 
-![alt text](../Screenshots/Terminal_Ready_AES.png)
+![alt text](<../Screenshots/Terminal_Ready_AES.png>)
 
 ### Step 3: Verify OpenSSL Installation
 
@@ -128,7 +128,7 @@ OpenSSL 3.0.2 15 Mar 2022 (Library: OpenSSL 3.0.2 15 Mar 2022)
 
 ![OpenSSL version AES]
 
-![alt text](../Screenshots/OpenSSL_Version_AES.png)
+![alt text](<../Screenshots/OpenSSL_Version_AES.png>)
 
 ---
 
@@ -156,7 +156,7 @@ This is a sample file for AES encryption lab.
 
 ![Create test file AES]
 
-![alt text](../Screenshots/Create_Test_File_AES.png)
+![alt text](<../Screenshots/Create_Test_File_AES.png>)
 
 ### Create a Larger Test File (Optional)
 
@@ -176,6 +176,10 @@ EOF
 ```bash
 cat confidential_data.txt
 ```
+
+![alt text](<../Screenshots/Create_a_Larger_Test_File.png>)
+
+![alt text](<../Screenshots/cat_confidential.png>)
 
 ---
 
@@ -215,7 +219,9 @@ s8VJm2pQ9rT3uX5wY7zA1bC3dE5fG7hI
 
 ![Generate AES key]
 
-![alt text](../Screenshots/Generate_AES_Key.png)
+![alt text](<../Screenshots/Generate_AES_Key.png>)
+
+![alt text](<../Screenshots/Generate_a_Secret_Key_for_AES.png>)
 
 ### Method 3: Password-Based Key (Alternative)
 
@@ -225,6 +231,8 @@ Instead of a random key, you can derive a key from a password:
 # This will prompt you for a password
 openssl enc -aes-256-cbc -k mypassword -P
 ```
+
+![alt text](<../Screenshots/Password_Based_Key.png>)
 
 ---
 
@@ -249,6 +257,10 @@ openssl enc -aes-256-cbc -salt -in test_file.txt -out test_file.enc -pass file:a
 | `-out test_file.enc`     | Output file (encrypted)              |
 | `-pass file:aes_key.key` | Use key from `aes_key.key` file    |
 
+![alt text](<../Screenshots/Basic_AES_Encryption_Command.png>)
+
+![alt text](<../Screenshots/Verify_the_Encrypted_File.png>)
+
 ### Alternative: Direct Password Encryption (No Key File)
 
 ```bash
@@ -256,6 +268,8 @@ openssl enc -aes-256-cbc -salt -in test_file.txt -out test_file.enc -k mypasswor
 ```
 
 This will prompt you to enter and verify a password.
+
+![alt text](<../Screenshots/Direct_Password_Encryption.png>)
 
 ### Alternative: Base64 Encoded Output
 
@@ -269,7 +283,7 @@ The `-a` flag tells OpenSSL to base64-encode the output.
 
 ![AES encryption]
 
-![alt text](../Screenshots/AES_Encryption.png)
+![alt text](<../Screenshots/AES_Encryption.png>)
 
 ### Verify Encrypted File
 
@@ -286,6 +300,8 @@ ls -la test_file*
 
 Notice the encrypted file is larger due to salt and padding.
 
+![alt text](<../Screenshots/Verify_Encrypted_File.png>)
+
 ### View Encrypted Content
 
 ```bash
@@ -300,7 +316,7 @@ Salt__�z�M���%t�Y...
 
 ![View encrypted AES]
 
-![alt text](../Screenshots/View_Encrypted_AES.png)
+![alt text](<../Screenshots/View_Encrypted_AES.png>)
 
 ---
 
