@@ -335,7 +335,7 @@ If you are decrypting a message you just encrypted, the ciphertext is already in
 
 ![RSA decryption]
 
-![alt text](../Screenshots/RSA_Decryption.png)
+![alt text](<../Screenshots/RSA_Decryption.png>)
 
 ### Step 4: View the Decrypted Message
 
@@ -347,7 +347,7 @@ Hello SecureBank! This is a confidential message.
 
 ![View decrypted message]
 
-![alt text](../Screenshots/View_Decrypted_RSA.png)
+![alt text](<../Screenshots/View_Decrypted_RSA.png>)
 
 ### Step 5: Verify Correctness
 
@@ -375,7 +375,7 @@ CrypTool shows the mathematical components of RSA:
 
 ![RSA parameters]
 
-![alt text](../Screenshots/RSA_Parameters.png)
+![alt text](<../Screenshots/RSA_Parameters.png>)
 
 ### Step 2: Message Size Limitations
 
