@@ -216,7 +216,7 @@ You will now generate an RSA key pair. Configure the following parameters:
 
 ![Generate RSA keys]
 
-![alt text](../Screenshots/Generate_RSA_Keys.png)
+![alt text](<../Screenshots/Generate_RSA_Keys.png>)
 
 ### Step 3: View the Key Pair
 
@@ -244,7 +244,7 @@ qRsTuVwXyZ1aBcDeFgHiJkLmNoPqRsTuVwXyZ1aBcDeFgHiJkLmNoPqRsTuVwXy
 
 ![View RSA keys]
 
-![alt text](../Screenshots/View_RSA_Keys.png)
+![alt text](<../Screenshots/View_RSA_Keys.png>)
 
 ### Step 4: Save the Keys
 
@@ -274,7 +274,9 @@ Secret: Q4 Revenue $10M
 
 ![Enter plaintext]
 
-![alt text](../Screenshots/Enter_Plaintext_RSA.png)
+![alt text](<../Screenshots/RSA_Encryption.png>)
+
+![alt text](<../Screenshots/Enter_Plaintext_RSA.png>)
 
 ### Step 2: Select the Public Key for Encryption
 
@@ -307,7 +309,7 @@ The ciphertext will appear as **gibberish** (binary data) because it is encrypte
 
 ![View ciphertext]
 
-![alt text](../Screenshots/View_Ciphertext_RSA.png)
+![alt text](<../Screenshots/View_Ciphertext_RSA.png>)
 
 ---
 
