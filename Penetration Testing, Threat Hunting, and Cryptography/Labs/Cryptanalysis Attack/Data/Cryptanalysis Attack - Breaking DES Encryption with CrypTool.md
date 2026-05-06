@@ -90,7 +90,7 @@ https://www.cryptool.org/en/
 
 ![CrypTool website]
 
-![alt text](../Screenshots/CrypTool_Website.png)
+![alt text](<../Screenshots/CrypTool_Website.png>)
 
 ### Step 2: Navigate to Download Page
 
@@ -99,7 +99,7 @@ https://www.cryptool.org/en/
 
 ![Download page]
 
-![alt text](../Screenshots/Download_Page.png)
+![alt text](<../Screenshots/Download_Page.png>)
 
 ### Step 3: Download CrypTool 2.1 (Stable Build)
 
@@ -117,7 +117,7 @@ https://www.cryptool.org/en/ct2/
 
 ![Download CrypTool 2]
 
-![alt text](../Screenshots/Download_CrypTool2.png)
+![alt text](<../Screenshots/Download_CrypTool2.png>)
 
 ### Step 4: Install CrypTool 2.1 on Windows
 
@@ -138,7 +138,7 @@ https://www.cryptool.org/en/ct2/
 
 ![Installation wizard]
 
-![alt text](../Screenshots/CrypTool_Install.png)
+![alt text](<../Screenshots/CrypTool_Install.png>)
 
 ### Step 5: Launch CrypTool 2.1
 
@@ -152,7 +152,7 @@ After installation, launch CrypTool 2.1 using one of these methods:
 
 ![CrypTool launch]
 
-![alt text](../Screenshots/CrypTool_Launch.png)
+![alt text](<../Screenshots/CrypTool_Launch.png>)
 
 ---
 
@@ -166,7 +166,7 @@ Launch the application. The main window will appear:
 
 ![CrypTool main window]
 
-![alt text](../Screenshots/CrypTool_Main_Window.png)
+![alt text](<../Screenshots/CrypTool_Main_Window.png>)
 
 ### Step 2: Create a New Template
 
@@ -175,7 +175,7 @@ Launch the application. The main window will appear:
 
 ![New template]
 
-![alt text](../Screenshots/CrypTool_New_Template.png)
+![alt text](<../Screenshots/CrypTool_New_Template.jpg>)
 
 ### Step 3: Select Cryptanalysis
 
@@ -184,7 +184,7 @@ Launch the application. The main window will appear:
 
 ![Select Cryptanalysis]
 
-![alt text](../Screenshots/Select_Cryptanalysis.png)
+![alt text](<../Screenshots/Select_Cryptanalysis.png>)
 
 ### Step 4: Choose Attack Type
 
@@ -222,6 +222,10 @@ CrypTool provides sample data for learning purposes:
 | **Plaintext (hex)**  | `54686520717569636B2062726F776E20666F78206A756D7073206F76657220746865206C617A7920646F67` |
 | **Ciphertext (hex)** | (Will be generated or provided)                                                            |
 
+
+![alt text](<../Screenshots/Configure_the_Attack_Parameters.png>)
+
+
 **Option 2: Enter Custom Data**
 
 You can also enter your own data:
@@ -242,7 +246,7 @@ Ciphertext: (Result of DES encryption with unknown key)
 
 ![Configure attack]
 
-![alt text](../Screenshots/Configure_Attack.png)
+![alt text](<../Screenshots/Configure_Attack.png>)
 
 ### Step 6: Start the Attack
 
@@ -273,7 +277,7 @@ The attack will:
 
 ![Attack in progress]
 
-![alt text](../Screenshots/Attack_Progress.png)
+![alt text](<../Screenshots/Attack_Progress.png>)
 
 ### Step 7: Review the Results
 
@@ -290,7 +294,7 @@ After the attack completes, you will see:
 
 ![Attack results]
 
-![alt text](../Screenshots/Attack_Results.png)
+![alt text](<../Screenshots/Attack_Results.png>)
 
 ### Step 8: Analyze the Results
 
@@ -359,7 +363,7 @@ In CrypTool, explore:
 
 ![DES weaknesses]
 
-![alt text](../Screenshots/DES_Weaknesses.png)
+![alt text](<../Screenshots/DES_Weaknesses.png>)
 
 ### Step 3: Compare DES with AES
 
