@@ -99,7 +99,7 @@ To complete this lab, you will be using the **Cloud IDE based on Theia**, runnin
 
 ![New Terminal]
 
-![alt text](../Screenshots/New_Terminal.png)
+![alt text](<../Screenshots/New_Terminal.png>)
 
 ### Step 2: Verify Terminal is Open
 
@@ -109,7 +109,7 @@ Remember to **capture screenshots** as you go through each step.
 
 ![Terminal Ready]
 
-![alt text](../Screenshots/Terminal_Ready.png)
+![alt text](<../Screenshots/Terminal_Ready.png>)
 
 ---
 
@@ -201,7 +201,7 @@ OpenSSL 3.0.2 15 Mar 2022 (Library: OpenSSL 3.0.2 15 Mar 2022)
 
 ![OpenSSL version check]
 
-![alt text](../Screenshots/OpenSSL_Version.png)
+![alt text](<../Screenshots/OpenSSL_Version.png>)
 
 #### Step 1.2: Create the Credentials File
 
@@ -211,6 +211,8 @@ Create a new file named `userdetails` with the sample credentials:
 echo "Username: admin" > userdetails
 echo "Password: P@ssw0rd123" >> userdetails
 ```
+
+![alt text](<../Screenshots/Create_the_Credentials_File.png>)
 
 #### Step 1.3: Verify File Contents
 
@@ -229,7 +231,7 @@ Password: P@ssw0rd123
 
 ![Create userdetails file]
 
-![alt text](../Screenshots/Create_Userdetails.png)
+![alt text](<../Screenshots/Create_Userdetails.png>)
 
 #### Step 1.4: View File Permissions (Optional)
 
@@ -250,6 +252,9 @@ This shows that the file is readable by anyone on the system—a security risk!
 | Screenshot showing `cat userdetails` command output          | ☐     |
 | Screenshot shows "Username: admin" and "Password: P@ssw0rd123" | ☐     |
 
+
+![alt text](<../Screenshots/View_File_Permissions.png>)
+
 ---
 
 ### Step 2: Generate a Strong Encryption Key
@@ -263,6 +268,8 @@ Generate a random key using OpenSSL and save it to a file:
 ```bash
 openssl rand -base64 32 > encryption.key
 ```
+
+![alt text](<../Screenshots/Generate_a_256-bit (32-byte)_Encryption_Key.png>)
 
 **What this command does:**
 
@@ -288,7 +295,7 @@ s8VJm2pQ9rT3uX5wY7zA1bC3dE5fG7hI9kL1nP3rT5vX7
 
 ![Generate encryption key]
 
-![alt text](../Screenshots/Generate_Key.png)
+![alt text](<../Screenshots/Generate_Key.png>)
 
 #### Step 2.3: Secure Key File Permissions
 
@@ -306,6 +313,9 @@ chmod 600 encryption.key
 | :----------------------------------------------------- | :----- |
 | Screenshot showing the generated encryption key        | ☐     |
 | Screenshot shows key file created (`encryption.key`) | ☐     |
+
+
+![alt text](<../Screenshots/Secure_Key_File_Permissions.png>)
 
 ---
 
@@ -332,6 +342,8 @@ openssl enc -aes-256-cbc -salt -in userdetails -out userdetails.enc -pass file:e
 | `-out userdetails.enc`      | Output file (encrypted)                         |
 | `-pass file:encryption.key` | Use the key from `encryption.key` file        |
 
+![alt text](<../Screenshots/Encrypt_Using_AES-256-CBC.png>)
+
 #### Step 3.2: Verify the Original File Still Contains Plaintext
 
 ```bash
@@ -344,6 +356,8 @@ cat userdetails
 Username: admin
 Password: P@ssw0rd123
 ```
+
+![alt text](<../Screenshots/Verify_the_Original_File_Still_Contains_Plaintext.png>)
 
 #### Step 3.3: View the Encrypted File
 
@@ -361,7 +375,7 @@ The encrypted file should appear as **gibberish or binary data**—this means en
 
 ![Encrypt file]
 
-![alt text](../Screenshots/Encrypt_File.png)
+![alt text](<../Screenshots/Encrypt_File.png>)
 
 #### Step 3.4: View Encrypted File in Hex Format (Optional)
 
@@ -380,6 +394,9 @@ This shows the raw encrypted bytes in a readable hex format.
 | Screenshot showing encryption command executed                       | ☐     |
 | Screenshot showing `cat userdetails.enc` output (gibberish/binary) | ☐     |
 | Screenshot showing `userdetails.enc` file was created (`ls -la`) | ☐     |
+
+
+![alt text](<../Screenshots/all_files.png>)
 
 ---
 
@@ -405,6 +422,8 @@ openssl enc -d -aes-256-cbc -in userdetails.enc -out userdetails.decrypted -pass
 | `-out userdetails.decrypted` | Output file (decrypted plaintext)  |
 | `-pass file:encryption.key`  | Same key used for encryption       |
 
+![alt text](<../Screenshots/Decrypt_Using_the_Same_Key.png>)
+
 #### Step 4.2: Verify the Decrypted File Contents
 
 ```bash
@@ -418,6 +437,8 @@ Username: admin
 Password: P@ssw0rd123
 ```
 
+![alt text](<../Screenshots/Verify_the_Decrypted_File_Contents.png>)
+
 #### Step 4.3: Compare Original and Decrypted Files
 
 Verify that the decrypted file matches the original:
@@ -430,7 +451,7 @@ No output means the files are identical—successful decryption!
 
 ![Decrypt file]
 
-![alt text](../Screenshots/Decrypt_File.png)
+![alt text](<../Screenshots/Decrypt_File.png>)
 
 **Step 4 Submission Requirements:**
 
@@ -466,6 +487,8 @@ shred -u userdetails
 rm -P userdetails
 ```
 
+![alt text](<../Screenshots/Securely_Delete_the_Original_Plaintext_File.png>)
+
 #### Step 5.2: Verify the Original File is Deleted
 
 ```bash
@@ -492,7 +515,7 @@ userdetails.decrypted (decrypted data - for use)
 
 ![Secure deletion]
 
-![alt text](../Screenshots/Secure_Deletion.png)
+![alt text](<../Screenshots/Secure_Deletion.png>)
 
 #### Step 5.4: Key Management Best Practices
 
@@ -536,7 +559,7 @@ Password: P@ssw0rd123
 
 ![Final verification]
 
-![alt text](../Screenshots/Final_Verification.png)
+![alt text](<../Screenshots/Final_Verification.png>)
 
 #### Step 6.2: Verify Wrong Key Fails
 
@@ -551,6 +574,8 @@ openssl enc -d -aes-256-cbc -in userdetails.enc -pass file:wrong.key 2>/dev/null
 ```
 
 **Expected result:** Gibberish output or error (cannot decrypt correctly)
+
+![alt text](<../Screenshots/Verify_Wrong_Key_Fails.png>)
 
 #### Step 6.3: Document the Encryption Process
 
@@ -579,6 +604,10 @@ EOF
 
 cat encryption_summary.txt
 ```
+
+![alt text](<../Screenshots/Document_the_Encryption_Process.png>)
+
+![alt text](<../Screenshots/Encryption_Summary.png>)
 
 **Step 6 Submission Requirements:**
 
