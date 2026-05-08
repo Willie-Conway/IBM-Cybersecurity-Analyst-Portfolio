@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecureSync — Incident Response Simulation</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+  :root {
+    --bg1: #ffffff; --bg2: #f7f7f5; --bg3: #efefec;
+    --text1: #1a1a18; --text2: #6b6b66; --text3: #9c9a92;
+    --border: rgba(0,0,0,0.12); --border2: rgba(0,0,0,0.22);
+    --danger-bg: #fcebeb; --danger-text: #a32d2d; --danger-border: rgba(163,45,45,.3);
+    --warn-bg: #faeeda; --warn-text: #854f0b; --warn-border: rgba(133,79,11,.3);
+    --success-bg: #eaf3de; --success-text: #3b6d11; --success-border: rgba(59,109,17,.3);
+    --info-bg: #e6f1fb; --info-text: #185fa5; --info-border: rgba(24,95,165,.3);
+    --radius-md: 8px; --radius-lg: 12px;
+    --font-sans: system-ui, -apple-system, sans-serif;
+    --font-mono: 'Menlo','Monaco','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg1: #1e1e1c; --bg2: #272725; --bg3: #2f2f2c;
+      --text1: #e8e6de; --text2: #9c9a92; --text3: #6b6b66;
+      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.2);
+      --danger-bg: #2d1212; --danger-text: #f09595; --danger-border: rgba(240,149,149,.25);
+      --warn-bg: #2a1e08; --warn-text: #fac775; --warn-border: rgba(250,199,117,.25);
+      --success-bg: #152208; --success-text: #97c459; --success-border: rgba(151,196,89,.25);
+      --info-bg: #0d1e30; --info-text: #85b7eb; --info-border: rgba(133,183,235,.25);
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); background: var(--bg3); color: var(--text1); min-height: 100vh; padding: 20px; }
+  .app { max-width: 1100px; margin: 0 auto; }
+  .app-title { font-size: 13px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+
+  /* HEADER */
+  .ir-header { background: var(--bg1); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 16px 20px; margin-bottom: 12px; }
+  .ir-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .ir-title { font-size: 16px; font-weight: 600; color: var(--text1); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .ir-sub { font-size: 12px; color: var(--text2); font-family: var(--font-mono); }
+  .ir-right { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+  .bd { background: var(--danger-bg); color: var(--danger-text); }
+  .bw { background: var(--warn-bg); color: var(--warn-text); }
+  .bs { background: var(--success-bg); color: var(--success-text); }
+  .bi { background: var(--info-bg); color: var(--info-text); }
+  .bn { background: var(--bg2); color: var(--text2); font-family: var(--font-mono); }
+  .phase-bar { display: flex; gap: 4px; margin-top: 12px; }
+  .pb-seg { flex: 1; height: 4px; border-radius: 2px; background: var(--border); }
+  .pb-seg.done { background: var(--success-text); }
+  .pb-seg.active { background: var(--info-text); }
+  .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
+  @media (max-width: 600px) { .metrics-row { grid-template-columns: repeat(2,1fr); } }
+  .met { background: var(--bg2); border-radius: var(--radius-md); padding: 12px 14px; }
+  .met-l { font-size: 11px; color: var(--text2); margin-bottom: 3px; }
+  .met-v { font-size: 22px; font-weight: 600; color: var(--text1); }
+  .met-s { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  /* TABS */
+  .tab-bar { display: flex; border-bottom: 0.5px solid var(--border); margin-bottom: 16px; gap: 2px; overflow-x: auto; background: var(--bg1); border-radius: var(--radius-lg) var(--radius-lg) 0 0; padding: 0 12px; }
+  .tb { padding: 10px 14px; font-size: 13px; color: var(--text2); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px; transition: color .15s; font-family: var(--font-sans); }
+  .tb:hover { color: var(--text1); }
+  .tb.active { color: var(--text1); border-bottom-color: var(--text1); font-weight: 500; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .4; flex-shrink: 0; }
+  .tb.active .dot { opacity: 1; }
+  .tpanel { display: none; }
+  .tpanel.active { display: block; }
+
+  /* LAYOUT */
+  .card { background: var(--bg1); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 12px; }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--text1); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .g2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; }
+
+  /* TEAMS */
+  .team-row { display: flex; align-items: center; gap: 10px; padding: 9px 10px; background: var(--bg2); border-radius: var(--radius-md); margin-bottom: 8px; }
+  .av { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; background: var(--info-bg); color: var(--info-text); }
+  .av.g { background: var(--success-bg); color: var(--success-text); }
+  .av.w { background: var(--warn-bg); color: var(--warn-text); }
+  .av.d { background: var(--danger-bg); color: var(--danger-text); }
+  .tm-name { font-size: 13px; font-weight: 500; color: var(--text1); }
+  .tm-role { font-size: 11px; color: var(--text2); margin-top: 1px; }
+  .tm-status { margin-left: auto; flex-shrink: 0; }
+
+  /* CHECKLISTS */
+  .chk-list { list-style: none; }
+  .chk-list li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; color: var(--text1); cursor: pointer; line-height: 1.5; }
+  .chk-list li:last-child { border-bottom: none; }
+  .chk-list li.done { color: var(--text3); text-decoration: line-through; }
+  .chk-list li input { margin-top: 2px; flex-shrink: 0; cursor: pointer; accent-color: var(--success-text); }
+
+  /* LOGS */
+  .log-box { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius-md); padding: 12px; font-family: var(--font-mono); font-size: 11.5px; max-height: 220px; overflow-y: auto; line-height: 1.8; }
+  .ll { color: var(--text1); }
+  .lw { color: var(--warn-text); }
+  .le { color: var(--danger-text); }
+  .li { color: var(--info-text); }
+  .ls { color: var(--success-text); }
+  .fbar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .fc { padding: 3px 11px; border-radius: 20px; font-size: 11px; border: 0.5px solid var(--border2); cursor: pointer; background: var(--bg1); color: var(--text2); }
+  .fc.on { background: var(--bg2); color: var(--text1); border-color: var(--border2); font-weight: 500; }
+
+  /* NETWORK */
+  .net-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+  .nn { padding: 10px 8px; border-radius: var(--radius-md); border: 0.5px solid var(--border); text-align: center; font-size: 11px; cursor: pointer; transition: all .15s; line-height: 1.5; background: var(--bg1); color: var(--text1); }
+  .nn:hover { border-color: var(--border2); }
+  .nn.iso { border-color: var(--danger-border) !important; background: var(--danger-bg); color: var(--danger-text); }
+  .nn.cln { border-color: var(--success-border) !important; background: var(--success-bg); color: var(--success-text); }
+  .nn.inf { border-color: var(--warn-border) !important; background: var(--warn-bg); color: var(--warn-text); }
+  .nn .ni { font-size: 20px; display: block; margin-bottom: 3px; }
+  .nn .nl { font-weight: 600; }
+
+  /* EVIDENCE */
+  .ev-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg2); border-radius: var(--radius-md); margin-bottom: 8px; cursor: pointer; border: 0.5px solid transparent; transition: border-color .15s; }
+  .ev-item:hover { border-color: var(--border2); }
+  .ev-item.sel { border-color: var(--info-border) !important; background: var(--info-bg); }
+  .ev-icon { font-size: 22px; flex-shrink: 0; }
+  .ev-label { font-size: 13px; font-weight: 500; color: var(--text1); }
+  .ev-meta { font-size: 11px; color: var(--text2); font-family: var(--font-mono); }
+  .ev-coc { margin-left: auto; flex-shrink: 0; }
+  #coc-detail { display: none; margin-top: 8px; padding: 12px; background: var(--bg2); border-radius: var(--radius-md); font-size: 12px; line-height: 1.8; color: var(--text1); }
+
+  /* TIMELINE */
+  .tl-item { display: flex; gap: 10px; margin-bottom: 14px; }
+  .tl-dot { flex-shrink: 0; width: 10px; height: 10px; border-radius: 50%; margin-top: 4px; background: var(--border2); }
+  .tl-dot.act { background: var(--danger-text); }
+  .tl-dot.dn { background: var(--success-text); }
+  .tl-t { font-size: 11px; color: var(--text2); font-family: var(--font-mono); white-space: nowrap; min-width: 80px; }
+  .tl-d { font-size: 13px; color: var(--text1); line-height: 1.5; }
+  .tl-d small { font-size: 11px; color: var(--text2); display: block; }
+
+  /* PROGRESS */
+  .prog-wrap { margin: 8px 0; }
+  .prog-label { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 12px; color: var(--text2); }
+  .prog-track { background: var(--bg2); border-radius: 4px; height: 5px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 4px; background: var(--info-text); transition: width .6s ease; }
+  .pf-d { background: var(--danger-text); }
+  .pf-s { background: var(--success-text); }
+  .pf-w { background: var(--warn-text); }
+
+  /* ALERTS */
+  .al-item { display: flex; gap: 10px; padding: 10px 12px; border: 0.5px solid var(--border); border-radius: var(--radius-md); margin-bottom: 8px; align-items: flex-start; }
+  .al-body { flex: 1; }
+  .al-title { font-size: 13px; font-weight: 500; color: var(--text1); }
+  .al-desc { font-size: 11px; color: var(--text2); margin-top: 2px; font-family: var(--font-mono); }
+  .al-time { flex-shrink: 0; font-size: 11px; color: var(--text3); font-family: var(--font-mono); }
+
+  /* SYSTEMS */
+  .sys-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
+  .sys-row:last-child { border-bottom: none; }
+  .sys-name { flex: 1; color: var(--text1); }
+
+  /* REPORT */
+  .rep-row { padding: 10px 12px; background: var(--bg2); border-radius: var(--radius-md); margin-bottom: 8px; }
+  .rep-lbl { font-size: 10px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
+  .rep-val { font-size: 13px; color: var(--text1); line-height: 1.7; }
+
+  /* METRICS */
+  .score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+  .score-card { padding: 14px; background: var(--bg2); border-radius: var(--radius-md); text-align: center; }
+  .score-num { font-size: 30px; font-weight: 600; color: var(--text1); }
+  .score-lbl { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+  /* BUTTONS */
+  .abtn { padding: 6px 14px; font-size: 12px; border: 0.5px solid var(--border2); border-radius: var(--radius-md); cursor: pointer; background: var(--bg1); color: var(--text1); font-family: var(--font-sans); text-align: left; display: block; width: 100%; margin-bottom: 7px; transition: background .15s; }
+  .abtn:hover { background: var(--bg2); }
+
+  /* MISC */
+  .threat-box { border: 0.5px solid var(--danger-border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--danger-bg); margin-bottom: 12px; }
+  .threat-title { font-size: 13px; font-weight: 600; color: var(--danger-text); margin-bottom: 5px; display: flex; align-items: center; gap: 7px; }
+  .threat-body { font-size: 12px; color: var(--text2); line-height: 1.7; }
+  .iinput { width: 100%; padding: 8px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius-md); font-size: 12px; font-family: var(--font-mono); background: var(--bg2); color: var(--text1); margin-bottom: 8px; }
+  .iinput:focus { outline: 2px solid var(--info-text); }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+  .row .abtn { width: auto; display: inline-block; margin-bottom: 0; }
+  code { font-family: var(--font-mono); background: var(--bg3); padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+  .net-log { margin-top: 10px; font-size: 11px; font-family: var(--font-mono); color: var(--text2); min-height: 40px; line-height: 1.9; }
+  .tool-line { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-size: 12px; color: var(--text2); border-bottom: 0.5px solid var(--border); }
+  .tool-line:last-child { border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="app-title"><i class="ti ti-shield-lock"></i> Incident Response Simulation &nbsp;·&nbsp; NIST Framework &nbsp;·&nbsp; SecureSync Corporation</div>
+
+  <!-- HEADER -->
+  <div class="ir-header">
+    <div class="ir-top">
+      <div>
+        <div class="ir-title"><i class="ti ti-shield-exclamation"></i> INC-2024-0311 — SecureSync Corporation Data Breach</div>
+        <div class="ir-sub">Spear-phishing → backdoor → data exfiltration &nbsp;|&nbsp; SOC Team Alpha</div>
+      </div>
+      <div class="ir-right">
+        <span class="badge bd"><i class="ti ti-circle-filled" style="font-size:7px"></i> Critical</span>
+        <span class="badge bi">Phase 3 of 4</span>
+        <span id="clock" class="badge bn">00:00:00</span>
+      </div>
+    </div>
+    <div class="phase-bar">
+      <div class="pb-seg done" title="Preparation"></div>
+      <div class="pb-seg done" title="Detection &amp; Analysis"></div>
+      <div class="pb-seg active" title="Containment / Eradication / Recovery"></div>
+      <div class="pb-seg" title="Post-Incident Activity"></div>
+    </div>
+    <div class="metrics-row">
+      <div class="met"><div class="met-l">Systems affected</div><div class="met-v">6</div><div class="met-s">2 isolated</div></div>
+      <div class="met"><div class="met-l">Evidence items</div><div class="met-v">14</div><div class="met-s">chain of custody intact</div></div>
+      <div class="met"><div class="met-l">Alerts fired</div><div class="met-v">38</div><div class="met-s">3 unresolved</div></div>
+      <div class="met"><div class="met-l">Team on-call</div><div class="met-v">8</div><div class="met-s">all roles filled</div></div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tb active" onclick="switchTab('prep',this)"><span class="dot"></span> Preparation</button>
+    <button class="tb" onclick="switchTab('detect',this)"><span class="dot"></span> Detection</button>
+    <button class="tb" onclick="switchTab('contain',this)"><span class="dot"></span> Containment</button>
+    <button class="tb" onclick="switchTab('forensics',this)"><span class="dot"></span> Forensics</button>
+    <button class="tb" onclick="switchTab('recovery',this)"><span class="dot"></span> Recovery</button>
+    <button class="tb" onclick="switchTab('postinc',this)"><span class="dot"></span> Post-Incident</button>
+  </div>
+
+  <!-- TAB: PREPARATION -->
+  <div id="tab-prep" class="tpanel active">
+    <div class="g2">
+      <div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-users"></i> IR Team Roster</div>
+          <div class="team-row"><div class="av d">JM</div><div><div class="tm-name">Jordan Mills</div><div class="tm-role">IR Team Leader — command &amp; overall coordination</div></div><div class="tm-status"><span class="badge bs">Active</span></div></div>
+          <div class="team-row"><div class="av">CL</div><div><div class="tm-name">Casey Liu</div><div class="tm-role">Communication Liaison — stakeholders &amp; external PR</div></div><div class="tm-status"><span class="badge bs">Active</span></div></div>
+          <div class="team-row"><div class="av g">RP</div><div><div class="tm-name">Riley Park</div><div class="tm-role">Lead Forensic Analyst — evidence collection &amp; logs</div></div><div class="tm-status"><span class="badge bs">Active</span></div></div>
+          <div class="team-row"><div class="av w">AK</div><div><div class="tm-name">Alex Kim</div><div class="tm-role">Network Security Specialist — containment &amp; isolation</div></div><div class="tm-status"><span class="badge bs">Active</span></div></div>
+          <div class="team-row"><div class="av g">MT</div><div><div class="tm-name">Morgan Torres</div><div class="tm-role">Malware Analyst — threat hunting &amp; eradication</div></div><div class="tm-status"><span class="badge bs">Active</span></div></div>
+          <div class="team-row"><div class="av">SB</div><div><div class="tm-name">Sam Brennan</div><div class="tm-role">Legal Counsel — compliance &amp; regulatory reporting</div></div><div class="tm-status"><span class="badge bw">On-call</span></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-checklist"></i> Preparedness Checklist</div>
+          <ul class="chk-list">
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> IR plan documented &amp; distributed to all team members</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> Roles &amp; responsibilities formally assigned</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> Communication protocol established</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> IDS/IDPS systems active and tuned</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> Endpoint protection deployed (AES-256 encryption)</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> RBAC access controls enforced</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Phishing awareness training — <em>scheduled Q2</em></li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Security drill completed this quarter</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Threat intelligence feeds integrated into SIEM</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-tool"></i> Active Security Tools</div>
+          <div class="tool-line"><span><i class="ti ti-circle-filled" style="color:var(--success-text);font-size:8px"></i> Splunk SIEM — real-time log correlation</span><span class="badge bs">Online</span></div>
+          <div class="tool-line"><span><i class="ti ti-circle-filled" style="color:var(--success-text);font-size:8px"></i> CrowdStrike Falcon EDR — all endpoints</span><span class="badge bs">Online</span></div>
+          <div class="tool-line"><span><i class="ti ti-circle-filled" style="color:var(--success-text);font-size:8px"></i> Palo Alto Firewall — perimeter defense</span><span class="badge bs">Online</span></div>
+          <div class="tool-line"><span><i class="ti ti-circle-filled" style="color:var(--success-text);font-size:8px"></i> Snort IDS — network traffic analysis</span><span class="badge bs">Online</span></div>
+          <div class="tool-line"><span><i class="ti ti-circle-filled" style="color:var(--warn-text);font-size:8px"></i> IBM Resilient — IR workflow automation</span><span class="badge bw">Degraded</span></div>
+          <div class="tool-line"><span><i class="ti ti-circle-filled" style="color:var(--success-text);font-size:8px"></i> Wireshark — packet capture active</span><span class="badge bs">Online</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: DETECTION -->
+  <div id="tab-detect" class="tpanel">
+    <div class="threat-box">
+      <div class="threat-title"><i class="ti ti-virus"></i> Active Threat — Spear-Phishing Campaign (Emotet variant)</div>
+      <div class="threat-body">Attack vector confirmed: sophisticated spear-phishing email targeting executive accounts. Backdoor implanted via malicious macro in .docx attachment. C2 traffic detected to <code>185.220.101.47</code> (unknown offsite server). Data exfiltration in progress — email server compromised.</div>
+    </div>
+    <div class="g2">
+      <div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-bell"></i> Alert Queue <span class="badge bd" style="font-size:10px;margin-left:4px">3 open</span></div>
+          <div class="al-item">
+            <span style="font-size:22px;color:var(--danger-text)"><i class="ti ti-alert-triangle"></i></span>
+            <div class="al-body"><div class="al-title">Anomalous outbound data transfer</div><div class="al-desc">email-srv-01 → 185.220.101.47:443 — 2.3GB egress</div></div>
+            <div class="al-time">08:14</div>
+          </div>
+          <div class="al-item">
+            <span style="font-size:22px;color:var(--danger-text)"><i class="ti ti-alert-triangle"></i></span>
+            <div class="al-body"><div class="al-title">Privileged login from anomalous geo</div><div class="al-desc">user: j.harris@securesync.com — src: 91.108.4.22 (RU)</div></div>
+            <div class="al-time">07:52</div>
+          </div>
+          <div class="al-item">
+            <span style="font-size:22px;color:var(--danger-text)"><i class="ti ti-alert-triangle"></i></span>
+            <div class="al-body"><div class="al-title">Malware signature detected — Emotet variant</div><div class="al-desc">host: WKST-0042 — SHA256: a3f2b1c8d9e...</div></div>
+            <div class="al-time">07:43</div>
+          </div>
+          <div class="al-item" style="opacity:.5">
+            <span style="font-size:22px;color:var(--warn-text)"><i class="ti ti-info-circle"></i></span>
+            <div class="al-body"><div class="al-title">Multiple failed auth attempts — resolved</div><div class="al-desc">email-srv-01 — 47 attempts in 3 min window</div></div>
+            <div class="al-time">07:31 ✓</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-chart-line"></i> Threat Intelligence Confidence</div>
+          <div class="prog-wrap"><div class="prog-label"><span>Spear-phishing as attack vector</span><span>94%</span></div><div class="prog-track"><div class="prog-fill" style="width:94%"></div></div></div>
+          <div class="prog-wrap"><div class="prog-label"><span>C2 server identification</span><span>87%</span></div><div class="prog-track"><div class="prog-fill" style="width:87%"></div></div></div>
+          <div class="prog-wrap"><div class="prog-label"><span>Malware family — Emotet</span><span>91%</span></div><div class="prog-track"><div class="prog-fill pf-d" style="width:91%"></div></div></div>
+          <div class="prog-wrap"><div class="prog-label"><span>Affected accounts identified</span><span>73%</span></div><div class="prog-track"><div class="prog-fill pf-w" style="width:73%"></div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-terminal"></i> Live Log Feed</div>
+          <div class="fbar">
+            <span class="fc on" onclick="filterLog('all',this)">All</span>
+            <span class="fc" onclick="filterLog('error',this)">Errors</span>
+            <span class="fc" onclick="filterLog('warning',this)">Warnings</span>
+            <span class="fc" onclick="filterLog('login',this)">Auth</span>
+          </div>
+          <div class="log-box" id="log-viewer">
+            <div class="ll">[2024-03-11 08:14:22] INFO  IDS: Outbound connection established email-srv-01</div>
+            <div class="le">[2024-03-11 08:14:23] ERROR IDS: DATA_EXFIL — volume threshold exceeded 2.3GB</div>
+            <div class="le">[2024-03-11 08:13:50] ERROR AUTH: Login attempt root@localhost — BLOCKED</div>
+            <div class="lw">[2024-03-11 08:12:11] WARN  FW: Outbound packet anomaly dst=185.220.101.47</div>
+            <div class="le">[2024-03-11 08:11:44] ERROR EDR: Malware detected WKST-0042 — Emotet.Gen quarantine failed</div>
+            <div class="lw">[2024-03-11 08:10:30] WARN  AUTH: j.harris login from unusual location RU 91.108.4.22</div>
+            <div class="li">[2024-03-11 08:09:55] INFO  IDS: Packet capture initiated on interface eth0</div>
+            <div class="lw">[2024-03-11 08:08:40] WARN  EDR: Suspicious macro execution detected WKST-0042</div>
+            <div class="le">[2024-03-11 08:07:12] ERROR AUTH: Brute force detected email-srv-01 — 47 attempts</div>
+            <div class="li">[2024-03-11 07:52:01] INFO  AUTH: j.harris authenticated email-srv-01</div>
+            <div class="le">[2024-03-11 07:51:44] ERROR MAIL: Malicious attachment opened — invoice_Q1.docx macro</div>
+            <div class="lw">[2024-03-11 07:48:30] WARN  MAIL: Phishing indicators detected in inbound email</div>
+            <div class="li">[2024-03-11 07:43:00] INFO  IDS: Signature scan initiated — all endpoints</div>
+            <div class="ls">[2024-03-11 07:40:00] OK    BACKUP: Nightly backup completed successfully</div>
+            <div class="li">[2024-03-11 07:00:00] INFO  SYS: Monitoring services all healthy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: CONTAINMENT -->
+  <div id="tab-contain" class="tpanel">
+    <div class="g2">
+      <div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-network"></i> Network Segment Control</div>
+          <p style="font-size:12px;color:var(--text2);margin-bottom:10px">Click a segment to toggle isolation. Isolated segments are cut off from the network to prevent lateral movement.</p>
+          <div class="net-grid">
+            <div class="nn inf" onclick="toggleNet(this,'EMAIL-SRV')"><span class="ni"><i class="ti ti-mail"></i></span><div class="nl">Email Server</div><div id="ns-EMAIL-SRV" style="font-size:10px;opacity:.7">Compromised</div></div>
+            <div class="nn inf" onclick="toggleNet(this,'WKST-42')"><span class="ni"><i class="ti ti-device-desktop"></i></span><div class="nl">WKST-0042</div><div id="ns-WKST-42" style="font-size:10px;opacity:.7">Infected</div></div>
+            <div class="nn" onclick="toggleNet(this,'CORP-VPN')"><span class="ni"><i class="ti ti-shield"></i></span><div class="nl">Corp VPN</div><div id="ns-CORP-VPN" style="font-size:10px;opacity:.7">At risk</div></div>
+            <div class="nn cln" onclick="toggleNet(this,'AZURE-PROD')"><span class="ni"><i class="ti ti-cloud"></i></span><div class="nl">Azure Prod</div><div id="ns-AZURE-PROD" style="font-size:10px;opacity:.7">Clean</div></div>
+            <div class="nn cln" onclick="toggleNet(this,'AWS-DB')"><span class="ni"><i class="ti ti-database"></i></span><div class="nl">AWS DB Tier</div><div id="ns-AWS-DB" style="font-size:10px;opacity:.7">Clean</div></div>
+            <div class="nn" onclick="toggleNet(this,'BOSTON-OFF')"><span class="ni"><i class="ti ti-building"></i></span><div class="nl">Boston Office</div><div id="ns-BOSTON-OFF" style="font-size:10px;opacity:.7">Monitoring</div></div>
+          </div>
+          <div class="net-log" id="net-log"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-list"></i> Affected Systems</div>
+          <div class="sys-row"><span class="sys-name"><i class="ti ti-server"></i> email-srv-01</span><span class="badge bd">Compromised</span></div>
+          <div class="sys-row"><span class="sys-name"><i class="ti ti-device-desktop"></i> WKST-0042 (j.harris)</span><span class="badge bw">Infected</span></div>
+          <div class="sys-row"><span class="sys-name"><i class="ti ti-device-desktop"></i> WKST-0019 (m.chen)</span><span class="badge bw">Suspected</span></div>
+          <div class="sys-row"><span class="sys-name"><i class="ti ti-user"></i> Account: j.harris</span><span class="badge bd">Disabled</span></div>
+          <div class="sys-row"><span class="sys-name"><i class="ti ti-user"></i> Account: m.chen</span><span class="badge bd">Disabled</span></div>
+          <div class="sys-row"><span class="sys-name"><i class="ti ti-mail"></i> Mail server data store</span><span class="badge bw">Exfiltrated</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-list-check"></i> Containment Actions</div>
+          <ul class="chk-list">
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> Deactivate compromised accounts (j.harris, m.chen)</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> Isolate email-srv-01 from network segments</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> Block C2 IP 185.220.101.47 at firewall</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Isolate WKST-0042 from domain</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Force password reset — all privileged accounts</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Enable enhanced monitoring on remaining segments</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Capture forensic image — email-srv-01 before remediation</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Notify legal and executive leadership</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: FORENSICS -->
+  <div id="tab-forensics" class="tpanel">
+    <div class="g2">
+      <div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-fingerprint"></i> Digital Evidence Locker</div>
+          <p style="font-size:12px;color:var(--text2);margin-bottom:10px">Click an item to view its chain of custody details.</p>
+          <div class="ev-item" onclick="showCOC(this,'ev1','EV-001 — Disk image: email-srv-01','Acquired: 2024-03-11 09:22 UTC\nAcquired by: R. Park (Lead Forensic Analyst)\nMethod: dd bit-for-bit image, write-blocked\nHash (SHA-256): a3f2b1c8d9e4f7a6b2c1d0e5f8a3b7...\nStorage: Evidence Vault A (temperature controlled, sealed)\nTransfers: R. Park → Evidence Vault A (09:22) → Reviewed by J. Mills (11:00)')">
+            <span class="ev-icon"><i class="ti ti-database" style="color:var(--info-text)"></i></span>
+            <div><div class="ev-label">Disk image — email-srv-01</div><div class="ev-meta">EV-001 | 487GB | SHA-256 verified</div></div>
+            <span class="ev-coc badge bs">COC intact</span>
+          </div>
+          <div class="ev-item" onclick="showCOC(this,'ev2','EV-002 — PCAP: C2 outbound traffic','Acquired: 2024-03-11 08:18 UTC\nAcquired by: A. Kim (Network Specialist)\nMethod: Wireshark capture on interface eth0\nSize: 4.7GB | Contains C2 beaconing to 185.220.101.47\nHash (SHA-256): 9c7d3e2a1f4b8c5d6e0a3f2b1c7d...\nTransfers: A. Kim → Secure NAS (08:20) → Reviewed by R. Park (09:00)')">
+            <span class="ev-icon"><i class="ti ti-wave-saw-tool" style="color:var(--warn-text)"></i></span>
+            <div><div class="ev-label">PCAP — C2 traffic capture</div><div class="ev-meta">EV-002 | 4.7GB | Wireshark eth0</div></div>
+            <span class="ev-coc badge bs">COC intact</span>
+          </div>
+          <div class="ev-item" onclick="showCOC(this,'ev3','EV-003 — SIEM log export (72hr)','Acquired: 2024-03-11 08:30 UTC\nAcquired by: R. Park (Lead Forensic Analyst)\nSource: Splunk SIEM — 2024-03-08 to 2024-03-11\nSize: 3.2 million log events (auth, firewall, EDR)\nExport format: JSON + CSV, cryptographically signed\nTransfers: Splunk → Secure archive (08:32) → Analysis workstation (10:00)')">
+            <span class="ev-icon"><i class="ti ti-file-text" style="color:var(--info-text)"></i></span>
+            <div><div class="ev-label">SIEM log export — 72hr window</div><div class="ev-meta">EV-003 | 3.2M events | Splunk</div></div>
+            <span class="ev-coc badge bs">COC intact</span>
+          </div>
+          <div class="ev-item" onclick="showCOC(this,'ev4','EV-004 — Malware sample: Emotet variant','Acquired: 2024-03-11 08:45 UTC\nAcquired by: M. Torres (Malware Analyst)\nSource: Quarantined from WKST-0042 by CrowdStrike Falcon\nSHA-256: 9c7d3e2a1f4b8c5d6e0a3f2b...\nAnalysis: Confirms keylogger + data exfiltration payload\nStorage: Air-gapped sandbox environment — Lab B')">
+            <span class="ev-icon"><i class="ti ti-bug" style="color:var(--danger-text)"></i></span>
+            <div><div class="ev-label">Malware sample — Emotet variant</div><div class="ev-meta">EV-004 | Sandbox isolated | Confirmed</div></div>
+            <span class="ev-coc badge bs">COC intact</span>
+          </div>
+          <div class="ev-item" onclick="showCOC(this,'ev5','EV-005 — Phishing email with headers','Acquired: 2024-03-11 08:50 UTC\nSource: j.harris@securesync.com inbox\nSender IP: 45.33.32.156 (spoofed domain: securesync-billing[.]com)\nAttachment: invoice_Q1.docx — hash verified malicious\nPreserved: Full MIME headers intact, MSG format\nTransfers: Mail server → Evidence archive (08:52)')">
+            <span class="ev-icon"><i class="ti ti-mail-opened" style="color:var(--warn-text)"></i></span>
+            <div><div class="ev-label">Phishing email — original headers</div><div class="ev-meta">EV-005 | MSG format | Headers intact</div></div>
+            <span class="ev-coc badge bs">COC intact</span>
+          </div>
+          <div id="coc-detail">
+            <div style="font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Chain of Custody — <span id="coc-id"></span></div>
+            <div id="coc-body" style="font-size:12px;color:var(--text1);line-height:1.9;white-space:pre-line"></div>
+            <div style="margin-top:10px;font-size:11px;color:var(--success-text)"><i class="ti ti-lock"></i> Hash verified — evidence integrity confirmed. Admissible for legal proceedings.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-clock"></i> Attack Timeline</div>
+          <div class="tl-item"><div class="tl-dot dn"></div><div><div class="tl-t">07:43 Mon</div><div class="tl-d">Phishing email delivered to j.harris<br><small>Spoofed sender: billing@securesync-billing[.]com</small></div></div></div>
+          <div class="tl-item"><div class="tl-dot dn"></div><div><div class="tl-t">07:51</div><div class="tl-d">Malicious macro executed — invoice_Q1.docx<br><small>Emotet dropper deployed on WKST-0042</small></div></div></div>
+          <div class="tl-item"><div class="tl-dot dn"></div><div><div class="tl-t">07:52</div><div class="tl-d">Backdoor established to C2 server<br><small>Persistent access via scheduled task</small></div></div></div>
+          <div class="tl-item"><div class="tl-dot dn"></div><div><div class="tl-t">08:07</div><div class="tl-d">Credential harvesting begins<br><small>LDAP enumeration of Active Directory accounts</small></div></div></div>
+          <div class="tl-item"><div class="tl-dot dn"></div><div><div class="tl-t">08:10</div><div class="tl-d">Lateral movement to email-srv-01<br><small>Using harvested admin credentials</small></div></div></div>
+          <div class="tl-item"><div class="tl-dot act"></div><div><div class="tl-t">08:14</div><div class="tl-d">Data exfiltration detected by IDS<br><small>2.3GB outbound transfer — critical alert triggered</small></div></div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-t">08:20</div><div class="tl-d">IR team activated — full investigation begins<br><small>NIST IR plan initiated — all hands on deck</small></div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-search"></i> Log Query Tool</div>
+          <input class="iinput" id="log-query" placeholder="grep: try 'login attempt', 'CMD', '185.220.101', 'Emotet'" oninput="queryLog(this.value)">
+          <div class="log-box" id="query-result" style="min-height:80px">
+            <span style="color:var(--text2);font-size:12px">Enter a keyword above to search incident logs...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: RECOVERY -->
+  <div id="tab-recovery" class="tpanel">
+    <div class="g2">
+      <div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-virus-off"></i> Eradication Status</div>
+          <div class="prog-wrap"><div class="prog-label"><span>Malware removed — email-srv-01</span><span>100%</span></div><div class="prog-track"><div class="prog-fill pf-s" style="width:100%"></div></div></div>
+          <div class="prog-wrap"><div class="prog-label"><span>Malware removed — WKST-0042</span><span>100%</span></div><div class="prog-track"><div class="prog-fill pf-s" style="width:100%"></div></div></div>
+          <div class="prog-wrap"><div class="prog-label"><span>Backdoor persistence cleared</span><span>100%</span></div><div class="prog-track"><div class="prog-fill pf-s" style="width:100%"></div></div></div>
+          <div class="prog-wrap"><div class="prog-label"><span>Vulnerability patching — all systems</span><span>68%</span></div><div class="prog-track"><div class="prog-fill pf-w" style="width:68%"></div></div></div>
+          <div class="prog-wrap"><div class="prog-label"><span>Compromised credentials rotated</span><span>85%</span></div><div class="prog-track"><div class="prog-fill pf-w" style="width:85%"></div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-database-import"></i> System Restoration Queue</div>
+          <div class="sys-row"><span class="sys-name">email-srv-01 restore from backup</span><span class="badge bs">Complete</span></div>
+          <div class="sys-row"><span class="sys-name">WKST-0042 reimaged from gold image</span><span class="badge bs">Complete</span></div>
+          <div class="sys-row"><span class="sys-name">WKST-0019 integrity scan</span><span class="badge bi">In progress</span></div>
+          <div class="sys-row"><span class="sys-name">AD account audit — all users</span><span class="badge bi">In progress</span></div>
+          <div class="sys-row"><span class="sys-name">Email server — 72hr monitoring window</span><span class="badge bw">Pending</span></div>
+          <div class="sys-row"><span class="sys-name">Azure / AWS security posture review</span><span class="badge bw">Pending</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-backup"></i> Backup Integrity</div>
+          <div class="prog-wrap"><div class="prog-label"><span>Email server backup verified</span><span>✓ Clean</span></div><div class="prog-track"><div class="prog-fill pf-s" style="width:100%"></div></div></div>
+          <div class="prog-wrap"><div class="prog-label"><span>Database backups (AWS RDS)</span><span>✓ Clean</span></div><div class="prog-track"><div class="prog-fill pf-s" style="width:100%"></div></div></div>
+          <div class="prog-wrap"><div class="prog-label"><span>File server snapshots</span><span>✓ Clean</span></div><div class="prog-track"><div class="prog-fill pf-s" style="width:100%"></div></div></div>
+          <p style="font-size:12px;color:var(--text2);margin-top:10px">Last clean backup: <code>2024-03-10 23:45 UTC</code> — pre-infection confirmed via hash comparison.</p>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-eye"></i> Continuous Monitoring Setup</div>
+          <ul class="chk-list">
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> Enhanced logging — all systems (30-day retention)</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> C2 IP blocklist updated across all firewalls</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> EDR rules updated — Emotet signature set</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox" checked> Email gateway — macro blocking enforced</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Geo-block anomalous login source regions</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Implement MFA — all privileged accounts</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> SIEM alerting thresholds reviewed and tuned</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Threat hunting cadence — weekly scheduled</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: POST-INCIDENT -->
+  <div id="tab-postinc" class="tpanel">
+    <div class="g2">
+      <div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-report"></i> Incident Report — INC-2024-0311</div>
+          <div class="rep-row"><div class="rep-lbl">Executive Summary</div><div class="rep-val">On 2024-03-11, SecureSync Corporation experienced a data breach originating from a spear-phishing email targeting executive accounts. An Emotet malware variant established backdoor access enabling exfiltration of approximately 2.3GB from the email server. Rapid detection via IDS and EDR limited total exposure. Full containment was achieved within 18 minutes of initial detection.</div></div>
+          <div class="rep-row"><div class="rep-lbl">Root Cause</div><div class="rep-val">Sophisticated spear-phishing email with malicious macro in .docx attachment. Absence of MFA on privileged accounts enabled lateral movement following credential harvesting via LDAP enumeration.</div></div>
+          <div class="rep-row"><div class="rep-lbl">Impact Assessment</div><div class="rep-val">6 systems affected. 2 accounts compromised. ~2.3GB email data exfiltrated. Estimated 200,000 client records at potential risk. No financial systems accessed. Business downtime: 4.5 hours.</div></div>
+          <div class="rep-row"><div class="rep-lbl">Response Timeline</div><div class="rep-val">Detection: 08:14 → Team activation: 08:20 → Containment: 08:32 → Eradication: 11:00 → Systems restored: 13:45 → Client notification: 14:30</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-bulb"></i> Lessons Learned</div>
+          <ul class="chk-list">
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Deploy MFA on all privileged accounts immediately</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Implement email macro blocking at gateway level</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Conduct quarterly phishing simulation training</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Establish cross-department communication SLA (&lt;15 min)</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Formalize threat intelligence sharing process</li>
+            <li onclick="toggleCheck(this)"><input type="checkbox"> Publish client-facing transparency report</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-chart-bar"></i> Response Metrics</div>
+          <div class="score-grid">
+            <div class="score-card"><div class="score-num">18<span style="font-size:14px">min</span></div><div class="score-lbl">Time to containment</div></div>
+            <div class="score-card"><div class="score-num" style="color:var(--success-text)">94<span style="font-size:14px">%</span></div><div class="score-lbl">Evidence integrity</div></div>
+            <div class="score-card"><div class="score-num">4.5<span style="font-size:14px">hr</span></div><div class="score-lbl">Total downtime</div></div>
+            <div class="score-card"><div class="score-num" style="color:var(--warn-text)">B+</div><div class="score-lbl">Response grade</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-search"></i> Log Query Tool</div>
+          <input class="iinput" id="log-query2" placeholder="grep: try 'login attempt', 'CMD', '185.220.101'" oninput="queryLog2(this.value)">
+          <div class="log-box" id="query-result2" style="min-height:80px"><span style="color:var(--text2);font-size:12px">Enter a keyword to search incident logs...</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .app -->
+
+<script>
+var tabs = ['prep','detect','contain','forensics','recovery','postinc'];
+
+function switchTab(id, btn) {
+  tabs.forEach(function(t) {
+    var p = document.getElementById('tab-'+t);
+    if (p) p.classList.remove('active');
+  });
+  document.querySelectorAll('.tb').forEach(function(b) { b.classList.remove('active'); });
+  var panel = document.getElementById('tab-'+id);
+  if (panel) panel.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+function toggleCheck(li) {
+  var cb = li.querySelector('input[type="checkbox"]');
+  if (document.activeElement === cb) return;
+  cb.checked = !cb.checked;
+  li.classList.toggle('done', cb.checked);
+}
+document.querySelectorAll('.chk-list li').forEach(function(li) {
+  var cb = li.querySelector('input[type="checkbox"]');
+  if (cb && cb.checked) li.classList.add('done');
+});
+
+var netStates = {};
+function toggleNet(el, id) {
+  var isIso = netStates[id] === 'iso';
+  if (isIso) {
+    el.className = 'nn';
+    document.getElementById('ns-'+id).textContent = 'Reconnected';
+    netStates[id] = '';
+    logNet(id + ' reconnected to network');
+  } else {
+    el.className = 'nn iso';
+    document.getElementById('ns-'+id).textContent = 'ISOLATED';
+    netStates[id] = 'iso';
+    logNet(id + ' isolated — network access revoked');
+  }
+}
+function logNet(msg) {
+  var d = document.getElementById('net-log');
+  var ts = new Date().toTimeString().slice(0, 8);
+  d.innerHTML = '<span style="color:var(--success-text)">' + ts + '</span> → ' + msg + '<br>' + d.innerHTML;
+}
+
+var selEv = null;
+function showCOC(el, id, label, detail) {
+  document.querySelectorAll('.ev-item').forEach(function(i) { i.classList.remove('sel'); });
+  var d = document.getElementById('coc-detail');
+  if (selEv === id) { d.style.display = 'none'; selEv = null; return; }
+  el.classList.add('sel');
+  selEv = id;
+  document.getElementById('coc-id').textContent = label;
+  document.getElementById('coc-body').textContent = detail;
+  d.style.display = 'block';
+}
+
+var allLogs = [
+  {c:'le', t:'[2024-03-11 08:14:23] ERROR IDS: DATA_EXFIL — volume threshold exceeded 2.3GB'},
+  {c:'le', t:'[2024-03-11 08:13:50] ERROR AUTH: Login attempt root@localhost — BLOCKED'},
+  {c:'lw', t:'[2024-03-11 08:12:11] WARN  FW: Outbound packet anomaly dst=185.220.101.47'},
+  {c:'le', t:'[2024-03-11 08:11:44] ERROR EDR: Malware detected WKST-0042 — Emotet.Gen'},
+  {c:'lw', t:'[2024-03-11 08:10:30] WARN  AUTH: j.harris login from unusual location RU 91.108.4.22'},
+  {c:'li', t:'[2024-03-11 08:09:55] INFO  CMD: ls /home executed on remote session'},
+  {c:'lw', t:'[2024-03-11 08:08:40] WARN  EDR: Suspicious macro execution WKST-0042'},
+  {c:'le', t:'[2024-03-11 08:07:12] ERROR AUTH: Brute force detected email-srv-01 — 47 attempts'},
+  {c:'li', t:'[2024-03-11 07:52:01] INFO  AUTH: login attempt j.harris — SUCCESS'},
+  {c:'le', t:'[2024-03-11 07:51:44] ERROR MAIL: Malicious attachment opened invoice_Q1.docx'},
+  {c:'lw', t:'[2024-03-11 07:48:30] WARN  MAIL: Phishing indicators detected inbound email'},
+  {c:'li', t:'[2024-03-11 07:43:00] INFO  CMD: cat /etc/passwd executed on honeypot'},
+  {c:'ls', t:'[2024-03-11 07:40:00] OK    BACKUP: Nightly backup completed successfully'},
+  {c:'li', t:'[2024-03-11 07:00:00] INFO  SYS: All monitoring services healthy'},
+  {c:'lw', t:'[2024-03-11 06:55:12] WARN  NET: Unusual outbound connection 185.220.101.47'},
+  {c:'li', t:'[2024-03-11 06:30:00] INFO  AUTH: login attempt admin — FAILED from 91.108.4.22'}
+];
+
+function filterLog(type, btn) {
+  document.querySelectorAll('.fbar .fc').forEach(function(f) { f.classList.remove('on'); });
+  btn.classList.add('on');
+  var lv = document.getElementById('log-viewer');
+  var filtered = type === 'all' ? allLogs : allLogs.filter(function(l) {
+    if (type === 'error') return l.c === 'le';
+    if (type === 'warning') return l.c === 'lw';
+    if (type === 'login') return l.t.indexOf('AUTH') !== -1;
+    return true;
+  });
+  lv.innerHTML = filtered.map(function(l) { return '<div class="' + l.c + '">' + l.t + '</div>'; }).join('');
+}
+
+function queryLog(q) {
+  var r = document.getElementById('query-result');
+  if (!q) { r.innerHTML = '<span style="color:var(--text2);font-size:12px">Enter a keyword to search incident logs...</span>'; return; }
+  var results = allLogs.filter(function(l) { return l.t.toLowerCase().indexOf(q.toLowerCase()) !== -1; });
+  r.innerHTML = results.length
+    ? results.map(function(l) { return '<div class="' + l.c + '">' + l.t + '</div>'; }).join('')
+    : '<span style="color:var(--text2);font-size:12px">No results for "' + q + '"</span>';
+}
+
+function queryLog2(q) {
+  var r = document.getElementById('query-result2');
+  if (!q) { r.innerHTML = '<span style="color:var(--text2);font-size:12px">Enter a keyword to search incident logs...</span>'; return; }
+  var results = allLogs.filter(function(l) { return l.t.toLowerCase().indexOf(q.toLowerCase()) !== -1; });
+  r.innerHTML = results.length
+    ? results.map(function(l) { return '<div class="' + l.c + '">' + l.t + '</div>'; }).join('')
+    : '<span style="color:var(--text2);font-size:12px">No results for "' + q + '"</span>';
+}
+
+var start = Date.now() - (1 * 3600 + 32 * 60) * 1000;
+function tick() {
+  var s = Math.floor((Date.now() - start) / 1000);
+  var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+  document.getElementById('clock').textContent =
+    String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>

@@ -95,6 +95,8 @@ Cowrie is a medium-interaction SSH and Telnet honeypot designed to log brute for
 
 Open a terminal window on your lab system.
 
+![alt text](<../Screenshots/Open_a_New_Terminal.png>)
+
 ### Step 2: Start the Cowrie Container
 
 Run the following command to start Cowrie in a Docker container and redirect all logs to a file:
@@ -115,6 +117,8 @@ docker run -p 2222:2222/tcp cowrie/cowrie > honeypotLogs.txt
 ![Cowrie Starting]
 
 *[Screenshot: Terminal showing Cowrie Docker container starting]*
+
+![alt text](<../Screenshots/Cowrie_Starting.png>)
 
 ---
 
@@ -176,6 +180,8 @@ root@cowrie:~#
 
 *[Screenshot: Terminal showing successful SSH connection to Cowrie]*
 
+![alt text](<../Screenshots/SSH_Connection_Successful.png>)
+
 ---
 
 ## Part 3: Simulating Attacker Commands
@@ -216,6 +222,9 @@ Expected output:
 ```
 This is sensitive data that the attacker is stealing
 ```
+![alt text](<../Screenshots/Verify_File_Creation.png>)
+
+![alt text](<../Screenshots/Telnet_to_Cowrie.png>)
 
 ### Step 4: Attempt to Download Malicious Payload (Simulated)
 
@@ -237,6 +246,8 @@ rm -f stolen_data.txt
 exit
 ```
 
+![alt text](<../Screenshots/Attempt_to_Download_Malicious_Payload_(Simulated).png>)
+
 ---
 
 ## Part 4: Analyzing the Logs
@@ -254,6 +265,8 @@ First, look at the raw log file:
 ```bash
 cat honeypotLogs.txt
 ```
+
+![alt text](<../Screenshots/View_All_Logs.png>)
 
 You'll see a lot of JSON-formatted log entries.
 
@@ -282,6 +295,8 @@ This shows:
 
 *[Screenshot: Terminal showing grep results for "login attempt"]*
 
+![alt text](<../Screenshots/Login_Attempt_Logs.png>)
+
 ### Step 4: Find Executed Commands
 
 Search for all commands that were executed:
@@ -305,6 +320,9 @@ Expected output:
 
 *[Screenshot: Terminal showing grep results for "CMD"]*
 
+![alt text](<../Screenshots/Command_Logs.png>)
+
+
 ### Step 5: Find More Detailed Session Information
 
 Search for session details:
@@ -312,6 +330,10 @@ Search for session details:
 ```bash
 cat honeypotLogs.txt | grep "session"
 ```
+![alt text](<../Screenshots/Find_More_Detailed_Session_Information.png>)
+
+![alt text](<../Screenshots/Connection_Lost_After.png>)
+
 
 ### Step 6: Extract All Commands in Order
 
@@ -323,6 +345,9 @@ cat honeypotLogs.txt | grep "CMD" | cut -d'"' -f2
 
 This extracts just the command text.
 
+
+![alt text](<../Screenshots/Extract_All_Commands_in_Order.png>)
+
 ### Step 7: Check for File Downloads
 
 Search for file download attempts:
@@ -330,6 +355,8 @@ Search for file download attempts:
 ```bash
 cat honeypotLogs.txt | grep "wget\|curl\|download"
 ```
+
+![alt text](<../Screenshots/Check_for_File_Downloads.png>)
 
 ---
 
@@ -357,11 +384,15 @@ Based on your log analysis, answer the following questions:
 cat honeypotLogs.txt | grep "login attempt" | cut -d' ' -f1
 ```
 
+![alt text](<../Screenshots/Extract_Login_Timestamp.png>)
+
 ### Count Total Commands Executed
 
 ```bash
 cat honeypotLogs.txt | grep "CMD" | wc -l
 ```
+
+![alt text](<../Screenshots/Count_Total_Commands_Executed.png>)
 
 ### Find Suspicious Patterns
 
@@ -371,11 +402,15 @@ Look for common attacker commands:
 cat honeypotLogs.txt | grep -E "wget|curl|nc|netcat|python -c|bash -i|sh -i"
 ```
 
+![alt text](<../Screenshots/Find_Suspicious_Patterns.png>)
+
 ### Create a Timeline of Events
 
 ```bash
 cat honeypotLogs.txt | grep -E "login attempt|CMD|session" | cut -d' ' -f1-2
 ```
+
+![alt text](<../Screenshots/Create_a_Timeline_of_Events.png>)
 
 ---
 
