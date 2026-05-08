@@ -1,4 +1,4 @@
-![alt text](<../Screenshots/Autopsy_Digital_Forensics_Logo.png>)
+![alt text](../Screenshots/Autopsy_Digital_Forensics_Logo.png)
 
 # Hands-on Lab: Digital Forensics with Autopsy
 
@@ -110,10 +110,9 @@ Autopsy performs **dead analysis**, meaning you analyze a copy of the drive (dis
    ```
 2. Click **Download Autopsy** (Windows installer)
 
-![alt text](<../Screenshots/Navigate_to_the_official_Autopsy_Webpage.png>)
+![alt text](../Screenshots/Navigate_to_the_official_Autopsy_Webpage.png)
 
-
-![alt text](<../Screenshots/Download_Autopsy.png>)
+![alt text](../Screenshots/Download_Autopsy.png)
 
 #### Step 2: Run the Installer
 
@@ -129,19 +128,20 @@ The installer includes:
 - The Sleuth Kit (TSK) CLI tools
 - Java Runtime Environment (if needed)
 
-![alt text](<../Screenshots/Run_the_Installer.png>)
+![alt text](../Screenshots/Run_the_Installer.png)
 
-![alt text](<../Screenshots/Choose_installation_directory.png>)
+![alt text](../Screenshots/Choose_installation_directory.png)
 
-![alt text](<../Screenshots/Click_Install.png>)
+![alt text](../Screenshots/Click_Install.png)
 
-![alt text](<../Screenshots/Finish_Installation.png>)
-
+![alt text](../Screenshots/Finish_Installation.png)
 
 #### Step 3: Launch Autopsy
 
 1. From the Start Menu, launch **Autopsy**
 2. The main window will appear
+
+![alt text](../Screenshots/Autopsy.png)
 
 ### Option B: Linux Installation (Kali/Ubuntu)
 
@@ -163,6 +163,12 @@ After launching, access Autopsy in your browser at:
 ```
 http://localhost:9999/autopsy
 ```
+
+![alt text](<../Screenshots/Linux Installation_(Kali_Ubuntu).png>)
+
+![alt text](<../Screenshots/Autoosy_dowloaded_Linux.png>)
+
+![alt text](<../Screenshots/Autopsy_in_your_browser.png>)
 
 ---
 
