@@ -208,6 +208,8 @@ Download a sample disk image from public forensic repositories:
 dd if=/dev/zero of=test_image.dd bs=1M count=100
 ```
 
+![alt text](<../Screenshots/Test_Image.png>)
+
 ### Option C: Use University Lab Materials
 
 Some universities provide forensic lab images for educational purposes. Check your institution's resources.
@@ -221,6 +223,9 @@ Some universities provide forensic lab images for educational purposes. Check yo
 1. Launch Autopsy
 2. Click **New Case**
 
+
+![alt text](<../Screenshots/Start_a_New_Case.png>)
+
 ### Step 2: Enter Case Information
 
 | Field                    | Value                           | Description                     |
@@ -229,6 +234,10 @@ Some universities provide forensic lab images for educational purposes. Check yo
 | **Base Directory** | `C:\Cases\CloudNine`          | Where case files will be stored |
 | **Case Number**    | `CN-IR-2024-042`              | Case tracking number            |
 | **Examiner**       | `Your Name`                   | Investigator name               |
+
+
+![alt text](<../Screenshots/Enter_Case_Information.png>)
+
 
 ### Step 3: Add Data Source
 
@@ -241,6 +250,25 @@ Some universities provide forensic lab images for educational purposes. Check yo
    - **Partition Image**
    - **Logical File**
 5. Click **Next**
+
+
+![alt text](<../Screenshots/Add_Data_Source.png>)
+
+
+![alt text](<../Screenshots/Add_New_Host.png>)
+
+![alt text](<../Screenshots/Add_Host.png>)
+
+![alt text](<../Screenshots/Add_New_Image.png>)
+
+
+![alt text](<../Screenshots/Volume_Image.png>)
+
+![alt text](<../Screenshots/Image_File_Details.png>)
+
+![alt text](<../Screenshots/Calculating_MD5.png>)
+
+![alt text](<../Screenshots/Case_Gallary.png>)
 
 ### Step 4: Configure Ingest Modules
 
