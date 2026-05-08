@@ -110,6 +110,11 @@ Autopsy performs **dead analysis**, meaning you analyze a copy of the drive (dis
    ```
 2. Click **Download Autopsy** (Windows installer)
 
+![alt text](<../Screenshots/Navigate_to_the_official_Autopsy_Webpage.png>)
+
+
+![alt text](<../Screenshots/Download_Autopsy.png>)
+
 #### Step 2: Run the Installer
 
 1. Launch the downloaded `.exe` file
@@ -123,6 +128,15 @@ The installer includes:
 - Autopsy GUI
 - The Sleuth Kit (TSK) CLI tools
 - Java Runtime Environment (if needed)
+
+![alt text](<../Screenshots/Run_the_Installer.png>)
+
+![alt text](<../Screenshots/Choose_installation_directory.png>)
+
+![alt text](<../Screenshots/Click_Install.png>)
+
+![alt text](<../Screenshots/Finish_Installation.png>)
+
 
 #### Step 3: Launch Autopsy
 
