@@ -263,6 +263,10 @@ Some universities provide forensic lab images for educational purposes. Check yo
 1. Launch Autopsy
 2. Click **New Case**
 
+#### Windows
+
+![alt text](<../Screenshots/New_Case.png>)
+
 #### Linux:
 
 ![alt text](<../Screenshots/Start_a_New_Case.png>)
@@ -276,9 +280,21 @@ Some universities provide forensic lab images for educational purposes. Check yo
 | **Case Number**    | `CN-IR-2024-042`              | Case tracking number            |
 | **Examiner**       | `Your Name`                   | Investigator name               |
 
+#### Linux:
 
 ![alt text](<../Screenshots/Enter_Case_Information.png>)
 
+<br>
+
+#### Windows:
+
+![alt text](<../Screenshots/Enter_Case_Information_Windows.png>)
+
+![alt text](<../Screenshots/Add_New_Organization.png>)
+
+![alt text](<../Screenshots/New_Case_Information.png>)
+
+![alt text](<../Screenshots/Creating_Case.png>)
 
 ### Step 3: Add Data Source
 
@@ -292,6 +308,7 @@ Some universities provide forensic lab images for educational purposes. Check yo
    - **Logical File**
 5. Click **Next**
 
+#### Linux:
 
 ![alt text](<../Screenshots/Add_Data_Source.png>)
 
