@@ -127,6 +127,8 @@ The installer includes:
 - Autopsy GUI
 - The Sleuth Kit (TSK) CLI tools
 - Java Runtime Environment (if needed)
+  
+#### Windows:
 
 ![alt text](../Screenshots/Run_the_Installer.png)
 
@@ -138,10 +140,17 @@ The installer includes:
 
 #### Step 3: Launch Autopsy
 
+![alt text](<../Screenshots/Autopsy.png>)
+
 1. From the Start Menu, launch **Autopsy**
 2. The main window will appear
 
-![alt text](../Screenshots/Autopsy.png)
+
+
+![alt text](<../Screenshots/Open_Autopsy.png>)
+
+![alt text](<../Screenshots/Autopsy_Home.png>)
+
 
 ### Option B: Linux Installation (Kali/Ubuntu)
 
@@ -163,6 +172,8 @@ After launching, access Autopsy in your browser at:
 ```
 http://localhost:9999/autopsy
 ```
+
+#### Linux:
 
 ![alt text](<../Screenshots/Linux Installation_(Kali_Ubuntu).png>)
 
@@ -187,6 +198,17 @@ Download a sample disk image from public forensic repositories:
 
 **Recommended:** Download a small `.dd` or `.E01` image (1-2 GB).
 
+#### CFReDS
+
+![alt text](<../Screenshots/CFReDS_Portal.png>)
+
+<br>
+
+#### Digital Corpora
+
+![alt text](<../Screenshots/Digital_Corpora.png>)
+
+
 ### Option B: Create Your Own Test Image
 
 #### Step 1: Create a Small Disk Image
@@ -200,6 +222,24 @@ Download a sample disk image from public forensic repositories:
 5. Choose a small USB drive or create a RAM drive
 6. Select **Raw (dd)** as image format
 7. Save as `test_image.dd`
+
+![alt text](<../Screenshots/Download_FTK_Imager.png>)
+
+![alt text](<../Screenshots/FTK_Imager_Installation.png>)
+
+![alt text](<../Screenshots/Install_to_Program_Files.png>)
+
+![alt text](<../Screenshots/Installation_Complete_Open.png>)
+
+![alt text](<../Screenshots/Create_Disk_Image.png>)
+
+![alt text](<../Screenshots/Select_Physical_Drive.png>)
+
+![alt text](<../Screenshots/Raw.png>)
+
+![alt text](<../Screenshots/Evidence_Item Information.png>)
+
+![alt text](<../Screenshots/Select_Image_Destination.png>)
 
 **Using dd (Linux/macOS):**
 
@@ -223,6 +263,7 @@ Some universities provide forensic lab images for educational purposes. Check yo
 1. Launch Autopsy
 2. Click **New Case**
 
+#### Linux:
 
 ![alt text](<../Screenshots/Start_a_New_Case.png>)
 
@@ -270,6 +311,8 @@ Some universities provide forensic lab images for educational purposes. Check yo
 
 ![alt text](<../Screenshots/Case_Gallary.png>)
 
+![alt text](<../Screenshots/Unzip_Test_Image.png>)
+
 ### Step 4: Configure Ingest Modules
 
 Select the ingest modules to run. For this lab, select:
@@ -281,6 +324,9 @@ Select the ingest modules to run. For this lab, select:
 | ✓**Deleted File Recovery** | Finds and recovers deleted files       |
 | ✓**Keyword Search**        | Searches for specific terms            |
 | ✓**Hash Lookup**           | Identifies known files                 |
+
+
+
 
 ### Step 5: Run the Ingest
 
