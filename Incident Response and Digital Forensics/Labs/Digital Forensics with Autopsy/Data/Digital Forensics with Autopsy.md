@@ -308,6 +308,15 @@ Some universities provide forensic lab images for educational purposes. Check yo
    - **Logical File**
 5. Click **Next**
 
+
+#### Windows:
+
+![alt text](<../Screenshots/Select_Host.png>)
+
+![alt text](<../Screenshots/Select_Data_Source_Type.png>)
+
+![alt text](<../Screenshots/Data_Source_Path.png>)
+
 #### Linux:
 
 ![alt text](<../Screenshots/Add_Data_Source.png>)
@@ -328,6 +337,8 @@ Some universities provide forensic lab images for educational purposes. Check yo
 
 ![alt text](<../Screenshots/Case_Gallary.png>)
 
+#### Linux:
+
 ![alt text](<../Screenshots/Unzip_Test_Image.png>)
 
 ### Step 4: Configure Ingest Modules
@@ -343,6 +354,9 @@ Select the ingest modules to run. For this lab, select:
 | ✓**Hash Lookup**           | Identifies known files                 |
 
 
+#### Windows:
+
+![alt text](<../Screenshots/Configure_Ingest.png>)
 
 
 ### Step 5: Run the Ingest
@@ -350,6 +364,12 @@ Select the ingest modules to run. For this lab, select:
 1. Click **Next** through the remaining screens
 2. Click **Finish**
 3. Wait for Autopsy to process the image
+
+#### Windows:
+
+![alt text](<../Screenshots/Processing_Data.png>)
+
+![alt text](<../Screenshots/Data_Source_Finish.png>)
 
 Processing time depends on image size and modules selected (5-20 minutes for a small image).
 
@@ -390,6 +410,10 @@ After the ingest completes, you'll see the main Autopsy interface:
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
+#### Windows:
+
+![alt text](<../Screenshots/Navigating_the_Autopsy_Interface.png>)
+
 ### Key Interface Areas
 
 | Area                     | Description                                               |
@@ -409,12 +433,28 @@ After the ingest completes, you'll see the main Autopsy interface:
 2. Click **Deleted Files**
 3. Review the list of recoverable files
 
+#### Windows:
+
+![alt text](<../Screenshots/Deleted_Files.png>)
+
 ### Task 2: Recover a Deleted File
 
 1. Right-click on a deleted file
 2. Select **Extract File(s)**
 3. Choose a destination folder (e.g., `C:\Cases\CloudNine\Recovered_Files\`)
 4. Click **OK**
+
+#### Windows:
+
+![alt text](<../Screenshots/Extract_Deleted_Files.png>)
+
+![alt text](<../Screenshots/Recoverd_Files.png>)
+
+![alt text](<../Screenshots/Files_Extracted.png>)
+
+![alt text](<../Screenshots/CCR_1.png>)
+
+![alt text](<../Screenshots/CCR_2.png>)
 
 The recovered file is saved to your chosen location.
 
@@ -426,6 +466,8 @@ The recovered file is saved to your chosen location.
    - **Search Terms**
    - **Downloaded Files**
    - **Cookies**
+
+![alt text](<../Screenshots/Emails_Extracted.png>)
 
 This reveals user browsing activity, which is critical for incident investigations.
 
@@ -464,6 +506,8 @@ The timeline helps reconstruct the sequence of user actions:
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
+![alt text](<../Screenshots/Timeline_Analysis.png>)
+
 ---
 
 ## Part 6: Investigation Questions
@@ -494,6 +538,8 @@ For Windows disk images, Autopsy can analyze the Windows Registry:
    - USB device history
    - User accounts
    - Autostart locations
+
+![alt text](<../Screenshots/Extract_Artifacts.png>)
 
 ### Hash Lookup
 
