@@ -1,0 +1,76 @@
+================================================================================
+       CLOUDNINE MARKETING – DATA EXFILTRATION INVESTIGATION
+                          ANSWERS TO FINDINGS
+================================================================================
+
+Case Name: CloudNine_Data_Exfiltration
+Examiner: [Your Name]
+Date of Analysis: 2026-05-10
+
+================================================================================
+QUESTION 1: Deleted Excel Document
+================================================================================
+Q: What is the filename of the deleted Excel document containing client campaign data?
+
+A: [Your Findings Here - e.g., q2_campaign_metrics.xlsx or client_list.xlsx]
+
+Source: Autopsy -> File Types -> Deleted Files -> Sorted by extension (.xlsx)
+
+================================================================================
+QUESTION 2: USB Device Information
+================================================================================
+Q: What USB device was connected to the system (Vendor and Product)?
+
+A: Vendor: [e.g., Kingston or SanDisk]
+   Product: [e.g., DataTraveler 3.0 or Cruzer Blade]
+
+Source: Autopsy -> Data Artifacts -> USB Devices -> USB Device History
+
+================================================================================
+QUESTION 3: Files Copied to USB Device
+================================================================================
+Q: What files were copied to the USB device?
+
+A: [Your Findings Here - e.g., q2_campaign_metrics.xlsx, client_presentation.pdf]
+
+Source: Timeline Analysis (file copy events to E:\ or F:\ drive)
+
+================================================================================
+QUESTION 4: Web Searches (Competitors or Job Searching)
+================================================================================
+Q: What web searches did Sarah perform related to competitors or job searching?
+
+A: [Your Findings Here - e.g., "competitor salary bands", "marketing director jobs", "how to resign gracefully"]
+
+Source: Autopsy -> Web History -> Search Terms
+
+================================================================================
+QUESTION 5: Most Recent File Before USB Connection
+================================================================================
+Q: What was the most recently accessed file before the USB was connected?
+
+A: [Your Findings Here - e.g., Q2_Budget_Forecast.xlsx]
+
+Source: Timeline Analysis -> Filter by Access Time -> Look for file opens just before USB insertion
+
+================================================================================
+QUESTION 6: Email Address in Deleted Browser History
+================================================================================
+Q: What email address appears in the deleted browser history?
+
+A: [Your Findings Here - e.g., sarah.jenkins@gmail.com or recruiter@competitor.com]
+
+Source: Autopsy -> Web History -> Filter by "@" symbol
+
+================================================================================
+QUESTION 7: Most Sensitive Keyword Search Finding
+================================================================================
+Q: What keyword search term revealed the most sensitive findings?
+
+A: [Your Findings Here - e.g., "confidential" or "client NDA violation"]
+
+Source: Autopsy -> Keyword Search (searched terms: confidential, client list, NDA, password)
+
+================================================================================
+                              END OF REPORT
+================================================================================
