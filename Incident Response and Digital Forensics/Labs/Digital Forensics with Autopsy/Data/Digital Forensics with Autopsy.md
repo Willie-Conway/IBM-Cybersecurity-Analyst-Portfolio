@@ -571,6 +571,12 @@ For Windows disk images, Autopsy can analyze the Windows Registry:
    - Specific sections
 4. Click **Generate**
 
+![alt text](<../Screenshots/Generate_Report.png>)
+
+![alt text](<../Screenshots/Generate_Report_Progress.png>)
+
+![alt text](<../Screenshots/Autopsy_Generated_Report.gif>)
+
 ---
 
 ## Lab Completion Checklist
