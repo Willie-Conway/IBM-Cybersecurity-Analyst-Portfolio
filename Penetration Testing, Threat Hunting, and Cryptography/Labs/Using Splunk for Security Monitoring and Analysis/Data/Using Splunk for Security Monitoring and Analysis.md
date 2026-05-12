@@ -212,6 +212,8 @@ cd /opt/splunk/bin
 
 ![alt text](<../Screenshots/Splunk_Home.png>)
 
+![alt text](<../Screenshots/Splunk_Dashboard.png>)
+
 ### Option B: Virtual Machine Setup (Advanced)
 
 For a more realistic SOC environment, you can set up Splunk on a dedicated VM :
@@ -238,7 +240,11 @@ The BOTS (Boss of the SOC) v3 dataset is a realistic security dataset distribute
    ```
    https://github.com/splunk/botsv3
    ```
+![alt text](<../Screenshots/Download_the_BOTS_v3_Dataset.png>)
+
 2. Download the dataset file: `botsv3_data_set.tgz`
+
+![alt text](<../Screenshots/BOTS_Dataset_download.png>)
 
 ### Step 2: Upload Data to Splunk
 
@@ -251,7 +257,13 @@ The BOTS (Boss of the SOC) v3 dataset is a realistic security dataset distribute
 
 *[Screenshot: Add Data page with file upload option]*
 
+![alt text](<../Screenshots/Add_Data.png>)
+
+![alt text](<../Screenshots/Upload_Data_to_Splunk.png>)
+
 5. Review the settings (keep defaults) and click **Submit**
+
+![alt text](<../Screenshots/Select_Source.png>)
 
 ### Step 3: Create an Index for the Data
 
