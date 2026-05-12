@@ -122,7 +122,7 @@ Splunk is a platform for searching, monitoring, and analyzing machine-generated 
    ```
 2. Select your operating system (Windows, macOS, or Linux)
 3. Download the installer (.msi for Windows, .dmg for macOS, .deb/.rpm for Linux)
-
+   
 ![Splunk Download]
 
 *[Screenshot: Splunk Enterprise download page with OS options]*
@@ -133,7 +133,11 @@ Splunk is a platform for searching, monitoring, and analyzing machine-generated 
 
 ![alt text](<../Screenshots/Accept_Terms.png>)
 
+4. Try out **Splunk Developer License** and **10GB** *free-tier* for **6 months**.
 
+![alt text](<../Screenshots/Splunk_Developer_Program_Account.png>)
+
+![alt text](<../Screenshots/Developer_License.png>)
 
 #### Step 2: Install Splunk
 
@@ -205,6 +209,8 @@ cd /opt/splunk/bin
 ![Splunk Login]
 
 *[Screenshot: Splunk Web login page at localhost:8000]*
+
+![alt text](<../Screenshots/Splunk_Home.png>)
 
 ### Option B: Virtual Machine Setup (Advanced)
 
