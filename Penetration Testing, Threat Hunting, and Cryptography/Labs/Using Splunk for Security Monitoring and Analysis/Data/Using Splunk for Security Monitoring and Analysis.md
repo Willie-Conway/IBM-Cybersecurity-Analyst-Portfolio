@@ -265,6 +265,7 @@ The BOTS (Boss of the SOC) v3 dataset is a realistic security dataset distribute
 
 ![alt text](<../Screenshots/Select_Source.png>)
 
+
 ### Step 3: Create an Index for the Data
 
 1. Go to **Settings** → **Indexes**
@@ -277,6 +278,11 @@ The BOTS (Boss of the SOC) v3 dataset is a realistic security dataset distribute
 | **Index Data Type** | `Events` |
 
 4. Click **Save**
+
+
+![alt text](<../Screenshots/Create_an_Index_for_the_Data.png>)
+
+![alt text](<../Screenshots/Created_Index.png>)
 
 ### Step 4: Verify Data Ingestion
 
@@ -307,6 +313,20 @@ Expected result: Approximately 100+ sourcetypes with event counts
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
+
+![alt text](<../Screenshots/Review_Data.png>)
+
+![alt text](<../Screenshots/Uploading_File.png>)
+
+![alt text](<../Screenshots/Loading_Error.png>)
+
+![alt text](<../Screenshots/Upload_botsv3_CMD.png>)
+
+
+![alt text](<../Screenshots/Loading_Files_Starting_Splunk.png>)
+
+
+![alt text](<../Screenshots/Verify_Data _Ingestion.png>)
 
 ---
 
@@ -347,6 +367,7 @@ Expected result: Approximately 100+ sourcetypes with event counts
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
+![alt text](<../Screenshots/New_Search_Datasets.png>)
 
 ### Key Components
 

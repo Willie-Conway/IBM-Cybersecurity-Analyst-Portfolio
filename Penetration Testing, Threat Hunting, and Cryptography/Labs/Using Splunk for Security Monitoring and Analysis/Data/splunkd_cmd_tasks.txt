@@ -1,0 +1,1494 @@
+
+C:\Windows\System32>cd C:\Users\hirew\Downloads
+
+C:\Users\hirew\Downloads>dir botsv3_data_set
+ Volume in drive C is Windows
+ Volume Serial Number is 9447-3E2D
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set
+
+05/12/2026  03:04 PM    <DIR>          .
+05/12/2026  03:04 PM    <DIR>          ..
+06/01/2020  11:52 AM    <DIR>          botsv3_data_set
+               0 File(s)              0 bytes
+               3 Dir(s)  61,200,973,824 bytes free
+
+C:\Users\hirew\Downloads>cd C:\Users\hirew\Downloads
+
+C:\Users\hirew\Downloads>dir botsv3_data_set\*.* /s | more
+ Volume in drive C is Windows
+ Volume Serial Number is 9447-3E2D
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set
+
+05/12/2026  03:04 PM    <DIR>          .
+05/12/2026  03:04 PM    <DIR>          ..
+06/01/2020  11:52 AM    <DIR>          botsv3_data_set
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set
+
+06/01/2020  11:52 AM    <DIR>          .
+05/12/2026  03:04 PM    <DIR>          ..
+06/01/2020  10:37 AM    <DIR>          bin
+06/01/2020  10:38 AM    <DIR>          default
+08/31/2017  04:21 PM             6,555 LICENSE
+06/01/2020  10:39 AM    <DIR>          lookups
+02/18/2020  06:05 PM               838 README.txt
+06/01/2020  11:52 AM    <DIR>          var
+               2 File(s)          7,393 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\bin
+
+06/01/2020  10:37 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+08/31/2017  03:37 PM                63 README
+               1 File(s)             63 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\default
+
+06/01/2020  10:38 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:02 PM               107 app.conf
+06/01/2020  10:37 AM    <DIR>          data
+06/01/2020  09:53 AM               299 indexes.conf
+12/15/2018  11:55 AM             5,337 props.conf
+12/15/2018  04:11 PM               105 tags.conf
+12/15/2018  11:54 AM             1,216 transforms.conf
+               5 File(s)          7,064 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\default\data
+
+06/01/2020  10:37 AM    <DIR>          .
+06/01/2020  10:38 AM    <DIR>          ..
+06/01/2020  10:37 AM    <DIR>          ui
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\default\data\ui
+
+06/01/2020  10:37 AM    <DIR>          .
+06/01/2020  10:37 AM    <DIR>          ..
+06/01/2020  10:37 AM    <DIR>          nav
+06/01/2020  10:37 AM    <DIR>          views
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\default\data\ui\nav
+
+06/01/2020  10:37 AM    <DIR>          .
+06/01/2020  10:37 AM    <DIR>          ..
+08/31/2017  03:37 PM               197 default.xml
+               1 File(s)            197 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\default\data\ui\views
+
+06/01/2020  10:37 AM    <DIR>          .
+06/01/2020  10:37 AM    <DIR>          ..
+08/31/2017  03:37 PM                56 README
+               1 File(s)             56 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\lookups
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+12/15/2018  11:26 AM           880,233 ddns_provider.csv
+12/15/2018  11:31 AM               214 eventcode.csv
+12/15/2018  11:31 AM             1,062 iis_action_lookup.csv
+12/15/2018  11:26 AM             4,584 ransomware_extensions.csv
+12/15/2018  11:26 AM               100 scanner_agents.csv
+               5 File(s)        886,193 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var
+
+06/01/2020  11:52 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+06/01/2020  11:52 AM    <DIR>          lib
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib
+
+06/01/2020  11:52 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+06/01/2020  11:52 AM    <DIR>          splunk
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk
+
+06/01/2020  11:52 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+06/01/2020  11:52 AM    <DIR>          botsv3
+               0 File(s)              0 bytes
+
+^C
+C:\Users\hirew\Downloads>cd C:\Users\hirew\Downloads
+
+C:\Users\hirew\Downloads>dir botsv3_data_set /s | find "File(s)"
+               0 File(s)              0 bytes
+               2 File(s)          7,393 bytes
+               1 File(s)             63 bytes
+               5 File(s)          7,064 bytes
+               0 File(s)              0 bytes
+               0 File(s)              0 bytes
+               1 File(s)            197 bytes
+               1 File(s)             56 bytes
+               5 File(s)        886,193 bytes
+               0 File(s)              0 bytes
+               0 File(s)              0 bytes
+               0 File(s)              0 bytes
+               0 File(s)              0 bytes
+               0 File(s)              0 bytes
+              10 File(s)          2,263 bytes
+              11 File(s)         52,255 bytes
+               3 File(s)         20,450 bytes
+              10 File(s)          4,770 bytes
+               3 File(s)            848 bytes
+              13 File(s)     52,205,777 bytes
+               3 File(s)     17,478,254 bytes
+               1 File(s)         48,341 bytes
+              10 File(s)          6,513 bytes
+               3 File(s)          1,032 bytes
+              13 File(s)    101,444,294 bytes
+               3 File(s)     41,222,498 bytes
+               3 File(s)            291 bytes
+              10 File(s)         33,626 bytes
+               3 File(s)          5,385 bytes
+               2 File(s)            299 bytes
+              13 File(s)     85,673,354 bytes
+               3 File(s)     33,842,830 bytes
+               4 File(s)         36,306 bytes
+              10 File(s)         32,792 bytes
+               3 File(s)          5,798 bytes
+              14 File(s)    162,170,983 bytes
+               3 File(s)     58,250,038 bytes
+               5 File(s)        136,199 bytes
+              10 File(s)         22,436 bytes
+               3 File(s)          3,777 bytes
+              13 File(s)      2,317,243 bytes
+               3 File(s)        521,027 bytes
+               7 File(s)          1,054 bytes
+              13 File(s)     53,140,690 bytes
+               3 File(s)     13,979,019 bytes
+               4 File(s)         17,378 bytes
+              10 File(s)        437,576 bytes
+               3 File(s)        190,471 bytes
+              12 File(s)      4,786,359 bytes
+               3 File(s)        873,288 bytes
+              10 File(s)         19,784 bytes
+               3 File(s)          3,048 bytes
+               1 File(s)            143 bytes
+               8 File(s)          1,748 bytes
+               3 File(s)            330 bytes
+              11 File(s)        450,818 bytes
+               3 File(s)        190,472 bytes
+               0 File(s)              0 bytes
+               0 File(s)              0 bytes
+             294 File(s)    630,532,823 bytes
+
+C:\Users\hirew\Downloads>cd C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set
+
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set>dir
+ Volume in drive C is Windows
+ Volume Serial Number is 9447-3E2D
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set
+
+06/01/2020  11:52 AM    <DIR>          .
+05/12/2026  03:04 PM    <DIR>          ..
+06/01/2020  10:37 AM    <DIR>          bin
+06/01/2020  10:38 AM    <DIR>          default
+08/31/2017  04:21 PM             6,555 LICENSE
+06/01/2020  10:39 AM    <DIR>          lookups
+02/18/2020  06:05 PM               838 README.txt
+06/01/2020  11:52 AM    <DIR>          var
+               2 File(s)          7,393 bytes
+               6 Dir(s)  61,200,048,128 bytes free
+
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set>cd C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3
+
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3>dir /a
+ Volume in drive C is Windows
+ Volume Serial Number is 9447-3E2D
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3
+
+06/01/2020  11:52 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+06/01/2020  09:40 AM    <DIR>          colddb
+06/01/2020  11:52 AM    <DIR>          db
+06/01/2020  09:40 AM    <DIR>          thaweddb
+               0 File(s)              0 bytes
+               5 Dir(s)  61,201,035,264 bytes free
+
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3>dir /s
+ Volume in drive C is Windows
+ Volume Serial Number is 9447-3E2D
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3
+
+06/01/2020  11:52 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+06/01/2020  09:40 AM    <DIR>          colddb
+06/01/2020  11:52 AM    <DIR>          db
+06/01/2020  09:40 AM    <DIR>          thaweddb
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\colddb
+
+06/01/2020  09:40 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db
+
+06/01/2020  11:52 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM             2,253 .bucketManifest
+02/18/2020  06:15 PM                10 CreationTime
+06/01/2020  10:39 AM    <DIR>          db_1534746578_1534737603_311
+06/01/2020  10:39 AM    <DIR>          db_1534756500_1534756500_304
+06/01/2020  11:07 AM    <DIR>          db_1534758273_1534755600_303
+02/18/2020  06:15 PM                 0 db_1534758273_1534755600_303.rbsentinel
+06/01/2020  10:39 AM    <DIR>          db_1534759200_1534759200_312
+06/01/2020  11:07 AM    <DIR>          db_1534762138_1534758300_302
+02/18/2020  06:15 PM                 0 db_1534762138_1534758300_302.rbsentinel
+06/01/2020  10:39 AM    <DIR>          db_1534766331_1534766040_301
+02/18/2020  06:15 PM                 0 db_1534766331_1534766040_301.rbsentinel
+06/01/2020  11:05 AM    <DIR>          db_1534766463_1534762020_305
+02/18/2020  06:15 PM                 0 db_1534766463_1534762020_305.rbsentinel
+06/01/2020  10:39 AM    <DIR>          db_1534775833_1534769745_309
+06/01/2020  11:52 AM    <DIR>          db_1534776480_1534769280_306
+02/18/2020  06:15 PM                 0 db_1534776480_1534769280_306.rbsentinel
+06/01/2020  10:39 AM    <DIR>          db_1534777496_1534776480_310
+06/01/2020  10:39 AM    <DIR>          db_1534778228_1534766520_308
+02/18/2020  06:15 PM                 0 db_1534778228_1534766520_308.rbsentinel
+06/01/2020  11:07 AM    <DIR>          db_1534778280_1534776480_307
+02/18/2020  06:15 PM                 0 db_1534778280_1534776480_307.rbsentinel
+06/01/2020  10:39 AM    <DIR>          db_1534778375_1534778100_314
+06/01/2020  10:40 AM    <DIR>          db_1534778806_1534755613_316
+06/01/2020  10:39 AM    <DIR>          db_1534778829_1534777980_315
+02/18/2020  06:15 PM                 0 db_1534778829_1534777980_315.rbsentinel
+06/01/2020  10:39 AM    <DIR>          db_1568916650_1568916650_318
+06/01/2020  10:39 AM    <DIR>          DISABLED-db_1534809275_1534809000_314
+06/01/2020  09:40 AM    <DIR>          GlobalMetaData
+              10 File(s)          2,263 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 7 .rawSize
+02/18/2020  06:15 PM                 5 .sizeManifest4.1
+02/18/2020  06:15 PM            49,216 1534746578-1534737603-3845326108452168654.tsidx
+02/18/2020  06:15 PM             1,906 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM               153 Hosts.data
+02/18/2020  06:15 PM                 0 optimize.result
+06/01/2020  10:39 AM    <DIR>          rawdata
+02/18/2020  06:15 PM               188 Sources.data
+02/18/2020  06:15 PM               110 SourceTypes.data
+02/18/2020  06:15 PM                95 splunk-autogen-params.dat
+02/18/2020  06:15 PM               500 Strings.data
+              11 File(s)         52,255 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\rawdata
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+02/18/2020  06:15 PM            20,348 journal.gz
+02/18/2020  06:15 PM                18 slicemin.dat
+02/18/2020  06:15 PM                84 slicesv2.dat
+               3 File(s)         20,450 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 5 .rawSize
+02/18/2020  06:15 PM                 5 .sizeManifest4.1
+02/18/2020  06:15 PM             3,805 1534756500-1534756500-2912231277843510516.tsidx
+02/18/2020  06:15 PM               202 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM               114 Hosts.data
+02/18/2020  06:15 PM                 0 optimize.result
+06/01/2020  10:38 AM    <DIR>          rawdata
+02/18/2020  06:15 PM               120 Sources.data
+02/18/2020  06:15 PM               110 SourceTypes.data
+02/18/2020  06:15 PM               334 Strings.data
+              10 File(s)          4,770 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\rawdata
+
+06/01/2020  10:38 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+02/18/2020  06:15 PM               817 journal.gz
+02/18/2020  06:15 PM                 8 slicemin.dat
+02/18/2020  06:15 PM                23 slicesv2.dat
+               3 File(s)            848 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303
+
+06/01/2020  11:07 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                10 .rawSize
+02/18/2020  06:15 PM                 8 .sizeManifest4.1
+02/18/2020  06:15 PM            34,255 1534755943-1534755845-15469389569254486776.tsidx
+02/18/2020  06:15 PM        42,826,118 1534758273-1534755600-15504457212722110477.tsidx
+02/18/2020  06:15 PM           996,002 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM             1,483 Hosts.data
+02/18/2020  06:15 PM         8,235,023 merged_lexicon.lex
+02/18/2020  06:15 PM                49 optimize.result
+06/01/2020  11:07 AM    <DIR>          rawdata
+02/18/2020  06:15 PM            20,320 Sources.data
+02/18/2020  06:15 PM             4,707 SourceTypes.data
+02/18/2020  06:15 PM                97 splunk-autogen-params.dat
+02/18/2020  06:15 PM            87,630 Strings.data
+              13 File(s)     52,205,777 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\rawdata
+
+06/01/2020  11:07 AM    <DIR>          .
+06/01/2020  11:07 AM    <DIR>          ..
+06/01/2020  10:39 AM    <DIR>          deletes
+02/18/2020  06:15 PM        17,443,948 journal.gz
+02/18/2020  06:15 PM             4,290 slicemin.dat
+02/18/2020  06:15 PM            30,016 slicesv2.dat
+               3 File(s)     17,478,254 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\rawdata\deletes
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:07 AM    <DIR>          ..
+02/18/2020  06:15 PM            48,341 511135880cafd9508c0f12b87b099449.csv.gz
+               1 File(s)         48,341 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 5 .rawSize
+02/18/2020  06:15 PM                 5 .sizeManifest4.1
+02/18/2020  06:15 PM             5,355 1534759200-1534759200-3868902944876762642.tsidx
+02/18/2020  06:15 PM               295 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM                93 Hosts.data
+02/18/2020  06:15 PM                 0 optimize.result
+06/01/2020  10:38 AM    <DIR>          rawdata
+02/18/2020  06:15 PM               182 Sources.data
+02/18/2020  06:15 PM               116 SourceTypes.data
+02/18/2020  06:15 PM               387 Strings.data
+              10 File(s)          6,513 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\rawdata
+
+06/01/2020  10:38 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+02/18/2020  06:15 PM             1,001 journal.gz
+02/18/2020  06:15 PM                 8 slicemin.dat
+02/18/2020  06:15 PM                23 slicesv2.dat
+               3 File(s)          1,032 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302
+
+06/01/2020  11:07 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                10 .rawSize
+02/18/2020  06:15 PM                 9 .sizeManifest4.1
+02/18/2020  06:15 PM            41,402 1534758303-1534758300-16783906981539050927.tsidx
+02/18/2020  06:15 PM        85,086,784 1534762138-1534758300-16867766471396508125.tsidx
+02/18/2020  06:15 PM         1,795,556 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM             1,510 Hosts.data
+02/18/2020  06:15 PM        14,317,627 merged_lexicon.lex
+02/18/2020  06:15 PM                49 optimize.result
+06/01/2020  10:39 AM    <DIR>          rawdata
+02/18/2020  06:15 PM            35,819 Sources.data
+02/18/2020  06:15 PM             5,876 SourceTypes.data
+02/18/2020  06:15 PM                95 splunk-autogen-params.dat
+02/18/2020  06:15 PM           159,482 Strings.data
+              13 File(s)    101,444,294 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:07 AM    <DIR>          ..
+06/01/2020  10:38 AM    <DIR>          deletes
+02/18/2020  06:15 PM        41,148,241 journal.gz
+02/18/2020  06:15 PM             8,829 slicemin.dat
+02/18/2020  06:15 PM            65,428 slicesv2.dat
+               3 File(s)     41,222,498 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\deletes
+
+06/01/2020  10:38 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+02/18/2020  06:15 PM                97 41eb6adcbd83f14d07d6fa883e74488f.csv.gz
+02/18/2020  06:15 PM                97 52d2d4da0f468d939348af23ecade7bf.csv.gz
+02/18/2020  06:15 PM                97 864561f28453de46063ff9a299261ef3.csv.gz
+               3 File(s)            291 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 6 .rawSize
+02/18/2020  06:15 PM                 5 .sizeManifest4.1
+02/18/2020  06:15 PM            29,612 1534766331-1534766040-4041125482222077836.tsidx
+02/18/2020  06:15 PM             1,157 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM               167 Hosts.data
+02/18/2020  06:15 PM                 0 optimize.result
+06/01/2020  10:38 AM    <DIR>          rawdata
+02/18/2020  06:15 PM             1,092 Sources.data
+02/18/2020  06:15 PM               339 SourceTypes.data
+02/18/2020  06:15 PM             1,173 Strings.data
+              10 File(s)         33,626 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\rawdata
+
+06/01/2020  10:38 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+06/01/2020  10:38 AM    <DIR>          deletes
+02/18/2020  06:15 PM             5,349 journal.gz
+02/18/2020  06:15 PM                 9 slicemin.dat
+02/18/2020  06:15 PM                27 slicesv2.dat
+               3 File(s)          5,385 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\rawdata\deletes
+
+06/01/2020  10:38 AM    <DIR>          .
+06/01/2020  10:38 AM    <DIR>          ..
+02/18/2020  06:15 PM               161 27a7089f89929ee94b89e7e44e93caad.csv.gz
+02/18/2020  06:15 PM               138 9ac74450cfcc3ae4c153adae3ea08677.csv.gz
+               2 File(s)            299 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305
+
+06/01/2020  11:05 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                10 .rawSize
+02/18/2020  06:15 PM                 9 .sizeManifest4.1
+02/18/2020  06:15 PM            36,114 1534762887-1534762587-15543504551489286551.tsidx
+02/18/2020  06:15 PM        71,449,763 1534766463-1534762020-15607397678985478072.tsidx
+02/18/2020  06:15 PM         1,565,477 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM             1,462 Hosts.data
+02/18/2020  06:15 PM        12,430,284 merged_lexicon.lex
+02/18/2020  06:15 PM                49 optimize.result
+06/01/2020  10:39 AM    <DIR>          rawdata
+02/18/2020  06:15 PM            38,642 Sources.data
+02/18/2020  06:15 PM             6,065 SourceTypes.data
+02/18/2020  06:15 PM                97 splunk-autogen-params.dat
+02/18/2020  06:15 PM           145,307 Strings.data
+              13 File(s)     85,673,354 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:05 AM    <DIR>          ..
+06/01/2020  10:39 AM    <DIR>          deletes
+02/18/2020  06:15 PM        33,781,590 journal.gz
+02/18/2020  06:15 PM             7,345 slicemin.dat
+02/18/2020  06:15 PM            53,895 slicesv2.dat
+               3 File(s)     33,842,830 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\deletes
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+02/18/2020  06:15 PM                97 45fde4625c1e1ebb9666e0bc25111153.csv.gz
+02/18/2020  06:15 PM                97 68359e70ab916525ee026e17ad32f9d3.csv.gz
+02/18/2020  06:15 PM               152 d79a0671ef3e3e72d439ab12e2e2b8de.csv.gz
+02/18/2020  06:15 PM            35,960 dee7e0b0fe743fd55d67c58ec444109b.csv.gz
+               4 File(s)         36,306 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 6 .rawSize
+02/18/2020  06:15 PM                 5 .sizeManifest4.1
+02/18/2020  06:15 PM            31,070 1534775833-1534769745-3786299372175229164.tsidx
+02/18/2020  06:15 PM               874 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM                98 Hosts.data
+02/18/2020  06:15 PM                 0 optimize.result
+06/01/2020  10:38 AM    <DIR>          rawdata
+02/18/2020  06:15 PM               119 Sources.data
+02/18/2020  06:15 PM               110 SourceTypes.data
+02/18/2020  06:15 PM               435 Strings.data
+              10 File(s)         32,792 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\rawdata
+
+06/01/2020  10:38 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+02/18/2020  06:15 PM             5,762 journal.gz
+02/18/2020  06:15 PM                 9 slicemin.dat
+02/18/2020  06:15 PM                27 slicesv2.dat
+               3 File(s)          5,798 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306
+
+06/01/2020  11:52 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                10 .rawSize
+02/18/2020  06:15 PM                 9 .sizeManifest4.1
+02/18/2020  06:15 PM            41,371 1534769747-1534769297-15742985609042195739.tsidx
+02/18/2020  06:15 PM       107,844,344 1534775340-1534769280-15833795897877839908.tsidx
+02/18/2020  06:15 PM        27,038,481 1534776480-1534769383-15857409301653745021.tsidx
+02/18/2020  06:15 PM         2,828,782 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM             1,803 Hosts.data
+02/18/2020  06:15 PM        24,127,411 merged_lexicon.lex
+02/18/2020  06:15 PM                49 optimize.result
+06/01/2020  10:39 AM    <DIR>          rawdata
+02/18/2020  06:15 PM            75,302 Sources.data
+02/18/2020  06:15 PM             6,878 SourceTypes.data
+02/18/2020  06:15 PM                97 splunk-autogen-params.dat
+02/18/2020  06:15 PM           206,371 Strings.data
+              14 File(s)    162,170,983 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+06/01/2020  10:39 AM    <DIR>          deletes
+02/18/2020  06:15 PM        58,139,644 journal.gz
+02/18/2020  06:15 PM            13,329 slicemin.dat
+02/18/2020  06:15 PM            97,065 slicesv2.dat
+               3 File(s)     58,250,038 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\deletes
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+02/18/2020  06:15 PM               129 1675f6ff5fbc8f3027c3c755af19076b.csv.gz
+02/18/2020  06:15 PM               276 55bbe0c77d6c646b8c581e11860ad8fd.csv.gz
+02/18/2020  06:15 PM               293 7e5fb3124d1a054cbdf16adc04ce4df2.csv.gz
+02/18/2020  06:15 PM           135,265 96837af2bccacbce5efb5f96e1ab0cd5.csv.gz
+02/18/2020  06:15 PM               236 bd073207469eaa99ed1f115b1be8bd04.csv.gz
+               5 File(s)        136,199 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 6 .rawSize
+02/18/2020  06:15 PM                 5 .sizeManifest4.1
+02/18/2020  06:15 PM            20,958 1534777496-1534776480-3813001587581652052.tsidx
+02/18/2020  06:15 PM               695 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM                98 Hosts.data
+02/18/2020  06:15 PM                 0 optimize.result
+06/01/2020  10:38 AM    <DIR>          rawdata
+02/18/2020  06:15 PM               119 Sources.data
+02/18/2020  06:15 PM               110 SourceTypes.data
+02/18/2020  06:15 PM               370 Strings.data
+              10 File(s)         22,436 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\rawdata
+
+06/01/2020  10:38 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+02/18/2020  06:15 PM             3,742 journal.gz
+02/18/2020  06:15 PM                 9 slicemin.dat
+02/18/2020  06:15 PM                26 slicesv2.dat
+               3 File(s)          3,777 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 8 .rawSize
+02/18/2020  06:15 PM                 7 .sizeManifest4.1
+02/18/2020  06:15 PM            46,489 1534775260-1534772734-3755426206653500691.tsidx
+02/18/2020  06:15 PM         1,615,178 1534778228-1534766520-3757557876231935348.tsidx
+02/18/2020  06:15 PM            56,920 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM               883 Hosts.data
+02/18/2020  06:15 PM           586,814 merged_lexicon.lex
+02/18/2020  06:15 PM                49 optimize.result
+06/01/2020  10:39 AM    <DIR>          rawdata
+02/18/2020  06:15 PM             6,182 Sources.data
+02/18/2020  06:15 PM               461 SourceTypes.data
+02/18/2020  06:15 PM                95 splunk-autogen-params.dat
+02/18/2020  06:15 PM             4,082 Strings.data
+              13 File(s)      2,317,243 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+06/01/2020  10:38 AM    <DIR>          deletes
+02/18/2020  06:15 PM           520,420 journal.gz
+02/18/2020  06:15 PM                85 slicemin.dat
+02/18/2020  06:15 PM               522 slicesv2.dat
+               3 File(s)        521,027 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes
+
+06/01/2020  10:38 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+02/18/2020  06:15 PM               108 0e175e5547a0af569e0ce90e436deea8.csv.gz
+02/18/2020  06:15 PM                92 18f87456e1749c860fd056f39b8b2946.csv.gz
+02/18/2020  06:15 PM               429 790e2b0ddccea7eb1ec2c843664f30c2.csv.gz
+02/18/2020  06:15 PM               112 afd1a188b02138916088bafc4baf9c1e.csv.gz
+02/18/2020  06:15 PM                94 b2edd8479433f50f74035fc8bb553890.csv.gz
+02/18/2020  06:15 PM               109 c85d8027dece3ec30ea68155d8694065.csv.gz
+02/18/2020  06:15 PM               110 ec8cf1ca4d01042ddf0be2d29416bd16.csv.gz
+               7 File(s)          1,054 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307
+
+06/01/2020  11:07 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 9 .rawSize
+02/18/2020  06:15 PM                 8 .sizeManifest4.1
+02/18/2020  06:15 PM            45,623 1534776808-1534776504-15937344643226431369.tsidx
+02/18/2020  06:15 PM        42,510,884 1534778280-1534776480-15967193051025913739.tsidx
+02/18/2020  06:15 PM         1,073,248 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM             1,311 Hosts.data
+02/18/2020  06:15 PM         9,405,848 merged_lexicon.lex
+02/18/2020  06:15 PM                49 optimize.result
+06/01/2020  11:07 AM    <DIR>          rawdata
+02/18/2020  06:15 PM            13,968 Sources.data
+02/18/2020  06:15 PM             5,041 SourceTypes.data
+02/18/2020  06:15 PM                97 splunk-autogen-params.dat
+02/18/2020  06:15 PM            84,529 Strings.data
+              13 File(s)     53,140,690 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata
+
+06/01/2020  11:07 AM    <DIR>          .
+06/01/2020  11:07 AM    <DIR>          ..
+06/01/2020  10:39 AM    <DIR>          deletes
+02/18/2020  06:15 PM        13,951,862 journal.gz
+02/18/2020  06:15 PM             3,279 slicemin.dat
+02/18/2020  06:15 PM            23,878 slicesv2.dat
+               3 File(s)     13,979,019 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\deletes
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:07 AM    <DIR>          ..
+02/18/2020  06:15 PM            17,079 330c0132d8bca98b29d3811e01503a9c.csv.gz
+02/18/2020  06:15 PM                95 35021ec5e7f9b87f50a121cb517a26e0.csv.gz
+02/18/2020  06:15 PM                97 41480fcd35659106839dd139cd98b2fe.csv.gz
+02/18/2020  06:15 PM               107 a4f5317de7f5e04f82fa71c9d5338bc3.csv.gz
+               4 File(s)         17,378 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 7 .rawSize
+02/18/2020  06:15 PM                 6 .sizeManifest4.1
+02/18/2020  06:15 PM           437,008 1534778375-1534778100-5107909808064955505.tsidx
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM                94 Hosts.data
+02/18/2020  06:15 PM                 0 optimize.result
+06/01/2020  10:39 AM    <DIR>          rawdata
+02/18/2020  06:15 PM               102 Sources.data
+02/18/2020  06:15 PM               106 SourceTypes.data
+02/18/2020  06:15 PM                95 splunk-autogen-params.dat
+02/18/2020  06:15 PM                83 Strings.data
+              10 File(s)        437,576 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\rawdata
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+02/18/2020  06:15 PM           190,405 journal.gz
+02/18/2020  06:15 PM                14 slicemin.dat
+02/18/2020  06:15 PM                52 slicesv2.dat
+               3 File(s)        190,471 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316
+
+06/01/2020  10:40 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 9 .rawSize
+02/18/2020  06:15 PM                 7 .sizeManifest4.1
+02/18/2020  06:15 PM            36,045 1534758805-1534758315-885765955084463557.tsidx
+02/18/2020  06:15 PM         4,526,633 1534778806-1534755613-891416624512448880.tsidx
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM               105 Hosts.data
+02/18/2020  06:15 PM           222,998 merged_lexicon.lex
+02/18/2020  06:15 PM                49 optimize.result
+06/01/2020  10:39 AM    <DIR>          rawdata
+02/18/2020  06:15 PM               125 Sources.data
+02/18/2020  06:15 PM               127 SourceTypes.data
+02/18/2020  06:15 PM                97 splunk-autogen-params.dat
+02/18/2020  06:15 PM                89 Strings.data
+              12 File(s)      4,786,359 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\rawdata
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  10:40 AM    <DIR>          ..
+02/18/2020  06:15 PM           869,152 journal.gz
+02/18/2020  06:15 PM               367 slicemin.dat
+02/18/2020  06:15 PM             3,769 slicesv2.dat
+               3 File(s)        873,288 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 6 .rawSize
+02/18/2020  06:15 PM                 5 .sizeManifest4.1
+02/18/2020  06:15 PM            18,255 1534778829-1534777980-13709643856059129186.tsidx
+02/18/2020  06:15 PM               608 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM               172 Hosts.data
+02/18/2020  06:15 PM                 0 optimize.result
+06/01/2020  10:38 AM    <DIR>          rawdata
+02/18/2020  06:15 PM               236 Sources.data
+02/18/2020  06:15 PM               246 SourceTypes.data
+02/18/2020  06:15 PM               181 Strings.data
+              10 File(s)         19,784 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\rawdata
+
+06/01/2020  10:38 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+06/01/2020  10:38 AM    <DIR>          deletes
+02/18/2020  06:15 PM             3,012 journal.gz
+02/18/2020  06:15 PM                 9 slicemin.dat
+02/18/2020  06:15 PM                27 slicesv2.dat
+               3 File(s)          3,048 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\rawdata\deletes
+
+06/01/2020  10:38 AM    <DIR>          .
+06/01/2020  10:38 AM    <DIR>          ..
+02/18/2020  06:15 PM               143 dd762332f4603726eae3cd261fa2c11d.csv.gz
+               1 File(s)            143 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 4 .rawSize
+02/18/2020  06:15 PM             1,271 1568916650-1568916650-16117772711583959498.tsidx
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM               131 Hosts.data
+06/01/2020  10:38 AM    <DIR>          rawdata
+02/18/2020  06:15 PM               111 Sources.data
+02/18/2020  06:15 PM               115 SourceTypes.data
+02/18/2020  06:15 PM                 0 splunk-need-optimize.dat
+02/18/2020  06:15 PM                41 Strings.data
+               8 File(s)          1,748 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\rawdata
+
+06/01/2020  10:38 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+02/18/2020  06:15 PM               299 journal.gz
+02/18/2020  06:15 PM                 8 slicemin.dat
+02/18/2020  06:15 PM                23 slicesv2.dat
+               3 File(s)            330 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+02/18/2020  06:15 PM                 7 .rawSize
+02/18/2020  06:15 PM                 6 .sizeManifest4.1
+02/18/2020  06:15 PM           437,208 1534809275-1534809000-3924722470159865468.tsidx
+02/18/2020  06:15 PM            13,042 bloomfilter
+02/18/2020  06:15 PM                75 bucket_info.csv
+02/18/2020  06:15 PM                94 Hosts.data
+02/18/2020  06:15 PM                 0 optimize.result
+06/01/2020  10:39 AM    <DIR>          rawdata
+02/18/2020  06:15 PM               102 Sources.data
+02/18/2020  06:15 PM               106 SourceTypes.data
+02/18/2020  06:15 PM                95 splunk-autogen-params.dat
+02/18/2020  06:15 PM                83 Strings.data
+              11 File(s)        450,818 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\rawdata
+
+06/01/2020  10:39 AM    <DIR>          .
+06/01/2020  10:39 AM    <DIR>          ..
+02/18/2020  06:15 PM           190,406 journal.gz
+02/18/2020  06:15 PM                14 slicemin.dat
+02/18/2020  06:15 PM                52 slicesv2.dat
+               3 File(s)        190,472 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\GlobalMetaData
+
+06/01/2020  09:40 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\thaweddb
+
+06/01/2020  09:40 AM    <DIR>          .
+06/01/2020  11:52 AM    <DIR>          ..
+               0 File(s)              0 bytes
+
+     Total Files Listed:
+             279 File(s)    629,631,857 bytes
+             140 Dir(s)  61,197,258,752 bytes free
+
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3>net stop Splunkd
+The service is not responding to the control function.
+
+More help is available by typing NET HELPMSG 2186.
+
+
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3>cd "C:\Program Files\Splunk\bin"
+
+C:\Program Files\Splunk\bin>splunk stop
+Splunkd: Stopped
+
+C:\Program Files\Splunk\bin>xcopy "C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db" "C:\Program Files\Splunk\var\lib\splunk\main\db" /E /I /Y
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\.bucketManifest
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\CreationTime
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\1534746578-1534737603-3845326108452168654.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\1534756500-1534756500-2912231277843510516.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\1534755943-1534755845-15469389569254486776.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\1534758273-1534755600-15504457212722110477.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\rawdata\deletes\511135880cafd9508c0f12b87b099449.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\1534759200-1534759200-3868902944876762642.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\1534758303-1534758300-16783906981539050927.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\1534762138-1534758300-16867766471396508125.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\deletes\41eb6adcbd83f14d07d6fa883e74488f.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\deletes\52d2d4da0f468d939348af23ecade7bf.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\deletes\864561f28453de46063ff9a299261ef3.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\1534766331-1534766040-4041125482222077836.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\rawdata\deletes\27a7089f89929ee94b89e7e44e93caad.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\rawdata\deletes\9ac74450cfcc3ae4c153adae3ea08677.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\1534762887-1534762587-15543504551489286551.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\1534766463-1534762020-15607397678985478072.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\deletes\45fde4625c1e1ebb9666e0bc25111153.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\deletes\68359e70ab916525ee026e17ad32f9d3.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\deletes\d79a0671ef3e3e72d439ab12e2e2b8de.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\deletes\dee7e0b0fe743fd55d67c58ec444109b.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\1534775833-1534769745-3786299372175229164.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\1534769747-1534769297-15742985609042195739.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\1534775340-1534769280-15833795897877839908.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\1534776480-1534769383-15857409301653745021.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\deletes\1675f6ff5fbc8f3027c3c755af19076b.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\deletes\55bbe0c77d6c646b8c581e11860ad8fd.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\deletes\7e5fb3124d1a054cbdf16adc04ce4df2.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\deletes\96837af2bccacbce5efb5f96e1ab0cd5.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\deletes\bd073207469eaa99ed1f115b1be8bd04.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\1534777496-1534776480-3813001587581652052.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\1534775260-1534772734-3755426206653500691.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\1534778228-1534766520-3757557876231935348.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\0e175e5547a0af569e0ce90e436deea8.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\18f87456e1749c860fd056f39b8b2946.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\790e2b0ddccea7eb1ec2c843664f30c2.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\afd1a188b02138916088bafc4baf9c1e.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\b2edd8479433f50f74035fc8bb553890.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\c85d8027dece3ec30ea68155d8694065.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\ec8cf1ca4d01042ddf0be2d29416bd16.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\1534776808-1534776504-15937344643226431369.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\1534778280-1534776480-15967193051025913739.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\deletes\330c0132d8bca98b29d3811e01503a9c.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\deletes\35021ec5e7f9b87f50a121cb517a26e0.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\deletes\41480fcd35659106839dd139cd98b2fe.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\deletes\a4f5317de7f5e04f82fa71c9d5338bc3.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\1534778375-1534778100-5107909808064955505.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\1534758805-1534758315-885765955084463557.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\1534778806-1534755613-891416624512448880.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\1534778829-1534777980-13709643856059129186.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\rawdata\deletes\dd762332f4603726eae3cd261fa2c11d.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\1568916650-1568916650-16117772711583959498.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\splunk-need-optimize.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\1534809275-1534809000-3924722470159865468.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\rawdata\slicesv2.dat
+279 File(s) copied
+
+C:\Program Files\Splunk\bin>splunk start
+
+Splunk> CSI: Logfiles.
+
+Checking prerequisites...
+        Checking http port [8000]: open
+        Checking mgmt port [8089]: open
+        Checking appserver port [127.0.0.1:8065]: open
+        Checking kvstore port [8191]: open
+        Checking configuration... Done.
+New certs have been generated in 'C:\Program Files\Splunk\etc\auth'.
+        Checking critical directories...        Done
+        Checking indexes...
+                (skipping validation of index paths because not running as LocalSystem)
+                Validated: _audit _configtracker _dm_summary _dsappevent _dsclient _dsphonehome _internal _introspection _metrics _metrics_rollup _telemetry _thefishbucket botsv3 history main summary
+        Done
+        Checking filesystem compatibility...  Done
+        Checking conf files for problems...
+        Done
+        Checking default conf files for edits...
+        Validating installed files against hashes from 'C:\Program Files\Splunk\splunk-10.2.3-4d61cf8a5c0c-windows-x64-manifest'
+        All installed files intact.
+        Done
+All preliminary checks passed.
+
+Starting splunk server daemon (splunkd)...
+
+Splunkd: Starting (pid 23980)
+Done
+
+
+Waiting for web server at http://127.0.0.1:8000 to be available. Done
+
+
+If you get stuck, we're here to help.
+Look for answers here: http://docs.splunk.com
+
+The Splunk web interface is at http://Willie-PC:8000
+
+
+C:\Program Files\Splunk\bin>cd "C:\Program Files\Splunk\bin"
+
+C:\Program Files\Splunk\bin>splunk stop
+Splunkd: Stopped
+
+C:\Program Files\Splunk\bin>xcopy "C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db" "C:\Program Files\Splunk\var\lib\splunk\defaultdb\db" /E /I /Y
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\.bucketManifest
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\CreationTime
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315.rbsentinel
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\1534746578-1534737603-3845326108452168654.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534746578_1534737603_311\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\1534756500-1534756500-2912231277843510516.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534756500_1534756500_304\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\1534755943-1534755845-15469389569254486776.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\1534758273-1534755600-15504457212722110477.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534758273_1534755600_303\rawdata\deletes\511135880cafd9508c0f12b87b099449.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\1534759200-1534759200-3868902944876762642.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534759200_1534759200_312\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\1534758303-1534758300-16783906981539050927.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\1534762138-1534758300-16867766471396508125.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\deletes\41eb6adcbd83f14d07d6fa883e74488f.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\deletes\52d2d4da0f468d939348af23ecade7bf.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534762138_1534758300_302\rawdata\deletes\864561f28453de46063ff9a299261ef3.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\1534766331-1534766040-4041125482222077836.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\rawdata\deletes\27a7089f89929ee94b89e7e44e93caad.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766331_1534766040_301\rawdata\deletes\9ac74450cfcc3ae4c153adae3ea08677.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\1534762887-1534762587-15543504551489286551.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\1534766463-1534762020-15607397678985478072.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\deletes\45fde4625c1e1ebb9666e0bc25111153.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\deletes\68359e70ab916525ee026e17ad32f9d3.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\deletes\d79a0671ef3e3e72d439ab12e2e2b8de.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534766463_1534762020_305\rawdata\deletes\dee7e0b0fe743fd55d67c58ec444109b.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\1534775833-1534769745-3786299372175229164.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534775833_1534769745_309\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\1534769747-1534769297-15742985609042195739.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\1534775340-1534769280-15833795897877839908.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\1534776480-1534769383-15857409301653745021.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\deletes\1675f6ff5fbc8f3027c3c755af19076b.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\deletes\55bbe0c77d6c646b8c581e11860ad8fd.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\deletes\7e5fb3124d1a054cbdf16adc04ce4df2.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\deletes\96837af2bccacbce5efb5f96e1ab0cd5.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534776480_1534769280_306\rawdata\deletes\bd073207469eaa99ed1f115b1be8bd04.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\1534777496-1534776480-3813001587581652052.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534777496_1534776480_310\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\1534775260-1534772734-3755426206653500691.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\1534778228-1534766520-3757557876231935348.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\0e175e5547a0af569e0ce90e436deea8.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\18f87456e1749c860fd056f39b8b2946.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\790e2b0ddccea7eb1ec2c843664f30c2.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\afd1a188b02138916088bafc4baf9c1e.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\b2edd8479433f50f74035fc8bb553890.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\c85d8027dece3ec30ea68155d8694065.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778228_1534766520_308\rawdata\deletes\ec8cf1ca4d01042ddf0be2d29416bd16.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\1534776808-1534776504-15937344643226431369.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\1534778280-1534776480-15967193051025913739.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\deletes\330c0132d8bca98b29d3811e01503a9c.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\deletes\35021ec5e7f9b87f50a121cb517a26e0.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\deletes\41480fcd35659106839dd139cd98b2fe.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778280_1534776480_307\rawdata\deletes\a4f5317de7f5e04f82fa71c9d5338bc3.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\1534778375-1534778100-5107909808064955505.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778375_1534778100_314\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\1534758805-1534758315-885765955084463557.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\1534778806-1534755613-891416624512448880.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\merged_lexicon.lex
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778806_1534755613_316\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\1534778829-1534777980-13709643856059129186.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1534778829_1534777980_315\rawdata\deletes\dd762332f4603726eae3cd261fa2c11d.csv.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\1568916650-1568916650-16117772711583959498.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\splunk-need-optimize.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\db_1568916650_1568916650_318\rawdata\slicesv2.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\.rawSize
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\.sizeManifest4.1
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\1534809275-1534809000-3924722470159865468.tsidx
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\bloomfilter
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\bucket_info.csv
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\Hosts.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\optimize.result
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\Sources.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\SourceTypes.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\splunk-autogen-params.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\Strings.data
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\rawdata\journal.gz
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\rawdata\slicemin.dat
+C:\Users\hirew\Downloads\botsv3_data_set\botsv3_data_set\var\lib\splunk\botsv3\db\DISABLED-db_1534809275_1534809000_314\rawdata\slicesv2.dat
+279 File(s) copied
+
+C:\Program Files\Splunk\bin>splunk start
+
+Splunk> CSI: Logfiles.
+
+Checking prerequisites...
+        Checking http port [8000]: open
+        Checking mgmt port [8089]: open
+        Checking appserver port [127.0.0.1:8065]: open
+        Checking kvstore port [8191]: open
+        Checking configuration... Done.
+New certs have been generated in 'C:\Program Files\Splunk\etc\auth'.
+        Checking critical directories...        Done
+        Checking indexes...
+                (skipping validation of index paths because not running as LocalSystem)
+                Validated: _audit _configtracker _dm_summary _dsappevent _dsclient _dsphonehome _internal _introspection _metrics _metrics_rollup _telemetry _thefishbucket botsv3 history main summary
+        Done
+        Checking filesystem compatibility...  Done
+        Checking conf files for problems...
+        Done
+        Checking default conf files for edits...
+        Validating installed files against hashes from 'C:\Program Files\Splunk\splunk-10.2.3-4d61cf8a5c0c-windows-x64-manifest'
+        All installed files intact.
+        Done
+All preliminary checks passed.
+
+Starting splunk server daemon (splunkd)...
+
+Splunkd: Starting (pid 23796)
+Done
+
+
+
+If you get stuck, we're here to help.
+Look for answers here: http://docs.splunk.com
+
+The Splunk web interface is at http://Willie-PC:8000
+
+
+C:\Program Files\Splunk\bin>
