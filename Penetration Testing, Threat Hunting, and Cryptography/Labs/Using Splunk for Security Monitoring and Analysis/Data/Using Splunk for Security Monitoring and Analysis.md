@@ -1,5 +1,4 @@
-
-![alt text](<../Screenshots/Splunk-Emblem.png>)
+![alt text](../Screenshots/Splunk-Emblem.png)
 
 # Hands-on Lab: Using Splunk for Security Monitoring and Analysis
 
@@ -49,13 +48,12 @@ Go to the Splunk sign-up page:
 ```
 https://www.splunk.com/en_us/sign-up.html
 ```
-![alt text](<../Screenshots/Create_a_Account.png>)
 
-![alt text](<../Screenshots/Verification_Email.png>)
+![alt text](../Screenshots/Create_a_Account.png)
 
-![alt text](<../Screenshots/Login_Page.png>)
+![alt text](../Screenshots/Verification_Email.png)
 
-
+![alt text](../Screenshots/Login_Page.png)
 
 ### System Requirements
 
@@ -122,22 +120,22 @@ Splunk is a platform for searching, monitoring, and analyzing machine-generated 
    ```
 2. Select your operating system (Windows, macOS, or Linux)
 3. Download the installer (.msi for Windows, .dmg for macOS, .deb/.rpm for Linux)
-   
+
 ![Splunk Download]
 
 *[Screenshot: Splunk Enterprise download page with OS options]*
 
-![alt text](<../Screenshots/Splunk_Enterprise.png>)
+![alt text](../Screenshots/Splunk_Enterprise.png)
 
 ![alt text](../Screenshots/Splunk_General_Terms.png)
 
-![alt text](<../Screenshots/Accept_Terms.png>)
+![alt text](../Screenshots/Accept_Terms.png)
 
 4. Try out **Splunk Developer License** and **10GB** *free-tier* for **6 months**.
 
-![alt text](<../Screenshots/Splunk_Developer_Program_Account.png>)
+![alt text](../Screenshots/Splunk_Developer_Program_Account.png)
 
-![alt text](<../Screenshots/Developer_License.png>)
+![alt text](../Screenshots/Developer_License.png)
 
 #### Step 2: Install Splunk
 
@@ -148,8 +146,7 @@ Splunk is a platform for searching, monitoring, and analyzing machine-generated 
 3. Accept the license agreement
 4. Choose installation directory (default: `C:\Program Files\Splunk`)
 
-
-![alt text](<../Screenshots/Downloading_Splunk_Enterprise.png>)
+![alt text](../Screenshots/Downloading_Splunk_Enterprise.png)
 
 **macOS:**
 
@@ -179,16 +176,15 @@ cd /opt/splunk/bin
 
 1. Accept the license agreement when prompted
 
-![alt text](<../Screenshots/License_Agreement_Splunk.png>)
+![alt text](../Screenshots/License_Agreement_Splunk.png)
 
-![alt text](<../Screenshots/Check_Agreement_Splunk.png>)
+![alt text](../Screenshots/Check_Agreement_Splunk.png)
 
-![alt text](<../Screenshots/Splunk_Shortcut.png>)
+![alt text](../Screenshots/Splunk_Shortcut.png)
 
-![alt text](<../Screenshots/Installing_Splunk_Enterprise.png>)
+![alt text](../Screenshots/Installing_Splunk_Enterprise.png)
 
-![alt text](<../Screenshots/Launch_Browser.png>)
-
+![alt text](../Screenshots/Launch_Browser.png)
 
 2. Create an administrator username and password
 
@@ -201,18 +197,21 @@ cd /opt/splunk/bin
 
 1. Open your browser and navigate to:
 
-   ```
+![alt text](../Screenshots/Splunk_App.png)
+
+```
    http://localhost:8000
-   ```
+```
+
 2. Log in with the credentials you just created
 
 ![Splunk Login]
 
 *[Screenshot: Splunk Web login page at localhost:8000]*
 
-![alt text](<../Screenshots/Splunk_Home.png>)
+![alt text](../Screenshots/Splunk_Home.png)
 
-![alt text](<../Screenshots/Splunk_Dashboard.png>)
+![alt text](../Screenshots/Splunk_Dashboard.png)
 
 ### Option B: Virtual Machine Setup (Advanced)
 
@@ -240,11 +239,12 @@ The BOTS (Boss of the SOC) v3 dataset is a realistic security dataset distribute
    ```
    https://github.com/splunk/botsv3
    ```
-![alt text](<../Screenshots/Download_the_BOTS_v3_Dataset.png>)
+
+![alt text](../Screenshots/Download_the_BOTS_v3_Dataset.png)
 
 2. Download the dataset file: `botsv3_data_set.tgz`
 
-![alt text](<../Screenshots/BOTS_Dataset_download.png>)
+![alt text](../Screenshots/BOTS_Dataset_download.png)
 
 ### Step 2: Upload Data to Splunk
 
@@ -257,14 +257,13 @@ The BOTS (Boss of the SOC) v3 dataset is a realistic security dataset distribute
 
 *[Screenshot: Add Data page with file upload option]*
 
-![alt text](<../Screenshots/Add_Data.png>)
+![alt text](../Screenshots/Add_Data.png)
 
-![alt text](<../Screenshots/Upload_Data_to_Splunk.png>)
+![alt text](../Screenshots/Upload_Data_to_Splunk.png)
 
 5. Review the settings (keep defaults) and click **Submit**
 
-![alt text](<../Screenshots/Select_Source.png>)
-
+![alt text](../Screenshots/Select_Source.png)
 
 ### Step 3: Create an Index for the Data
 
@@ -279,10 +278,9 @@ The BOTS (Boss of the SOC) v3 dataset is a realistic security dataset distribute
 
 4. Click **Save**
 
+![alt text](../Screenshots/Create_an_Index_for_the_Data.png)
 
-![alt text](<../Screenshots/Create_an_Index_for_the_Data.png>)
-
-![alt text](<../Screenshots/Created_Index.png>)
+![alt text](../Screenshots/Created_Index.png)
 
 ### Step 4: Verify Data Ingestion
 
@@ -314,17 +312,15 @@ Expected result: Approximately 100+ sourcetypes with event counts
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-![alt text](<../Screenshots/Review_Data.png>)
+![alt text](../Screenshots/Review_Data.png)
 
-![alt text](<../Screenshots/Uploading_File.png>)
+![alt text](../Screenshots/Uploading_File.png)
 
-![alt text](<../Screenshots/Loading_Error.png>)
+![alt text](../Screenshots/Loading_Error.png)
 
-![alt text](<../Screenshots/Upload_botsv3_CMD.png>)
+![alt text](../Screenshots/Upload_botsv3_CMD.png)
 
-
-![alt text](<../Screenshots/Loading_Files_Starting_Splunk.png>)
-
+![alt text](../Screenshots/Loading_Files_Starting_Splunk.png)
 
 ![alt text](<../Screenshots/Verify_Data _Ingestion.png>)
 
@@ -367,6 +363,7 @@ Expected result: Approximately 100+ sourcetypes with event counts
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
+
 ![alt text](<../Screenshots/New_Search_Datasets.png>)
 
 ### Key Components
@@ -409,25 +406,36 @@ Each pipe (`|`) sends the output of one command to the next.
 **Simple search:**
 
 ```
-index=botsv3 "failed password"
+index=botsv3 "Failed" OR "failed" OR "authentication failure"
+| head 1
 ```
+
+![alt text](../Screenshots/Simple_Search.png)
 
 **Statistical analysis:**
 
 ```
-index=botsv3 sourcetype=secure
-| stats count by user
+index=botsv3 sourcetype=*journal
+| stats count by ComputerName
 | sort - count
 | head 10
 ```
 
+![alt text](<../Screenshots/Statistical_Analysis.png>)
+
+![alt text](<../Screenshots/Statistical_Analysis_2.png>)
+
 **Time-based analysis:**
 
 ```
-index=botsv3 earliest=-1h
-| stats count by src_ip
-| where count > 50
+index=botsv3 sourcetype=*journal ClientIP=*
+| eval clean_ip = if(match(ClientIP, ":"), replace(ClientIP, ":\d+$", ""), ClientIP)
+| stats count by clean_ip
+| where count > 1
+| sort - count
 ```
+
+![alt text](<../Screenshots/Time-based_analysis.png>)
 
 ---
 
