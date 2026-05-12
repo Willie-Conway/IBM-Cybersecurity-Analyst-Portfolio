@@ -49,6 +49,13 @@ Go to the Splunk sign-up page:
 ```
 https://www.splunk.com/en_us/sign-up.html
 ```
+![alt text](<../Screenshots/Create_a_Account.png>)
+
+![alt text](<../Screenshots/Verification_Email.png>)
+
+![alt text](<../Screenshots/Login_Page.png>)
+
+
 
 ### System Requirements
 
@@ -120,6 +127,14 @@ Splunk is a platform for searching, monitoring, and analyzing machine-generated 
 
 *[Screenshot: Splunk Enterprise download page with OS options]*
 
+![alt text](<../Screenshots/Splunk_Enterprise.png>)
+
+![alt text](../Screenshots/Splunk_General_Terms.png)
+
+![alt text](<../Screenshots/Accept_Terms.png>)
+
+
+
 #### Step 2: Install Splunk
 
 **Windows:**
@@ -128,6 +143,9 @@ Splunk is a platform for searching, monitoring, and analyzing machine-generated 
 2. Follow the installation wizard
 3. Accept the license agreement
 4. Choose installation directory (default: `C:\Program Files\Splunk`)
+
+
+![alt text](<../Screenshots/Downloading_Splunk_Enterprise.png>)
 
 **macOS:**
 
@@ -156,6 +174,18 @@ cd /opt/splunk/bin
 #### Step 4: Complete Initial Setup
 
 1. Accept the license agreement when prompted
+
+![alt text](<../Screenshots/License_Agreement_Splunk.png>)
+
+![alt text](<../Screenshots/Check_Agreement_Splunk.png>)
+
+![alt text](<../Screenshots/Splunk_Shortcut.png>)
+
+![alt text](<../Screenshots/Installing_Splunk_Enterprise.png>)
+
+![alt text](<../Screenshots/Launch_Browser.png>)
+
+
 2. Create an administrator username and password
 
 | Field              | Value                                       |
