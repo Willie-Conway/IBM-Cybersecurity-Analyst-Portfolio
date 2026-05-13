@@ -322,7 +322,7 @@ Expected result: Approximately 100+ sourcetypes with event counts
 
 ![alt text](../Screenshots/Loading_Files_Starting_Splunk.png)
 
-![alt text](<../Screenshots/Verify_Data _Ingestion.png>)
+![alt text](../Screenshots/Verify_Data _Ingestion.png)
 
 ---
 
@@ -364,7 +364,7 @@ Expected result: Approximately 100+ sourcetypes with event counts
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-![alt text](<../Screenshots/New_Search_Datasets.png>)
+![alt text](../Screenshots/New_Search_Datasets.png)
 
 ### Key Components
 
@@ -421,9 +421,9 @@ index=botsv3 sourcetype=*journal
 | head 10
 ```
 
-![alt text](<../Screenshots/Statistical_Analysis.png>)
+![alt text](../Screenshots/Statistical_Analysis.png)
 
-![alt text](<../Screenshots/Statistical_Analysis_2.png>)
+![alt text](../Screenshots/Statistical_Analysis_2.png)
 
 **Time-based analysis:**
 
@@ -435,7 +435,7 @@ index=botsv3 sourcetype=*journal ClientIP=*
 | sort - count
 ```
 
-![alt text](<../Screenshots/Time-based_analysis.png>)
+![alt text](../Screenshots/Time-based_analysis.png)
 
 ---
 
@@ -473,30 +473,42 @@ src_ip          count
 203.0.113.89    156
 ```
 
-### Use Case 2: Failed Login Attempts by User
+![alt text](../Screenshots/Brute_Force_Attack_Detection.png)
 
-**Scenario:** Identify users with multiple failed login attempts (possible account compromise targeting).
+### Use Case 2: Privilege Abuse Detection
+
+**Scenario:** This query identifies systems where sensitive privilege use (EventCode 4673) occurs frequently, which may indicate:
+
+* Account compromise
+* Privilege escalation attempts
+* Malicious activity
 
 **Query:**
 
 ```
-index=botsv3 sourcetype=secure "Failed password"
-| stats count by user, src_ip
+index=botsv3 sourcetype=*journal EventCode=4673
+| stats count by ComputerName
 | sort - count
-| table user, src_ip, count
+| table ComputerName, count
 ```
 
-### Use Case 3: Suspicious Process Creation (Sysmon)
+![alt text](../Screenshots/Privilege_Abuse_Detection.png)
+
+### Use Case 3: Search raw text for PowerShell
 
 **Scenario:** Detect suspicious process creation events, such as PowerShell launching unusual commands.
 
 **Query:**
 
 ```
-index=botsv3 sourcetype="xmlwineventlog" EventID=1
-| search ProcessName="*powershell.exe" OR ProcessName="*cmd.exe"
-| table _time, host, user, ProcessName, CommandLine
+index=botsv3 "powershell.exe"
+| eval CommandLine = coalesce(CommandLine, Process_Command_Line)
+| rex field=_raw "New Process Name:\s*(?<ProcessPath>[^\n]+)"
+| table _time, ComputerName, User, ProcessPath, CommandLine
+| head 50
 ```
+
+![alt text](../Screenshots/Search_raw_text_for_PowerShell.png)
 
 ### Use Case 4: Geolocation-Based Threat Hunting
 
@@ -505,14 +517,18 @@ index=botsv3 sourcetype="xmlwineventlog" EventID=1
 **Query:**
 
 ```
-index=botsv3 sourcetype=stream:http
-| iplocation dest_ip
-| where Country!="United States" AND Country!="Canada" AND Country!=""
-| stats count by Country, dest_ip
+index=botsv3 "dest_ip"
+| rex "dest_ip\":\"(?<ip>\d+\.\d+\.\d+\.\d+)\""
+| where NOT match(ip, "192\.168\.")
+| where ip!=""
+| stats count by ip
 | sort - count
+| head 10
 ```
 
 > **Note:** The `iplocation` command requires a Splunk app or configuration. If not available, skip this example.
+
+![alt text](../Screenshots/Geolocation-Based_Threat_Hunting.png)
 
 ### Use Case 5: Lateral Movement Detection
 
@@ -521,11 +537,15 @@ index=botsv3 sourcetype=stream:http
 **Query:**
 
 ```
-index=botsv3 sourcetype=WinEventLog:Security EventCode=4624
-| stats dc(dest_host) as unique_hosts by src_host
-| where unique_hosts > 10
-| table src_host, unique_hosts
+index=botsv3 "Account Name"
+| rex "Account Name:\s*(?<Account_Name>[^\n]+)"
+| stats dc(ComputerName) as systems_accessed by Account_Name
+| where systems_accessed > 1
+| sort - systems_accessed
+| table Account_Name, systems_accessed
 ```
+
+![alt text](<../Screenshots/Lateral_Movement_Detection.png>)
 
 ---
 
