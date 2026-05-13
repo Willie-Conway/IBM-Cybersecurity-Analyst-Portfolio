@@ -211,7 +211,7 @@ cd /opt/splunk/bin
 
 ![alt text](../Screenshots/Splunk_Home.png)
 
-![alt text](<../Screenshots/Splunk_Login.png>)
+![alt text](../Screenshots/Splunk_Login.png)
 
 ![alt text](../Screenshots/Splunk_Dashboard.png)
 
@@ -568,11 +568,9 @@ Alerts automatically notify you when specific conditions are met, enabling proac
 2. Click **Save As** → **Alert**
 3. Configure the alert:
 
-![alt text](<../Screenshots/Create_a_Privilege_Abuse_Alert.png>)
+![alt text](../Screenshots/Create_a_Privilege_Abuse_Alert.png)
 
-![alt text](<../Screenshots/Search_Reports_Alerts.png>)
-
-
+![alt text](../Screenshots/Search_Reports_Alerts.png)
 
 | Setting                     | Value                                                                |
 | :-------------------------- | :------------------------------------------------------------------- |
@@ -590,30 +588,26 @@ Alerts automatically notify you when specific conditions are met, enabling proac
 | **Webhook**                 | Provide webhook URL for integration |
 | **Add to Triggered Alerts** | (Default - enabled)                 |
 
-
 5. Click **Save**
 
 ![Create Alert]
 
 *[Screenshot: Alert configuration dialog with fields filled]*
 
-![alt text](<../Screenshots/Save_as_Alert.png>)
+![alt text](../Screenshots/Save_as_Alert.png)
 
-![alt text](<../Screenshots/Alert_Saved.png>)
+![alt text](../Screenshots/Alert_Saved.png)
 
-![alt text](<../Screenshots/Create_Alert.png>)
-
+![alt text](../Screenshots/Create_Alert.png)
 
 ### Step 2: View Triggered Alerts
 
 1. Navigate to **Activities** → **Triggered Alerts**
 2. All triggered alerts appear here with timestamps and results
 
+![alt text](../Screenshots/View_Triggered_Alerts.png)
 
-![alt text](<../Screenshots/View_Triggered_Alerts.png>)
-
-
-![alt text](<../Screenshots/Triggered_Alerts.png>)
+![alt text](../Screenshots/Triggered_Alerts.png)
 
 ---
 
@@ -632,6 +626,20 @@ Dashboards provide visual, at-a-glance monitoring of security metrics .
 | **Title**       | `Security Monitoring Dashboard`         |
 | **Description** | `Real-time security metrics and alerts` |
 | **Permissions** | `Private` (for lab)                     |
+
+![alt text](<../Screenshots/Create_New_Dashboard.png>)
+
+![alt text](<../Screenshots/Dashboard_Settings.png>)
+
+![alt text](<../Screenshots/Add_Panel.png>)
+
+![alt text](<../Screenshots/Existing_Dashboard.png>)
+
+![alt text](<../Screenshots/Panel_1.png>)
+
+![alt text](<../Screenshots/Createing_Panel_1.png>)
+
+![alt text](<../Screenshots/Top_10_Privilege_Abuse_Sources.png>)
 
 ### Step 2: Add a Panel - Top Failed Login Sources
 
