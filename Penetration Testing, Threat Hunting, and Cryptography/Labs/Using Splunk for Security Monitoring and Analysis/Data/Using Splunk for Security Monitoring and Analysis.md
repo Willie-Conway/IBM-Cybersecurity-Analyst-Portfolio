@@ -591,18 +591,29 @@ Alerts automatically notify you when specific conditions are met, enabling proac
 | **Add to Triggered Alerts** | (Default - enabled)                 |
 
 
-
-
 5. Click **Save**
 
 ![Create Alert]
 
 *[Screenshot: Alert configuration dialog with fields filled]*
 
+![alt text](<../Screenshots/Save_as_Alert.png>)
+
+![alt text](<../Screenshots/Alert_Saved.png>)
+
+![alt text](<../Screenshots/Create_Alert.png>)
+
+
 ### Step 2: View Triggered Alerts
 
 1. Navigate to **Activities** → **Triggered Alerts**
 2. All triggered alerts appear here with timestamps and results
+
+
+![alt text](<../Screenshots/View_Triggered_Alerts.png>)
+
+
+![alt text](<../Screenshots/Triggered_Alerts.png>)
 
 ---
 
