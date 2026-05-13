@@ -639,22 +639,24 @@ Dashboards provide visual, at-a-glance monitoring of security metrics .
 
 ![alt text](<../Screenshots/Createing_Panel_1.png>)
 
-![alt text](<../Screenshots/Top_10_Privilege_Abuse_Sources.png>)
 
-### Step 2: Add a Panel - Top Failed Login Sources
+
+### Step 2: Add a Panel - Top Privilege Abuse Sources
 
 1. Click **Add Panel** → **New from Search**
 2. Enter the SPL query :
 
-   ```
-   index=botsv3 sourcetype=secure "Failed password"
-   | stats count by src_ip
-   | sort - count
-   | head 10
-   ```
+```
+   index=botsv3 sourcetype=*journal EventCode=4673
+| stats count by ComputerName
+| sort - count
+| head 10
+```
 3. Choose visualization type: **Bar Chart** or **Table**
-4. Add title: `Top 10 Failed Login Sources`
+4. Add title: `Top 10 Privilege Abuse Sources`
 5. Click **Add to Dashboard**
+
+![alt text](<../Screenshots/Top_10_Privilege_Abuse_Sources.png>)
 
 ### Step 3: Add a Panel - Login Success vs Failure Trend
 
@@ -667,21 +669,26 @@ Dashboards provide visual, at-a-glance monitoring of security metrics .
    | timechart span=1h count by outcome
    ```
 3. Choose visualization type: **Line Chart**
-4. Add title: `Login Activity Trend (Last 7 Days)`
+4. Add title: `Login Activity Trend (Success vs Failure)`
 5. Click **Add to Dashboard**
+
+
+![alt text](<../Screenshots/Login_Activity_Trend_(Success vs Failure).png>)
 
 ### Step 4: Add a Panel - Event Timeline
 
 1. Click **Add Panel** → **New from Search**
 2. Enter a simple search:
 
-   ```
-   index=botsv3
-   | timechart count
-   ```
+```
+index=main sourcetype=stash
+| timechart count
+```
 3. Choose visualization type: **Area Chart**
 4. Add title: `Overall Event Volume`
 5. Click **Add to Dashboard**
+
+![alt text](../Screenshots/Overall_Event_Volume.png)
 
 ### Step 5: Save and View Dashboard
 
