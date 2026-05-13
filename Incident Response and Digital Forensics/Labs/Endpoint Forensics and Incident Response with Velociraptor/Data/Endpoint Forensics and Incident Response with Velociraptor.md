@@ -159,12 +159,16 @@ For this lab, you will set up a small Velociraptor environment with one server a
    ```
    https://github.com/Velocidex/velociraptor/releases
    ```
+![alt text](<../Screenshots/Navigate_to_the_Velociraptreleases_page.png>)
+
 2. Download the appropriate binaries for your OS:
 
 | System                   | File to Download                         |
 | :----------------------- | :--------------------------------------- |
 | **Ubuntu Server**  | `velociraptor-v0.7.x-linux-amd64`      |
 | **Windows Client** | `Velociraptor-0.7.x-windows-amd64.msi` |
+
+![alt text](<../Screenshots/Download_velociraptor.png>)
 
 ---
 
