@@ -211,6 +211,8 @@ cd /opt/splunk/bin
 
 ![alt text](../Screenshots/Splunk_Home.png)
 
+![alt text](<../Screenshots/Splunk_Login.png>)
+
 ![alt text](../Screenshots/Splunk_Dashboard.png)
 
 ### Option B: Virtual Machine Setup (Advanced)
@@ -545,7 +547,7 @@ index=botsv3 "Account Name"
 | table Account_Name, systems_accessed
 ```
 
-![alt text](<../Screenshots/Lateral_Movement_Detection.png>)
+![alt text](../Screenshots/Lateral_Movement_Detection.png)
 
 ---
 
@@ -553,25 +555,32 @@ index=botsv3 "Account Name"
 
 Alerts automatically notify you when specific conditions are met, enabling proactive threat detection .
 
-### Step 1: Create a Brute Force Alert
+### Step 1: Create a Privilege Abuse Alert
 
 1. Run the brute force detection query :
 
    ```
-   index=botsv3 sourcetype=secure "Failed password"
-   | stats count by src_ip
-   | where count > 20
+   index=botsv3 EventCode=4673
+   | stats count by ComputerName
+   | where count > 50
+   | sort - count
    ```
 2. Click **Save As** → **Alert**
 3. Configure the alert:
 
-| Setting                     | Value                                                            |
-| :-------------------------- | :--------------------------------------------------------------- |
-| **Title**             | `Brute Force Attack Detected`                                  |
-| **Description**       | `Alert when IP exceeds 20 failed logins`                       |
-| **Time Range**        | `Last 15 minutes`                                              |
-| **Run on**            | `Schedule` → `Cron Schedule: */5 * * * *` (every 5 minutes) |
-| **Trigger condition** | `When number of results > 0`                                   |
+![alt text](<../Screenshots/Create_a_Privilege_Abuse_Alert.png>)
+
+![alt text](<../Screenshots/Search_Reports_Alerts.png>)
+
+
+
+| Setting                     | Value                                                                |
+| :-------------------------- | :------------------------------------------------------------------- |
+| **Title**             | `Privilege Abuse Detected`                                         |
+| **Description**       | `Alert when a computer shows excessive privilege use events (>50)` |
+| **Time Range**        | `Last 24 hours`                                                    |
+| **Run on**            | `Schedule` → `Cron Schedule: */5 * * * *` (every 5 minutes)     |
+| **Trigger condition** | `When number of results > 0`                                       |
 
 4. Configure actions (choose one or more):
 
@@ -580,6 +589,9 @@ Alerts automatically notify you when specific conditions are met, enabling proac
 | **Email**                   | Enter recipient email addresses     |
 | **Webhook**                 | Provide webhook URL for integration |
 | **Add to Triggered Alerts** | (Default - enabled)                 |
+
+
+
 
 5. Click **Save**
 
