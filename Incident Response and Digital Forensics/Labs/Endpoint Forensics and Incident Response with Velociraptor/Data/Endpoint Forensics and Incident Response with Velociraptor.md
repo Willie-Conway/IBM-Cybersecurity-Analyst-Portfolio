@@ -152,6 +152,79 @@ For this lab, you will set up a small Velociraptor environment with one server a
 - Disk: 40GB
 - Network: Same as server (must be able to communicate)
 
+![alt text](<../Screenshots/VM_Name_and_OS.png>)
+
+![alt text](<../Screenshots/Verify_Virtual_Hardware.png>)
+
+![alt text](<../Screenshots/Specify_virtual_hard_disk.png>)
+
+![alt text](<../Screenshots/Velociraptor_Server.png>)
+
+![alt text](<../Screenshots/Ubuntu_server.png>)
+
+![alt text](<../Screenshots/archive_mirror.png>)
+
+**Install Ubuntu Server:**
+
+### Installation Options Table
+
+| Prompt | Your Selection |
+|--------|----------------|
+| **Language** | `English` |
+| **Installer update** | `Continue without updating` |
+| **Keyboard layout** | `English (US)` |
+| **Network configuration** | `DHCP` (default - automatic) |
+| **Proxy** | Leave **blank** (just press Enter) |
+| **Ubuntu archive mirror** | Keep default (press Enter) |
+| **Storage layout** | `Use an entire disk` |
+| **Storage confirmation** | `Continue` (select the disk, press Enter) |
+| **Profile setup - Your name** | `velo-admin` (or any name you prefer) |
+| **Profile setup - Server name** | `velociraptor-server` |
+| **Profile setup - Username** | `velo-admin` (or match your name) |
+| **Profile setup - Password** | **Create a password you will remember** |
+| **SSH setup** | ✅ **Install OpenSSH server** (press Spacebar to select) |
+| **Featured snaps** | ❌ **Deselect all** (press Spacebar on any selected items) |
+| **Installation complete** | `Reboot Now` |
+
+
+![alt text](<../Screenshots/Profile_Configuration.png>)
+
+![alt text](<../Screenshots/Skip_for_now.png>)
+
+![alt text](<../Screenshots/SSH_Configuration.png>)
+
+![alt text](<../Screenshots/Featured_Server_Snaps.png>)
+
+![alt text](<../Screenshots/View_Full_log.png>)
+
+![alt text](<../Screenshots/Reeboot_Now.png>)
+
+
+
+---
+
+### Do You Need Ubuntu Pro?
+
+**No, Ubuntu Pro is NOT required for this lab.**
+
+| Feature | Ubuntu Pro | Free Ubuntu (what you need) |
+|---------|------------|----------------------------|
+| **Cost** | Paid for commercial use | **Free** ✅ |
+| **Security updates** | Extended to 10+ years | 5 years LTS (enough for this lab) |
+| **Live kernel patching** | Yes | No |
+| **Compliance tools** | Yes (FIPS, CIS) | No |
+| **Need for this lab?** | **No** ❌ | **Yes** ✅ |
+
+> When prompted about Ubuntu Pro during installation, select **"Skip for now"** or **"Continue without Pro"** .
+
+---
+
+### After Installation - First Login
+
+Once the VM reboots, log in:
+
+![alt text](<../Screenshots/Velociraptor_Server_Login.png>)
+
 ### Step 2: Download Velociraptor
 
 1. Navigate to the Velociraptreleases page:
