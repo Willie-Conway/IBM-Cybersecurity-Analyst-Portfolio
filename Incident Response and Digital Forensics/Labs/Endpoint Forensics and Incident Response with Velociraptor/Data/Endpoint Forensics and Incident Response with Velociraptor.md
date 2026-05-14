@@ -256,6 +256,8 @@ sudo mkdir -p /opt/velociraptor
 cd /opt/velociraptor
 ```
 
+![alt text](<../Screenshots/Create_the_Velociraptor_directory.png>)
+
 Upload the Velociraptor binary to the server (using SCP or shared folder).
 
 ```bash
