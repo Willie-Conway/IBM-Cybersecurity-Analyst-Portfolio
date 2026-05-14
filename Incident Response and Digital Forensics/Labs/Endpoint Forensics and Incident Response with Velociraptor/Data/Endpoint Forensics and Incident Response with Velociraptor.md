@@ -1,5 +1,4 @@
-
-![alt text](<../Screenshots/Velociraptor_Logo.png>)
+![alt text](../Screenshots/Velociraptor_Logo.png)
 
 # Hands-on Lab: Endpoint Forensics and Incident Response with Velociraptor
 
@@ -152,54 +151,51 @@ For this lab, you will set up a small Velociraptor environment with one server a
 - Disk: 40GB
 - Network: Same as server (must be able to communicate)
 
-![alt text](<../Screenshots/VM_Name_and_OS.png>)
+![alt text](../Screenshots/VM_Name_and_OS.png)
 
-![alt text](<../Screenshots/Verify_Virtual_Hardware.png>)
+![alt text](../Screenshots/Verify_Virtual_Hardware.png)
 
-![alt text](<../Screenshots/Specify_virtual_hard_disk.png>)
+![alt text](../Screenshots/Specify_virtual_hard_disk.png)
 
-![alt text](<../Screenshots/Velociraptor_Server.png>)
+![alt text](../Screenshots/Velociraptor_Server.png)
 
-![alt text](<../Screenshots/Ubuntu_server.png>)
+![alt text](../Screenshots/Ubuntu_server.png)
 
-![alt text](<../Screenshots/archive_mirror.png>)
+![alt text](../Screenshots/archive_mirror.png)
 
 **Install Ubuntu Server:**
 
 ### Installation Options Table
 
-| Prompt | Your Selection |
-|--------|----------------|
-| **Language** | `English` |
-| **Installer update** | `Continue without updating` |
-| **Keyboard layout** | `English (US)` |
-| **Network configuration** | `DHCP` (default - automatic) |
-| **Proxy** | Leave **blank** (just press Enter) |
-| **Ubuntu archive mirror** | Keep default (press Enter) |
-| **Storage layout** | `Use an entire disk` |
-| **Storage confirmation** | `Continue` (select the disk, press Enter) |
-| **Profile setup - Your name** | `velo-admin` (or any name you prefer) |
-| **Profile setup - Server name** | `velociraptor-server` |
-| **Profile setup - Username** | `velo-admin` (or match your name) |
-| **Profile setup - Password** | **Create a password you will remember** |
-| **SSH setup** | ✅ **Install OpenSSH server** (press Spacebar to select) |
-| **Featured snaps** | ❌ **Deselect all** (press Spacebar on any selected items) |
-| **Installation complete** | `Reboot Now` |
+| Prompt                                | Your Selection                                                  |
+| ------------------------------------- | --------------------------------------------------------------- |
+| **Language**                    | `English`                                                     |
+| **Installer update**            | `Continue without updating`                                   |
+| **Keyboard layout**             | `English (US)`                                                |
+| **Network configuration**       | `DHCP` (default - automatic)                                  |
+| **Proxy**                       | Leave**blank** (just press Enter)                         |
+| **Ubuntu archive mirror**       | Keep default (press Enter)                                      |
+| **Storage layout**              | `Use an entire disk`                                          |
+| **Storage confirmation**        | `Continue` (select the disk, press Enter)                     |
+| **Profile setup - Your name**   | `velo-admin` (or any name you prefer)                         |
+| **Profile setup - Server name** | `velociraptor-server`                                         |
+| **Profile setup - Username**    | `velo-admin` (or match your name)                             |
+| **Profile setup - Password**    | **Create a password you will remember**                   |
+| **SSH setup**                   | ✅**Install OpenSSH server** (press Spacebar to select)   |
+| **Featured snaps**              | ❌**Deselect all** (press Spacebar on any selected items) |
+| **Installation complete**       | `Reboot Now`                                                  |
 
+![alt text](../Screenshots/Profile_Configuration.png)
 
-![alt text](<../Screenshots/Profile_Configuration.png>)
+![alt text](../Screenshots/Skip_for_now.png)
 
-![alt text](<../Screenshots/Skip_for_now.png>)
+![alt text](../Screenshots/SSH_Configuration.png)
 
-![alt text](<../Screenshots/SSH_Configuration.png>)
+![alt text](../Screenshots/Featured_Server_Snaps.png)
 
-![alt text](<../Screenshots/Featured_Server_Snaps.png>)
+![alt text](../Screenshots/View_Full_log.png)
 
-![alt text](<../Screenshots/View_Full_log.png>)
-
-![alt text](<../Screenshots/Reeboot_Now.png>)
-
-
+![alt text](../Screenshots/Reeboot_Now.png)
 
 ---
 
@@ -207,13 +203,13 @@ For this lab, you will set up a small Velociraptor environment with one server a
 
 **No, Ubuntu Pro is NOT required for this lab.**
 
-| Feature | Ubuntu Pro | Free Ubuntu (what you need) |
-|---------|------------|----------------------------|
-| **Cost** | Paid for commercial use | **Free** ✅ |
-| **Security updates** | Extended to 10+ years | 5 years LTS (enough for this lab) |
-| **Live kernel patching** | Yes | No |
-| **Compliance tools** | Yes (FIPS, CIS) | No |
-| **Need for this lab?** | **No** ❌ | **Yes** ✅ |
+| Feature                        | Ubuntu Pro              | Free Ubuntu (what you need)       |
+| ------------------------------ | ----------------------- | --------------------------------- |
+| **Cost**                 | Paid for commercial use | **Free** ✅                 |
+| **Security updates**     | Extended to 10+ years   | 5 years LTS (enough for this lab) |
+| **Live kernel patching** | Yes                     | No                                |
+| **Compliance tools**     | Yes (FIPS, CIS)         | No                                |
+| **Need for this lab?**   | **No** ❌         | **Yes** ✅                  |
 
 > When prompted about Ubuntu Pro during installation, select **"Skip for now"** or **"Continue without Pro"** .
 
@@ -223,7 +219,7 @@ For this lab, you will set up a small Velociraptor environment with one server a
 
 Once the VM reboots, log in:
 
-![alt text](<../Screenshots/Velociraptor_Server_Login.png>)
+![alt text](../Screenshots/Velociraptor_Server_Login.png)
 
 ### Step 2: Download Velociraptor
 
@@ -232,7 +228,8 @@ Once the VM reboots, log in:
    ```
    https://github.com/Velocidex/velociraptor/releases
    ```
-![alt text](<../Screenshots/Navigate_to_the_Velociraptreleases_page.png>)
+
+![alt text](../Screenshots/Navigate_to_the_Velociraptreleases_page.png)
 
 2. Download the appropriate binaries for your OS:
 
@@ -241,7 +238,7 @@ Once the VM reboots, log in:
 | **Ubuntu Server**  | `velociraptor-v0.7.x-linux-amd64`      |
 | **Windows Client** | `Velociraptor-0.7.x-windows-amd64.msi` |
 
-![alt text](<../Screenshots/Download_velociraptor.png>)
+![alt text](../Screenshots/Download_velociraptor.png)
 
 ---
 
@@ -256,17 +253,19 @@ sudo mkdir -p /opt/velociraptor
 cd /opt/velociraptor
 ```
 
-![alt text](<../Screenshots/Create_the_Velociraptor_directory.png>)
+![alt text](../Screenshots/Create_the_Velociraptor_directory.png)
 
 Upload the Velociraptor binary to the server (using SCP or shared folder).
 
 ```bash
 # Make the binary executable
-sudo chmod +x velociraptor-v0.7.x-linux-amd64
+sudo chmod +x velociraptor-v0.76.5-linux-amd64
 
 # Create a symbolic link for easier access
-sudo ln -s /opt/velociraptor/velociraptor-v0.7.x-linux-amd64 /usr/local/bin/velociraptor
+sudo ln -s /opt/velociraptor/velociraptor-v0.76.5-linux-amd64 /usr/local/bin/velociraptor
 ```
+
+![alt text](<../Screenshots/Upload_the_Velociraptor_binary_to_the_server.png>)
 
 ### Step 2: Generate Server Configuration
 
@@ -274,11 +273,21 @@ sudo ln -s /opt/velociraptor/velociraptor-v0.7.x-linux-amd64 /usr/local/bin/velo
 sudo velociraptor config generate > server.config.yaml
 ```
 
+![alt text](<../Screenshots/Generate_Server_Configuration.png>)
+
+**VM hostname:**
+
+![alt text](<../Screenshots/Find_Your_VMs_IP_Address.png>)
+
 This creates a basic configuration file. Edit it to set your server's public IP:
 
 ```bash
 sudo nano server.config.yaml
 ```
+
+![alt text](<../Screenshots/Open_Nano.png>)
+
+![alt text](<../Screenshots/Nano_Config_File.png>)
 
 Find the `Frontend` section and update the `hostname` to your server's IP address:
 
@@ -288,6 +297,16 @@ Frontend:
   bind_address: "0.0.0.0"
   bind_port: 8000
 ```
+
+![alt text](<../Screenshots/Change_Frontend_Hostname.png>)
+
+![alt text](<../Screenshots/Update_Frontend_Hostname.png>)
+
+**Save File::**
+
+* Press `Ctrl+O` (then Enter to confirm)
+* Press `Ctrl+X` to exit
+
 
 ### Step 3: Start the Velociraptor Server
 
@@ -305,6 +324,8 @@ sudo velociraptor --config server.config.yaml user add --role administrator
 ```
 
 Follow the prompts to set a username and password.
+
+![alt text](<../Screenshots/Running_Server.png>)
 
 ### Step 5: Access the Velociraptor GUI
 
@@ -965,4 +986,3 @@ You have successfully completed the **Endpoint Forensics and Incident Response w
 These skills represent the modern approach to DFIR—scalable, efficient, and agent-based. Velociraptor has become the obvious choice for open-source DFIR at scale .
 
 > "Velociraptor can revolutionize our IR capabilities, making it an essential tool for future threat hunting and rapid response." — BTLO Lab Participant
->

@@ -1,2 +1,6 @@
 Login: velo-admin
-Password: Password123!
+Password: ubuntu
+
+
+Start Server: sudo velociraptor --config /etc/velociraptor/server.config.yaml frontend -v
+Add User: sudo velociraptor --config /etc/velociraptor/server.config.yaml user add velo-admin --role administrator
