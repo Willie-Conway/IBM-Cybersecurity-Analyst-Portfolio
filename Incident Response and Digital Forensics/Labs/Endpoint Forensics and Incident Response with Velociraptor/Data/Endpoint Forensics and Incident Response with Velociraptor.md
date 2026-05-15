@@ -343,6 +343,12 @@ Follow the prompts to set a username and password.
 
 *[Screenshot: Velociraptor web interface login screen]*
 
+![alt text](<../Screenshots/Network_Tab.png>)
+
+![alt text](<../Screenshots/port_fowarding.png>)
+
+![alt text](<../Screenshots/Access_the_Velociraptor_GUI.png>)
+
 ---
 
 ## Part 3: Setting Up the Velociraptor Client (Windows)
