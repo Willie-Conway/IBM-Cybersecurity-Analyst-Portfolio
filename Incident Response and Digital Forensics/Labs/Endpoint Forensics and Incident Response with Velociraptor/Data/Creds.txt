@@ -1,6 +1,7 @@
 Login: velo-admin
 Password: ubuntu
 
+🦖 Velocirpator IP: https://127.0.0.1:8889
 
 Start Server: sudo velociraptor --config /etc/velociraptor/server.config.yaml frontend -v
 Add User: sudo velociraptor --config /etc/velociraptor/server.config.yaml user add velo-admin --role administrator

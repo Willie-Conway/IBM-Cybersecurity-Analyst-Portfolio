@@ -325,6 +325,8 @@ sudo velociraptor --config server.config.yaml user add --role administrator
 
 Follow the prompts to set a username and password.
 
+![alt text](<../Screenshots/Velociraptor_opening_Server.png>)
+
 ![alt text](<../Screenshots/Running_Server.png>)
 
 ### Step 5: Access the Velociraptor GUI
@@ -360,12 +362,20 @@ From the Ubuntu server, generate a client configuration:
 ```bash
 sudo velociraptor --config server.config.yaml config client > client.config.yaml
 ```
+#### or
+
+```bash
+sudo velociraptor --config /etc/velociraptor/server.config.yaml config client | sudo tee /tmp/client.config.yaml
+```
+
+![alt text](<../Screenshots/Generate_Client_Configuration.png>)
 
 ### Step 2: Create Client Installer
 
 ```bash
 sudo velociraptor --config client.config.yaml config write_client --msi > velociraptor_client.msi
 ```
+
 
 This creates an MSI installer that will automatically connect to your server.
 
@@ -395,6 +405,16 @@ This creates an MSI installer that will automatically connect to your server.
 ![Client Connected]
 
 *[Screenshot: Velociraptor client list showing connected Windows client]*
+
+![alt text](<../Screenshots/Verify_Client_Connection.png>)
+
+![alt text](<../Screenshots/Directory_Listing.png>)
+
+![alt text](<../Screenshots/Download_MSI.png>)
+
+![alt text](<../Screenshots/Uinstall_Old_Client.png>)
+
+![alt text](<../Screenshots/Verify_Running_Client.png>)
 
 ---
 
