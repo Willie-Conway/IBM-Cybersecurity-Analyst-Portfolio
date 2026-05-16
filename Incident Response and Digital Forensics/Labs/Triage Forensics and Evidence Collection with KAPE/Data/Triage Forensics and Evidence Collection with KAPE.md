@@ -85,6 +85,14 @@ You must have:
 | **Windows test VM (optional)** | ☐     | For realistic triage collection             |
 | **Sample evidence (optional)** | ☐     | Can use your own system or download samples |
 
+![alt text](<../Screenshots/KAPE_Target_VM.png>)
+
+![alt text](<../Screenshots/Specify_virtual_hardware_KAPE.png>)
+
+![alt text](<../Screenshots/Disk_space_KAPE.png>)
+
+![alt text](<../Screenshots/KAPE_VM_Start.png>)
+
 ---
 
 ## What is KAPE? Understanding the Architecture
