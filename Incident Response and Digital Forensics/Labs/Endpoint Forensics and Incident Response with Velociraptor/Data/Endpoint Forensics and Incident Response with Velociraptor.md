@@ -416,6 +416,8 @@ This creates an MSI installer that will automatically connect to your server.
 
 ![alt text](<../Screenshots/Verify_Running_Client.png>)
 
+![alt text](<../Screenshots/Velociraptor_Frontend.png>)
+
 ---
 
 ## Part 4: Core Velociraptor Capabilities
