@@ -63,6 +63,13 @@ You must have:
 | **Admin privileges**        | ☐     | For installation                    |
 | **Virtualization software** | ☐     | Optional: for creating memory dumps |
 
+![alt text](<../Screenshots/MemForensics_VM.png>)
+
+![alt text](<../Screenshots/Specify_virtual_hardware_volatity.png>)
+
+![alt text](<../Screenshots/Hard_Disk_Volatility.png>)
+
+![alt text](<../Screenshots/VM_MeForensics.png>)
 ---
 
 ## What is Volatility?
