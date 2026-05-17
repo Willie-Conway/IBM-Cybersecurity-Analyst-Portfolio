@@ -631,20 +631,20 @@ IBM-Cybersecurity-Analyst-Portfolio/
 
 ### 🎓 Interactive Security Simulators (Custom HTML Tools)
 
-| Simulator | Purpose | Location |
-|-----------|---------|----------|
-| **HACKNET** | Hacker Typer simulation for security awareness | `Intro to Cybersecurity Essentials/Labs/Hacker Typer/HACKNET/` |
-| **RKHUNTER LIVE** | Malware detection with rkhunter | `Intro to Cybersecurity Tools/Labs/Malware Scan Using Rkhunter/RKHUNTER LIVE/` |
-| **DECEIVER** | Social engineering attack simulator | `Intro to Cybersecurity Tools/Labs/Identifying Social Engineering/DECEIVER/` |
-| **PATHOGEN** | Malware type identification lab | `Intro to Cybersecurity Tools/Labs/Identifying Malware/PATHOGEN/` |
-| **FORTRESS** | Security controls classification | `Intro to Cybersecurity Tools/Labs/Security Controls/FORTRESS/` |
-| **SENTINEL** | Insider threat mitigation scenarios | `Intro to Cybersecurity Tools/Labs/Insider Attacks/SENTINEL/` |
-| **NEXUS** | Security assessment tool | `Intro to Cybersecurity Tools/Final Project/NEXUS/` |
-| **CIPHER** | Cybersecurity glossary with flashcards | `Intro to Cybersecurity Tools/Labs/CIPHER/` |
-| **KERNEL** | Linux command interactive lab | `Operating Systems/Labs/Common Linux Commands/KERNEL/` |
-| **VAULT** | Authentication methods explorer | `Operating Systems/Final Project/VAULT/` |
-| **STRATOS** | Cloud container security | `Operating Systems/Labs/Docker/STRATOS/` |
-| **CyberPrep** | Career preparation toolkit | `Cybersecurity Job Search/Labs/CyberPrep/` |
+| Simulator | Purpose |  Live Demo |
+|-----------|---------|--------------|
+| **HACKNET** | Hacker Typer simulation for security awareness | [Click to Hack →](https://willie-conway.github.io/HACKNET/) |
+| **RKHUNTER LIVE** | Malware detection with rkhunter | [Click to Scan →](https://willie-conway.github.io/RKHUNTER-LIVE/) |
+| **DECEIVER** | Social engineering attack simulator | [Click to Deceive →](https://willie-conway.github.io/DECEIVER/) |
+| **PATHOGEN** | Malware type identification lab | [Click to Infect →](https://willie-conway.github.io/PATHOGEN/) |
+| **FORTRESS** | Security controls classification | [Click to Fortify →](https://willie-conway.github.io/FORTRESS/) |
+| **SENTINEL** | Insider threat mitigation scenarios | [Click to Monitor →](https://willie-conway.github.io/SENTINEL/) |
+| **NEXUS** | Security assessment tool | [Click to Assess →](https://willie-conway.github.io/NEXUS/) |
+| **CIPHER** | Cybersecurity glossary with flashcards | [Click to Decode →](https://willie-conway.github.io/CYBERSEC-Glossary/) |
+| **KERNEL** | Linux command interactive lab | [Click to Terminal →](https://willie-conway.github.io/KERNEL/) |
+| **VAULT** | Authentication methods explorer | [Click to Authenticate →](https://willie-conway.github.io/VAULT/) |
+| **STRATOS** | Cloud container security simulator | [Click to Deploy →](https://willie-conway.github.io/STRATOS/) |
+| **CyberPrep** | Career preparation toolkit | [Click to Prepare →](https://willie-conway.github.io/CyberPrep/) |
 
 ---
 
