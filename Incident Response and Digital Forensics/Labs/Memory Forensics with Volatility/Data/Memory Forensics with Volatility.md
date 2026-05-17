@@ -70,6 +70,16 @@ You must have:
 ![alt text](<../Screenshots/Hard_Disk_Volatility.png>)
 
 ![alt text](<../Screenshots/VM_MeForensics.png>)
+
+![alt text](../Screenshots/Volatility_Profile_Configuration.png)
+
+![alt text](<../Screenshots/Install_Open_SSH.png>)
+
+![alt text](<../Screenshots/Featured_Server_Snaps_Volatility.png>)
+
+![alt text](<../Screenshots/Volatility_Server.png>)
+
+![alt text](<../Screenshots/Login_Credentials.png>)
 ---
 
 ## What is Volatility?
@@ -138,6 +148,8 @@ sudo apt install python3 python3-pip git -y
 brew install python3 git
 ```
 
+![alt text](<../Screenshots/Install_Python_Dependecies.png>)
+
 ### Step 2: Install Volatility 3
 
 **Option A: From GitHub (Recommended)**
@@ -160,11 +172,16 @@ python3 vol.py -h
 pip3 install volatility3
 ```
 
+![alt text](<../Screenshots/Install_Volatility_3.png>)
+
+
+
 ### Step 3: Verify Installation
 
 ```bash
 python3 vol.py -f /path/to/sample/dump.raw windows.info
 ```
+![alt text](<../Screenshots/Setup_Lab_Directories.png>)
 
 Expected output shows Volatility version and plugin count.
 
@@ -205,6 +222,12 @@ sudo insmod lime.ko "path=mem.lime format=lime"
 ```
 
 > **Warning:** Only capture memory from systems you own or have explicit authorization to analyze .
+
+![alt text](<../Screenshots/Obtaining_a_Sample_Memory_Dump.png>)
+
+![alt text](<../Screenshots/Organize_Your_Files_and_Verify_MemoryDump.png>)
+
+
 
 ---
 
