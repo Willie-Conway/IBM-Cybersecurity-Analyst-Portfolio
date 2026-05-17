@@ -363,7 +363,7 @@ IBM-Cybersecurity-Analyst-Portfolio/
 ### Setup Instructions
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/IBM-Cybersecurity-Analyst-Portfolio.git
+   git clone https://github.com/Willie-Conway/IBM-Cybersecurity-Analyst-Portfolio.git
    ```
 2. Navigate to specific lab directories
 3. Follow individual lab README files
