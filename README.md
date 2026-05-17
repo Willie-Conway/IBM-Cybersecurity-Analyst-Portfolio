@@ -655,7 +655,7 @@ IBM-Cybersecurity-Analyst-Portfolio/
 | **SIEM** | Splunk, IBM QRadar |
 | **Firewall** | Windows Defender Firewall, pfSense |
 | **IDS/IPS** | Snort, OpenEDR |
-| **Forensics** | Autopsy, FTK Imager, Volatility, KAPE |
+| **Forensics** | Autopsy, FTK Imager, Volatility, KAPE, Velociraptor |
 | **Network Analysis** | Wireshark, Nmap, Zenmap |
 | **Vulnerability Scanning** | Nessus, Snyk |
 | **Endpoint Security** | Velociraptor, Windows Defender |
