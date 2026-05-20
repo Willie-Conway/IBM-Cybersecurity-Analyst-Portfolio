@@ -1,0 +1,2482 @@
+Folder PATH listing for volume Windows
+Volume serial number is 9447-3E2D
+C:\USERS\HIREW\IBM-CYBERSECURITY-ANALYST-PORTFOLIO
+¦   LICENSE
+¦   README.md
+¦   structure.txt
+¦   
++---Computer Networks and Network Security
+¦   +---Cheatsheet
+¦   ¦       Final Project - Network Design and Security Configuration.pdf
+¦   ¦       Glossary - IP Addressing, Routing and Switching.pdf
+¦   ¦       Glossary - Network Protocols.pdf
+¦   ¦       Glossary - Network Security Techniques.pdf
+¦   ¦       Glossary - Networking Fundamentals.pdf
+¦   ¦       Hands-on Lab - Windows Firewall with Advanced Security.pdf
+¦   ¦       IP Addressing and Subnet Masking.pdf
+¦   ¦       Lab - Analyzing TCP and UDP Traffic with Wireshark.pdf
+¦   ¦       Lab - Configuring Firewalls in Microsoft Windows.pdf
+¦   ¦       Lab - Designing a Basic Network Structure.pdf
+¦   ¦       Lab - DNS Filtering.pdf
+¦   ¦       Lab - Exploring Networking Ports and Protocols.pdf
+¦   ¦       Lab - Installing and Configuring DHCP.pdf
+¦   ¦       Lab - Intrusion Detection System Activity.pdf
+¦   ¦       Lab - Protecting Endpoints with OpenEDR.pdf
+¦   ¦       Lab - Securing a SOHO Network.pdf
+¦   ¦       Reading - Designing a Basic Network Structure.pdf
+¦   ¦       Reading - Limitations of Firewalls and Intrusion Detection Systems (IDS).md
+¦   ¦       Reading - Network Flow Analysis And User Behavior Analysis.md
+¦   ¦       [Optional] Lab - Protocols and Ports in Windows Defender.pdf
+¦   ¦       
+¦   +---Labs
+¦       +---Analyzing TCP and UDP Traffic with Wireshark
+¦       ¦   +---Data
+¦       ¦   ¦       Analyzing TCP and UDP Traffic with Wireshark.md
+¦       ¦   ¦       Analyzing TCP and UDP Traffic with Wireshark.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦   ¦       Command prompt generating DNS traffic.png
+¦       ¦   ¦       Compare TCP vs UDP.png
+¦       ¦   ¦       DNS filter applied.png
+¦       ¦   ¦       Enter udp and select Enter to filter UDP packets.png
+¦       ¦   ¦       HTTP filter applied.png
+¦       ¦   ¦       HTTPS filter applied.png
+¦       ¦   ¦       IBM website loaded.png
+¦       ¦   ¦       Run as Administrator option.png
+¦       ¦   ¦       Start capture button.png
+¦       ¦   ¦       Stop capture button.png
+¦       ¦   ¦       TCP filter in display filter bar.png
+¦       ¦   ¦       TCP three-way handshake packets.png
+¦       ¦   ¦       TCP three-way handshake packets_2.png
+¦       ¦   ¦       UDP filter applied.png
+¦       ¦   ¦       UDP header details.png
+¦       ¦   ¦       UDP packets in Wireshark.png
+¦       ¦   ¦       View a UDP HEADER.png
+¦       ¦   ¦       Wireshark download page.png
+¦       ¦   ¦       Wireshark.png
+¦       ¦   ¦       
+¦       ¦   +---SecOps Lab
+¦       ¦           security-ops-lab.html
+¦       ¦           
+¦       +---Configuring Firewalls in Microsoft Windows
+¦       ¦   +---Data
+¦       ¦   ¦       Configuring Firewalls in Microsoft Windows.md
+¦       ¦   ¦       Configuring Firewalls in Microsoft Windows.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Action - Block the connection.jpg
+¦       ¦           Add IP address button.jpg
+¦       ¦           Add IP address dialog.jpg
+¦       ¦           Browser showing blocked website.jpg
+¦       ¦           Control Panel in Start menu.png
+¦       ¦           Disable Rule option.jpg
+¦       ¦           IP addresses added to scope.jpg
+¦       ¦           New Rule option in Actions pane.jpg
+¦       ¦           Outbound Rules list showing new rule.jpg
+¦       ¦           Outbound Rules selected.jpg
+¦       ¦           Ping failing to blocked IP.jpg
+¦       ¦           Profile selection with all three profiles checked.jpg
+¦       ¦           Program selection - All programs.jpg
+¦       ¦           Protocol and Ports - default settings.jpg
+¦       ¦           Rule naming - Block CricJharkhand Website.jpg
+¦       ¦           Rule Type - Custom selected.jpg
+¦       ¦           Scope configuration with These IP addresses selected.jpg
+¦       ¦           System and Security in Control Panel.png
+¦       ¦           Windows Defender Firewall in System and Security.png
+¦       ¦           Windows Defender Firewall with Advanced settings highlighted.jpg
+¦       ¦           Windows Defender.png
+¦       ¦           
+¦       +---Designing a Basic Network Structure
+¦       ¦   +---Data
+¦       ¦   ¦       Designing a Basic Network Structure.md
+¦       ¦   ¦       NetSim Pro Demo.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           All devices connected to switch.png
+¦       ¦           Connector tool in toolbar.png
+¦       ¦           Create New Diagram button.png
+¦       ¦           Create New Diagram button_2.png
+¦       ¦           Create New Diagram dialog_2.png
+¦       ¦           CyberSecure Hierarchy.png
+¦       ¦           draw-io.png
+¦       ¦           Draw.io homepage with storage options.png
+¦       ¦           Multiple devices placed on canvas.png
+¦       ¦           Network Hierarchy.png
+¦       ¦           Router connected to switch.png
+¦       ¦           Router placed on canvas.png
+¦       ¦           Save the file in your workspace.png
+¦       ¦           Searching for computer shapes.png
+¦       ¦           Searching for computer shapes_2.png
+¦       ¦           Searching for router shape_2.png
+¦       ¦           Searching for switch shape_2.png
+¦       ¦           Shape library with Network category.png
+¦       ¦           Switch placed below router.png
+¦       ¦           
+¦       +---DNS Filtering
+¦       ¦   +---Data
+¦       ¦   ¦       DNS Filtering.md
+¦       ¦   ¦       DNS Filtering.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Action selection - Block the connection.jpg
+¦       ¦           Control Panel with System and Security highlighted.jpg
+¦       ¦           Disable Rule option.png
+¦       ¦           Disabled rule showing gray icon.png
+¦       ¦           DNS Rule Block google.com.png
+¦       ¦           DNS Rule Disabled google.com.png
+¦       ¦           flush your DNS cache for immediate effect.png
+¦       ¦           New Outbound Rule Wizard - Rule Type selection with Port selected.jpg
+¦       ¦           New Rule option in Actions pane.jpg
+¦       ¦           nslookup failing after rule applied.png
+¦       ¦           nslookup working after rule disabled.png
+¦       ¦           Outbound Rules list showing Block DNS Traffic rule.jpg
+¦       ¦           Outbound Rules selected in left pane.jpg
+¦       ¦           Profile selection with all three profiles checked.jpg
+¦       ¦           Protocol and Ports configuration - UDP port 53.jpg
+¦       ¦           Rule naming - Block DNS Traffic.jpg
+¦       ¦           Start menu with Control Panel highlighted.jpg
+¦       ¦           System and Security with Windows Defender Firewall highlighted.jpg
+¦       ¦           Windows Defender Firewall with Advanced Security window.jpg
+¦       ¦           Windows Defender Firewall with Advanced settings highlighted.jpg
+¦       ¦           Windows Defender.png
+¦       ¦           
+¦       +---Exploring Networking Ports and Protocols
+¦       ¦   +---Data
+¦       ¦   ¦       Exploring Networking Ports and Protocols.md
+¦       ¦   ¦       Exploring Networking Ports and Protocols.mp4
+¦       ¦   ¦       
+¦       ¦   +---network_simulator
+¦       ¦   ¦       network-simulator.html
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Certificate information window.png
+¦       ¦           Choose a default app for each protocol selected.png
+¦       ¦           Chrome address bar with www.ibm.com.png
+¦       ¦           Command Prompt in search results.png
+¦       ¦           Command Prompt in search results_2.png
+¦       ¦           Determine the Default Application for LDAP.png
+¦       ¦           Google Chrome icon.png
+¦       ¦           ipconfig command output.png
+¦       ¦           ipconfig command output_2.png
+¦       ¦           Locate the Google Chrome application and double-click to open.png
+¦       ¦           Open Google Chrome (or any web browser).png
+¦       ¦           Search bar with protocol typed.png
+¦       ¦           Search icon on taskbar.png
+¦       ¦           Site Information icon (or lock icon) in address bar.png
+¦       ¦           Site information panel showing secure connection.png
+¦       ¦           What is my IP search results.png
+¦       ¦           Whatismyip.com website.png
+¦       ¦           Windows Defender.png
+¦       ¦           
+¦       +---Final Project - Network Design and Security Configuration
+¦       ¦   +---Data
+¦       ¦   ¦       Network Design and Security Configuration.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Add IP address dialog.png
+¦       ¦           Added IP address.png
+¦       ¦           Advanced Settings .png
+¦       ¦           Block the connection selected.png
+¦       ¦           Calculate Subnet Address for Each Department.png
+¦       ¦           Custom rule type selected.png
+¦       ¦           Inbound Rules list showing new rule.png
+¦       ¦           Inbound Rules selected.png
+¦       ¦           IPv4 Subnet Calculator - Vultr.png
+¦       ¦           New Rule option.png
+¦       ¦           nslookup command output.png
+¦       ¦           Outbound Rules list showing new rule.png
+¦       ¦           Outbound Rules list.png
+¦       ¦           Port configuration with TCP port 3389.png
+¦       ¦           Profile selection with all three checked.png
+¦       ¦           Profile selection with only Public checked.png
+¦       ¦           Router and switch placed on canvas.jpg
+¦       ¦           Rule naming.png
+¦       ¦           Scope configuration with These IP addresses selected.png
+¦       ¦           Select All programs.png
+¦       ¦           Select Block the connection.png
+¦       ¦           Subnet Table.png
+¦       ¦           Task3Screenshot1.png
+¦       ¦           Task4Screenshot1.png
+¦       ¦           TechSafe_ Ltd_network_diagram.drawio (2).png
+¦       ¦           TechSafe_ Ltd_network_diagram.drawio (3).png
+¦       ¦           TechSafe_ Ltd_network_diagram.drawio.png
+¦       ¦           Windows Defender Firewall with Advanced Security in search.png
+¦       ¦           Windows Defender.png
+¦       ¦           
+¦       +---Installing and Configuring DHCP
+¦       ¦   +---Data
+¦       ¦   ¦       Installing and Configuring DHCP.md
+¦       ¦   ¦       Installing and Configuring DHCP.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Activate scope.png
+¦       ¦           Add exclusions.png
+¦       ¦           Add Features dialog.png
+¦       ¦           Add roles and features option.png
+¦       ¦           Add Roles and Features Wizard - Before You Begin.png
+¦       ¦           Authorize DHCP server.png
+¦       ¦           Complete DHCP configuration alert.png
+¦       ¦           Confirm installation selections.png
+¦       ¦           DHCP configuration complete.png
+¦       ¦           DHCP options selection.png
+¦       ¦           DHCP Post-Installation Wizard.png
+¦       ¦           DHCP scope displayed.png
+¦       ¦           DHCP server in dashboard.png
+¦       ¦           DHCP_Server.png
+¦       ¦           DNS configuration.png
+¦       ¦           Installation progress.png
+¦       ¦           Installation succeeded.png
+¦       ¦           IP address range configuration.png
+¦       ¦           IPv4 and select New Scope.png
+¦       ¦           Keep the default .NET Framework 4.7 Features.png
+¦       ¦           Lease duration settings.png
+¦       ¦           New Scope option.png
+¦       ¦           New Scope Wizard - Welcome.png
+¦       ¦           Open Server Manager.png
+¦       ¦           Role-based or feature-based installation.png
+¦       ¦           Router configuration.png
+¦       ¦           Scope name entry.png
+¦       ¦           Scope wizard complete.png
+¦       ¦           Select additional features.png
+¦       ¦           Select destination server.png
+¦       ¦           Select DHCP Server role.png
+¦       ¦           servermgr.png
+¦       ¦           Start menu with Server Manager selected.png
+¦       ¦           Tools menu with DHCP selected.png
+¦       ¦           Validation Results - Continue.png
+¦       ¦           WINS configuration.png
+¦       ¦           
+¦       +---Intrusion Detection System Activity
+¦       ¦   +---Data
+¦       ¦   ¦       Intrusion Detection Systems.md
+¦       ¦   ¦       Intrusion Detection Systems.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Analyze the detection ouput.png
+¦       ¦           ipconfig.png
+¦       ¦           Nmap - ZenMap.png
+¦       ¦           Nmap download page.png
+¦       ¦           nmap version.png
+¦       ¦           Nmap.png
+¦       ¦           pip install scapy output.png
+¦       ¦           Python Advanced Options.png
+¦       ¦           Python installer with Customize installation selected.png
+¦       ¦           Python Optional Features.png
+¦       ¦           Run as administrator for Nmap installer.png
+¦       ¦           
+¦       +---Protecting Endpoints with OpenEDR
+¦       ¦   +---Data
+¦       ¦   ¦       Protecting Endpoints with OpenEDR.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Account creation form_2.png
+¦       ¦           Close on the That's It! page.jpg
+¦       ¦           Complete Secret Questions.png
+¦       ¦           Deploy EDR.png
+¦       ¦           Device Management.png
+¦       ¦           Endpoint list showing registered device.png
+¦       ¦           Enroll Devices screen.jpg
+¦       ¦           Enrollment Link.jpg
+¦       ¦           Enrollment Wizard.png
+¦       ¦           Get Started for Free button.jpg
+¦       ¦           MFA setup QR code.jpg
+¦       ¦           MFA setup QR code.png
+¦       ¦           MFA verification code entry.jpg
+¦       ¦           MFA verification code entry.png
+¦       ¦           OpenEDR homepage.jpg
+¦       ¦           OpenEDR homepage_2.png
+¦       ¦           OpenEDR_Dashboard.jpg
+¦       ¦           OpenEDR_Dashboard.png
+¦       ¦           OS selection screen.png
+¦       ¦           Secret Questions.png
+¦       ¦           Select Device Management.png
+¦       ¦           Set Secret Questions window.png
+¦       ¦           Welcome screen.jpg
+¦       ¦           Welcome screen.png
+¦       ¦           Windows installer.png
+¦       ¦           Xcitium.jpg
+¦       ¦           You're Ready window.png
+¦       ¦           
+¦       +---Protocols and Ports in Windows Defender
+¦       ¦   +---Data
+¦       ¦   ¦       Determine Protocols and Ports for Various Inbound Rules Used in Windows Defender.mp4
+¦       ¦   ¦       Protocols and Ports in Windows Defender.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Determine the Protocol type and Local port for SNMP Trap Service(UDP In).png
+¦       ¦           Inbound Rules selected.png
+¦       ¦           Local port set to All Ports.png
+¦       ¦           Protocol type set to UDP.png
+¦       ¦           Protocols and Ports tab.png
+¦       ¦           Search bar with defender typed.png
+¦       ¦           Search icon on taskbar.png
+¦       ¦           Windows Defender Firewall with Advanced Security selected.png
+¦       ¦           Windows Defender Firewall with Advanced Security window.png
+¦       ¦           Windows Defender.png
+¦       ¦           
+¦       +---Securing a SOHO Network
+¦       ¦   +---Data
+¦       ¦   ¦       Securing a SOHO Network.md
+¦       ¦   ¦       Securing a SOHO Network.mp4
+¦       ¦   ¦       
+¦       ¦   +---Network Security Lab
+¦       ¦   ¦       subnet-soho-lab.html
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           5 GHz security mode with WPA3 Personal.png
+¦       ¦           Administration menu option.png
+¦       ¦           Basic Wireless Settings option.png
+¦       ¦           Configuration tab highlighted.png
+¦       ¦           Current SSID fields.png
+¦       ¦           Linksys E7350 emulator login screen.png
+¦       ¦           Linksys.jpg
+¦       ¦           Password fields with example password.png
+¦       ¦           Password option in Administration sub-panel.png
+¦       ¦           Save button.png
+¦       ¦           Security Mode dropdown with WPA3 Personal selected.png
+¦       ¦           SSID fields updated.png
+¦       ¦           VULTR.png
+¦       ¦           Wireless menu option.png
+¦       ¦           Wireless Security option.png
+¦       ¦           WPA3 passphrase fields.png
+¦       ¦           
+¦       +---Windows Firewall with Advanced Security
+¦           +---Data
+¦           ¦       Windows Firewall with Advanced Security (1).mp4
+¦           ¦       Windows Firewall with Advanced Security.md
+¦           ¦       
+¦           +---Screenshots
+¦           ¦       Action - Block the connection selected.png
+¦           ¦       Advanced settings highlighted.png
+¦           ¦       Advanced tab showing all three profiles selected.png
+¦           ¦       Allow an app through firewall highlighted.png
+¦           ¦       Allowed apps list showing Firefox permitted on Private network only.png
+¦           ¦       Allowing Mozilla Firefox on public network.png
+¦           ¦       Block Chrome Internet Access.png
+¦           ¦       Click Firewall & network protection.png
+¦           ¦       Configure Firewall Rules Using Windows Defender.png
+¦           ¦       Copy and paste to create new rule.png
+¦           ¦       Domain network details with firewall toggle On.png
+¦           ¦       Domain network highlighted.png
+¦           ¦       Firewall & network protection window showing three network profiles.png
+¦           ¦       Inbound Rules with New Rule option.png
+¦           ¦       Key Management Service inbound rule in list.png
+¦           ¦       Key Management Service Properties - General tab.png
+¦           ¦       Name the rule - Block Chrome Internet Access.png
+¦           ¦       Name the rule - Block Remote Desktop on Public Network.png
+¦           ¦       New rule - Block the connection selected.png
+¦           ¦       New rule displayed in Inbound Rules list with red circle.png
+¦           ¦       open the Advanced Security option window.png
+¦           ¦       Outbound Rules with New Rule option.png
+¦           ¦       Private network details.png
+¦           ¦       Private network highlighted.png
+¦           ¦       Profile - Only Public selected.png
+¦           ¦       Program path selection for Chrome.png
+¦           ¦       Public network details.png
+¦           ¦       Public network highlighted.png
+¦           ¦       Public profile removed - only Domain and Private selected.png
+¦           ¦       Rule Type - Program selected.png
+¦           ¦       Security at a glance window with Firewall & network protection selected.png
+¦           ¦       Select Rule Type - Port selected.png
+¦           ¦       Specify Port - TCP port 3389.png
+¦           ¦       Specify Port - TCP port 80.png
+¦           ¦       Windows Defender Firewall with Advanced Security interface.png
+¦           ¦       Windows Defender.png
+¦           ¦       Windows Start menu with Windows Security selected.png
+¦           ¦       
+¦           +---Windows Defender Firewall & IDS Lab Simulator
+¦                   windows-defender-ids-lab.html
+¦                   
++---Cybersecurity Architecture
+¦   +---Cheatsheet
+¦   ¦       Final Project - Recommendations to Improve Network Security.pdf
+¦   ¦       Glossary - Access Management and Endpoint Security.pdf
+¦   ¦       Glossary - Network, Application, and Data Security.pdf
+¦   ¦       ico1.png
+¦   ¦       Key Takeaways -  Endpoint Security.md
+¦   ¦       Key Takeaways - CIA Fundamentals.md
+¦   ¦       Key Takeaways - Five Principles.md
+¦   ¦       Key Takeaways - Network Security.md
+¦   ¦       Key Takeaways - Response.md
+¦   ¦       Key Takeaways - Roles and Tools.md
+¦   ¦       Key Takeawys - Detection.md
+¦   ¦       Lab - (Optional) Create a Security Architecture Diagram for Jackson Corporation.pdf
+¦   ¦       Lab - Analyze recent security threat reports using X-Force Threat Exchange.pdf
+¦   ¦       Lab - Create a Security Architecture Diagram_.pdf
+¦   ¦       Lab - Secure Network Diagram.pdf
+¦   ¦       Module Glossary - Detection and Response.pdf
+¦   ¦       Reading -  NIST Cybersecurity Framework.md
+¦   ¦       Reading - Case Study - Network Architecture Powered by IBM.pdf
+¦   ¦       Reading - Case Study -Stopping Cyberattacks at a Major International Airport.pdf
+¦   ¦       Reading - CIA Triad.md
+¦   ¦       Reading - CIA Triad.pdf
+¦   ¦       Reading - Data Security - Why a Proactive Stance is Best.pdf
+¦   ¦       Reading - How to Implement Least Privilege Security.pdf
+¦   ¦       Reading - Indicators of Compromise.pdf
+¦   ¦       Reading - Key Takeaways - Application Security.pdf
+¦   ¦       Reading - Key Takeaways - Application Security_.pdf
+¦   ¦       Reading - Key Takeaways - CIA Fundamentals.pdf
+¦   ¦       Reading - Key Takeaways - Data Security.pdf
+¦   ¦       Reading - Key Takeaways - Detection.pdf
+¦   ¦       Reading - Key Takeaways - Endpoint Security.pdf
+¦   ¦       Reading - Key Takeaways - IAM.pdf
+¦   ¦       Reading - Key Takeaways - Response.pdf
+¦   ¦       Reading - Key Takeaways - Roles and Tools.pdf
+¦   ¦       Reading - NIST Cybersecurity Framework.pdf
+¦   ¦       Reading - Project Overview - Recommendations to Improve Network Security.pdf
+¦   ¦       Reading - Quantum Safe Encryption.pdf
+¦   ¦       Reading - Secure Coding Practices.pdf
+¦   ¦       Reading - Securing Network Infrastructure.pdf
+¦   ¦       Reading - Threat Intelligence.pdf
+¦   ¦       Reading - Understanding Multi-Factor Authentication.pdf
+¦   ¦       Securing Network Infrastructure.md
+¦   ¦       
+¦   +---Labs
+¦       +---Analyze recent security threat reports using X-Force Threat Exchange
+¦       ¦   +---Data
+¦       ¦   ¦       Review Security Threat Reports using X-Force Threat Exchange.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦   ¦       authorized.png
+¦       ¦   ¦       castle.png
+¦       ¦   ¦       cia_1.png
+¦       ¦   ¦       dmz.png
+¦       ¦   ¦       encryption (1).png
+¦       ¦   ¦       firewall.png
+¦       ¦   ¦       ids.png
+¦       ¦   ¦       lan.png
+¦       ¦   ¦       modem.png
+¦       ¦   ¦       modern_security (1).png
+¦       ¦   ¦       modern_security (2).png
+¦       ¦   ¦       modern_security (3).png
+¦       ¦   ¦       modern_security.png
+¦       ¦   ¦       nist.png
+¦       ¦   ¦       pdr.png
+¦       ¦   ¦       router.png
+¦       ¦   ¦       sbd3.png
+¦       ¦   ¦       siem1.png
+¦       ¦   ¦       sod1.png
+¦       ¦   ¦       switch.png
+¦       ¦   ¦       threathunt (1).png
+¦       ¦   ¦       threathunt.png
+¦       ¦   ¦       unauthorized.png
+¦       ¦   ¦       wireless_router.png
+¦       ¦   ¦       X-Force.jpeg
+¦       ¦   ¦       
+¦       ¦   +---X-Force Threat Exchange
+¦       ¦           xforce-threat-exchange-sim.html
+¦       ¦           
+¦       +---Create a Security Architecture Diagram
+¦       ¦   +---Data
+¦       ¦   ¦       Create a Security Architecture Diagram.md
+¦       ¦   ¦       Create a Security Architecture Diagram_.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           DrawIO.png
+¦       ¦           Sample Security architecture diagram.png
+¦       ¦           SECURITY ARCHITECTURE DIAGRAM_ E-Commerce Web Application.png
+¦       ¦           
+¦       +---Create a Security Architecture Diagram for Jackson Corporation
+¦       ¦   +---Data
+¦       ¦   ¦       Create a Security Architecture Diagram for Jackson Corporation.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           DrawIO.png
+¦       ¦           JACKSON CORPORATION - SECURITY ARCHITECTURE DIAGRAM.png
+¦       ¦           Jackson_Corp_Logo.png
+¦       ¦           
+¦       +---Final Project - Recommendations to Improve Network Security
+¦       ¦   +---Data
+¦       ¦   ¦       Recommendations to Improve Network Security.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           DrawIO.png
+¦       ¦           Jackson_Corp_Logo.png
+¦       ¦           
+¦       +---Secure Network Diagram
+¦           +---Data
+¦           ¦       Llobex network.vpd
+¦           ¦       Secure Network Diagram.md
+¦           ¦       Secure Network Diagram.vpd.vpd
+¦           ¦       
+¦           +---Screenshots
+¦                   CAPTCHA verification.png
+¦                   Choose the file.png
+¦                   choose.png
+¦                   Click Sign Up.png
+¦                   crnew.png
+¦                   Current Insecure Diagram (Conceptual).png
+¦                   device.png
+¦                   dmz1.png
+¦                   Download the Existing Network Diagram.png
+¦                   firewalls.png
+¦                   free_signup.png
+¦                   Home Page Display.png
+¦                   IDS1.png
+¦                   Import or Open.png
+¦                   Security Diagram.png
+¦                   Select Free Edition.png
+¦                   Select the Device.png
+¦                   signup.png
+¦                   Visual Paradigm Online page.png
+¦                   vplogo_300.png
+¦                   vp_diagram.png
+¦                   welcome_vp.png
+¦                   
++---Cybersecurity Assessment - CompTIA Security+ & CYSA+
+¦   +---Cheatsheet
+¦   ¦       Reading - Cheat Sheet - CompTIA CYSA+.pdf
+¦   ¦       Reading - Cheat Sheet - CompTIA Security+.pdf
+¦   ¦       Reading - CompTIA CYSA + Exam Instructions.pdf
+¦   ¦       Reading - CompTIA CySA+ Glossary.pdf
+¦   ¦       Reading - CompTIA CySA+ Study Resources.pdf
+¦   ¦       Reading - CompTIA Security+ Exam Instructions.pdf
+¦   ¦       Reading - CompTIA Security+ Glossary.pdf
+¦   ¦       Reading - CompTIA Security+ Study Resources.pdf
+¦   ¦       
+¦   +---Labs
+¦       +---CompTIA CYSA+ glossary
+¦       ¦       cysa_glossary.html
+¦       ¦       cysa_plus_all_4_domains.html
+¦       ¦       
+¦       +---CompTIA Security+ glossary
+¦               secplus_glossary.html
+¦               security_plus_all_5_domains.html
+¦               
++---Cybersecurity Case Studies and Capstone Project
+¦   +---Cheatsheet
+¦   ¦       2014 0325 Target Kill Chain Analysis.pdf
+¦   ¦       Final Project - Analyzing a Data Breach - Tasks and Instructions.pdf
+¦   ¦       Reading - Analyzing the Facebook and Google Case Study.pdf
+¦   ¦       Reading - Cisco Cyber Threat Trends Report.pdf
+¦   ¦       Reading - Digital Forensics Gone Wrong.pdf
+¦   ¦       Reading - Emerging Trends in Ransomware.pdf
+¦   ¦       Reading - Mitigating Insider Threats.pdf
+¦   ¦       Reading - Penetration Testing Tales.pdf
+¦   ¦       Reading - The Largest Cybersecurity Fines in History.pdf
+¦   ¦       Reading - When Incident Response Goes Wrong.pdf
+¦   ¦       
+¦   +---Labs
+¦       +---Analyzing a Data Breach
+¦       ¦   +---Data
+¦       ¦   ¦       Analyzing a Data Breach.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Cierant.png
+¦       ¦           
+¦       +---Analyzing the Cisco Cyber Threat Trends Report
+¦       ¦   +---Data
+¦       ¦   ¦       Analyzing the Cisco Cyber Threat Trends Report.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Cisco_Logo.png
+¦       ¦           
+¦       +---Analyzing the Facebook and Google Phishing Case Study
+¦       ¦   +---Data
+¦       ¦   ¦       Analyzing the Facebook and Google Phishing Case Study.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Facebook-or-Google.jpeg
+¦       ¦           facebook-vs-google.png
+¦       ¦           
+¦       +---Digital Forensics Gone Wrong
+¦       ¦   +---Data
+¦       ¦   ¦       Digital Forensics Gone Wrong.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Veritas_Logo.png
+¦       ¦           
+¦       +---Emerging Trends in Ransomware
+¦       ¦   +---Data
+¦       ¦   ¦       Emerging Trends in Ransomware.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Shieldwall_Security.png
+¦       ¦           
+¦       +---Mitigating Insider Threats
+¦           +---Data
+¦           ¦       Mitigating Insider Threats.md
+¦           ¦       
+¦           +---Screenshots
+¦                   Apex_Logo.png
+¦                   
++---Cybersecurity Compliance Framework, Standards & Regulations
+¦   +---Cheatsheet
+¦   ¦       Final Project Scenarios.pdf
+¦   ¦       Final_Project_Overview.pdf
+¦   ¦       Module 1 Glossary - Introduction to Information Security and Compliance.pdf
+¦   ¦       Module 2 Glossary - Foundations of IT Service Management and Risk Governance.pdf
+¦   ¦       Module 3 Glossary - US Cybersecurity Laws and Regulations.pdf
+¦   ¦       Module 4 Glossary - Understanding Cybersecurity Standards and Audits.pdf
+¦   ¦       Reading - Aligning to the NIST Cybersecurity Framework.pdf
+¦   ¦       Reading - Applying Global Cybersecurity Laws and Regulations.pdf
+¦   ¦       Reading - Asset Management.pdf
+¦   ¦       Reading - COBIT.pdf
+¦   ¦       Reading - EU AI Act.pdf
+¦   ¦       Reading - Global Cybersecurity Laws and Regulations Cheat sheet.pdf
+¦   ¦       Reading - GRC Tools.pdf
+¦   ¦       Reading - HIPAA Cybersecurity Guidance.pdf
+¦   ¦       Reading - IEEE Standards.pdf
+¦   ¦       Reading - ISO Standards.pdf
+¦   ¦       Reading - ITIL Process Implementation.pdf
+¦   ¦       Reading - NIST Standards.pdf
+¦   ¦       Reading - OWASP Use Cases.pdf
+¦   ¦       Reading - Risk Analysis.pdf
+¦   ¦       Reading - US Laws and Regulations Cheat Sheet.pdf
+¦   ¦       
+¦   +---Labs
+¦       +---Aligning to the NIST Cybersecurity Framework (CSF)
+¦       ¦   +---Data
+¦       ¦   ¦       Aligning to the NIST Cybersecurity Framework (CSF).md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           NIST_CSF.png
+¦       ¦           
+¦       +---Asset Management Lifecycle
+¦       ¦   +---Data
+¦       ¦   ¦       Asset Management Lifecycle.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           TechLearn_Solutions.png
+¦       ¦           
+¦       +---Governance, Risk, and Compliance (GRC) Tools
+¦       ¦   +---Data
+¦       ¦   ¦       Governance, Risk, and Compliance (GRC) Tools.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           MetricStream_Logo.jpg
+¦       ¦           
+¦       +---OWASP Use Cases and Standards
+¦           +---Data
+¦           ¦       OWASP Use Cases and Standards.md
+¦           ¦       
+¦           +---Screenshots
+¦                   OWASP.png
+¦                   
++---Cybersecurity Job Search, Resume, and Interview Prep
+¦   +---Cheatsheet
+¦   ¦       Hands-on Lab - Assess Job Postings.pdf
+¦   ¦       Hands-on Lab - Critique Cybersecurity Specialist Mock Interview Responses.pdf
+¦   ¦       Hands-on Lab - Develop a Professional Portfolio.pdf
+¦   ¦       Hands-on Lab - Develop an Elevator Pitch.pdf
+¦   ¦       Hands-on Lab - Develop Responses to Common Cybersecurity Specialist Interview Questions.pdf
+¦   ¦       Hands-on Lab - Draft a Basic Resume.pdf
+¦   ¦       Hands-on Lab - Draft a Cover Letter.pdf
+¦   ¦       Hands-on Lab - Perform Cybersecurity Skills' Readiness Check.pdf
+¦   ¦       Hands-on Lab - Respond to Questions Using the STAR Technique.pdf
+¦   ¦       Module 1 Glossary - Getting Ready for a Cybersecurity Career.pdf
+¦   ¦       Module 2 Glossary - Identifying Jobs, Creating Resumes, and Drafting Cover Letters.pdf
+¦   ¦       Module 4 Glossary - Understanding Interview Questions and Post-Interview Next Steps.pdf
+¦   ¦       Reading - Additional Program Recommendations.pdf
+¦   ¦       Reading - Career Pathways - NICE Framework.pdf
+¦   ¦       Reading - Case Study Questions.pdf
+¦   ¦       Reading - Closing the Interview.pdf
+¦   ¦       Reading - Final Course Checklist.pdf
+¦   ¦       Reading - Final Interview Checklist.pdf
+¦   ¦       Reading - Finding Job Postings.pdf
+¦   ¦       Reading - First Stage Interview Process.pdf
+¦   ¦       Reading - Gathering Professional References.pdf
+¦   ¦       Reading - Human Resources (HR) Screening.pdf
+¦   ¦       Reading - If You Don’t Get an Offer.pdf
+¦   ¦       Reading - If You Get an Offer.pdf
+¦   ¦       Reading - Online and Offline Networking.pdf
+¦   ¦       Reading - Other Interview Methods.pdf
+¦   ¦       Reading - Post-Interview Checklists.pdf
+¦   ¦       Reading - Purpose and Value of a Professional Portfolio.pdf
+¦   ¦       Reading - Technical Screening.pdf
+¦   ¦       Reading - The Remote or Virtual Interview.pdf
+¦   ¦       
+¦   +---Labs
+¦       +---CyberPrep
+¦               cyberprep.html
+¦               
++---Database Essentials and Vulnerabilities
+¦   +---Cheatsheet
+¦   ¦       Hands-on Lab - COUNT, DISTINCT, LIMIT.pdf
+¦   ¦       Hands-on Lab - Exploiting SQL Injection Vulnerabilities.pdf
+¦   ¦       Hands-on Lab - INSERT, UPDATE, and DELETE.pdf
+¦   ¦       Hands-on Lab - Simple SELECT Statements.pdf
+¦   ¦       Lab - Managing MySQL User Accounts, Access Control, and Encryption.pdf
+¦   ¦       Lab - Performing Basic Database Operations.pdf
+¦   ¦       Lab - Relational Data Concepts.pdf
+¦   ¦       Lab - Securing Data.pdf
+¦   ¦       Reading - Additional Resources.pdf
+¦   ¦       Reading - Case Study - Data Breach.pdf
+¦   ¦       Reading - Final Project Submission Guidelines and Deliverables.pdf
+¦   ¦       Reading - SQL Injection Attack - Comprehensive Guide and Latest Developments.md
+¦   ¦       SELECT statement examples.pdf
+¦   ¦       
+¦   +---Labs
+¦       +---COUNT, DISTINCT, LIMIT
+¦       ¦   +---Data
+¦       ¦   ¦       COUNT, DISTINCT, LIMIT.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           COUNT all rows result.gif
+¦       ¦           COUNT DISTINCT result.gif
+¦       ¦           COUNT DISTINCT result.png
+¦       ¦           COUNT with WHERE clause result.gif
+¦       ¦           Count with WHERE Clause.jpg
+¦       ¦           Count with WHERE Clause.png
+¦       ¦           Datasette (1).png
+¦       ¦           datasette-logo.png
+¦       ¦           DISTINCT titles result.gif
+¦       ¦           DISTINCT titles result.png
+¦       ¦           films 6-8 from the 2015 results.gif
+¦       ¦           films 6-8 from the 2015 results.png
+¦       ¦           first 10 unique film titles from 2015.gif
+¦       ¦           first 50 unique film titles.gif
+¦       ¦           LIMIT 25 result.gif
+¦       ¦           LIMIT with OFFSET result.gif
+¦       ¦           LIMIT with OFFSET.png
+¦       ¦           Retrieve first 10 film names distinctly released in 2015.png
+¦       ¦           Retrieve First 25 Rows.png
+¦       ¦           Retrieve the name of all unique films released in the 21st century and onwards.png
+¦       ¦           Retrieve the name of first 50 films distinctly.png
+¦       ¦           Retrieve the names of all the directors and their distinct films.png
+¦       ¦           Retrieve the number of distributors distinctly who distributed films.png
+¦       ¦           Retrieve the number of films shot at Russian Hill.png
+¦       ¦           Retrieve the number of locations of the films which are directed by Woody Allen.png
+¦       ¦           Retrieve the number of rows having a release year older than 1950 from the (FilmLocations) table.png
+¦       ¦           Solution 3.1.gif
+¦       ¦           Solution 3.2.gif
+¦       ¦           Solution 3.3.gif
+¦       ¦           Solution 3_1.gif
+¦       ¦           Solution 3_2.gif
+¦       ¦           Solution 3_3.gif
+¦       ¦           
+¦       +---Exploiting SQL Injection Vulnerabilities
+¦       ¦   +---Data
+¦       ¦   ¦       Exploiting SQL Injection Vulnerabilities.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Authentication Bypass.png
+¦       ¦           Blind SQL Injection.png
+¦       ¦           Boolean-Based Blind Injection.png
+¦       ¦           Create a Vulnerable Database.png
+¦       ¦           Create phpMyAdmin Instance.png
+¦       ¦           Create Products Table.png
+¦       ¦           Create Products Table_executed.png
+¦       ¦           Create the Database.png
+¦       ¦           Create Users Table.png
+¦       ¦           Create Users Table_executed.png
+¦       ¦           DATABASES menu.png
+¦       ¦           DATABASES_menu.png
+¦       ¦           Denial of Service (Heavy Query).png
+¦       ¦           Denial of Service (Heavy Query)_2.png
+¦       ¦           Extract Column Names.png
+¦       ¦           Extract Data.png
+¦       ¦           Extract Database Schema.png
+¦       ¦           Insert Product Data_executed.png
+¦       ¦           Insert Product_Data.png
+¦       ¦           Insert Sample Data_executed.png
+¦       ¦           Insert Sample_Data.png
+¦       ¦           Least Privilege Principle.png
+¦       ¦           Least Privilege Principle_executed.png
+¦       ¦           MySQL selection.png
+¦       ¦           MySQL-Logo.png
+¦       ¦           Perform SQL Injection Attacks.png
+¦       ¦           PhpMyAdmin_logo (1).png
+¦       ¦           SQL interface.png
+¦       ¦           SQL_interface.png
+¦       ¦           Test Authentication Bypass.png
+¦       ¦           Test Normal Login.png
+¦       ¦           Time-Based Blind Injection.png
+¦       ¦           Use Stored Procedures copy.png
+¦       ¦           Use Stored Procedures.png
+¦       ¦           Use Stored Procedures_executed.png
+¦       ¦           Verify_Data.png
+¦       ¦           
+¦       +---INSERT, UPDATE, and DELETE
+¦       ¦   +---Data
+¦       ¦   ¦       INSERT, UPDATE, and DELETE .md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Datasette (1).png
+¦       ¦           datasette-logo.png
+¦       ¦           Delete a Single Row.png
+¦       ¦           DELETE single row result.gif
+¦       ¦           INSERT multiple rows result.gif
+¦       ¦           INSERT single row result.gif
+¦       ¦           INSERT single row result.png
+¦       ¦           Instructor table preview.gif
+¦       ¦           Instructor table preview.png
+¦       ¦           Problem 5.1.png
+¦       ¦           Problem 5.2.png
+¦       ¦           Problem 5.3.png
+¦       ¦           Problem 7.1.png
+¦       ¦           Problem 7.2.png
+¦       ¦           Query_Solution_1.gif
+¦       ¦           Solution 5.1.gif
+¦       ¦           Solution 5.2.gif
+¦       ¦           Solution 5.3.gif
+¦       ¦           Solution 7.1.gif
+¦       ¦           Solution 7.2.gif
+¦       ¦           Update a Single Column.png
+¦       ¦           UPDATE multiple columns result.gif
+¦       ¦           UPDATE multiple columns result.png
+¦       ¦           UPDATE single column result.gif
+¦       ¦           Verify the Insert.png
+¦       ¦           
+¦       +---Managing MySQL User Accounts, Access Control, and Encryption
+¦       ¦   +---Data
+¦       ¦   ¦       MySQL User Access Control and Data Encryption.md
+¦       ¦   ¦       world_mysql_script_full.sql
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Connect to the Database.png
+¦       ¦           countrylanguage table before encryption.png
+¦       ¦           Create world database.png
+¦       ¦           Database-specific privileges.png
+¦       ¦           Database-specific privileges_executed.png
+¦       ¦           Decrypted data output.png
+¦       ¦           Edit privileges option.png
+¦       ¦           Encrypt column command.png
+¦       ¦           Encrypted data shown as binary.png
+¦       ¦           Fill the Login Information.png
+¦       ¦           Grant Database Privileges.png
+¦       ¦           Hash passphrase command.png
+¦       ¦           Import world database sql script.png
+¦       ¦           Modify column data type.png
+¦       ¦           MySQL CLI button.png
+¦       ¦           phpMyAdmin home screen_.png
+¦       ¦           PhpMyAdmin_logo (1).png
+¦       ¦           Select city table.png
+¦       ¦           Select database.png
+¦       ¦           Select world database.png
+¦       ¦           Successfully imported world database script.png
+¦       ¦           Table-specific privileges configuration.png
+¦       ¦           Table-specific privileges configuration_executed.png
+¦       ¦           User accounts tab.png
+¦       ¦           User created successfully.png
+¦       ¦           User created successfully_executed.png
+¦       ¦           
+¦       +---Performing Basic Database Operations
+¦       ¦   +---Data
+¦       ¦   ¦       Basic Database Operations.md
+¦       ¦   ¦       Insurance-info.csv
+¦       ¦   ¦       Insurance-info.ods
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Create and Populate a New Table.png
+¦       ¦           Create and Populate a New Table_executed.png
+¦       ¦           Create database.png
+¦       ¦           Create the Customers Table.png
+¦       ¦           Create the Customers Table_executed.png
+¦       ¦           Customer Deleted.png
+¦       ¦           Delete a Specific Row.png
+¦       ¦           DELETE customer.png
+¦       ¦           Delete From Policy.png
+¦       ¦           Delete From Policy_2.png
+¦       ¦           Delete Rows Based on Conditions.png
+¦       ¦           Delete the record for PolicyID 100329.png
+¦       ¦           Delete the table Policy from the database.png
+¦       ¦           Delete the table Policy from the database_2.png
+¦       ¦           Delete with Conditions.png
+¦       ¦           Display the records from the Policy table that have Masonry construction.png
+¦       ¦           Drop Delete.png
+¦       ¦           Drop the Customers Table.png
+¦       ¦           Filter Data with WHERE.png
+¦       ¦           Imported insurance data.png
+¦       ¦           Importing data.png
+¦       ¦           Insert a New Row.png
+¦       ¦           Insert a row into the Policy table.jpg
+¦       ¦           Insert a row into the Policy table.png
+¦       ¦           Insert Individual Rows.png
+¦       ¦           Insert Individual Rows_executed.png
+¦       ¦           Insert Multiple Rows at Once.png
+¦       ¦           Insert Multiple Rows at Once_executed.png
+¦       ¦           phpMyAdmin home screen.png
+¦       ¦           PhpMyAdmin_logo (1).png
+¦       ¦           Policy table that have Masonry construction.png
+¦       ¦           Review query output for inurance database.png
+¦       ¦           Review query output for policy.png
+¦       ¦           Review the query output_for_the_East.png
+¦       ¦           Review the Source Code.png
+¦       ¦           Select All Columns.png
+¦       ¦           Select Specific Columns.png
+¦       ¦           Show tables.png
+¦       ¦           There are now 9 records in the table.png
+¦       ¦           Use Comparison Operators.png
+¦       ¦           Use Multiple Conditions with AND.png
+¦       ¦           Use Multiple Conditions with OR.png
+¦       ¦           Use WHERE to Filter Data.png
+¦       ¦           Verify Data Insertion.png
+¦       ¦           Verify the Delete.png
+¦       ¦           Verify the Insert_1.png
+¦       ¦           Verify the Table is Removed.png
+¦       ¦           Write the SQL Code .png
+¦       ¦           Write the SQL Statement.png
+¦       ¦           
+¦       +---Relational Data Concepts
+¦       ¦   +---Data
+¦       ¦   ¦       Relational Data Concepts.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Database_Schema.jpg
+¦       ¦           draw-io.png
+¦       ¦           Schema.drawio (1).png
+¦       ¦           
+¦       +---Securing Data
+¦       ¦   +---Data
+¦       ¦   ¦       Securing Data.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Adding Salt for Additional Security.png
+¦       ¦           Adding Salt for Additional Security_executed.png
+¦       ¦           Create Function to Generate Token.png
+¦       ¦           Create Role-Based Access.png
+¦       ¦           Create Roles.png
+¦       ¦           Create the Employees Table.png
+¦       ¦           Create the Employees Table_executed.png
+¦       ¦           Create the Encrypted Data Table.png
+¦       ¦           Create the Encrypted Data Table_executed.png
+¦       ¦           Create the Users Table.png
+¦       ¦           Create the Users Table_executed.png
+¦       ¦           Create Token Mapping Table.png
+¦       ¦           Create Token Mapping Table_executed.png
+¦       ¦           Create Users and Assign Roles.png
+¦       ¦           Create Views for Column-Level Security.png
+¦       ¦           Ensure a Database Exists.png
+¦       ¦           Ensure a Database Exists_executed.png
+¦       ¦           Grant Privileges to Roles.png
+¦       ¦           Implement Encryption.png
+¦       ¦           Implement Password Hashing with Salt.png
+¦       ¦           Insert a Hashed Password.png
+¦       ¦           Insert and Tokenize Data.png
+¦       ¦           Insert Encrypted Data.png
+¦       ¦           Insert Encrypted Data_executed.png
+¦       ¦           Insert Sample Data.png
+¦       ¦           Mask Credit Card Numbers.png
+¦       ¦           Mask Email Addresses.png
+¦       ¦           Mask Phone Numbers.png
+¦       ¦           Mask SSN (Social Security Number).png
+¦       ¦           MySQL-Logo.png
+¦       ¦           PhpMyAdmin_logo (1).png
+¦       ¦           Retrieve and Decrypt Data.png
+¦       ¦           Retrieve Original Data (Authorized Only).png
+¦       ¦           Select the Database.png
+¦       ¦           Using a Hashed Encryption Key (More Secure).png
+¦       ¦           Using a Hashed Encryption Key (More Secure)_executed.png
+¦       ¦           Verify a Hashed Password (Login Validation).png
+¦       ¦           Verify Role Assignments.png
+¦       ¦           
+¦       +---Simple SELECT Statements
+¦           +---Data
+¦           ¦       Simple SELECT Statements.md
+¦           ¦       
+¦           +---Screenshots
+¦                   Datasette (1).png
+¦                   datasette-logo.png
+¦                   FilmLocations table preview.png
+¦                   Retrieve Specific Columns.png
+¦                   Retrieve the fun facts and filming locations of all films.png
+¦                   Retrieve the names of all films released in the 20th century and before.png
+¦                   Retrieve the names, production company names.png
+¦                   SELECT all columns result.gif
+¦                   SELECT specific columns result.gif
+¦                   SELECT with WHERE clause result.gif
+¦                   SELECT with WHERE Clause.png
+¦                   Solution_1.gif
+¦                   Solution_2.gif
+¦                   Solution_3.gif
+¦                   
++---Generative AI - Boost Your Cybersecurity Career
+¦   +---Cheatsheet
+¦   ¦       Final Project - Cybersecurity with Generative AI.pdf
+¦   ¦       Glossary - Generative AI_Boost Your Cybersecurity Career.pdf
+¦   ¦       Hands-on Lab - Applying Generative AI for Attack Pattern Analysis.pdf
+¦   ¦       Hands-on Lab - Cyber Incident Reports and Playbook using Generative AI.pdf
+¦   ¦       Hands-on Lab - Incident Response and Alerts Generation Using Generative AI.pdf
+¦   ¦       Hands-on Lab - Preventing Malicious Code Execution with Generative AI.pdf
+¦   ¦       Hands-on Lab - Training Generative AI with Incident Data for Better Pattern Recognition.pdf
+¦   ¦       Hands-on Lab - Using Generative AI for Threat Intelligence.pdf
+¦   ¦       Hands-on Lab - Using Generative AI to Block - Remove Offensive Content.pdf
+¦   ¦       Reading - Application of Generative AI in Content Filtering and Monitoring.pdf
+¦   ¦       Reading - Applications of Generative AI in Different Cybersecurity Tasks.pdf
+¦   ¦       Reading - ChatGPT with QRadar_any SIEM tool.pdf
+¦   ¦       Reading - Final Project Overview Cyber AI.pdf
+¦   ¦       Reading - Generative AI and Cybersecurity_Balancing Benefits and Ethical Concerns.pdf
+¦   ¦       Reading - Incident Response Using Generative AI.pdf
+¦   ¦       Reading - Optimizing Cybersecurity with Generative AI Integration in SIEM.pdf
+¦   ¦       Reading - Securing the Future with Generative AI_Building Proactive and Cost-effective Cybersecurity Solutions.pdf
+¦   ¦       Reading - SOAR in Cybersecurity_Enhancing Security Operations with Generative AI.pdf
+¦   ¦       Reading - The Cost of a Data Breach (CoDB) and the Impact of AI.pdf
+¦   ¦       Reading - Threats on Generative AI Models.pdf
+¦   ¦       
+¦   +---Labs
+¦       +---Attack Pattern Analysis Using Generative AI
+¦       ¦   +---Data
+¦       ¦   ¦       Attack Pattern Analysis Using Generative AI.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           IBM_watsonx_logo.png
+¦       ¦           
+¦       +---Cybersecurity Incident Reports and Playbook Generation Using Generative AI
+¦       ¦   +---Data
+¦       ¦   +---Screenshots
+¦       ¦           chatgpt_logo.png
+¦       ¦           
+¦       +---Incident Response and Alert Generation Using Generative AI
+¦       ¦   +---Data
+¦       ¦   ¦       Incident Response and Alert Generation Using Generative AI.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Claude_AI_logo.png
+¦       ¦           
+¦       +---Preventing Malicious Code Execution with Generative AI
+¦       ¦   +---Data
+¦       ¦   ¦       Preventing Malicious Code Execution with Generative AI.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           chatgpt_logo.png
+¦       ¦           
+¦       +---Training Generative AI with Incident Data for Better Pattern Recognition
+¦       ¦   +---Data
+¦       ¦   ¦       Training Generative AI with Incident Data for Better Pattern Recognition.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Claude_AI_logo.png
+¦       ¦           
+¦       +---Using Generative AI for Threat Intelligence
+¦       ¦   +---Data
+¦       ¦   ¦       Using Generative AI for Threat Intelligence.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Claude_AI_logo.png
+¦       ¦           
+¦       +---Using Generative AI to Block_Remove Offensive Content
+¦           +---Data
+¦           ¦       Using Generative AI to Block_Remove Offensive Content.md
+¦           ¦       
+¦           +---Screenshots
+¦                   IBM_watsonx_logo.png
+¦                   
++---Incident Response and Digital Forensics
+¦   +---Cheatsheet
+¦   ¦       Final Project - Incident Response and Forensics.pdf
+¦   ¦       Lab - Investigate Logs using Cowrie.pdf
+¦   ¦       Reading - Chances of Recovering Data.pdf
+¦   ¦       Reading - Handling Digital Evidence.pdf
+¦   ¦       Reading - Incident Response and Preparedness Resources.pdf
+¦   ¦       Reading - Incident Response Tools and Automation.pdf
+¦   ¦       Reading - The Importance of Incident Response Documentation.pdf
+¦   ¦       Reading - The NIST and SANS Incident Response Frameworks.pdf
+¦   ¦       
+¦   +---Labs
+¦   ¦   +---Digital Forensics with Autopsy
+¦   ¦   ¦   +---Data
+¦   ¦   ¦   ¦       Digital Forensics with Autopsy.md
+¦   ¦   ¦   ¦       Emails.zip
+¦   ¦   ¦   ¦       Evidence.zip
+¦   ¦   ¦   ¦       Findings_Exemplar.txt
+¦   ¦   ¦   ¦       nps-2010-emails.E01
+¦   ¦   ¦   ¦       
+¦   ¦   ¦   +---Screenshots
+¦   ¦   ¦           Add_Data_Source.png
+¦   ¦   ¦           Add_Host.png
+¦   ¦   ¦           Add_New_Host.png
+¦   ¦   ¦           Add_New_Image.png
+¦   ¦   ¦           Add_New_Organization.png
+¦   ¦   ¦           Autoosy_dowloaded_Linux.png
+¦   ¦   ¦           autopsy-logo-full-dog.jpg
+¦   ¦   ¦           Autopsy.png
+¦   ¦   ¦           Autopsy_Digital_Forensics_Logo.png
+¦   ¦   ¦           Autopsy_Generated_Report.gif
+¦   ¦   ¦           Autopsy_Home.png
+¦   ¦   ¦           Autopsy_in_your_browser.png
+¦   ¦   ¦           Autopsy_Tool.jpg
+¦   ¦   ¦           Calculating_MD5.png
+¦   ¦   ¦           Case_Gallary.png
+¦   ¦   ¦           CCR_1.png
+¦   ¦   ¦           CCR_2.png
+¦   ¦   ¦           CFReDS_Portal.png
+¦   ¦   ¦           Choose_installation_directory.png
+¦   ¦   ¦           Click_Install.png
+¦   ¦   ¦           Configure_Ingest.png
+¦   ¦   ¦           Create_Disk_Image.png
+¦   ¦   ¦           Creating_Case.png
+¦   ¦   ¦           Data_Source_Finish.png
+¦   ¦   ¦           Data_Source_Path.png
+¦   ¦   ¦           Deleted_Files.png
+¦   ¦   ¦           Digital_Corpora.png
+¦   ¦   ¦           Download_Autopsy.png
+¦   ¦   ¦           Download_FTK_Imager.png
+¦   ¦   ¦           Emails_Extracted.png
+¦   ¦   ¦           Enter_Case_Information.png
+¦   ¦   ¦           Enter_Case_Information_Windows.png
+¦   ¦   ¦           Evidence_Item Information.png
+¦   ¦   ¦           Extract_Artifacts.png
+¦   ¦   ¦           Extract_Deleted_Files.png
+¦   ¦   ¦           Files_Extracted.png
+¦   ¦   ¦           Finish_Installation.png
+¦   ¦   ¦           FTK_Imager_Installation.png
+¦   ¦   ¦           Generate_Report.png
+¦   ¦   ¦           Generate_Report_Progress.png
+¦   ¦   ¦           Image_File_Details.png
+¦   ¦   ¦           Installation_Complete_Open.png
+¦   ¦   ¦           Install_to_Program_Files.png
+¦   ¦   ¦           Linux Installation_(Kali_Ubuntu).png
+¦   ¦   ¦           Navigate_to_the_official_Autopsy_Webpage.png
+¦   ¦   ¦           Navigating_the_Autopsy_Interface.png
+¦   ¦   ¦           New_Case.png
+¦   ¦   ¦           New_Case_Information.png
+¦   ¦   ¦           Open_Autopsy.png
+¦   ¦   ¦           Port_Listening.png
+¦   ¦   ¦           Processing_Data.png
+¦   ¦   ¦           Raw.png
+¦   ¦   ¦           Recoverd_Files.png
+¦   ¦   ¦           Run_the_Installer.png
+¦   ¦   ¦           Select_Data_Source_Type.png
+¦   ¦   ¦           Select_Host.png
+¦   ¦   ¦           Select_Image_Destination.png
+¦   ¦   ¦           Select_Physical_Drive.png
+¦   ¦   ¦           Start_a_New_Case.png
+¦   ¦   ¦           Test_Image.png
+¦   ¦   ¦           Timeline_Analysis.png
+¦   ¦   ¦           Unzip_Test_Image.png
+¦   ¦   ¦           Volume_Image.png
+¦   ¦   ¦           
+¦   ¦   +---Endpoint Forensics and Incident Response with Velociraptor
+¦   ¦   ¦   +---Data
+¦   ¦   ¦   ¦       Creds.txt
+¦   ¦   ¦   ¦       Endpoint Forensics and Incident Response with Velociraptor.md
+¦   ¦   ¦   ¦       ubuntu_cli_cheat_sheet_2025.pdf
+¦   ¦   ¦   ¦       
+¦   ¦   ¦   +---Screenshots
+¦   ¦   ¦           Access_the_Velociraptor_GUI.png
+¦   ¦   ¦           archive_mirror.png
+¦   ¦   ¦           Change_Frontend_Hostname.png
+¦   ¦   ¦           Create_the_Velociraptor_directory.png
+¦   ¦   ¦           Directory_Listing.png
+¦   ¦   ¦           Download_MSI.png
+¦   ¦   ¦           Download_velociraptor.png
+¦   ¦   ¦           Featured_Server_Snaps.png
+¦   ¦   ¦           Find_Your_VMs_IP_Address.png
+¦   ¦   ¦           Generate_Client_Configuration.png
+¦   ¦   ¦           Generate_Server_Configuration.png
+¦   ¦   ¦           Nano_Config_File.png
+¦   ¦   ¦           Navigate_to_the_Velociraptreleases_page.png
+¦   ¦   ¦           Network_Tab.png
+¦   ¦   ¦           Open_Nano.png
+¦   ¦   ¦           port_fowarding.png
+¦   ¦   ¦           Profile_Configuration.png
+¦   ¦   ¦           Reeboot_Now.png
+¦   ¦   ¦           Running_Server.png
+¦   ¦   ¦           Skip_for_now.png
+¦   ¦   ¦           Specify_virtual_hard_disk.png
+¦   ¦   ¦           SSH_Configuration.png
+¦   ¦   ¦           Ubuntu_server.png
+¦   ¦   ¦           Uinstall_Old_Client.png
+¦   ¦   ¦           Update_Frontend_Hostname.png
+¦   ¦   ¦           Upload_the_Velociraptor_binary_to_the_server.png
+¦   ¦   ¦           Velociraptor_Frontend.png
+¦   ¦   ¦           Velociraptor_Logo.png
+¦   ¦   ¦           Velociraptor_opening_Server.png
+¦   ¦   ¦           Velociraptor_Server.png
+¦   ¦   ¦           Velociraptor_Server_Login.png
+¦   ¦   ¦           Verify_Client_Connection.png
+¦   ¦   ¦           Verify_Running_Client.png
+¦   ¦   ¦           Verify_Virtual_Hardware.png
+¦   ¦   ¦           View_Full_log.png
+¦   ¦   ¦           VM_Name_and_OS.png
+¦   ¦   ¦           
+¦   ¦   +---Forensic Imaging and Evidence Acquisition with FTK Imager
+¦   ¦   ¦   +---Data
+¦   ¦   ¦   ¦       Forensic Imaging and Evidence Acquisition with FTK Imager.md
+¦   ¦   ¦   ¦       
+¦   ¦   ¦   +---Screenshots
+¦   ¦   ¦           FTK_Imager.png
+¦   ¦   ¦           
+¦   ¦   +---Investigate Logs using Cowrie
+¦   ¦   ¦   +---Data
+¦   ¦   ¦   ¦       Honeypot_Logs.zip
+¦   ¦   ¦   ¦       Investigate Logs using Cowrie.md
+¦   ¦   ¦   ¦       
+¦   ¦   ¦   +---Screenshots
+¦   ¦   ¦           Attempt_to_Download_Malicious_Payload_(Simulated).png
+¦   ¦   ¦           Check_for_File_Downloads.png
+¦   ¦   ¦           Command_Logs.png
+¦   ¦   ¦           Connection_Lost_After.png
+¦   ¦   ¦           Count_Total_Commands_Executed.png
+¦   ¦   ¦           Cowrie.png
+¦   ¦   ¦           Cowrie_Starting.png
+¦   ¦   ¦           Cowrie_white.jpg
+¦   ¦   ¦           Create_a_Timeline_of_Events.png
+¦   ¦   ¦           Extract_All_Commands_in_Order.png
+¦   ¦   ¦           Extract_Login_Timestamp.png
+¦   ¦   ¦           Find_More_Detailed_Session_Information.png
+¦   ¦   ¦           Find_Suspicious_Patterns.png
+¦   ¦   ¦           Login_Attempt_Logs.png
+¦   ¦   ¦           Open_a_New_Terminal.png
+¦   ¦   ¦           SSH_Connection_Successful.png
+¦   ¦   ¦           Telnet_to_Cowrie.png
+¦   ¦   ¦           Verify_File_Creation.png
+¦   ¦   ¦           View_All_Logs.png
+¦   ¦   ¦           
+¦   ¦   +---Memory Forensics with Volatility
+¦   ¦   ¦   +---Data
+¦   ¦   ¦   ¦       Memory Forensics with Volatility.md
+¦   ¦   ¦   ¦       
+¦   ¦   ¦   +---Screenshots
+¦   ¦   ¦           Featured_Server_Snaps_Volatility.png
+¦   ¦   ¦           Hard_Disk_Volatility.png
+¦   ¦   ¦           Install_Open_SSH.png
+¦   ¦   ¦           Install_Python_Dependecies.png
+¦   ¦   ¦           Install_Volatility_3.png
+¦   ¦   ¦           Login_Credentials.png
+¦   ¦   ¦           MemForensics_VM.png
+¦   ¦   ¦           Obtaining_a_Sample_Memory_Dump.png
+¦   ¦   ¦           Organize_Your_Files_and_Verify_MemoryDump.png
+¦   ¦   ¦           Setup_Lab_Directories.png
+¦   ¦   ¦           Specify_virtual_hardware_volatity.png
+¦   ¦   ¦           VM_MeForensics.png
+¦   ¦   ¦           Volatility_Logo.png
+¦   ¦   ¦           Volatility_Profile_Configuration.png
+¦   ¦   ¦           Volatility_Server.png
+¦   ¦   ¦           
+¦   ¦   +---Triage Forensics and Evidence Collection with KAPE
+¦   ¦       +---Data
+¦   ¦       ¦       Triage Forensics and Evidence Collection with KAPE.md
+¦   ¦       ¦       
+¦   ¦       +---Screenshots
+¦   ¦               Disk_space_KAPE.png
+¦   ¦               Kape_Logo.png
+¦   ¦               KAPE_Target_VM.png
+¦   ¦               KAPE_VM_Start.png
+¦   ¦               Specify_virtual_hardware_KAPE.png
+¦   ¦               
+¦   +---SecureSync Corporation Data Breach
+¦           IR_Simulation_SecureSync.html
+¦           
++---Introduction to Cybersecurity Careers
+¦   +---Cheatsheet
+¦   ¦       1 day beard_2.png
+¦   ¦       A Growing Field.md
+¦   ¦       A Growing Field.png
+¦   ¦       Analytics_2.png
+¦   ¦       Blue_Tie.png
+¦   ¦       CompTIA Certifications.md
+¦   ¦       CompTIA.png
+¦   ¦       Cumulative Glossary.pdf
+¦   ¦       Cybersecurity Careers.md
+¦   ¦       Cybersecurity Certifications (2).png
+¦   ¦       Cybersecurity Certifications Facts.md
+¦   ¦       Cybersecurity Technical Skills (2).png
+¦   ¦       Cybersecurity Technical Skills Facts .md
+¦   ¦       EC-Council.png
+¦   ¦       Final Project -  Develop your Cybersecurity Career Plan.pdf
+¦   ¦       Furman Uni. Advisor - Strategic AI.png
+¦   ¦       GIAC.png
+¦   ¦       grey_striped.png
+¦   ¦       Guide to Cybersecurity Careers.png
+¦   ¦       Hands-On Lab - Cybersecurity Career Paths.pdf
+¦   ¦       ISACA.png
+¦   ¦       ISC2 Certifications.md
+¦   ¦       ISC2.png
+¦   ¦       IT Fundamentals Technical Skills Facts.md
+¦   ¦       IT Fundamentals.png
+¦   ¦       Job Role Mapping (2).png
+¦   ¦       Linux admin.png
+¦   ¦       Other Certifications.md
+¦   ¦       Portfolio_Pic_5.png
+¦   ¦       Profile Pic_6.png
+¦   ¦       Skills to Job Role Mapping.md
+¦   ¦       Soft Skills Facts.md
+¦   ¦       Soft Skills for Cybersecurity.png
+¦   ¦       
+¦   +---Labs
+¦       +---Cybersecurity Career Paths
+¦       ¦   +---Data
+¦       ¦   ¦       Cybersecuriy Pathways.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Cyber Crime Analyst.png
+¦       ¦           Cyber Seek.jpeg
+¦       ¦           Cybersecurity SC.png
+¦       ¦           Penetration Tester.png
+¦       ¦           Training map.png
+¦       ¦           Workforce Map.png
+¦       ¦           
+¦       +---Cybersecurity Glossary
+¦       ¦       cybersecurity_glossary_updated.html
+¦       ¦       
+¦       +---Final Project - Develop your Cybersecurity Career Plan
+¦           +---Data
+¦           ¦       Develop your Cybersecurity Career Plan.md
+¦           ¦       Willie_Conway_Cybersecurity_Resume.docx
+¦           ¦       Willie_Conway_Cybersecurity_Resume.pdf
+¦           ¦       
+¦           +---Screenshots
+¦                   Career Plan.png
+¦                   Job Search - Linkedln.png
+¦                   Jr. Security Analyst.png
+¦                   
++---Introduction to Cybersecurity Essentials
+¦   +---Cheatsheet
+¦   ¦       Case Study.md
+¦   ¦       Data Breach Case Studies (3).png
+¦   ¦       Data Breach Case Studies.md
+¦   ¦       Data Breach Case Study - Yahoo!.pdf
+¦   ¦       Data Continuity and Encryption (3).png
+¦   ¦       Data Continuity and Encryption.md
+¦   ¦       Equifax.png
+¦   ¦       Equifax_breach.png
+¦   ¦       Experian.png
+¦   ¦       Glossary - Introduction to Cybersecurity Essentials.pdf
+¦   ¦       Hands-on Lab - Enforce Strong Password Policies.pdf
+¦   ¦       Hands-on Lab - Managing Browser Security and Privacy Settings.pdf
+¦   ¦       Hands-on Lab - Perform Final Project Tasks.pdf
+¦   ¦       Hands-on Lab - Windows Defender Antivirus.pdf
+¦   ¦       Hands-on Lab - Windows Update.pdf
+¦   ¦       Hands-on-Lab - Windows Firewall with Advanced Security.pdf
+¦   ¦       Intellectual Property and Types of Confidential Information (3).png
+¦   ¦       Intellectual Property and Types of Confidential Information.md
+¦   ¦       Just for Fun - Hands-on Lab - Hacker Typer.pdf
+¦   ¦       Major Cybersecurity Breaches (2).png
+¦   ¦       Password Management (2).png
+¦   ¦       Password Management.md
+¦   ¦       Physical Security for Computing Devices (2).png
+¦   ¦       Physical Security for Computing Devices.md
+¦   ¦       Reading - Data continuity and Encryption.pdf
+¦   ¦       Reading - Intellectual Property and Types of Confidential Information.pdf
+¦   ¦       Reading - Password Management.pdf
+¦   ¦       Reading - Physical Security for Computing Devices.pdf
+¦   ¦       T- mobile.png
+¦   ¦       XYZ Corporation.png
+¦   ¦       Yahoo.png
+¦   ¦       
+¦   +---Labs
+¦       +---Cybersecurity Essentials Glossary
+¦       ¦       cybersecurity_field_glossary_complete.html
+¦       ¦       
+¦       +---Enforce Strong Password Policies
+¦       ¦   +---Data
+¦       ¦   ¦       Enforce Strong Password Policies.md
+¦       ¦   ¦       Enforce Strong Password Policies.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦       ¦   Kaspersky Password Manager.png
+¦       ¦       ¦   
+¦       ¦       +---Exercise 1 - Check Password Strength
+¦       ¦       ¦       Check Password Strength.png
+¦       ¦       ¦       Press Enter.png
+¦       ¦       ¦       Test your password box and type fido1973.png
+¦       ¦       ¦       Test your password box and type Mh1llifwwas!.png
+¦       ¦       ¦       
+¦       ¦       +---Exercise 2 - Review Windows Local Group Policy Editor
+¦       ¦       ¦       Click Computer Configuration.png
+¦       ¦       ¦       Command Prompt.png
+¦       ¦       ¦       Navigate to Security Settings.png
+¦       ¦       ¦       Open the Local Group Policy Editor.png
+¦       ¦       ¦       Type gpedit and press Enter.png
+¦       ¦       ¦       
+¦       ¦       +---Exercise 3 - Configure Password Policies
+¦       ¦               Configure Enforce Password History.png
+¦       ¦               Configure Maximum password age.png
+¦       ¦               Configure Minimum password age.png
+¦       ¦               Configure Minimum password length.png
+¦       ¦               Enable Password Complexity Requirements.png
+¦       ¦               Microsoft recommends that Enforce password history be set to 24.png
+¦       ¦               Review Configured Policies.png
+¦       ¦               
+¦       +---Hacker Typer
+¦       ¦   +---Data
+¦       ¦   ¦   ¦   Hacker Typer.mp4
+¦       ¦   ¦   ¦   Just for Fun - Hands-on Lab -  Hacker Typer.md
+¦       ¦   ¦   ¦   
+¦       ¦   ¦   +---HACKNET
+¦       ¦   ¦           HACKNET.html
+¦       ¦   ¦           
+¦       ¦   +---Screenshots
+¦       ¦           Access Denied.png
+¦       ¦           Access Granted.png
+¦       ¦           Full Screen.png
+¦       ¦           Hacker Typer.png
+¦       ¦           Home.png
+¦       ¦           Start typing.png
+¦       ¦           
+¦       +---Managing Browser Security and Privacy Settings
+¦       ¦   +---Data
+¦       ¦   ¦       Managing Browser Security and Privacy Settings.md
+¦       ¦   ¦       Managing Browser Security and Privacy Settings.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦       ¦   Google Chrome.png
+¦       ¦       ¦   
+¦       ¦       +---Exercise 1 - Identify How to Perform a Safety Check within a Google Chrome Browser
+¦       ¦       +---Exercise 2 - Identify Options for Clearing Google Chrome Browsing Data
+¦       ¦       ¦       Click on Clear browsing data.png
+¦       ¦       ¦       Then click Clear data.png
+¦       ¦       ¦       
+¦       ¦       +---Exercise 3 - Identify How to Check and Clear Google Chrome Browsing History
+¦       ¦       ¦       Select last 24 hours.png
+¦       ¦       ¦       
+¦       ¦       +---Exercise 4 -  Identify and Configure Settings in Google Chrome Browser for Privacy and Security
+¦       +---Windows Defender Antivirus
+¦       ¦   +---Data
+¦       ¦   ¦       Testing Cyber Apps.mp4
+¦       ¦   ¦       Windows Defender Antivirus.md
+¦       ¦   ¦       Windows Defender Antivirus.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦       ¦   Windows Defender.png
+¦       ¦       ¦   
+¦       ¦       +---Configuration of Windows Defender Antivirus
+¦       ¦       ¦   +---Exercise 1 - Review Windows Security Virus & threat protection
+¦       ¦       ¦   +---Exercise 2 - Update Threat Definitions
+¦       ¦       ¦   ¦       Update Threat Definitions.png
+¦       ¦       ¦   ¦       
+¦       ¦       ¦   +---Exercise 3 - Run Antivirus Quick Scan
+¦       ¦       ¦   ¦       Run Antivirus Quick Scan.png
+¦       ¦       ¦   ¦       
+¦       ¦       ¦   +---Exercise 4 - Run Antivirus Custom Scan
+¦       ¦       ¦           Run the Scan.png
+¦       ¦       ¦           
+¦       ¦       +---Typical Use cases of Windows Defender Antivirus
+¦       ¦           +---Scenario 1
+¦       ¦           ¦       Configure Actions.png
+¦       ¦           ¦       Configure Conditions.png
+¦       ¦           ¦       Configure General Settings.png
+¦       ¦           ¦       Configure Triggers.png
+¦       ¦           ¦       Create a New Task.png
+¦       ¦           ¦       Enable Virus & Threat Protection.png
+¦       ¦           ¦       Open Task Scheduler.png
+¦       ¦           ¦       Turn On Real-time Protection.png
+¦       ¦           ¦       Verify task.png
+¦       ¦           ¦       
+¦       ¦           +---Scenario 2
+¦       ¦                   Download EICAR Test File.png
+¦       ¦                   Ensure Real-Time Protection is Enabled.png
+¦       ¦                   Observe Windows Defender Response.png
+¦       ¦                   Review Protection History.png
+¦       ¦                   Reviewing Alerts and Logs.png
+¦       ¦                   
+¦       +---Windows Firewall with Advanced Security
+¦       ¦   +---Data
+¦       ¦   ¦       Windows Firewall with Advanced Security.md
+¦       ¦   ¦       Windows Firewall with Advanced Security.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦       ¦   Windows Defender.png
+¦       ¦       ¦   
+¦       ¦       +---Exercise 1 - Enable Firewall on different Network Profiles
+¦       ¦       ¦       Allow an app through firewall highlighted.png
+¦       ¦       ¦       Allowing Mozilla Firefox on public network.png
+¦       ¦       ¦       Domain network details with firewall toggle On.png
+¦       ¦       ¦       Private network details with firewall toggle On.png
+¦       ¦       ¦       Public network details with firewall toggle On.png
+¦       ¦       ¦       Windows Defender Firewall is toggled to On.png
+¦       ¦       ¦       Windows Security selected from the Start menu.png
+¦       ¦       ¦       
+¦       ¦       +---Exercise 2 - Windows Firewall with Advanced Security
+¦       ¦       ¦       Advanced settings highlighted in left pane.png
+¦       ¦       ¦       Click Firewall & network protection.png
+¦       ¦       ¦       Inbound rules list with New Rule option.png
+¦       ¦       ¦       
+¦       ¦       +---Typical use cases with Windows Firewall Advanced Security options
+¦       +---Windows Update
+¦           +---Data
+¦           ¦       Overview - Windows Defender Antivirus.md
+¦           ¦       Windows Update.md
+¦           ¦       Windows Updates.mp4
+¦           ¦       
+¦           +---Screenshots
+¦                   Advanced options.png
+¦                   Cancel active hours.png
+¦                   Check for updates.png
+¦                   Check for Windows Updates.png
+¦                   Download and Install Updates.png
+¦                   Exclusions.png
+¦                   Real-Time Protection.png
+¦                   Review Windows Update.png
+¦                   Status updates.png
+¦                   Tamper Protection.png
+¦                   Uninstall update.png
+¦                   Update & Security.png
+¦                   View update history.png
+¦                   Windows Defender.png
+¦                   Windows Update.png
+¦                   
++---Introduction to Cybersecurity Tools & Cyberattacks
+¦   +---Cheatsheet
+¦   ¦       Activity -  Explore the IBM X-Force Threat Intelligence Index.pdf
+¦   ¦       Activity - Enable Two-Factor Authentication.pdf
+¦   ¦       IBM XForce Threat Intelligence Index 2024.pdf
+¦   ¦       Reading - Final Project Overview - Secure Access.pdf
+¦   ¦       Reading - How to Prevent Social Engineering.pdf
+¦   ¦       Reading - Insider Attacks.pdf
+¦   ¦       Reading - Malware Detection with Rootkit Hunters.pdf
+¦   ¦       Reading - Malware Types.pdf
+¦   ¦       Reading - Physical Cybersecurity Controls.pdf
+¦   ¦       Reading - The History of Cybersecurity.pdf
+¦   ¦       Reading - Types of Controls.pdf
+¦   ¦       Reading - Types of Social Engineering.pdf
+¦   ¦       The Hisory of Cybersecurity.png
+¦   ¦       The History of Cybersecurity.md
+¦   ¦       [Optional] Hands-on Lab - Malware Scan Using Rkhunter.pdf
+¦   ¦       
+¦   +---Labs
+¦       +---CIPHER
+¦       ¦   +---Data
+¦       ¦           cipher_cybersecurity_glossary.html
+¦       ¦           
+¦       +---Exploring Cybersecurity History Through Interactive Timeline
+¦       ¦   +---Cybersecurity Event Log
+¦       ¦   ¦       cybersecurity_event_Log.html
+¦       ¦   ¦       
+¦       ¦   +---Data
+¦       ¦           Exploring Cybersecurity History Through Interactive Timeline.md
+¦       ¦           
+¦       +---Final Project - Secure Access - TechSolutions Inc. Security Assessment
+¦       ¦   +---Data
+¦       ¦   ¦       Secure Access - TechSolutions Inc. Security Assessment.md
+¦       ¦   ¦       TechSolutions Inc. Security Assessment.md
+¦       ¦   ¦       TechSolutions Inc. Security Assessment_Willie_Conway.pdf
+¦       ¦   ¦       
+¦       ¦   +---NEXUS
+¦       ¦   ¦       nexus_security_app.html
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Secure Access - TechSolutions Inc. Security Assessment.png
+¦       ¦           
+¦       +---Identifying and Defending Against Social Engineering Attacks
+¦       ¦   +---Data
+¦       ¦   ¦       Identifying and Defending Against Social Engineering Attacks.md
+¦       ¦   ¦       
+¦       ¦   +---DECEIVER
+¦       ¦   ¦       deceiver_social_engineering_app.html
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Social Engineering.png
+¦       ¦           
+¦       +---Identifying and Understanding Malware Types
+¦       ¦   +---Data
+¦       ¦   ¦       Identifying and Understanding  Malware Types.md
+¦       ¦   ¦       
+¦       ¦   +---PATHOGEN
+¦       ¦   ¦       pathogen_malware_lab.html
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Malware Types.png
+¦       ¦           
+¦       +---Malware Scan Using Rkhunter
+¦       ¦   +---Data
+¦       ¦   ¦       Run Malware Scans Using rkhunter.md
+¦       ¦   ¦       Run Malware Scans Using rkhunter.mp4
+¦       ¦   ¦       
+¦       ¦   +---RKHUNTER LIVE
+¦       ¦   ¦       rkhunter_malware_detection_app.html
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Additional Checks.png
+¦       ¦           apt-get update running_done.png
+¦       ¦           Installation confirmation prompt.png
+¦       ¦           Network and Host Checks.png
+¦       ¦           rkhunter scan summary.png
+¦       ¦           Rootkit Checks.png
+¦       ¦           Run Malware Scans Using rkhunter.png
+¦       ¦           Run the following command to install rkhunter.png
+¦       ¦           Run the Properties Update.png
+¦       ¦           System commands check in progress.png
+¦       ¦           Update Package Lists.png
+¦       ¦           Verify Docker Installation.png
+¦       ¦           Verify Installation.png
+¦       ¦           View Full Scan Results.png
+¦       ¦           View Only Warnings.png
+¦       ¦           When prompted with the confirmation query.png
+¦       ¦           
+¦       +---Understanding and Mitigating Insider Attacks
+¦       ¦   +---Data
+¦       ¦   ¦       Understanding and Mitigating Insider Attacks.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦   ¦       Insider Threat.png
+¦       ¦   ¦       
+¦       ¦   +---Sentinel
+¦       ¦           sentinel_insider_threat_app.html
+¦       ¦           
+¦       +---Understanding Security Control Types and Functions
+¦           +---Data
+¦           ¦       Understanding Security Control Types and Functions.md
+¦           ¦       
+¦           +---FORTRESS
+¦           ¦       fortress_security_controls._app.html
+¦           ¦       
+¦           +---Screenshots
+¦                   Security Control Types.png
+¦                   
++---Operating Systems - Overview, Administration, and Security
+¦   +---Cheatsheet
+¦   ¦       Creating Windows Users and Groups.pdf
+¦   ¦       Final Project Part 1 - Windows.pdf
+¦   ¦       Final Project Part 2 - Linux Tasks.pdf
+¦   ¦       Hands-on Lab - Common Linux - Unix Commands.pdf
+¦   ¦       Hands-on Lab - Exploring Microsoft Windows Server Features.pdf
+¦   ¦       Hands-on Lab - Getting Started with Linux Terminal.pdf
+¦   ¦       Hands-on Lab - Linux User Management.pdf
+¦   ¦       Hands-on Lab - Updating Linux.pdf
+¦   ¦       Hands-on Lab - Using Microsoft Windows Command Prompt Tools for Administration.pdf
+¦   ¦       Hands-on Lab - Windows Defender Firewall.pdf
+¦   ¦       Lab -  Introduction to Containers, Docker, and IBM Cloud Container Registry.pdf
+¦   ¦       Lab - Creating a Firewall Rule in Microsoft Windows Defender.pdf
+¦   ¦       Lab - Using File Explorer to Manage Files and Folders.pdf
+¦   ¦       Linux and Bash Command Cheat Sheet - The Basics.pdf
+¦   ¦       Reading - Authentication Methods.pdf
+¦   ¦       Reading - Differences Between Containers and Virtual Machines.pdf
+¦   ¦       Reading - Differences Between Virtualization and Cloud Computing.pdf
+¦   ¦       Reading - File Naming Best Practices.pdf
+¦   ¦       Reading - Final Project Overview - Cyber Secure Inc..pdf
+¦   ¦       Reading - Linux Commands.pdf
+¦   ¦       Reading - Linux Run Levels.pdf
+¦   ¦       Reading - Managing User Accounts.pdf
+¦   ¦       Reading - Securing Linux.pdf
+¦   ¦       Reading - Updates for macOS.pdf
+¦   ¦       Reading - Upgrading macOS.pdf
+¦   ¦       Reading - Using Microsoft Windows Command Prompt Tools for Administration.pdf
+¦   ¦       
+¦   +---Labs
+¦       +---Common Linux - Unix Commands
+¦       ¦   +---Data
+¦       ¦   ¦       Common Linux - Unix Commands.md
+¦       ¦   ¦       Common Linux - Unix commands.mp4
+¦       ¦   ¦       
+¦       ¦   +---KERNEL
+¦       ¦   ¦       kernel_linux_app.html
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           cat show output.png
+¦       ¦           Check Network Connections with `netstat`.png
+¦       ¦           dig google.com.png
+¦       ¦           Examples of Command Pipes.png
+¦       ¦           grep command examples showing search results.png
+¦       ¦           head show output.png
+¦       ¦           id command output showing uid and gid information.png
+¦       ¦           ifconfig or ip addr show output.png
+¦       ¦           Linux.jpg
+¦       ¦           ls  - bin showing many files.png
+¦       ¦           ls -l output showing detailed file information.png
+¦       ¦           mkdir -p creating nested directories.png
+¦       ¦           New terminal opened at bottom of screen.png
+¦       ¦           nslookup google.com.png
+¦       ¦           ping -c 4 google.com.png
+¦       ¦           pwd command showing  - home - theia.png
+¦       ¦           System info script output.png
+¦       ¦           tail show output.png
+¦       ¦           Terminal menu with New Terminal option highlighted.png
+¦       ¦           traceroute google.com.png
+¦       ¦           tree or ls -R showing directory structure.png
+¦       ¦           Various date command formats showing different outputs.png
+¦       ¦           whoami command output showing - theia.png
+¦       ¦           
+¦       +---Creating a Firewall Rule in Microsoft Windows Defender
+¦       ¦   +---Data
+¦       ¦   ¦       Create a Firewall Rule in Microsoft Windows Defender.md
+¦       ¦   ¦       Create a Firewall Rule in Microsoft Windows Defender.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           A circle with a line through it appears next to the second rule.png
+¦       ¦           Advanced settings link in left pane.png
+¦       ¦           Advanced tab showing profile selection.png
+¦       ¦           Advanced tab with only Public checked.png
+¦       ¦           Advanced tab with Public unchecked.png
+¦       ¦           Allow the connection if it is secure.png
+¦       ¦           Click the Public to add the checkmark.png
+¦       ¦           Computers.png
+¦       ¦           Copy option in right-click menu.png
+¦       ¦           Create a rule.png
+¦       ¦           Enabling the second rule.png
+¦       ¦           Enter Administrator into the Enter the object names.png
+¦       ¦           Explore the Console Layout.png
+¦       ¦           General tab showing Allow the connection selected.png
+¦       ¦           General tab with Block the connection selected.png
+¦       ¦           In the Profiles  section, you'll see three checkboxes.png
+¦       ¦           Inbound rules list with column.png
+¦       ¦           Key Management Service (TCP-In) Properties window.png
+¦       ¦           Key Management Service rule details in list.png
+¦       ¦           Key Management Service rules in the list.png
+¦       ¦           New inbound rules.png
+¦       ¦           Open the Windows Defender Firewall with Advanced Security options.png
+¦       ¦           Paste option in context menu.png
+¦       ¦           Right-click menu with Enable Rule selected.png
+¦       ¦           Rule now showing green checkmark enabled.png
+¦       ¦           Rule Service Management.png
+¦       ¦           Rule Wizard.png
+¦       ¦           Select OK to accept changes and to return to the Firewall.png
+¦       ¦           Select users or Groups.png
+¦       ¦           the first rule indicating that the rule allowing communication is enabled.png
+¦       ¦           Windows Defender Firewall with Advanced Security window.png
+¦       ¦           Windows Defender.png
+¦       ¦           Windows Start button highlighted.png
+¦       ¦           Windows Start menu with Windows Security selected_.png
+¦       ¦           
+¦       +---Exploring Microsoft Windows Server Features
+¦       ¦   +---Data
+¦       ¦   ¦       Exploring Microsoft Windows Server Features.md
+¦       ¦   ¦       Exploring Microsoft Windows Server Features.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           cdrive.png
+¦       ¦           configure the type of events you want to get updates.png
+¦       ¦           Local Server properties view.png
+¦       ¦           Local Server selected in left navigation.png
+¦       ¦           Local Server tiles with descriptions.png
+¦       ¦           PowerShell prompt looks like a regular command prompt.png
+¦       ¦           secerity of the events.png
+¦       ¦           Server Manager dashboard with configuration options highlighted.png
+¦       ¦           Server Manager Dashboard.png
+¦       ¦           System Properties window.png
+¦       ¦           Windows Defender Firewall status.png
+¦       ¦           Windows Defender.png
+¦       ¦           Windows Start menu with Server Manager highlighted.png
+¦       ¦           
+¦       +---Final Project
+¦       ¦   +---Part 1 - Windows
+¦       ¦   ¦   +---Data
+¦       ¦   ¦   ¦       Windows Tasks.md
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---Screenshots
+¦       ¦   ¦           Ticket1_AccountingGroup.png
+¦       ¦   ¦           Ticket1_AccountingGroup_2.png
+¦       ¦   ¦           Ticket1_NewUser.png
+¦       ¦   ¦           Ticket2_ScanResults.png
+¦       ¦   ¦           Ticket2_UpdateDate_2.png
+¦       ¦   ¦           Ticket3_NewRule.png
+¦       ¦   ¦           Windows Defender.png
+¦       ¦   ¦           
+¦       ¦   +---Part 2 - Linux Tasks
+¦       ¦   ¦   +---Data
+¦       ¦   ¦   ¦       Linux Tasks.md
+¦       ¦   ¦   ¦       
+¦       ¦   ¦   +---Screenshots
+¦       ¦   ¦           Linux.jpg
+¦       ¦   ¦           Ticket4_NewUser.png
+¦       ¦   ¦           Ticket5_AccountingContent.png
+¦       ¦   ¦           Ticket5_Folder.png
+¦       ¦   ¦           Ticket6_Updates.png
+¦       ¦   ¦           
+¦       ¦   +---VAULT
+¦       ¦           vault_auth_methods_app.html
+¦       ¦           
+¦       +---Getting Started with Linux Terminal
+¦       ¦   +---Data
+¦       ¦   ¦       Creating and Editing Files in Linux.md
+¦       ¦   ¦       Introducing Linux Terminal.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           download vim.png
+¦       ¦           Linux.jpg
+¦       ¦           ls command showing myprogram.py.png
+¦       ¦           Nano editor opening with blank file.png
+¦       ¦           Nano save prompt.png
+¦       ¦           Nano with text entered.png
+¦       ¦           Nano with two lines of text.png
+¦       ¦           Python script running with output.png
+¦       ¦           Save the file .png
+¦       ¦           Terminal showing pwd and ls commands.png
+¦       ¦           Updated program output.png
+¦       ¦           Using history command.png
+¦       ¦           Verify and Run.png
+¦       ¦           vim INSERT.png
+¦       ¦           vim save and quit.png
+¦       ¦           
+¦       +---Introduction to Containers, Docker, and IBM Cloud Container Registry
+¦       ¦   +---Data
+¦       ¦   ¦       Building a Tekton Pipeline using Python.md
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦   ¦       Explorer panel showing 01_base_pipeline folder.png
+¦       ¦   ¦       git clone command output showing repository download.png
+¦       ¦   ¦       Open task.yaml.png
+¦       ¦   ¦       Optional - Shorten the Command Prompt.png
+¦       ¦   ¦       tekton.png
+¦       ¦   ¦       Terminal menu with New Terminal option highlighted.jpg
+¦       ¦   ¦       
+¦       ¦   +---STRATOS
+¦       ¦           stratos_cloud_app.html
+¦       ¦           
+¦       +---Linux User Management
+¦       ¦   +---Data
+¦       ¦   ¦       Linux User Management.md
+¦       ¦   ¦       Linux User Management.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           cat_etc_group showing all groups.png
+¦       ¦           Clean Up.png
+¦       ¦           Docker pull command downloading Kali Linux.png
+¦       ¦           Kali Linux container bash prompt.png
+¦       ¦           Linux.jpg
+¦       ¦           New terminal opened at bottom of screen.png
+¦       ¦           Setting password with passwd command.png
+¦       ¦           Terminal menu with New Terminal option highlighted.jpg
+¦       ¦           Understanding User and Group Files.png
+¦       ¦           Verifying group deletion - no output.png
+¦       ¦           Verifying group name change.png
+¦       ¦           Verifying user added to group.png
+¦       ¦           Verifying user creation with cat_etc_passwd.png
+¦       ¦           Verifying user removed from group.png
+¦       ¦           View Detailed User Information.png
+¦       ¦           
+¦       +---Updating Linux
+¦       ¦   +---Data
+¦       ¦   ¦       Updating Linux.md
+¦       ¦   ¦       Updating Linux.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Advanced Upgrade Options.png
+¦       ¦           apt autoremove output.png
+¦       ¦           apt list --upgradable output.png
+¦       ¦           apt update command output.png
+¦       ¦           apt upgrade command running.png
+¦       ¦           apt upgrade command running_2.png
+¦       ¦           cat_etc_apt_sources.list output.png
+¦       ¦           Clean Package Cache.png
+¦       ¦           Count Available Updates.png
+¦       ¦           Linux.jpg
+¦       ¦           New terminal opened at bottom of screen.png
+¦       ¦           Terminal menu with New Terminal option highlighted.jpg
+¦       ¦           Update script running.png
+¦       ¦           Upgrade confirmation prompt with Y selected.png
+¦       ¦           Working with a Container.png
+¦       ¦           
+¦       +---Using File Explorer to Manage Files and Folders
+¦       ¦   +---Data
+¦       ¦   ¦       Using File Explorer to Manage Files and Folders.md
+¦       ¦   ¦       Using File Explorer to Manage Files and Folders.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           A file named “Department” is created inside the “Employee” folder.png
+¦       ¦           Create a file name Department.png
+¦       ¦           Create a Subfolder.png
+¦       ¦           Create Empoyee foler in Documents.png
+¦       ¦           File Explorer icon on taskbar.png
+¦       ¦           File Explorer with Documents folder selected.png
+¦       ¦           File menu with Save As selected.png
+¦       ¦           File path.png
+¦       ¦           LibreOffice start center with Writer Document highlighted.png
+¦       ¦           LibreOffice Writer with text entered.png
+¦       ¦           LibreOffice Writer.png
+¦       ¦           New folder being named  - Office files.png
+¦       ¦           Office files folder showing Project 1 Document.png
+¦       ¦           Right-click menu showing New - Folder.png
+¦       ¦           Save dialog showing Office files folder.png
+¦       ¦           Save dialog with filename entered.png
+¦       ¦           Select LibreOffice Writer.png
+¦       ¦           Start menu with LibreOffice selected.png
+¦       ¦           Windows Defender.png
+¦       ¦           
+¦       +---Using Microsoft Windows Command Prompt Tools for Administration
+¦       ¦   +---Data
+¦       ¦   ¦       Use the Windows Command Prompt for Administration.md
+¦       ¦   ¦       Use the Windows Command Prompt for Administration.mp4
+¦       ¦   ¦       
+¦       ¦   +---Screenshots
+¦       ¦           Command Prompt after cls command showing clean screen.png
+¦       ¦           Command Prompt running sfc - scannow.png
+¦       ¦           Command Prompt showing cd command result.png
+¦       ¦           Command Prompt showing chkdsk results.png
+¦       ¦           Command Prompt showing dir command results.png
+¦       ¦           Command Prompt showing dir with new LabFiles directory.png
+¦       ¦           Command Prompt showing hostname command and result.png
+¦       ¦           Command Prompt showing ipconfig - all detailed results.png
+¦       ¦           Command Prompt showing systeminfo results.png
+¦       ¦           Command Prompt showing tasklist results.png
+¦       ¦           delete the newly created directory - type rmdir comedy.png
+¦       ¦           List all scheduled tasks.png
+¦       ¦           return to the previous directory.png
+¦       ¦           Right-click menu showing Run as administrator.png
+¦       ¦           Run the System File Checker.png
+¦       ¦           Search bar with - Command Prompt - typed and highlighted.png
+¦       ¦           To verify that the directory has been removed - type dir.png
+¦       ¦           Windows Defender.png
+¦       ¦           
+¦       +---Windows Defender Firewall
+¦           +---Data
+¦           ¦       Windows Defender Firewall.md
+¦           ¦       Windows Defender Firewall.mp4
+¦           ¦       
+¦           +---Screenshots
+¦                   Domain network details screen.png
+¦                   Domain network highlighted on Firewall & network protection window.png
+¦                   Firewall & network protection window showing three network profiles.png
+¦                   Firewall and network protection screen.png
+¦                   Firewall and network protection screen_.png
+¦                   Open Command Prompt as Administrator  (important for this command_.png
+¦                   Private network highlighted on Firewall & network protection window.png
+¦                   Private network with firewall toggle On.png
+¦                   Public network highlighted on Firewall & network protection window.png
+¦                   Public network with firewall toggle On.png
+¦                   Security at a glance window with Firewall & network protection highlighted.png
+¦                   Select Domain network.png
+¦                   Select Private network.png
+¦                   Select Public network.png
+¦                   Select the back arrow button to return to the Firewall and network protection screen.png
+¦                   Toggle the Windows Defender Firewall to On if not already.png
+¦                   Verify that the Windows Defender Firewall is toggled to On.png
+¦                   Verify that the Windows Defender Firewall is toggled to On_.png
+¦                   Windows Defender.png
+¦                   Windows Start button highlighted.png
+¦                   Windows Start menu with Windows Security selected_.png
+¦                   
++---Penetration Testing, Threat Hunting, and Cryptography
+    +---Cheatsheet
+    ¦       (Optional) Lab - Cryptanalysis Attack.pdf
+    ¦       (Optional) Lab - End of Encryption_Decryption (RSA Algorithm).pdf
+    ¦       Final Project - Part 1 - Perform Vulnerability Analysis and Penetration Testing.pdf
+    ¦       Final Project - Part 2 - Secure Information Using Symmetric Encryption.pdf
+    ¦       Lab - Asymmetric Encryption Using RSA.pdf
+    ¦       Lab - Getting Started with GitHub (Optional).pdf
+    ¦       Lab - Network Protocol Analyzers.pdf
+    ¦       Lab - Port Scanning with NMap GUI.pdf
+    ¦       Lab - Port Scanning with NMap.pdf
+    ¦       Lab - Port Scanning with Pen-test Tools.pdf
+    ¦       Lab - Practicing Google Dorking Commands.pdf
+    ¦       Lab - Review X-Force Exchange Threat Reports.pdf
+    ¦       Lab - Symmetric Encryption Using AES.pdf
+    ¦       Lab - Using SNYK to Scan Your Code Repository (Optional).pdf
+    ¦       Module Glossary - Penetration Testing_Attack Phase.pdf
+    ¦       Module Glossary - Penetration Testing_Planning and Discovery Phases.pdf
+    ¦       Reading - Examples of Passive and Active Reconnaissance.pdf
+    ¦       Reading - Google Dorking.pdf
+    ¦       Reading - Penetration Testing Tools.pdf
+    ¦       
+    +---Labs
+        +---Asymmetric Encryption Using RSA
+        ¦   +---Data
+        ¦   ¦       Asymmetric Encryption Using RSA.md
+        ¦   ¦       Asymmetric.zip
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           Command_for_Hybrid_Encryption.png
+        ¦           Create_a_test_file.png
+        ¦           Create_Confidential_File.png
+        ¦           Create_Multi-line_File.png
+        ¦           Decrypt_File_RSA.png
+        ¦           Decrypt_the_Encrypted_File_Using_RSA_Private_Key.png
+        ¦           Decrypt_the_Test_File_using_RSA_private key.png
+        ¦           Encrypt_File_RSA.png
+        ¦           Encrypt_the_Test_File_using_RSA_public_key.png
+        ¦           Generate_Private_Key.png
+        ¦           Generate_Public_Key.png
+        ¦           Important_Limitation.png
+        ¦           List_Remaining_Files.png
+        ¦           OpenSSL_Version_RSA.png
+        ¦           Open_New_Terminal.png
+        ¦           PhpMyAdmin_logo (1).png
+        ¦           Terminal_Ready_RSA.png
+        ¦           Verify_Encrypted_File_2.png
+        ¦           Verify_Private_Key.png
+        ¦           Verify_Public_Key.png
+        ¦           View_Decrypted_File.png
+        ¦           View_Encrypted_File.png
+        ¦           View_Private_Key.png
+        ¦           View_Public_Key.png
+        ¦           
+        +---Cryptanalysis Attack
+        ¦   +---Data
+        ¦   ¦       Cryptanalysis Attack - Breaking DES Encryption with CrypTool.md
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           Attack_Progress.png
+        ¦           Attack_Results.png
+        ¦           Choose_Attack_Type.png
+        ¦           Configure_Attack.png
+        ¦           Configure_the_Attack_Parameters.png
+        ¦           Cryptool.png
+        ¦           CrypTool_Install.png
+        ¦           CrypTool_Launch.png
+        ¦           CrypTool_Main_Window.png
+        ¦           CrypTool_New_Template.jpg
+        ¦           CrypTool_Website.png
+        ¦           DES_Weaknesses.png
+        ¦           Download_CrypTool2.png
+        ¦           Download_Page.png
+        ¦           Modern_Encryption.png
+        ¦           Select_Cryptanalysis.png
+        ¦           
+        +---End of Encryption_Decryption (RSA Algorithm)
+        ¦   +---Data
+        ¦   ¦       Ciphertext.zip
+        ¦   ¦       End-to-End Encryption_Decryption (RSA Algorithm).md
+        ¦   ¦       Files.zip
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           Choose_RSA.png
+        ¦           Cryptool.png
+        ¦           CrypTool_Launch_RSA.png
+        ¦           CrypTool_Main_RSA.png
+        ¦           CrypTool_New_RSA.jpg
+        ¦           CrypTool_Website_RSA.png
+        ¦           CT2 Downloads_CrypTool_2_page.png
+        ¦           Download_CrypTool2_RSA.png
+        ¦           Enter_Plaintext_RSA.png
+        ¦           Generate_RSA_Keys.png
+        ¦           RSA_Decryption.png
+        ¦           RSA_Encryption.png
+        ¦           RSA_Parameters.png
+        ¦           Select_Asymmetric_Encryption_Decryption.png
+        ¦           Select_Encryption_Decryption.png
+        ¦           Select_Modern_Encryption_Decryption.png
+        ¦           View_Ciphertext_RSA.png
+        ¦           View_Decrypted_RSA.png
+        ¦           View_RSA_Keys.png
+        ¦           
+        +---Final Project - Part 1 - Perform Vulnerability Analysis and Penetration Testing
+        ¦   +---Data
+        ¦   ¦       Perform Vulnerability Analysis and Penetration Testing.md
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           CVE-2024-11617.png
+        ¦           GD_Site_Command.png
+        ¦           GD_Site_Gov.png
+        ¦           GD_Site_Gov_PDF.png
+        ¦           SecureBank.png
+        ¦           XForce_Homepage.png
+        ¦           XForce_Login.png
+        ¦           XForce_Search.png
+        ¦           XForce_Vulnerability_Details.png
+        ¦           
+        +---Final Project - Part 2 - Secure Information Using Symmetric Encryption
+        ¦   +---Data
+        ¦   ¦       Secure Information Using Symmetric Encryption.md
+        ¦   ¦       Secure_INFO.zip
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           all_files.png
+        ¦           Create_the_Credentials_File.png
+        ¦           Create_Userdetails.png
+        ¦           Decrypt_File.png
+        ¦           Decrypt_Using_the_Same_Key.png
+        ¦           Document_the_Encryption_Process.png
+        ¦           Encryption_Summary.png
+        ¦           Encrypt_File.png
+        ¦           Encrypt_Using_AES-256-CBC.png
+        ¦           Final_Verification.png
+        ¦           Generate_a_256-bit (32-byte)_Encryption_Key.png
+        ¦           Generate_Key.png
+        ¦           New_Terminal.png
+        ¦           OpenSSL_Version.png
+        ¦           SecureBank.png
+        ¦           Securely_Delete_the_Original_Plaintext_File.png
+        ¦           Secure_Deletion.png
+        ¦           Secure_Key_File_Permissions.png
+        ¦           Terminal_Ready.png
+        ¦           Verify_the_Decrypted_File_Contents.png
+        ¦           Verify_the_Original_File_Still_Contains_Plaintext.png
+        ¦           Verify_Wrong_Key_Fails.png
+        ¦           View_File_Permissions.png
+        ¦           
+        +---Getting Started with GitHub (Optional)
+        ¦   +---Data
+        ¦   ¦       Getting Started with GitHub (Optional).md
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           Add_File.png
+        ¦           Commit_Changes.png
+        ¦           Commit_New_File.png
+        ¦           Create_New_File.png
+        ¦           Create_Repository.png
+        ¦           Create_Repo_Final.png
+        ¦           Edit_Changes.png
+        ¦           Edit_File.png
+        ¦           Forked_Repo.png
+        ¦           Fork_Button.png
+        ¦           Fork_Config.png
+        ¦           GitHub dashboard.png
+        ¦           GitHub-logo.png
+        ¦           Github.png
+        ¦           GitHub_Dashboard.png
+        ¦           GitHub_Join.png
+        ¦           GitHub_Signup_Form.png
+        ¦           GitHub_Verify.png
+        ¦           Launch_Code.png
+        ¦           Octocat_Repo.png
+        ¦           Repo_Creation_Form.png
+        ¦           Repo_Home_Page.png
+        ¦           Repo_With_New_File.png
+        ¦           Skip_Personalization.png
+        ¦           
+        +---Network Protocol Analyzers
+        ¦   +---Data
+        ¦   ¦       Network Protocol Analyzers.md
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           Additional_Tasks.png
+        ¦           After installation.png
+        ¦           Choose_Components.png
+        ¦           Chrome_Browser.png
+        ¦           Coloring_Rules.png
+        ¦           Combined_Filters.png
+        ¦           Completed_Installation_Wireshark.png
+        ¦           Download_Wireshark.png
+        ¦           Expand_Packet_Details.png
+        ¦           Filter_UDP.png
+        ¦           Finished_Installation.png
+        ¦           Follow_TCP_Stream.png
+        ¦           Generate_Traffic.png
+        ¦           Get_Started_Button.png
+        ¦           Insatlled_Wireshark.png
+        ¦           Installing Wireshark.png
+        ¦           Install_Complete.png
+        ¦           Launch_Wireshark.png
+        ¦           License_Agreement.png
+        ¦           Npcap_Install.png
+        ¦           Packet_Bytes.png
+        ¦           Run_Installer.png
+        ¦           Select_Interface.png
+        ¦           Start_Capture.png
+        ¦           Stop_Capture.png
+        ¦           TCP_Stream_Window.png
+        ¦           Three_Way_Handshake.png
+        ¦           USB Capture.png
+        ¦           Windows_Installer.png
+        ¦           Wireshark.png
+        ¦           Wireshark_Homepage.png
+        ¦           
+        +---Port Scanning with NMap
+        ¦   +---Data
+        ¦   ¦       Dockerfile
+        ¦   ¦       Port Scanning with Nmap.md
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           Aggressive scan.png
+        ¦           apt-get update.png
+        ¦           Basic Nmap scan.png
+        ¦           Build Docker image.png
+        ¦           Download Dockerfile.png
+        ¦           Exit container.png
+        ¦           Fast scan.png
+        ¦           Install Nmap.png
+        ¦           New terminal.png
+        ¦           Nmap.png
+        ¦           Nmap_version.png
+        ¦           OS detection.png
+        ¦           Run Kali Linux container.png
+        ¦           Scan specific ports.png
+        ¦           useradd John.png
+        ¦           
+        +---Port Scanning with NMap GUI
+        ¦   +---Data
+        ¦   ¦       Scanning Network Environment with Nmap.md
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           Compare scans.png
+        ¦           Download Windows installer.png
+        ¦           Enter target.png
+        ¦           Host details.png
+        ¦           Installation wizard.png
+        ¦           Launch Zenmap.png
+        ¦           Localhost scan.png
+        ¦           New profile.png
+        ¦           Nmap download page.png
+        ¦           Nmap.png
+        ¦           open Web browser.png
+        ¦           Quick scan.png
+        ¦           Run installer.png
+        ¦           Save output.png
+        ¦           Scan in progress.png
+        ¦           Scan results.png
+        ¦           scanme_beginscan_alt.png
+        ¦           scanme_nmapoutput_alt.png
+        ¦           Select profile.png
+        ¦           Select Windows OS.png
+        ¦           Topology tab.png
+        ¦           Web browser opened.png
+        ¦           
+        +---Port Scanning with Pen-test Tools
+        ¦   +---Data
+        ¦   ¦       Port Scanning with Pen-test Tools.md
+        ¦   ¦       Port_Scanner-scanme.nmap.org-20260501-2034.pdf
+        ¦   ¦       Website_Scanner-https___google-gruyere.appspot.com_405284906719532-20260502-0449.pdf
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           Configure Website Scan Settings.gif
+        ¦           Copy Website scan configuration.png
+        ¦           Dashboard.gif
+        ¦           Export results.gif
+        ¦           Export results.png
+        ¦           Generate report.png
+        ¦           Login button.png
+        ¦           Need an account link.png
+        ¦           New Scan button.png
+        ¦           Pentest-tools homepage.gif
+        ¦           Pentest_Tools.png
+        ¦           Perform a Website Scan.png
+        ¦           Port scan configuration.png
+        ¦           Port scan results.gif
+        ¦           Port scan results.png
+        ¦           Port Scan selection.png
+        ¦           Port_Scanner_Results.png
+        ¦           Scan in progress.png
+        ¦           Select Website Scanner.png
+        ¦           Sign up form.png
+        ¦           Start a New Scan.png
+        ¦           Subdomain scanner.png
+        ¦           Website scan configuration.png
+        ¦           Website scan progress.png
+        ¦           Website scan results.jpg
+        ¦           Website scanner selection.jpg
+        ¦           Website scanner selection.png
+        ¦           Website_Scanner_Result.png
+        ¦           WHOIS lookup.png
+        ¦           
+        +---Practicing Google Dorking Commands
+        ¦   +---Data
+        ¦   ¦       Practicing Google Dorking Commands.md
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           After operator results.gif
+        ¦           Before operator search.png
+        ¦           Combined operators - admin panels.gif
+        ¦           Combined operators - API keys.gif
+        ¦           Combined operators - directory listings_.gif
+        ¦           Combined operators - site and filetype.gif
+        ¦           Combined operators - site and filetype.png
+        ¦           Custom dork results.gif
+        ¦           Exclusion operator results security.gif
+        ¦           Exclusion operator results.gif
+        ¦           Exclusion operator search.png
+        ¦           Filetype operator results.gif
+        ¦           Filetype operator search.png
+        ¦           Google Chrome homepage.png
+        ¦           Google_Dork.png
+        ¦           Inanchor operator click here.gif
+        ¦           Inanchor operator results.gif
+        ¦           Inanchor operator search.png
+        ¦           Intext operator results.gif
+        ¦           Intext operator search.png
+        ¦           Link operator results.gif
+        ¦           Link operator search.png
+        ¦           Practice with Different Queries.gif
+        ¦           Practice with Security-Focused Queries.gif
+        ¦           Sensitive filetype searches.gif
+        ¦           Wildcard operator results.gif
+        ¦           Wildcard operator search.png
+        ¦           
+        +---Review X-Force Exchange Threat Reports
+        ¦   +---Data
+        ¦   ¦       Review X-Force Exchange Threat Reports.md
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           CVE_Report_Details.png
+        ¦           CVE_Search.png
+        ¦           IP_Search.png
+        ¦           Malware_Search.png
+        ¦           X-Force.jpeg
+        ¦           XForce_Homepage_Lab.png
+        ¦           XForce_Sections.png
+        ¦           
+        +---Symmetric Encryption Using AES
+        ¦   +---Data
+        ¦   ¦       Symmetric Encryption Using AES.md
+        ¦   ¦       Symmetric.zip
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           AES_Decryption.png
+        ¦           AES_Encryption.png
+        ¦           Basic_AES_Decryption_Command.png
+        ¦           Basic_AES_Encryption_Command.png
+        ¦           cat_confidential.png
+        ¦           Create_a_Larger_Test_File.png
+        ¦           Create_Multiple_Test_Files.png
+        ¦           Create_Test_File_AES.png
+        ¦           Direct_Password_Encryption.png
+        ¦           Generate_AES_Key.png
+        ¦           Generate_a_Secret_Key_for_AES.png
+        ¦           OpenSSL_Version_AES.png
+        ¦           Open_New_Terminal_AES.png
+        ¦           Password_Based_Key.png
+        ¦           PhpMyAdmin_logo (1).png
+        ¦           Terminal_Ready_AES.png
+        ¦           Verify_Decrypted_AES.png
+        ¦           Verify_Encrypted_File.png
+        ¦           Verify_Encrypted_Files.png
+        ¦           Verify_the_Encrypted_File.png
+        ¦           View_encrypted_AES.png
+        ¦           
+        +---Using Nessus for Vulnerability Scanning
+        ¦   +---Data
+        ¦   ¦       Creds.txt
+        ¦   ¦       Review Non-Credentialed Results.mp4
+        ¦   ¦       Using Nessus for Vulnerability Scanning.md
+        ¦   ¦       Windows_VM.mp4
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           41_Vulnerabilities.png
+        ¦           Accept_Agreement.png
+        ¦           Accept_Agreement_Nessus.png
+        ¦           Activation_Code_Email.png
+        ¦           Adding_Credentials.png
+        ¦           Add_a_Start_Menu.png
+        ¦           Click_Installer.png
+        ¦           Configure_Windows_for_Remote_Management.png
+        ¦           Configuring_Credentialed_Scanning.png
+        ¦           Create_New_VM.png
+        ¦           Create_User_Account.png
+        ¦           Credentialed_Patch_Audit.png
+        ¦           Credentialed_Scan_Overview.png
+        ¦           Critical_Vulverabilties.png
+        ¦           Custom_Setup.png
+        ¦           Destination_Folder.png
+        ¦           DNS_Failed_Request_nessus.png
+        ¦           Downloading_Nessus.png
+        ¦           Downloading_Plugins.png
+        ¦           Download_Nessus.png
+        ¦           Enter_Activation_Code.png
+        ¦           Enter_Targets.png
+        ¦           Finish_Installation_VirtualBox.png
+        ¦           Get_Activation_Code.png
+        ¦           Installation_Process.png
+        ¦           IPv4_Address.png
+        ¦           Launch_Scan.png
+        ¦           License_Agreement_Tenable.png
+        ¦           License_Information.png
+        ¦           Missing_Dependecies.png
+        ¦           Nessus_Essentials_Home.png
+        ¦           Nessus_Essentials_Signup.png
+        ¦           Nessus_Initialization.png
+        ¦           Nessus_Initial_Setup.png
+        ¦           Nessus_Installation_Complete.png
+        ¦           Nessus_Installation_Wizard.png
+        ¦           Nessus_Login_Setup.png
+        ¦           Nessus_logo.png
+        ¦           Nessus_Welcome_SSL.png
+        ¦           Network_Disconnection.png
+        ¦           New_Scan.png
+        ¦           New_Scan_Selection.png
+        ¦           Open_Settings.png
+        ¦           Ready_to_Install.png
+        ¦           Register_Nessus.png
+        ¦           Register_Nessus_Essentials.png
+        ¦           Restart_System.png
+        ¦           Review Non-Credentialed Results.gif
+        ¦           Run_Scan.png
+        ¦           Save_Credentials.png
+        ¦           Save_Scan.png
+        ¦           Scan_Configuration.png
+        ¦           Specify_Virtual_Hardware.png
+        ¦           SSL_Certificate_Vulnerability.png
+        ¦           Start_and_Show_VM.png
+        ¦           System_Processor_Tab.png
+        ¦           System_TPM_Secure_Boot.png
+        ¦           tennable_nessus_logo.png
+        ¦           Valendating_Installation.png
+        ¦           VirtualBox_Home_Screen.png
+        ¦           VirtualBox_Installer.png
+        ¦           VirtualBox_Manager.png
+        ¦           VM_Name_OS.png
+        ¦           VM_Summary.png
+        ¦           VM_Vulereabilities.png
+        ¦           Windows_Patch.png
+        ¦           Windows_Target_VM.png
+        ¦           Windows_VM.gif
+        ¦           
+        +---Using SNYK to Scan Your Code Repository (Optional)
+        ¦   +---Data
+        ¦   ¦       Using Snyk to Scan Your Code Repository.md
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           Add_Project.png
+        ¦           Authenticate_GitHub.png
+        ¦           Authorize_Application.png
+        ¦           Authorize_Snyk.png
+        ¦           Bitnami_Containers.png
+        ¦           Choose_Integration.png
+        ¦           Choose_Repository.png
+        ¦           Confirm_Access.png
+        ¦           Fix_PR.png
+        ¦           Fork_Repository_Snyk.png
+        ¦           GitHub_Login.png
+        ¦           Importing_Repo.png
+        ¦           Import_Repository.png
+        ¦           Login_With_GitHub.png
+        ¦           Scan_Results.png
+        ¦           Select_GitHub_Integration.png
+        ¦           Set_Permissions.png
+        ¦           Skip_Subscription.png
+        ¦           SNYK.png
+        ¦           Snyk_Cloud_Rules_Database.png
+        ¦           Snyk_Dashboard.png
+        ¦           Snyk_Login.png
+        ¦           Snyk_Logo.jpg
+        ¦           Vulnerability_Details.png
+        ¦           
+        +---Using Splunk for Security Monitoring and Analysis
+        ¦   +---Data
+        ¦   ¦       Creds.txt
+        ¦   ¦       splunkd_cmd_tasks.txt
+        ¦   ¦       Using Splunk for Security Monitoring and Analysis.md
+        ¦   ¦       
+        ¦   +---Screenshots
+        ¦           Accept_Terms.png
+        ¦           Add_Data.png
+        ¦           Add_Panel.png
+        ¦           Alert_Saved.png
+        ¦           BOTS_Dataset_download.png
+        ¦           Brute_Force_Attack_Detection.png
+        ¦           Check_Agreement_Splunk.png
+        ¦           Completed_Panel_2.png
+        ¦           Completed_Panel_3.png
+        ¦           Created_Index.png
+        ¦           Createing_Panel_1.png
+        ¦           Create_Alert.png
+        ¦           Create_an_Index_for_the_Data.png
+        ¦           Create_a_Account.png
+        ¦           Create_a_Privilege_Abuse_Alert.png
+        ¦           Create_New_Dashboard.png
+        ¦           Dashboard_Settings.png
+        ¦           Developer_License.png
+        ¦           Downloading_Splunk_Enterprise.png
+        ¦           Download_the_BOTS_v3_Dataset.png
+        ¦           Event_Timeline.png
+        ¦           Existing_Dashboard.png
+        ¦           Geolocation-Based_Threat_Hunting.png
+        ¦           Installing_Splunk_Enterprise.png
+        ¦           Lateral_Movement_Detection.png
+        ¦           Launch_Browser.png
+        ¦           License_Agreement_Splunk.png
+        ¦           Loading_Error.png
+        ¦           Loading_Files_Starting_Splunk.png
+        ¦           Login_Activity_Trend_(Success vs Failure).png
+        ¦           Login_Page.png
+        ¦           Login_Success_v_ Failure_Trend.jpg
+        ¦           New_Search_Datasets.png
+        ¦           Overall_Event_Volume.png
+        ¦           Panel_1.png
+        ¦           Panel_2.png
+        ¦           Panel_3.png
+        ¦           Privilege_Abuse_Detection.png
+        ¦           Review_Data.png
+        ¦           Save_as_Alert.png
+        ¦           Search_raw_text_for_PowerShell.png
+        ¦           Search_Reports_Alerts.png
+        ¦           Select_Source.png
+        ¦           Simple_Search.png
+        ¦           Splunk-Emblem.png
+        ¦           Splunk_App.png
+        ¦           Splunk_Dashboard.png
+        ¦           Splunk_Developer_Program_Account.png
+        ¦           Splunk_Enterprise.png
+        ¦           Splunk_General_Terms.png
+        ¦           Splunk_Home.png
+        ¦           Splunk_Login.png
+        ¦           Splunk_Shortcut.png
+        ¦           Statistical_Analysis.png
+        ¦           Statistical_Analysis_2.png
+        ¦           Time-based_analysis.png
+        ¦           Top_10_Privilege_Abuse_Sources.png
+        ¦           Triggered_Alerts.png
+        ¦           Uploading_File.png
+        ¦           Upload_botsv3_CMD.png
+        ¦           Upload_Data_to_Splunk.png
+        ¦           Verification_Email.png
+        ¦           Verify_Data _Ingestion.png
+        ¦           View_Triggered_Alerts.png
+        ¦           
+        +---Using TheHive for Security Incident Response
+            +---Data
+            ¦       Using TheHive for Security Incident Response.md
+            ¦       
+            +---Screenshots
+                    TheHive_Logo.png
+                    
