@@ -640,7 +640,7 @@ IBM-Cybersecurity-Analyst-Portfolio/
 | **FORTRESS** | Security controls classification | [Click to Fortify →](https://willie-conway.github.io/FORTRESS/) |
 | **SENTINEL** | Insider threat mitigation scenarios | [Click to Monitor →](https://willie-conway.github.io/SENTINEL/) |
 | **NEXUS** | Security assessment tool | [Click to Assess →](https://willie-conway.github.io/NEXUS/) |
-| **CIPHER** | Cybersecurity glossary with flashcards | [Click to Decode →](https://willie-conway.github.io/CYBERSEC-Glossary/) |
+| **CYBERSEC** | Cybersecurity glossary with flashcards | [Click to Decode →](https://willie-conway.github.io/CYBERSEC-Glossary/) |
 | **KERNEL** | Linux command interactive lab | [Click to Terminal →](https://willie-conway.github.io/KERNEL/) |
 | **VAULT** | Authentication methods explorer | [Click to Authenticate →](https://willie-conway.github.io/VAULT/) |
 | **STRATOS** | Cloud container security simulator | [Click to Deploy →](https://willie-conway.github.io/STRATOS/) |
