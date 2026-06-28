@@ -242,7 +242,7 @@ ipconfig
 
 Look for **IPv4 Address** under your active network adapter (e.g., `192.168.1.x`)
 
-![alt text](../Screenshots/ipconfig.png)
+![alt text](<../Screenshots/ipconfig.png>)
 
 ### Step 2: Create Ping of Death Script
 
